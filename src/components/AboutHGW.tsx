@@ -1,6 +1,45 @@
 import React from 'react';
-import { Award, ShieldCheck, HeartHandshake, CheckCircle2, Phone, Mail } from 'lucide-react';
+import { Award, ShieldCheck, HeartHandshake, Phone, Mail, CheckCircle2, Globe, Building2 } from 'lucide-react';
 import { CERTIFICATIONS } from '../data/products';
+
+export const DIRECT_SALES_ASSOCIATIONS = [
+  {
+    name: "Asociación Panameña de Venta Directa (APVD)",
+    country: "Panamá",
+    description: "Organismo que agrupa y regula a las empresas y distribuidores éticos de venta directa en la República de Panamá.",
+    imageUrl: "https://media.academiahgw.online/wp-content/uploads/2026/11/Asociacion-Panamena-de-Venta-directa.webp"
+  },
+  {
+    name: "Asociación Colombiana de Venta Directa (ACOVEDI)",
+    country: "Colombia",
+    description: "Garantiza el cumplimiento de normativas de transparencia y protección al consumidor en el modelo asociativo.",
+    imageUrl: "https://media.academiahgw.online/wp-content/uploads/2026/11/Asociacion-Colombiana-de-venta-directa.webp"
+  },
+  {
+    name: "Asociación Ecuatoriana de Venta Directa (AEVD)",
+    country: "Ecuador",
+    description: "Respaldo ético institucional en el mercado andino.",
+    imageUrl: "https://media.academiahgw.online/wp-content/uploads/2026/11/Asociacion-Ecuatoriana-de-Venta-Directa.webp"
+  },
+  {
+    name: "Asociación Boliviana de Venta Directa",
+    country: "Bolivia",
+    description: "Promoción de buenas prácticas comerciales y empresariales en la región.",
+    imageUrl: "https://media.academiahgw.online/wp-content/uploads/2026/11/Asociacion-Boliviana-de-Venta-Directa.webp"
+  },
+  {
+    name: "Asociación Guatemalteca de Venta Directa",
+    country: "Guatemala",
+    description: "Compromiso con la excelencia y el desarrollo de emprendedores independientes.",
+    imageUrl: "https://media.academiahgw.online/wp-content/uploads/2026/11/Asocicion-Guatemalteca-de-Venta-Directa.webp"
+  },
+  {
+    name: "Federación Mundial de Asociaciones de Venta Directa (WFDSA)",
+    country: "Global",
+    description: "Afiliación corporativa internacional que rige los estándares éticos globales de la industria.",
+    imageUrl: "https://media.academiahgw.online/wp-content/uploads/2026/11/Asociacion-de-empresa-de-venta-diecta.webp"
+  }
+];
 
 export const AboutHGW: React.FC = () => {
   return (
@@ -131,24 +170,28 @@ export const AboutHGW: React.FC = () => {
           </div>
         </div>
 
-        {/* Certifications Section */}
-        <div>
-          <div className="text-center max-w-2xl mx-auto mb-8">
-            <h3 className="text-2xl font-black text-black">
-              Certificaciones y Estándares de Calidad
+        {/* 1. SECTION: CERTIFICACIONES DE CALIDAD */}
+        <div className="mb-20">
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-[#00795F] rounded-full text-xs font-bold uppercase mb-2">
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span>Garantía Sanitaria y de Pureza</span>
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-black text-black">
+              Certificaciones Internacionales
             </h3>
             <p className="text-sm text-stone-700 mt-1.5 font-normal">
-              Cada producto cumple con estrictas regulaciones internacionales de inocuidad y buenas prácticas.
+              Cumplimiento riguroso de normativas globales en inocuidad alimentaria, buenas prácticas de manufactura y gestión de calidad.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-5">
             {CERTIFICATIONS.map((cert, idx) => (
               <div
                 key={idx}
-                className="bg-stone-50 rounded-2xl p-4 border border-stone-200 flex flex-col items-center text-center justify-between hover:border-[#00795F] transition-colors"
+                className="bg-stone-50 rounded-2xl p-4 border border-stone-200 flex flex-col items-center text-center justify-between hover:border-[#00795F] transition-colors shadow-2xs"
               >
-                <div className="w-full aspect-4/3 flex items-center justify-center p-2 mb-2 bg-white rounded-xl border border-stone-100">
+                <div className="w-full aspect-4/3 flex items-center justify-center p-2 mb-3 bg-white rounded-xl border border-stone-100">
                   <img
                     src={cert.imageUrl}
                     alt={cert.name}
@@ -166,8 +209,52 @@ export const AboutHGW: React.FC = () => {
           </div>
         </div>
 
+        {/* 2. SECTION: ASOCIACIONES DE VENTAS DIRECTAS (SEPARATE) */}
+        <div>
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-bold uppercase mb-2">
+              <Building2 className="w-3.5 h-3.5" />
+              <span>Ética y Transparencia Asociativa</span>
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-black text-black">
+              Asociaciones de Venta Directa
+            </h3>
+            <p className="text-sm text-stone-700 mt-1.5 font-normal">
+              HGW y sus distribuidores independientes están respaldados por las cámaras y asociaciones de venta directa en Latinoamérica.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {DIRECT_SALES_ASSOCIATIONS.map((assoc, idx) => (
+              <div
+                key={idx}
+                className="bg-stone-50 rounded-3xl p-6 border border-stone-200 flex flex-col justify-between hover:border-[#00795F] transition-all shadow-2xs"
+              >
+                <div>
+                  <div className="w-full h-32 bg-white rounded-2xl p-4 flex items-center justify-center border border-stone-100 mb-4">
+                    <img
+                      src={assoc.imageUrl}
+                      alt={assoc.name}
+                      referrerPolicy="no-referrer"
+                      className="max-h-full max-w-full object-contain"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = "https://media.academiahgw.online/wp-content/uploads/2026/11/hgw_logo.png";
+                      }}
+                    />
+                  </div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="text-[11px] font-bold text-[#00795F] uppercase">{assoc.country}</span>
+                    <Globe className="w-3.5 h-3.5 text-stone-400" />
+                  </div>
+                  <h4 className="text-base font-extrabold text-black leading-snug mb-1.5">{assoc.name}</h4>
+                  <p className="text-xs sm:text-sm text-stone-700 leading-relaxed font-normal">{assoc.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
       </div>
     </section>
   );
 };
-

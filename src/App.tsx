@@ -13,6 +13,7 @@ import { CartDrawer, CartItem } from './components/CartDrawer';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { ProductDetailPage } from './pages/ProductDetailPage';
 import { BusinessOpportunityPage } from './pages/BusinessOpportunityPage';
+import { DocumentsPage } from './pages/DocumentsPage';
 import { Product } from './data/products';
 
 function AppContent() {
@@ -104,7 +105,12 @@ function AppContent() {
       return <BusinessOpportunityPage />;
     }
 
-    // 5. Contact Page (/contacto)
+    // 5. PDF Documents Library Page (/documentos)
+    if (currentPath === '/documentos') {
+      return <DocumentsPage />;
+    }
+
+    // 6. Contact Page (/contacto)
     if (currentPath === '/contacto') {
       return (
         <div>

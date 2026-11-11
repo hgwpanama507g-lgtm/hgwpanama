@@ -16,6 +16,7 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart }) => {
     { label: 'Productos', href: '/productos' },
     { label: 'Membresías', href: '/membresias' },
     { label: 'Oportunidad de Negocio', href: '/oportunidad-de-negocio' },
+    { label: 'Documentos PDF', href: '/documentos' },
     { label: 'Contacto', href: '/contacto' },
   ];
 
