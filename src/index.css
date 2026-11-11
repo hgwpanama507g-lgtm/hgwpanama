@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --color-hgw-primary: #00795F;
+  --color-hgw-accent: #00A550;
+  --color-hgw-dark: #004d3c;
+  --color-hgw-light: #e6f6f0;
+  --color-hgw-mint: #f0fdf7;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
