@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, Mail, ExternalLink, ShieldCheck } from 'lucide-react';
+import { Phone, Mail, ExternalLink, ShieldCheck, MapPin } from 'lucide-react';
 import { Link } from '../router';
 
 export const Footer: React.FC = () => {
@@ -60,6 +60,16 @@ export const Footer: React.FC = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/preregistro" className="hover:text-emerald-400 transition-colors font-bold text-emerald-300">
+                  Formulario Pre-Registro
+                </Link>
+              </li>
+              <li>
+                <Link to="/documentos" className="hover:text-emerald-400 transition-colors">
+                  Documentos PDF
+                </Link>
+              </li>
+              <li>
                 <Link to="/contacto" className="hover:text-emerald-400 transition-colors">
                   Contacto y Envíos
                 </Link>
@@ -70,11 +80,21 @@ export const Footer: React.FC = () => {
           {/* Direct Contact info */}
           <div className="lg:col-span-4 space-y-3">
             <h3 className="text-xs font-bold uppercase tracking-wider text-white">
-              Contacto y Envíos Panamá
+              Oficinas Principales y Envíos Panamá
             </h3>
-            <div className="space-y-2.5 text-stone-300 text-sm">
+            <div className="space-y-2 text-stone-300 text-xs sm:text-sm">
+              <p className="flex items-start gap-2">
+                <MapPin className="w-4 h-4 text-[#00A550] shrink-0 mt-0.5" />
+                <span>
+                  Avenida Porras, Plaza Royal Blue, Local No. 6, San Francisco, Ciudad de Panamá.
+                </span>
+              </p>
               <p className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-[#00A550] shrink-0" />
+                <span>Teléfono Oficina: <strong className="text-white font-bold">+507 392-8415</strong></span>
+              </p>
+              <p className="flex items-center gap-2">
+                <Phone className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span>WhatsApp: <strong className="text-white font-bold">+507 6778-8375</strong></span>
               </p>
               <p className="flex items-center gap-2">
@@ -82,7 +102,7 @@ export const Footer: React.FC = () => {
                 <span>Email: <strong className="text-white font-bold select-all">hgwpanama507g@gmail.com</strong></span>
               </p>
               <p className="pt-1 text-xs text-stone-400 leading-relaxed">
-                Cobertura: Ciudad de Panamá, Panamá Oeste, Colón, Chiriquí, Veraguas, Herrera, Los Santos, Coclé y Bocas del Toro.
+                Horario: Lun - Vie 9:00 am a 6:00 pm | Sáb 9:00 am a 1:00 pm. Envíos por Servientrega a todo Panamá.
               </p>
               <div className="pt-2">
                 <a

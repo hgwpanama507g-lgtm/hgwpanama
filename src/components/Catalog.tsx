@@ -202,7 +202,7 @@ export const Catalog: React.FC<CatalogProps> = ({ onAddToCart, isHomeView = fals
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
             {displayedProducts.map((product) => {
               const productUrl = `/producto/${product.slug}`;
               const whatsappOrderText = encodeURIComponent(
@@ -213,18 +213,18 @@ export const Catalog: React.FC<CatalogProps> = ({ onAddToCart, isHomeView = fals
               return (
                 <div
                   key={product.id}
-                  className="group bg-white rounded-3xl border border-stone-200 hover:border-[#00795F] hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden"
+                  className="group bg-white rounded-2xl sm:rounded-3xl border border-stone-200 hover:border-[#00795F] hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden relative isolate"
                 >
-                  {/* Top image container linking directly to product page */}
+                  {/* Top image container linking directly to product page with subtle zoom on hover */}
                   <Link
                     to={productUrl}
-                    className="relative aspect-square w-full bg-stone-50 p-6 flex items-center justify-center overflow-hidden border-b border-stone-100 block"
+                    className="relative aspect-square w-full bg-stone-50 p-3 sm:p-6 flex items-center justify-center overflow-hidden border-b border-stone-100 block isolate"
                   >
                     <img
                       src={product.image}
                       alt={product.name}
                       referrerPolicy="no-referrer"
-                      className="max-h-full max-w-full object-contain transform group-hover:scale-106 transition-transform duration-300 drop-shadow-xs"
+                      className="max-h-full max-w-full object-contain transform group-hover:scale-108 transition-transform duration-300 ease-out drop-shadow-xs"
                       onError={(e) => {
                         (e.target as HTMLImageElement).src = "https://media.academiahgw.online/wp-content/uploads/2026/11/productos-hgw-1024x683.webp";
                       }}
@@ -232,65 +232,65 @@ export const Catalog: React.FC<CatalogProps> = ({ onAddToCart, isHomeView = fals
 
                     {/* Status Badge in corner */}
                     {product.isComingSoon ? (
-                      <span className="absolute top-3 left-3 bg-amber-500 text-white text-[11px] font-black px-2.5 py-0.5 rounded-lg shadow-xs">
+                      <span className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-amber-500 text-white text-[9px] sm:text-[11px] font-black px-1.5 py-0.5 sm:px-2.5 sm:py-0.5 rounded-md sm:rounded-lg shadow-xs">
                         Próximamente
                       </span>
                     ) : product.featured ? (
-                      <span className="absolute top-3 left-3 bg-[#00795F] text-white text-[11px] font-black px-2.5 py-0.5 rounded-lg flex items-center gap-1 shadow-xs">
-                        <Sparkles className="w-3 h-3 text-[#00A550]" />
-                        Destacado
+                      <span className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-[#00795F] text-white text-[9px] sm:text-[11px] font-black px-1.5 py-0.5 sm:px-2.5 sm:py-0.5 rounded-md sm:rounded-lg flex items-center gap-1 shadow-xs">
+                        <Sparkles className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#00A550]" />
+                        <span className="hidden xs:inline">Destacado</span>
                       </span>
                     ) : null}
 
-                    {/* Quick view button */}
-                    <div className="absolute top-3 right-3 p-2 bg-white/95 text-stone-800 group-hover:text-[#00795F] rounded-xl shadow-xs opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Eye className="w-4 h-4" />
+                    {/* Quick view icon badge */}
+                    <div className="absolute top-2 right-2 sm:top-3 sm:right-3 p-1.5 sm:p-2 bg-white/95 text-stone-800 group-hover:text-[#00795F] rounded-lg sm:rounded-xl shadow-xs opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                     </div>
                   </Link>
 
                   {/* Body Content */}
-                  <div className="p-5 flex-1 flex flex-col justify-between">
+                  <div className="p-3 sm:p-5 flex-1 flex flex-col justify-between">
                     <div>
                       {/* Category label */}
-                      <div className="text-xs font-bold text-[#00795F] uppercase tracking-wider mb-1.5">
+                      <div className="text-[10px] sm:text-xs font-bold text-[#00795F] uppercase tracking-wider mb-1 line-clamp-1">
                         {product.categoryLabel}
                       </div>
 
                       {/* Product Title linking to /producto/:slug */}
-                      <h3 className="text-base font-extrabold text-black group-hover:text-[#00795F] transition-colors leading-snug line-clamp-1">
+                      <h3 className="text-xs sm:text-base font-extrabold text-black group-hover:text-[#00795F] transition-colors leading-snug line-clamp-2 sm:line-clamp-1">
                         <Link to={productUrl} title={product.name}>
                           {product.name}
                         </Link>
                       </h3>
 
                       {/* Short Description */}
-                      <p className="text-sm text-stone-700 mt-2 line-clamp-2 leading-relaxed">
+                      <p className="text-xs sm:text-sm text-stone-700 mt-1 sm:mt-2 line-clamp-2 leading-relaxed">
                         {product.shortDescription}
                       </p>
 
                       {product.presentation && (
-                        <div className="text-xs text-stone-500 mt-2 font-medium">
+                        <div className="text-[10px] sm:text-xs text-stone-500 mt-1.5 font-medium truncate">
                           {product.presentation}
                         </div>
                       )}
                     </div>
 
                     {/* Price and Action Bar */}
-                    <div className="mt-5 pt-3.5 border-t border-stone-100">
-                      <div className="flex items-baseline justify-between mb-3">
-                        <span className="text-xs text-stone-500 font-semibold">Precio Panamá</span>
-                        <span className="text-xl font-black text-black tabular-nums">
+                    <div className="mt-3 sm:mt-5 pt-2.5 sm:pt-3.5 border-t border-stone-100">
+                      <div className="flex items-baseline justify-between mb-2 sm:mb-3">
+                        <span className="text-[10px] sm:text-xs text-stone-500 font-semibold">Precio</span>
+                        <span className="text-sm sm:text-xl font-black text-black tabular-nums">
                           {product.priceFormatted}
                         </span>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-2">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2">
                         {/* Ver Ficha (Navigates to friendly URL page) */}
                         <Link
                           to={productUrl}
-                          className="w-full py-2.5 px-3 text-xs font-bold text-black bg-stone-100 hover:bg-stone-200 rounded-xl transition-colors flex items-center justify-center gap-1.5"
+                          className="w-full py-1.5 sm:py-2.5 px-2 sm:px-3 text-[11px] sm:text-xs font-bold text-black bg-stone-100 hover:bg-stone-200 rounded-lg sm:rounded-xl transition-all hover:shadow-xs active:scale-95 flex items-center justify-center gap-1"
                         >
-                          <Eye className="w-3.5 h-3.5" />
+                          <Eye className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                           <span>Ver Ficha</span>
                         </Link>
 
@@ -300,16 +300,16 @@ export const Catalog: React.FC<CatalogProps> = ({ onAddToCart, isHomeView = fals
                             href={whatsappLink}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="w-full py-2.5 px-3 text-xs font-bold text-amber-900 bg-amber-100 hover:bg-amber-200 rounded-xl transition-colors flex items-center justify-center gap-1 text-center"
+                            className="w-full py-1.5 sm:py-2.5 px-2 sm:px-3 text-[11px] sm:text-xs font-bold text-amber-900 bg-amber-100 hover:bg-amber-200 rounded-lg sm:rounded-xl transition-all hover:shadow-xs flex items-center justify-center gap-1 text-center active:scale-95"
                           >
                             <span>Consultar</span>
                           </a>
                         ) : (
                           <button
                             onClick={() => onAddToCart(product)}
-                            className="w-full py-2.5 px-3 text-xs font-bold text-white bg-[#00795F] hover:bg-[#004d3c] rounded-xl transition-colors flex items-center justify-center gap-1.5 active:scale-95 shadow-xs"
+                            className="w-full py-1.5 sm:py-2.5 px-2 sm:px-3 text-[11px] sm:text-xs font-bold text-white bg-[#00795F] hover:bg-[#004d3c] rounded-lg sm:rounded-xl transition-all hover:shadow-md hover:brightness-105 active:scale-95 flex items-center justify-center gap-1 cursor-pointer"
                           >
-                            <ShoppingBag className="w-3.5 h-3.5" />
+                            <ShoppingBag className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                             <span>Agregar</span>
                           </button>
                         )}

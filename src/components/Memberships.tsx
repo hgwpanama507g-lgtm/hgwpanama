@@ -53,13 +53,26 @@ export const Memberships: React.FC = () => {
 
                 <div>
                   {/* Clean BV points badge - No rank logos */}
-                  <div className="mb-4 flex items-center justify-between">
-                    <span className="px-3.5 py-1.5 bg-[#00795F]/10 text-[#00795F] text-sm font-black rounded-xl border border-[#00795F]/20">
+                  <div className="mb-3 flex items-center justify-between">
+                    <span className="px-3 py-1 bg-[#00795F]/10 text-[#00795F] text-xs font-black rounded-xl border border-[#00795F]/20">
                       {plan.bv}
                     </span>
-                    <span className="text-xs font-bold text-stone-500 uppercase">
+                    <span className="text-[11px] font-bold text-stone-500 uppercase tracking-wide">
                       Activación
                     </span>
+                  </div>
+
+                  {/* Package Photography with subtle hover zoom */}
+                  <div className="relative aspect-4/3 w-full bg-stone-50 rounded-2xl p-2.5 mb-4 flex items-center justify-center overflow-hidden border border-stone-200/80 group">
+                    <img
+                      src={plan.packageImageUrl}
+                      alt={plan.name}
+                      referrerPolicy="no-referrer"
+                      className="max-h-full max-w-full object-contain hover:scale-106 transition-transform duration-300 ease-out drop-shadow-2xs"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = "https://media.academiahgw.online/wp-content/uploads/2026/11/productos-hgw-1024x683.webp";
+                      }}
+                    />
                   </div>
 
                   {/* Title & Price */}
@@ -125,8 +138,8 @@ export const Memberships: React.FC = () => {
                     rel="noopener noreferrer"
                     className={`w-full py-3 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all active:scale-95 text-center ${
                       plan.recommended
-                        ? 'bg-[#00795F] hover:bg-[#004d3c] text-white shadow-md'
-                        : 'bg-stone-900 hover:bg-black text-white'
+                        ? 'bg-[#00795F] hover:bg-[#004d3c] text-white shadow-md hover:shadow-lg'
+                        : 'bg-stone-900 hover:bg-black text-white hover:shadow-md'
                     }`}
                   >
                     <span>Activar por WhatsApp</span>
@@ -134,10 +147,10 @@ export const Memberships: React.FC = () => {
                   </a>
 
                   <Link
-                    to="/oportunidad-de-negocio#formulario-prerregistro"
+                    to="/preregistro"
                     className="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-center text-[#00795F] bg-stone-100 hover:bg-stone-200 transition-colors"
                   >
-                    Llenar Prerregistro
+                    Llenar Pre-Registro
                   </Link>
                 </div>
 
@@ -214,10 +227,10 @@ export const Memberships: React.FC = () => {
               </a>
 
               <Link
-                to="/oportunidad-de-negocio#formulario-prerregistro"
+                to="/preregistro"
                 className="inline-flex items-center gap-2 px-5 py-3 bg-white hover:bg-stone-50 border border-stone-300 text-black font-bold text-xs sm:text-sm rounded-xl transition-all"
               >
-                <span>Prerregistro Local</span>
+                <span>Pre-Registro Oficial</span>
               </Link>
             </div>
           </div>

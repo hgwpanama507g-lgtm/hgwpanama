@@ -10,6 +10,48 @@ const RouterContext = createContext<RouterContextType>({
   navigate: () => {},
 });
 
+import { PRODUCTS } from './data/products';
+
+export const getPageTitle = (pathname: string): string => {
+  const cleanPath = pathname.replace(/\/$/, '') || '/inicio';
+
+  if (cleanPath === '/inicio' || cleanPath === '') {
+    return 'Inicio';
+  }
+  if (cleanPath === '/productos' || cleanPath === '/catalogo') {
+    return 'Catálogo de Productos';
+  }
+  if (cleanPath === '/membresias' || cleanPath === '/membresías') {
+    return 'Planes de Membresía';
+  }
+  if (cleanPath === '/oportunidad-de-negocio' || cleanPath === '/oportunidad') {
+    return 'Oportunidad de Negocio';
+  }
+  if (cleanPath === '/preregistro' || cleanPath === '/pre-registro') {
+    return 'Formulario de Pre-Registro';
+  }
+  if (cleanPath === '/documentos' || cleanPath === '/documentos-pdf') {
+    return 'Documentos y Catálogos Oficiales';
+  }
+  if (cleanPath === '/contacto') {
+    return 'Contacto y Oficinas';
+  }
+
+  // Check product paths: /producto/:slug or direct /:slug
+  const productSlug = cleanPath.startsWith('/producto/')
+    ? cleanPath.replace('/producto/', '')
+    : cleanPath.startsWith('/productos/')
+    ? cleanPath.replace('/productos/', '')
+    : cleanPath.replace(/^\//, '');
+
+  const product = PRODUCTS.find((p) => p.slug === productSlug || p.id === productSlug);
+  if (product) {
+    return product.name;
+  }
+
+  return 'Distribuidores Independientes';
+};
+
 export const RouterProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const getInitialPath = () => {
     const path = window.location.pathname;
@@ -28,6 +70,12 @@ export const RouterProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
+
+  // Update browser tab title dynamically in Yoast SEO format: Título de la página – Separador – Título del sitio
+  useEffect(() => {
+    const pageTitle = getPageTitle(currentPath);
+    document.title = `${pageTitle} – HGW Panamá`;
+  }, [currentPath]);
 
   const navigate = (to: string) => {
     if (to === currentPath) return;

@@ -14,7 +14,8 @@ import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { ProductDetailPage } from './pages/ProductDetailPage';
 import { BusinessOpportunityPage } from './pages/BusinessOpportunityPage';
 import { DocumentsPage } from './pages/DocumentsPage';
-import { Product } from './data/products';
+import { PreRegistrationPage } from './pages/PreRegistrationPage';
+import { Product, PRODUCTS } from './data/products';
 
 function AppContent() {
   const { currentPath } = useRouter();
@@ -75,14 +76,14 @@ function AppContent() {
 
   // Determine current view from route
   const renderRouteView = () => {
-    // 1. Dedicated Product Detail Page (/producto/:slug)
-    if (currentPath.startsWith('/producto/')) {
-      const slug = currentPath.replace('/producto/', '').split('?')[0].split('#')[0];
+    // 1. Dedicated Product Detail Page (/producto/:slug or /productos/:slug)
+    if (currentPath.startsWith('/producto/') || currentPath.startsWith('/productos/')) {
+      const slug = currentPath.replace(/^\/productos?\//, '').split('?')[0].split('#')[0];
       return <ProductDetailPage slug={slug} onAddToCart={handleAddToCart} />;
     }
 
     // 2. Full Catalog Page (/productos)
-    if (currentPath === '/productos') {
+    if (currentPath === '/productos' || currentPath === '/catalogo') {
       return (
         <div>
           <Catalog onAddToCart={(product) => handleAddToCart(product, 1)} isHomeView={false} />
@@ -90,8 +91,8 @@ function AppContent() {
       );
     }
 
-    // 3. Memberships Page (/membresias)
-    if (currentPath === '/membresias') {
+    // 3. Memberships Page (/membresias or /membresías)
+    if (currentPath === '/membresias' || currentPath === '/membresías') {
       return (
         <div>
           <Memberships />
@@ -100,17 +101,22 @@ function AppContent() {
       );
     }
 
-    // 4. Dedicated Business Opportunity & Preregistration Page (/oportunidad-de-negocio)
-    if (currentPath === '/oportunidad-de-negocio') {
+    // 4. Dedicated Business Opportunity Page (/oportunidad-de-negocio)
+    if (currentPath === '/oportunidad-de-negocio' || currentPath === '/oportunidad') {
       return <BusinessOpportunityPage />;
     }
 
-    // 5. PDF Documents Library Page (/documentos)
-    if (currentPath === '/documentos') {
+    // 5. Dedicated Pre-Registration Page (/preregistro or /pre-registro)
+    if (currentPath === '/preregistro' || currentPath === '/pre-registro') {
+      return <PreRegistrationPage />;
+    }
+
+    // 6. PDF Documents Library Page (/documentos or /documentos-pdf)
+    if (currentPath === '/documentos' || currentPath === '/documentos-pdf') {
       return <DocumentsPage />;
     }
 
-    // 6. Contact Page (/contacto)
+    // 7. Contact Page (/contacto)
     if (currentPath === '/contacto') {
       return (
         <div>
@@ -118,6 +124,12 @@ function AppContent() {
           <FAQ />
         </div>
       );
+    }
+
+    // 8. Direct product fallback if route matches a product slug directly (e.g. /blueberry-coffee-hgw)
+    const directSlug = currentPath.replace(/^\//, '').split('?')[0].split('#')[0];
+    if (PRODUCTS.some((p) => p.slug === directSlug || p.id === directSlug)) {
+      return <ProductDetailPage slug={directSlug} onAddToCart={handleAddToCart} />;
     }
 
     // Default / Home View (/ or /inicio)

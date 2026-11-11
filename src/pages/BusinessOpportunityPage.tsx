@@ -101,12 +101,12 @@ export const BusinessOpportunityPage: React.FC = () => {
             </p>
 
             <div className="flex flex-wrap gap-4">
-              <a
-                href="#formulario-prerregistro"
+              <Link
+                to="/preregistro"
                 className="px-6 py-3.5 bg-white text-[#00795F] font-black text-sm rounded-xl shadow-md hover:bg-stone-100 transition-all active:scale-95 text-center"
               >
-                Formulario Interactivo de Prerregistro
-              </a>
+                Formulario Oficial de Pre-Registro
+              </Link>
               <a
                 href="https://wa.me/50767788375?text=Hola%20Yamilka%2C%20deseo%20m%C3%A1s%20detalles%20sobre%20c%C3%B3mo%20ganar%20hasta%20el%2052%25%20con%20la%20Membres%C3%ADa%20Master%20de%20HGW."
                 target="_blank"
@@ -188,76 +188,163 @@ export const BusinessOpportunityPage: React.FC = () => {
               <thead className="bg-stone-100 border-b border-stone-300 text-xs font-black uppercase tracking-wider text-black">
                 <tr>
                   <th className="py-4 px-4 sm:px-6">Beneficio / Condición</th>
-                  <th className="py-4 px-4">Pre-Junior (50 BV)</th>
-                  <th className="py-4 px-4">Junior (100 BV)</th>
-                  <th className="py-4 px-4">Senior (300 BV)</th>
-                  <th className="py-4 px-4 bg-emerald-50 text-[#00795F]">Master (600 BV) ★</th>
+                  <th className="py-4 px-4 text-center">Pre-Junior (50 BV)</th>
+                  <th className="py-4 px-4 text-center">Junior (100 BV)</th>
+                  <th className="py-4 px-4 text-center">Senior (300 BV)</th>
+                  <th className="py-4 px-4 text-center bg-emerald-50 text-[#00795F]">Master (600 BV) ★</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-stone-200 text-xs sm:text-sm font-medium">
+                {/* Official Package Images Row */}
+                <tr className="bg-stone-50/70">
+                  <td className="py-4 px-4 sm:px-6 font-extrabold text-stone-900">
+                    Imagen del Paquete Oficial
+                  </td>
+                  <td className="py-4 px-4 text-center">
+                    <div className="w-24 h-20 sm:w-28 sm:h-24 mx-auto flex items-center justify-center p-1.5 bg-white rounded-2xl border border-stone-200 shadow-2xs overflow-hidden group">
+                      <img
+                        src="https://media.academiahgw.online/wp-content/uploads/2026/11/prejunior-hgw.png"
+                        alt="Paquete Pre-Junior HGW"
+                        className="max-h-full max-w-full object-contain hover:scale-110 transition-transform duration-300 ease-out"
+                        referrerPolicy="no-referrer"
+                      />
+                    </div>
+                    <span className="block text-[11px] font-bold text-stone-600 mt-1.5">50 BV</span>
+                  </td>
+                  <td className="py-4 px-4 text-center">
+                    <div className="w-24 h-20 sm:w-28 sm:h-24 mx-auto flex items-center justify-center p-1.5 bg-white rounded-2xl border border-stone-200 shadow-2xs overflow-hidden group">
+                      <img
+                        src="https://media.academiahgw.online/wp-content/uploads/2026/11/JUNIOR-100-BV.png"
+                        alt="Paquete Junior HGW"
+                        className="max-h-full max-w-full object-contain hover:scale-110 transition-transform duration-300 ease-out"
+                        referrerPolicy="no-referrer"
+                      />
+                    </div>
+                    <span className="block text-[11px] font-bold text-stone-600 mt-1.5">100 BV</span>
+                  </td>
+                  <td className="py-4 px-4 text-center">
+                    <div className="w-24 h-20 sm:w-28 sm:h-24 mx-auto flex items-center justify-center p-1.5 bg-white rounded-2xl border border-stone-200 shadow-2xs overflow-hidden group">
+                      <img
+                        src="https://media.academiahgw.online/wp-content/uploads/2026/11/senior.png"
+                        alt="Paquete Senior HGW"
+                        className="max-h-full max-w-full object-contain hover:scale-110 transition-transform duration-300 ease-out"
+                        referrerPolicy="no-referrer"
+                      />
+                    </div>
+                    <span className="block text-[11px] font-bold text-stone-600 mt-1.5">300 BV</span>
+                  </td>
+                  <td className="py-4 px-4 text-center bg-emerald-50/50">
+                    <div className="w-24 h-20 sm:w-28 sm:h-24 mx-auto flex items-center justify-center p-1.5 bg-white rounded-2xl border-2 border-emerald-400 shadow-xs overflow-hidden group">
+                      <img
+                        src="https://media.academiahgw.online/wp-content/uploads/2026/11/master-600-bv-hgw.png"
+                        alt="Paquete Master HGW"
+                        className="max-h-full max-w-full object-contain hover:scale-110 transition-transform duration-300 ease-out"
+                        referrerPolicy="no-referrer"
+                      />
+                    </div>
+                    <span className="block text-[11px] font-black text-[#00795F] mt-1.5">600 BV (Recomendado)</span>
+                  </td>
+                </tr>
+
                 <tr>
                   <td className="py-3.5 px-4 sm:px-6 font-bold text-stone-900">Inversión Aprox.</td>
-                  <td className="py-3.5 px-4 tabular-nums font-bold">B/. 90.00</td>
-                  <td className="py-3.5 px-4 tabular-nums font-bold">B/. 180.00</td>
-                  <td className="py-3.5 px-4 tabular-nums font-bold">B/. 540.00</td>
-                  <td className="py-3.5 px-4 tabular-nums font-extrabold text-[#00795F] bg-emerald-50/50">B/. 1024.00</td>
+                  <td className="py-3.5 px-4 text-center tabular-nums font-bold">B/. 90.00</td>
+                  <td className="py-3.5 px-4 text-center tabular-nums font-bold">B/. 180.00</td>
+                  <td className="py-3.5 px-4 text-center tabular-nums font-bold">B/. 540.00</td>
+                  <td className="py-3.5 px-4 text-center tabular-nums font-extrabold text-[#00795F] bg-emerald-50/50">B/. 1024.00</td>
                 </tr>
                 <tr>
                   <td className="py-3.5 px-4 sm:px-6 font-bold text-stone-900">Selección de Productos</td>
-                  <td className="py-3.5 px-4" colSpan={4}>
-                    <span className="text-[#00795F] font-bold">Productos de su preferencia (100% a elección)</span>
+                  <td className="py-3.5 px-4 text-center" colSpan={4}>
+                    <span className="text-[#00795F] font-bold">Productos de su preferencia (100% a elección de todo el catálogo oficial)</span>
                   </td>
                 </tr>
                 <tr>
                   <td className="py-3.5 px-4 sm:px-6 font-bold text-stone-900">Ganancia Venta Directa</td>
-                  <td className="py-3.5 px-4 font-bold">30%</td>
-                  <td className="py-3.5 px-4 font-bold">30%</td>
-                  <td className="py-3.5 px-4 font-bold">30%</td>
-                  <td className="py-3.5 px-4 font-black text-emerald-800 bg-emerald-50/50">
+                  <td className="py-3.5 px-4 text-center font-bold">30%</td>
+                  <td className="py-3.5 px-4 text-center font-bold">30%</td>
+                  <td className="py-3.5 px-4 text-center font-bold">30%</td>
+                  <td className="py-3.5 px-4 text-center font-black text-emerald-800 bg-emerald-50/50">
                     60% (Hasta 52% en compras)
                   </td>
                 </tr>
                 <tr>
                   <td className="py-3.5 px-4 sm:px-6 font-bold text-stone-900">Bono Inicio Rápido</td>
-                  <td className="py-3.5 px-4 tabular-nums font-bold">$5.00</td>
-                  <td className="py-3.5 px-4 tabular-nums font-bold">$10.00</td>
-                  <td className="py-3.5 px-4 tabular-nums font-bold">$30.00</td>
-                  <td className="py-3.5 px-4 tabular-nums font-black text-[#00795F] bg-emerald-50/50">$60.00</td>
+                  <td className="py-3.5 px-4 text-center tabular-nums font-bold">$5.00</td>
+                  <td className="py-3.5 px-4 text-center tabular-nums font-bold">$10.00</td>
+                  <td className="py-3.5 px-4 text-center tabular-nums font-bold">$30.00</td>
+                  <td className="py-3.5 px-4 text-center tabular-nums font-black text-[#00795F] bg-emerald-50/50">$60.00</td>
                 </tr>
                 <tr>
                   <td className="py-3.5 px-4 sm:px-6 font-bold text-stone-900">Bono Desarrollo</td>
-                  <td className="py-3.5 px-4 tabular-nums">0.20 USD</td>
-                  <td className="py-3.5 px-4 tabular-nums">0.50 USD</td>
-                  <td className="py-3.5 px-4 tabular-nums">1.50 USD</td>
-                  <td className="py-3.5 px-4 tabular-nums font-bold text-[#00795F] bg-emerald-50/50">3.00 USD</td>
+                  <td className="py-3.5 px-4 text-center tabular-nums">0.20 USD</td>
+                  <td className="py-3.5 px-4 text-center tabular-nums">0.50 USD</td>
+                  <td className="py-3.5 px-4 text-center tabular-nums">1.50 USD</td>
+                  <td className="py-3.5 px-4 text-center tabular-nums font-bold text-[#00795F] bg-emerald-50/50">3.00 USD</td>
                 </tr>
                 <tr>
                   <td className="py-3.5 px-4 sm:px-6 font-bold text-stone-900">Bono Equipo</td>
-                  <td className="py-3.5 px-4 font-bold">5%</td>
-                  <td className="py-3.5 px-4 font-bold">7%</td>
-                  <td className="py-3.5 px-4 font-bold">8%</td>
-                  <td className="py-3.5 px-4 font-black text-[#00795F] bg-emerald-50/50">10%</td>
+                  <td className="py-3.5 px-4 text-center font-bold">5%</td>
+                  <td className="py-3.5 px-4 text-center font-bold">7%</td>
+                  <td className="py-3.5 px-4 text-center font-bold">8%</td>
+                  <td className="py-3.5 px-4 text-center font-black text-[#00795F] bg-emerald-50/50">10%</td>
                 </tr>
                 <tr>
                   <td className="py-3.5 px-4 sm:px-6 font-bold text-stone-900">Tope Ganancia Diaria</td>
-                  <td className="py-3.5 px-4 tabular-nums font-bold">50 USD / día</td>
-                  <td className="py-3.5 px-4 tabular-nums font-bold">120 USD / día</td>
-                  <td className="py-3.5 px-4 tabular-nums font-bold">360 USD / día</td>
-                  <td className="py-3.5 px-4 tabular-nums font-black text-[#00795F] bg-emerald-50/50">720 USD / día</td>
+                  <td className="py-3.5 px-4 text-center tabular-nums font-bold">50 USD / día</td>
+                  <td className="py-3.5 px-4 text-center tabular-nums font-bold">120 USD / día</td>
+                  <td className="py-3.5 px-4 text-center tabular-nums font-bold">360 USD / día</td>
+                  <td className="py-3.5 px-4 text-center tabular-nums font-black text-[#00795F] bg-emerald-50/50">720 USD / día</td>
                 </tr>
                 <tr>
                   <td className="py-3.5 px-4 sm:px-6 font-bold text-stone-900">Bono Élite</td>
-                  <td className="py-3.5 px-4 text-stone-400">—</td>
-                  <td className="py-3.5 px-4 text-stone-400">—</td>
-                  <td className="py-3.5 px-4 font-bold">4% Hasta 3era gen.</td>
-                  <td className="py-3.5 px-4 font-black text-[#00795F] bg-emerald-50/50">4% Hasta 6ta gen.</td>
+                  <td className="py-3.5 px-4 text-center text-stone-400">—</td>
+                  <td className="py-3.5 px-4 text-center text-stone-400">—</td>
+                  <td className="py-3.5 px-4 text-center font-bold">4% Hasta 3era gen.</td>
+                  <td className="py-3.5 px-4 text-center font-black text-[#00795F] bg-emerald-50/50">4% Hasta 6ta gen.</td>
                 </tr>
                 <tr>
                   <td className="py-3.5 px-4 sm:px-6 font-bold text-stone-900">Bono Recompra</td>
-                  <td className="py-3.5 px-4 font-bold">5%</td>
-                  <td className="py-3.5 px-4 font-bold">5%</td>
-                  <td className="py-3.5 px-4 font-bold">5%</td>
-                  <td className="py-3.5 px-4 font-bold text-[#00795F] bg-emerald-50/50">5%</td>
+                  <td className="py-3.5 px-4 text-center font-bold">5%</td>
+                  <td className="py-3.5 px-4 text-center font-bold">5%</td>
+                  <td className="py-3.5 px-4 text-center font-bold">5%</td>
+                  <td className="py-3.5 px-4 text-center font-bold text-[#00795F] bg-emerald-50/50">5%</td>
+                </tr>
+                {/* CTA Row to Pre-Registration */}
+                <tr className="bg-stone-50">
+                  <td className="py-4 px-4 sm:px-6 font-bold text-stone-900">Acción de Registro</td>
+                  <td className="py-3.5 px-4 text-center">
+                    <Link
+                      to="/preregistro"
+                      className="px-3 py-2 bg-stone-200 hover:bg-[#00795F] hover:text-white text-stone-900 text-xs font-bold rounded-xl transition-all inline-block active:scale-95"
+                    >
+                      Pre-Registro
+                    </Link>
+                  </td>
+                  <td className="py-3.5 px-4 text-center">
+                    <Link
+                      to="/preregistro"
+                      className="px-3 py-2 bg-stone-200 hover:bg-[#00795F] hover:text-white text-stone-900 text-xs font-bold rounded-xl transition-all inline-block active:scale-95"
+                    >
+                      Pre-Registro
+                    </Link>
+                  </td>
+                  <td className="py-3.5 px-4 text-center">
+                    <Link
+                      to="/preregistro"
+                      className="px-3 py-2 bg-stone-200 hover:bg-[#00795F] hover:text-white text-stone-900 text-xs font-bold rounded-xl transition-all inline-block active:scale-95"
+                    >
+                      Pre-Registro
+                    </Link>
+                  </td>
+                  <td className="py-3.5 px-4 text-center bg-emerald-50/50">
+                    <Link
+                      to="/preregistro"
+                      className="px-4 py-2.5 bg-[#00795F] hover:bg-[#004d3c] text-white text-xs font-black rounded-xl shadow-xs transition-all inline-block active:scale-95"
+                    >
+                      Registrar Master ★
+                    </Link>
+                  </td>
                 </tr>
               </tbody>
             </table>

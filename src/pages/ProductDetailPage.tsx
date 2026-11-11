@@ -69,14 +69,14 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug, onAd
         {/* Main Product Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
           
-          {/* Left Column: Big Product Photography */}
-          <div className="lg:col-span-6 bg-stone-50 rounded-3xl p-6 sm:p-10 border border-stone-200/90 flex flex-col items-center justify-center sticky top-28">
-            <div className="relative w-full aspect-square flex items-center justify-center">
+          {/* Left Column: Big Product Photography (relative on mobile to prevent floating over content, sticky only on desktop) */}
+          <div className="lg:col-span-6 bg-stone-50 rounded-3xl p-6 sm:p-10 border border-stone-200/90 flex flex-col items-center justify-center relative lg:sticky lg:top-28 z-10 overflow-hidden isolate shadow-2xs">
+            <div className="relative w-full aspect-square flex items-center justify-center overflow-hidden">
               <img
                 src={product.image}
                 alt={product.name}
                 referrerPolicy="no-referrer"
-                className="max-h-full max-w-full object-contain drop-shadow-md hover:scale-105 transition-transform duration-300"
+                className="max-h-full max-w-full object-contain drop-shadow-md hover:scale-106 transition-transform duration-300 ease-out"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src = "https://media.academiahgw.online/wp-content/uploads/2026/11/productos-hgw-1024x683.webp";
                 }}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Phone, Mail, Clock, CheckCircle2, Send, FileText, ArrowRight } from 'lucide-react';
+import { Phone, Mail, Clock, CheckCircle2, Send, FileText, ArrowRight, MapPin } from 'lucide-react';
 import { Link } from '../router';
 
 export const ContactSection: React.FC = () => {
@@ -42,6 +42,25 @@ export const ContactSection: React.FC = () => {
 
             <div className="space-y-4">
               
+              {/* Main Office Address */}
+              <div className="p-5 bg-stone-50 rounded-2xl border border-stone-200 flex items-start gap-4">
+                <div className="w-12 h-12 rounded-2xl bg-[#00795F]/15 flex items-center justify-center text-[#00795F] shrink-0">
+                  <MapPin className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-xs font-bold text-stone-500 uppercase tracking-wider">Oficinas Principales en Panamá</h3>
+                  <p className="text-sm sm:text-base font-bold text-black mt-0.5 leading-snug">
+                    Avenida Porras, Plaza Royal Blue, Local No. 6
+                  </p>
+                  <p className="text-xs text-stone-600 mt-1">
+                    Provincia de PANAMÁ, Corregimiento de San Francisco.
+                  </p>
+                  <p className="text-xs font-bold text-[#00795F] mt-1.5 flex items-center gap-2">
+                    <span>Teléfono Oficina: <strong>+507 392-8415</strong></span>
+                  </p>
+                </div>
+              </div>
+
               {/* WhatsApp Item */}
               <a
                 href="https://wa.me/50767788375?text=Hola%20HGW%20Panam%C3%A1%2C%20deseo%20comunicarme%20con%20un%20distribuidor%20independiente."
@@ -53,11 +72,11 @@ export const ContactSection: React.FC = () => {
                   <Phone className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-xs font-bold text-stone-500 uppercase tracking-wider">WhatsApp Oficial</h3>
+                  <h3 className="text-xs font-bold text-stone-500 uppercase tracking-wider">WhatsApp Distribuidor</h3>
                   <p className="text-lg font-black text-black group-hover:text-[#00795F] transition-colors tabular-nums">
                     +507 6778-8375
                   </p>
-                  <p className="text-xs sm:text-sm text-stone-600 mt-0.5">Atención directa para pedidos y consultas</p>
+                  <p className="text-xs sm:text-sm text-stone-600 mt-0.5">Atención directa para pedidos, consultas y membresías</p>
                 </div>
               </a>
 
@@ -71,7 +90,7 @@ export const ContactSection: React.FC = () => {
                   <p className="text-base font-bold text-black select-all">
                     hgwpanama507g@gmail.com
                   </p>
-                  <p className="text-xs sm:text-sm text-stone-600 mt-0.5">Atención a clientes y distribuidores</p>
+                  <p className="text-xs sm:text-sm text-stone-600 mt-0.5">Buzón directo para pre-registros y atención oficial</p>
                 </div>
               </div>
 
@@ -81,17 +100,19 @@ export const ContactSection: React.FC = () => {
                   <Clock className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-xs font-bold text-stone-500 uppercase tracking-wider">Horario de Despacho</h3>
-                  <p className="text-base font-bold text-black">
-                    Lunes a Sábado: 8:00 AM – 6:00 PM
+                  <h3 className="text-xs font-bold text-stone-500 uppercase tracking-wider">Horarios de Atención</h3>
+                  <p className="text-xs sm:text-sm font-bold text-black leading-snug">
+                    Lunes a Viernes: 09:00 am a 06:00 pm<br />
+                    Sábados: 09:00 am a 01:00 pm<br />
+                    <span className="text-stone-500 font-normal">Domingos y Festivos: Cerrado</span>
                   </p>
-                  <p className="text-xs sm:text-sm text-stone-600 mt-0.5">Envíos a todo el territorio panameño</p>
+                  <p className="text-xs text-[#00795F] font-bold mt-1">Envíos a todo el país vía Servientrega</p>
                 </div>
               </div>
 
             </div>
 
-            {/* Quick banner linking to Business Opportunity & Preregistration */}
+            {/* Quick banner linking to Dedicated Preregistration Page */}
             <div className="p-5 bg-emerald-50 rounded-2xl border border-emerald-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="space-y-1">
                 <div className="flex items-center gap-2 text-xs font-bold text-[#00795F] uppercase">
@@ -99,14 +120,14 @@ export const ContactSection: React.FC = () => {
                   <span>¿Deseas emprender con nosotros?</span>
                 </div>
                 <p className="text-sm font-black text-black">
-                  Llena el formulario de prerregistro en línea
+                  Llena el formulario oficial de pre-registro
                 </p>
               </div>
               <Link
-                to="/oportunidad-de-negocio#formulario-prerregistro"
-                className="px-4 py-2.5 bg-[#00795F] hover:bg-[#004d3c] text-white text-xs font-bold rounded-xl transition-all shadow-xs flex items-center gap-1.5 whitespace-nowrap"
+                to="/preregistro"
+                className="px-4 py-2.5 bg-[#00795F] hover:bg-[#004d3c] text-white text-xs font-bold rounded-xl transition-all shadow-xs flex items-center gap-1.5 whitespace-nowrap active:scale-95"
               >
-                <span>Prerregistro</span>
+                <span>Ir al Pre-Registro</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>

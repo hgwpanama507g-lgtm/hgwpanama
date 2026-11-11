@@ -219,7 +219,7 @@ export const PRODUCTS: Product[] = [
     priceFormatted: "$40.00",
     inStock: true,
     featured: true,
-    image: "https://hgwpanama.com/wp-content/uploads/2026/10/Choco_Blue_HGW-removebg-preview.png",
+    image: "https://media.academiahgw.online/wp-content/uploads/2026/11/Choco_Blue_HGW-removebg-preview.png",
     shortDescription: "Deliciosa bebida de cacao puro natural, leche descremada de Nueva Zelanda y arándanos ricos en antioxidantes.",
     presentation: "660 g (33 g x 20 sachets)",
     benefits: [
@@ -1298,6 +1298,7 @@ export interface MembershipPlan {
   eliteBonus?: string;
   repurchaseBonus: string;
   directSaleProfit: string;
+  packageImageUrl: string;
   recommended?: boolean;
 }
 
@@ -1314,6 +1315,7 @@ export const MEMBERSHIP_PLANS: MembershipPlan[] = [
     dailyEarningsCap: "50 USD",
     repurchaseBonus: "5%",
     directSaleProfit: "30%",
+    packageImageUrl: "https://media.academiahgw.online/wp-content/uploads/2026/11/prejunior-hgw.png",
   },
   {
     id: "junior",
@@ -1327,6 +1329,7 @@ export const MEMBERSHIP_PLANS: MembershipPlan[] = [
     dailyEarningsCap: "120 USD",
     repurchaseBonus: "5%",
     directSaleProfit: "30%",
+    packageImageUrl: "https://media.academiahgw.online/wp-content/uploads/2026/11/JUNIOR-100-BV.png",
   },
   {
     id: "senior",
@@ -1341,6 +1344,7 @@ export const MEMBERSHIP_PLANS: MembershipPlan[] = [
     eliteBonus: "4% Hasta 3era generación",
     repurchaseBonus: "5%",
     directSaleProfit: "30%",
+    packageImageUrl: "https://media.academiahgw.online/wp-content/uploads/2026/11/senior.png",
   },
   {
     id: "master",
@@ -1355,6 +1359,7 @@ export const MEMBERSHIP_PLANS: MembershipPlan[] = [
     eliteBonus: "4% Hasta 6ta generación",
     repurchaseBonus: "5%",
     directSaleProfit: "60% (Hasta 52% en recompras según el plan)",
+    packageImageUrl: "https://media.academiahgw.online/wp-content/uploads/2026/11/master-600-bv-hgw.png",
     recommended: true,
   }
 ];
