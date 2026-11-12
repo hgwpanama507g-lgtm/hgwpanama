@@ -19,6 +19,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
     categoryLabel: 'Nutrición y Suplementos',
     url: 'https://media.academiahgw.online/wp-content/uploads/2026/11/12.-CORDYCEPS.pdf',
     description: 'Información oficial sobre el hongo Cordyceps militaris, propiedades adaptógenas y soporte inmunológico.',
+    size: '2.4 MB',
     coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/12._CORDYCEPS-1024x576.png'
   },
   {
