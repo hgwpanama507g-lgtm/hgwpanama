@@ -139,47 +139,64 @@ export const DocumentsPage: React.FC = () => {
               return (
                 <div
                   key={doc.id}
-                  className="bg-white rounded-3xl border border-stone-200 hover:border-[#00795F] hover:shadow-xl transition-all duration-300 p-6 flex flex-col justify-between group"
+                  className="bg-white rounded-3xl border border-stone-200 hover:border-[#00795F] hover:shadow-xl transition-all duration-300 flex flex-col group overflow-hidden"
                 >
-                  <div>
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="px-3 py-1 bg-emerald-50 text-[#00795F] text-xs font-bold rounded-lg border border-emerald-200">
-                        {doc.categoryLabel}
-                      </span>
-                      <span className="text-xs font-mono font-bold text-stone-500 bg-stone-100 px-2 py-0.5 rounded-md">
-                        PDF ({doc.size})
-                      </span>
+                  {/* Document Cover Image */}
+                  <Link to={docDetailPageUrl} className="block aspect-[3/4] overflow-hidden bg-stone-100 relative">
+                    {doc.coverImageUrl ? (
+                      <img 
+                        src={doc.coverImageUrl} 
+                        alt={`Portada de ${doc.title}`} 
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    ) : (
+                      <div className="flex items-center justify-center h-full text-stone-400">
+                        <FileText className="w-12 h-12" />
+                      </div>
+                    )}
+                  </Link>
+                  
+                  <div className="p-6 flex flex-col justify-between flex-grow">
+                    <div>
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="px-3 py-1 bg-emerald-50 text-[#00795F] text-xs font-bold rounded-lg border border-emerald-200">
+                          {doc.categoryLabel}
+                        </span>
+                        <span className="text-xs font-mono font-bold text-stone-500 bg-stone-100 px-2 py-0.5 rounded-md">
+                          PDF ({doc.size})
+                        </span>
+                      </div>
+
+                      <h3 className="text-base sm:text-lg font-black text-black group-hover:text-[#00795F] transition-colors leading-snug mb-2">
+                        <Link to={docDetailPageUrl} title={doc.title}>
+                          {doc.title}
+                        </Link>
+                      </h3>
+
+                      <p className="text-xs sm:text-sm text-stone-700 leading-relaxed font-normal mb-4">
+                        {doc.description}
+                      </p>
                     </div>
 
-                    <h3 className="text-base sm:text-lg font-black text-black group-hover:text-[#00795F] transition-colors leading-snug mb-2">
-                      <Link to={docDetailPageUrl} title={doc.title}>
-                        {doc.title}
+                    <div className="pt-4 border-t border-stone-100 grid grid-cols-2 gap-2">
+                      <Link
+                        to={docDetailPageUrl}
+                        className="py-2.5 px-3 bg-stone-100 hover:bg-stone-200 text-black text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5 text-center"
+                      >
+                        <Eye className="w-4 h-4 text-[#00795F]" />
+                        <span>Ver Ficha</span>
                       </Link>
-                    </h3>
 
-                    <p className="text-xs sm:text-sm text-stone-700 leading-relaxed font-normal">
-                      {doc.description}
-                    </p>
-                  </div>
-
-                  <div className="mt-6 pt-4 border-t border-stone-100 grid grid-cols-2 gap-2">
-                    <Link
-                      to={docDetailPageUrl}
-                      className="py-2.5 px-3 bg-stone-100 hover:bg-stone-200 text-black text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5 text-center"
-                    >
-                      <Eye className="w-4 h-4 text-[#00795F]" />
-                      <span>Ver Ficha</span>
-                    </Link>
-
-                    <a
-                      href={doc.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="py-2.5 px-3 bg-[#00795F] hover:bg-[#004d3c] text-white text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5 shadow-xs"
-                    >
-                      <Download className="w-4 h-4" />
-                      <span>Descargar</span>
-                    </a>
+                      <a
+                        href={doc.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="py-2.5 px-3 bg-[#00795F] hover:bg-[#004d3c] text-white text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5 shadow-xs"
+                      >
+                        <Download className="w-4 h-4" />
+                        <span>Descargar</span>
+                      </a>
+                    </div>
                   </div>
                 </div>
               );

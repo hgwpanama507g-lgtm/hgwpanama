@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
-import { FileText, Download, ShieldCheck, ArrowLeft, ArrowRight, Share2, Sparkles, Check } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { FileText, Download, Eye, ShieldCheck, ArrowLeft, ArrowRight, Share2, Sparkles, Check, ZoomIn, ZoomOut, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 import { HGW_DOCUMENTS } from '../data/documents';
 import { Link } from '../router';
+import * as pdfjsLib from 'pdfjs-dist';
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js`;
 
 interface DocumentDetailPageProps {
   id: string;
@@ -9,6 +12,14 @@ interface DocumentDetailPageProps {
 
 export const DocumentDetailPage: React.FC<DocumentDetailPageProps> = ({ id }) => {
   const [copied, setCopied] = useState(false);
+  const [pdfDoc, setPdfDoc] = useState<any>(null);
+  const [pageNum, setPageNum] = useState<number>(1);
+  const [numPages, setNumPages] = useState<number>(0);
+  const [scale, setScale] = useState<number>(1.2);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   const doc = HGW_DOCUMENTS.find((d) => d.slug === id || d.id === id || d.url.includes(id));
 
@@ -23,6 +34,80 @@ export const DocumentDetailPage: React.FC<DocumentDetailPageProps> = ({ id }) =>
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
     }
+  };
+
+  useEffect(() => {
+    if (!doc) return;
+
+    let isMounted = true;
+    setLoading(true);
+    setError(null);
+
+    const loadPdf = async () => {
+      try {
+        const loadingTask = pdfjsLib.getDocument(doc.url);
+        const loadedPdf = await loadingTask.promise;
+        if (!isMounted) return;
+        setPdfDoc(loadedPdf);
+        setNumPages(loadedPdf.numPages);
+        setPageNum(1);
+        setLoading(false);
+      } catch (err: any) {
+        if (!isMounted) return;
+        console.error('Error loading PDF:', err);
+        setError('No se pudo cargar el archivo PDF. Por favor, intente descargarlo directamente.');
+        setLoading(false);
+      }
+    };
+    loadPdf();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [doc]);
+
+  useEffect(() => {
+    if (!pdfDoc || !canvasRef.current) return;
+
+    let isMounted = true;
+    pdfDoc.getPage(pageNum).then((page: any) => {
+      if (!isMounted || !canvasRef.current) return;
+
+      const canvas = canvasRef.current;
+      const context = canvas.getContext('2d');
+      if (!context) return;
+
+      const viewport = page.getViewport({ scale });
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+
+      const renderContext = {
+        canvasContext: context,
+        viewport: viewport,
+      };
+
+      page.render(renderContext);
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [pdfDoc, pageNum, scale]);
+
+  const handlePrevPage = () => {
+    if (pageNum > 1) setPageNum(pageNum - 1);
+  };
+
+  const handleNextPage = () => {
+    if (pageNum < numPages) setPageNum(pageNum + 1);
+  };
+
+  const handleZoomIn = () => {
+    setScale((prev) => Math.min(2.5, prev + 0.25));
+  };
+
+  const handleZoomOut = () => {
+    setScale((prev) => Math.max(0.6, prev - 0.25));
   };
 
   if (!doc) {
@@ -132,33 +217,102 @@ export const DocumentDetailPage: React.FC<DocumentDetailPageProps> = ({ id }) =>
         <div className="mb-14">
           <h2 className="text-xl font-extrabold text-black mb-6 flex items-center gap-2">
             <FileText className="w-5 h-5 text-[#00795F]" />
-            <span>Vista Previa del Documento</span>
+            <span>Portada del Documento</span>
           </h2>
-
-          <div className="bg-stone-50 rounded-3xl overflow-hidden border border-stone-200 shadow-sm flex flex-col items-center justify-center p-4 sm:p-8">
+          <div className="bg-stone-50 rounded-3xl border border-stone-200 p-6 flex justify-center">
             {doc.coverImageUrl ? (
               <img 
                 src={doc.coverImageUrl} 
                 alt={`Portada de ${doc.title}`} 
-                className="max-w-full h-auto rounded-xl shadow-lg"
+                className="max-w-xs h-auto rounded-xl shadow-lg"
               />
             ) : (
-              <div className="text-center py-16 px-4">
-                <FileText className="w-16 h-16 text-stone-300 mx-auto mb-4" />
-                <p className="text-stone-500">Imagen de portada no disponible.</p>
+              <div className="text-center py-8">
+                <FileText className="w-12 h-12 text-stone-300 mx-auto" />
               </div>
             )}
-            
-            <div className="mt-8">
-               <a
+          </div>
+        </div>
+
+        {/* In-Page Interactive PDF Viewer Section (PDF.js Canvas) */}
+        <div className="mb-14">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+            <h2 className="text-xl font-extrabold text-black flex items-center gap-2">
+              <Eye className="w-5 h-5 text-[#00795F]" />
+              <span>Vista previa real del contenido (PDF)</span>
+            </h2>
+
+            {/* Viewer Toolbar Controls */}
+            {numPages > 0 && (
+              <div className="flex items-center gap-2 bg-stone-100 p-1.5 rounded-2xl border border-stone-300 shadow-2xs">
+                <button
+                  onClick={handlePrevPage}
+                  disabled={pageNum <= 1}
+                  className="p-2 bg-white hover:bg-stone-50 disabled:opacity-40 text-black rounded-xl font-bold text-xs flex items-center gap-1 shadow-2xs transition-all"
+                  aria-label="Página anterior"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+
+                <span className="text-xs font-extrabold text-black px-2 tabular-nums">
+                  {pageNum} de {numPages}
+                </span>
+
+                <button
+                  onClick={handleNextPage}
+                  disabled={pageNum >= numPages}
+                  className="p-2 bg-white hover:bg-stone-50 disabled:opacity-40 text-black rounded-xl font-bold text-xs flex items-center gap-1 shadow-2xs transition-all"
+                  aria-label="Página siguiente"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+
+                <div className="h-4 w-px bg-stone-300 mx-1" />
+
+                <button
+                  onClick={handleZoomOut}
+                  className="p-2 bg-white hover:bg-stone-50 text-black rounded-xl shadow-2xs transition-all"
+                  title="Reducir zoom"
+                >
+                  <ZoomOut className="w-4 h-4" />
+                </button>
+
+                <button
+                  onClick={handleZoomIn}
+                  className="p-2 bg-white hover:bg-stone-50 text-black rounded-xl shadow-2xs transition-all"
+                  title="Ampliar zoom"
+                >
+                  <ZoomIn className="w-4 h-4" />
+                </button>
+              </div>
+            )}
+          </div>
+
+          <div className="bg-stone-900 rounded-3xl overflow-hidden border border-stone-300 shadow-2xl flex flex-col items-center justify-center min-h-[500px] relative p-4 sm:p-8">
+            {loading && (
+              <div className="flex flex-col items-center gap-3 text-white py-20">
+                <Loader2 className="w-10 h-10 animate-spin text-[#00A550]" />
+                <p className="text-sm font-bold">Cargando visor PDF...</p>
+              </div>
+            )}
+
+            {error && (
+              <div className="text-center py-16 px-4 space-y-4 max-w-md mx-auto">
+                <p className="text-amber-200 text-sm font-semibold">{error}</p>
+                <a
                   href={doc.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-6 py-3 bg-[#00795F] hover:bg-[#004d3c] text-white font-black text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2"
+                  className="px-5 py-2.5 bg-[#00A550] text-white text-xs font-bold rounded-xl inline-flex items-center gap-2"
                 >
                   <Download className="w-4 h-4" />
-                  <span>Descargar documento completo ({doc.size})</span>
+                  <span>Descargar Archivo</span>
                 </a>
+              </div>
+            )}
+
+            <div className="w-full overflow-auto flex justify-center py-2">
+              <canvas ref={canvasRef} className="max-w-full shadow-2xl rounded-lg bg-white" />
             </div>
           </div>
         </div>
