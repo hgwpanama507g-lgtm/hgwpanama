@@ -35,8 +35,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   const handleSendWhatsApp = () => {
     if (items.length === 0) return;
 
-    let message = `*PEDIDO HGW PANAMÁ*\n`;
-    message += `Hola, deseo consultar y coordinar la entrega del siguiente pedido:\n\n`;
+    const currentUrl = typeof window !== 'undefined' ? window.location.href : 'https://hgwpanama.com';
+    let message = `¡Hola! Estaba visitando tu tienda online (${currentUrl}) y deseo coordinar la compra y entrega del siguiente pedido:\n\n`;
     
     items.forEach((item) => {
       const itemTotal = (item.product.price * item.quantity).toFixed(2);
@@ -253,7 +253,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               </div>
 
               <p className="text-[11px] text-stone-500 leading-tight">
-                Al presionar el botón se abrirá WhatsApp con el resumen de tus productos listo para coordinar pago (Yappy / Transferencia) y entrega en Panamá.
+                Al presionar el botón se abrirá WhatsApp con el resumen de tus productos para coordinar pago y entrega con el Distribuidor Independiente autorizado.
               </p>
 
               <button
@@ -263,6 +263,10 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 <span>Enviar Pedido a WhatsApp (+507 6778-8375)</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
+
+              <p className="text-[10px] text-stone-400 text-center leading-tight">
+                ¿Ya eres socio registrado de HGW? Gestiona tus órdenes internas con tu patrocinador o a oficinas principales (+507 392-8415).
+              </p>
             </div>
           )}
 

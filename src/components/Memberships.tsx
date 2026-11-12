@@ -1,7 +1,8 @@
 import React from 'react';
-import { Check, ArrowRight, ExternalLink, ShieldCheck, Sparkles, Phone, Award } from 'lucide-react';
+import { Check, ArrowRight, ExternalLink, ShieldCheck, Sparkles, Phone, Award, ShieldAlert } from 'lucide-react';
 import { MEMBERSHIP_PLANS } from '../data/products';
 import { Link } from '../router';
+import { getAffiliationWhatsAppUrl } from '../utils/whatsapp';
 
 export const Memberships: React.FC = () => {
   return (
@@ -25,13 +26,22 @@ export const Memberships: React.FC = () => {
           <div className="mt-4 p-3 bg-white border border-stone-300 rounded-2xl text-xs sm:text-sm text-stone-800 font-medium inline-block shadow-2xs">
             <span className="font-extrabold text-black">Aclaración Importante:</span> Diamante es un rango de liderazgo que se alcanza con desarrollo de equipo y volumen, no una membresía de ingreso. Los 4 paquetes de afiliación inicial son <strong>Pre-Junior, Junior, Senior y Master</strong>.
           </div>
+
+          {/* Registered member notice */}
+          <div className="mt-3 p-3 bg-amber-50 border border-amber-300 rounded-2xl text-xs text-stone-800 font-medium max-w-2xl mx-auto flex items-center justify-center gap-2 text-center shadow-2xs">
+            <ShieldAlert className="w-4 h-4 text-amber-700 shrink-0" />
+            <span>
+              <strong>¿Ya eres socio registrado de HGW?</strong> Debes comunicarte directamente con tu patrocinador o llamar a oficinas principales: <strong className="text-black">+507 392-8415</strong>.
+            </span>
+          </div>
         </div>
 
         {/* 4 Cards Grid - No rank logos, pure clean typography */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {MEMBERSHIP_PLANS.map((plan) => {
+            const currentUrl = typeof window !== 'undefined' ? window.location.href : 'https://hgwpanama.com/membresias';
             const planWhatsappText = encodeURIComponent(
-              `Hola HGW Panamá, deseo activar mi membresía "${plan.name}" (${plan.bv} - ${plan.priceEstimate}). ¿Cuáles son los pasos para elegir mis productos y comenzar?`
+              `¡Hola! Estaba visitando tu tienda online (${currentUrl}) y quería preguntar sobre cómo afiliarse a HGW Panamá con el plan "${plan.name}" (${plan.bv}). Mi nombre es:`
             );
             const planWhatsappUrl = `https://wa.me/50767788375?text=${planWhatsappText}`;
 
@@ -186,10 +196,15 @@ export const Memberships: React.FC = () => {
               </Link>
 
               <a
-                href="https://wa.me/50767788375?text=Hola%20Yamilka%2C%20deseo%20que%20me%20expliques%20en%20detalle%20c%C3%B3mo%20activarme%20como%20Master%20y%20ganar%20hasta%20el%2052%25."
+                href={getAffiliationWhatsAppUrl()}
+                onClick={(e) => {
+                  if (typeof window !== 'undefined') {
+                    e.currentTarget.href = getAffiliationWhatsAppUrl(window.location.href);
+                  }
+                }}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 text-white bg-black/20 hover:bg-black/30 font-bold text-xs sm:text-sm rounded-xl transition-all text-center border border-white/20"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 text-white bg-black/20 hover:bg-black/30 font-bold text-xs sm:text-sm rounded-xl transition-all text-center border border-white/20 active:scale-95"
               >
                 <Phone className="w-4 h-4 text-emerald-300" />
                 <span>Hablar con un Distribuidor</span>

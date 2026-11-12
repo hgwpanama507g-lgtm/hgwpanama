@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ShoppingBag, Menu, X, Phone } from 'lucide-react';
 import { Link, useRouter } from '../router';
+import { getAffiliationWhatsAppUrl } from '../utils/whatsapp';
 
 interface NavbarProps {
   cartCount: number;
@@ -64,7 +65,12 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart }) => {
           <div className="flex items-center gap-3 shrink-0">
             {/* WhatsApp direct callout */}
             <a
-              href="https://wa.me/50767788375?text=Hola%20HGW%20Panam%C3%A1%2C%20deseo%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20productos."
+              href={getAffiliationWhatsAppUrl()}
+              onClick={(e) => {
+                if (typeof window !== 'undefined') {
+                  e.currentTarget.href = getAffiliationWhatsAppUrl(window.location.href);
+                }
+              }}
               target="_blank"
               rel="noopener noreferrer"
               className="hidden sm:flex items-center gap-2 px-3.5 py-2 text-xs font-bold text-white bg-[#00A550] hover:bg-[#008f44] rounded-xl shadow-xs transition-all whitespace-nowrap active:scale-95"
@@ -122,13 +128,18 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart }) => {
             })}
             <div className="mt-3 pt-3 border-t border-stone-100 flex flex-col gap-2">
               <a
-                href="https://wa.me/50767788375?text=Hola%20HGW%20Panam%C3%A1%2C%20deseo%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20productos."
+                href={getAffiliationWhatsAppUrl()}
+                onClick={(e) => {
+                  if (typeof window !== 'undefined') {
+                    e.currentTarget.href = getAffiliationWhatsAppUrl(window.location.href);
+                  }
+                }}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 px-4 py-3 text-sm font-bold text-white bg-[#00A550] hover:bg-[#008f44] rounded-xl transition-colors"
               >
                 <Phone className="w-4 h-4" />
-                <span>WhatsApp (+507 6778-8375)</span>
+                <span>WhatsApp Distribuidor (+507 6778-8375)</span>
               </a>
             </div>
           </div>

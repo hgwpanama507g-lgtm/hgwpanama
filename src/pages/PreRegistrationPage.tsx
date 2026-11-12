@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShieldCheck, MailCheck, Send, Phone, MapPin, Clock, Truck, Building2, Package, Sparkles, Check, AlertCircle } from 'lucide-react';
+import { ShieldCheck, MailCheck, Send, Phone, MapPin, Clock, Truck, Building2, Package, Sparkles, Check, AlertCircle, ShieldAlert } from 'lucide-react';
 import { MEMBERSHIP_PLANS } from '../data/products';
 import { Link } from '../router';
 
@@ -129,6 +129,17 @@ export const PreRegistrationPage: React.FC = () => {
               </p>
             </div>
           </div>
+        </div>
+
+        {/* Notice for already registered members */}
+        <div className="mb-8 p-4 sm:p-5 bg-amber-50/90 border border-amber-300 rounded-2xl text-xs space-y-1.5 shadow-2xs">
+          <div className="flex items-center gap-2 font-black text-amber-950 text-sm">
+            <ShieldAlert className="w-4 h-4 text-amber-700 shrink-0" />
+            <span>Aclaración Importante para Socios ya Afiliados a HGW</span>
+          </div>
+          <p className="text-stone-800 leading-relaxed font-normal">
+            Este formulario y el canal de WhatsApp publicado corresponden a un <strong>Distribuidor Independiente</strong> para nuevas afiliaciones, compras preferenciales y pedidos de nuevos prospectos. <strong>Si usted ya es socio registrado de HGW</strong>, debe comunicarse directamente con su <strong>patrocinador</strong> o llamar al teléfono oficial de las oficinas corporativas principales en Panamá: <strong className="text-black">+507 392-8415</strong> para recibir soporte en su código o pedidos.
+          </p>
         </div>
 
         {/* Main Registration Form */}

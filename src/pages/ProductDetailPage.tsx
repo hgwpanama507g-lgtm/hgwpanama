@@ -39,8 +39,9 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug, onAd
     setTimeout(() => setAddedToast(false), 2500);
   };
 
+  const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
   const whatsappOrderText = encodeURIComponent(
-    `Hola HGW Panamá, deseo comprar ${quantity} unidad(es) de "${product.name}" (Total: $${(product.price * quantity).toFixed(2)} USD). ¿Cómo coordinamos la entrega en Panamá?`
+    `¡Hola! Estaba visitando tu tienda online (${currentUrl}) y deseo consultar o comprar ${quantity} unidad(es) de "${product.name}" (Total: $${(product.price * quantity).toFixed(2)} USD). Mi nombre es: `
   );
   const whatsappUrl = `https://wa.me/50767788375?text=${whatsappOrderText}`;
 
@@ -183,12 +184,17 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug, onAd
                 className="w-full py-3.5 px-6 bg-[#00A550] hover:bg-[#008f44] text-white text-sm sm:text-base font-bold rounded-xl flex items-center justify-center gap-2.5 transition-all shadow-md active:scale-95 text-center"
               >
                 <Phone className="w-5 h-5" />
-                <span>Pedir directo por WhatsApp (+507 6778-8375)</span>
+                <span>Pedir por WhatsApp al Distribuidor (+507 6778-8375)</span>
               </a>
 
-              <p className="text-xs text-stone-500 text-center">
-                Entregas rápidas en Ciudad de Panamá, Panamá Oeste y envíos al interior del país.
-              </p>
+              <div className="pt-1 text-[11px] text-stone-500 text-center leading-snug space-y-1">
+                <p>
+                  Atención directa de <strong>Distribuidor Independiente</strong> en Panamá para compras y consultas de clientes.
+                </p>
+                <p className="text-stone-600 font-medium">
+                  ¿Ya eres socio registrado de HGW? Comunícate con tu patrocinador o a oficinas principales: <strong className="text-black">+507 392-8415</strong>.
+                </p>
+              </div>
             </div>
 
             {/* Benefits section */}

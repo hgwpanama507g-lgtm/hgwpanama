@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { CheckCircle2, TrendingUp, DollarSign, Award, ShieldCheck, ArrowRight, Phone, Send, Sparkles, Users, Package, Truck, Lock, MailCheck } from 'lucide-react';
+import { CheckCircle2, TrendingUp, DollarSign, Award, ShieldCheck, ArrowRight, Phone, Send, Sparkles, Users, Package, Truck, Lock, MailCheck, ShieldAlert } from 'lucide-react';
 import { MEMBERSHIP_PLANS } from '../data/products';
 import { Link } from '../router';
+import { getAffiliationWhatsAppUrl } from '../utils/whatsapp';
 
 export const BusinessOpportunityPage: React.FC = () => {
   // Preregistration Form State
@@ -108,15 +109,34 @@ export const BusinessOpportunityPage: React.FC = () => {
                 Formulario Oficial de Pre-Registro
               </Link>
               <a
-                href="https://wa.me/50767788375?text=Hola%20Yamilka%2C%20deseo%20m%C3%A1s%20detalles%20sobre%20c%C3%B3mo%20ganar%20hasta%20el%2052%25%20con%20la%20Membres%C3%ADa%20Master%20de%20HGW."
+                href={getAffiliationWhatsAppUrl()}
+                onClick={(e) => {
+                  if (typeof window !== 'undefined') {
+                    e.currentTarget.href = getAffiliationWhatsAppUrl(window.location.href);
+                  }
+                }}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-3.5 bg-[#004d3c]/60 hover:bg-[#004d3c] text-white font-bold text-sm rounded-xl border border-white/20 transition-all flex items-center justify-center gap-2"
+                className="px-6 py-3.5 bg-[#004d3c]/60 hover:bg-[#004d3c] text-white font-bold text-sm rounded-xl border border-white/20 transition-all flex items-center justify-center gap-2 active:scale-95"
               >
                 <Phone className="w-4 h-4 text-emerald-300" />
                 <span>Asesoría 1 a 1 por WhatsApp</span>
               </a>
             </div>
+          </div>
+        </div>
+
+        {/* Notice for already registered partners */}
+        <div className="mb-14 p-4 sm:p-5 bg-amber-50/90 border border-amber-300 rounded-2xl text-xs space-y-1.5 shadow-2xs">
+          <div className="flex items-center gap-2 font-black text-amber-950 text-sm">
+            <ShieldAlert className="w-4 h-4 text-amber-700 shrink-0" />
+            <span>Aclaración Importante: Canales de Atención para Distribuidores y Socios</span>
+          </div>
+          <p className="text-stone-800 leading-relaxed font-normal">
+            El número de WhatsApp <strong className="text-black">+507 6778-8375</strong> es operado de manera independiente por distribuidores autorizados de HGW en Panamá para responder dudas de productos, ventas y guiar a nuevas personas en su afiliación. <em>No es una línea oficial ni corporativa de la empresa HGW.</em>
+          </p>
+          <div className="pt-1.5 border-t border-amber-200 text-stone-900">
+            <strong>¿Ya eres socio registrado de HGW?</strong> Si ya estás activo como socio, debes comunicarte directamente con tu <strong>patrocinador</strong> o llamar al teléfono oficial de las oficinas principales en Ciudad de Panamá: <strong className="text-black">+507 392-8415</strong> para soporte sobre tu código o pedidos.
           </div>
         </div>
 

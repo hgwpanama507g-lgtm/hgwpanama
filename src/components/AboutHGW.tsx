@@ -1,6 +1,7 @@
 import React from 'react';
 import { Award, ShieldCheck, HeartHandshake, Phone, Mail, CheckCircle2, Globe, Building2 } from 'lucide-react';
 import { CERTIFICATIONS } from '../data/products';
+import { getAffiliationWhatsAppUrl } from '../utils/whatsapp';
 
 export const DIRECT_SALES_ASSOCIATIONS = [
   {
@@ -152,18 +153,34 @@ export const AboutHGW: React.FC = () => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                 <a
-                  href="https://wa.me/50767788375?text=Hola%20Yamilka%2C%20deseo%20m%C3%A1s%20informaci%C3%B3n%20sobre%20los%20productos%20HGW."
+                  href={getAffiliationWhatsAppUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 text-sm text-stone-800 hover:text-[#00795F] bg-white p-3.5 rounded-xl border border-stone-200 shadow-2xs transition-colors"
                 >
                   <Phone className="w-5 h-5 text-[#00A550] shrink-0" />
-                  <span>WhatsApp: <strong className="text-black font-extrabold">+507 6778-8375</strong></span>
+                  <div>
+                    <span className="text-xs text-stone-500 block">WhatsApp Distribuidor Independiente</span>
+                    <strong className="text-black font-extrabold text-sm sm:text-base">+507 6778-8375</strong>
+                  </div>
                 </a>
                 <div className="flex items-center gap-3 text-sm text-stone-800 bg-white p-3.5 rounded-xl border border-stone-200 shadow-2xs">
                   <Mail className="w-5 h-5 text-[#00A550] shrink-0" />
-                  <span>Email: <strong className="text-black font-extrabold">hgwpanama507g@gmail.com</strong></span>
+                  <div>
+                    <span className="text-xs text-stone-500 block">Correo para Pre-Registros</span>
+                    <strong className="text-black font-extrabold text-sm sm:text-base select-all">hgwpanama507g@gmail.com</strong>
+                  </div>
                 </div>
+              </div>
+
+              {/* Explicit Notice: Distributor WhatsApp vs Corporate Assistance */}
+              <div className="p-3.5 bg-white/90 border border-amber-200 rounded-2xl text-xs space-y-1.5 shadow-2xs">
+                <p className="text-stone-800 leading-relaxed">
+                  <strong className="text-amber-900 font-extrabold">Aclaración de Atención al Cliente:</strong> El número de WhatsApp publicado corresponde exclusivamente a la atención de un <strong>distribuidor independiente</strong> para consultas comerciales, pedidos y nuevos afiliados. <em>No es una línea oficial de la empresa HGW.</em>
+                </p>
+                <p className="text-stone-700 leading-relaxed font-medium">
+                  📌 <strong>¿Ya eres socio registrado de HGW?</strong> Si ya estás registrado como socio, por favor comunícate directamente con tu <strong>patrocinador</strong> o con el teléfono de las oficinas principales en Panamá: <strong className="text-black">+507 392-8415</strong> para recibir asistencia en tus pedidos internos o consultas de código.
+                </p>
               </div>
             </div>
 
@@ -209,46 +226,80 @@ export const AboutHGW: React.FC = () => {
           </div>
         </div>
 
-        {/* 2. SECTION: ASOCIACIONES DE VENTAS DIRECTAS (SEPARATE) */}
+        {/* 2. SECTION: ASOCIACIONES DE VENTAS DIRECTAS EN FORMATO GRID (MISMO ESTILO VISUAL DE PRODUCTOS) */}
         <div>
           <div className="text-center max-w-2xl mx-auto mb-10">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-bold uppercase mb-2">
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#00795F]/10 text-[#00795F] rounded-full text-xs font-black uppercase tracking-wider mb-2">
               <Building2 className="w-3.5 h-3.5" />
               <span>Ética y Transparencia Asociativa</span>
             </div>
-            <h3 className="text-2xl sm:text-3xl font-black text-black">
+            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-black tracking-tight">
               Asociaciones de Venta Directa
             </h3>
-            <p className="text-sm text-stone-700 mt-1.5 font-normal">
-              HGW y sus distribuidores independientes están respaldados por las cámaras y asociaciones de venta directa en Latinoamérica.
+            <p className="text-sm sm:text-base text-stone-700 mt-2 font-normal leading-relaxed">
+              HGW y sus distribuidores independientes operan bajo los más altos estándares éticos, respaldados por las cámaras y asociaciones de venta directa en Latinoamérica y el mundo.
             </p>
           </div>
 
+          {/* Grid structured exactly like the product cards section */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {DIRECT_SALES_ASSOCIATIONS.map((assoc, idx) => (
               <div
                 key={idx}
-                className="bg-stone-50 rounded-3xl p-6 border border-stone-200 flex flex-col justify-between hover:border-[#00795F] transition-all shadow-2xs"
+                className="group bg-white rounded-3xl border border-stone-200 hover:border-[#00795F] hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden relative isolate"
               >
-                <div>
-                  <div className="w-full h-32 bg-white rounded-2xl p-4 flex items-center justify-center border border-stone-100 mb-4">
-                    <img
-                      src={assoc.imageUrl}
-                      alt={assoc.name}
-                      referrerPolicy="no-referrer"
-                      className="max-h-full max-w-full object-contain"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = "https://media.academiahgw.online/wp-content/uploads/2026/11/hgw_logo.png";
-                      }}
-                    />
-                  </div>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-[11px] font-bold text-[#00795F] uppercase">{assoc.country}</span>
-                    <Globe className="w-3.5 h-3.5 text-stone-400" />
-                  </div>
-                  <h4 className="text-base font-extrabold text-black leading-snug mb-1.5">{assoc.name}</h4>
-                  <p className="text-xs sm:text-sm text-stone-700 leading-relaxed font-normal">{assoc.description}</p>
+                {/* Top Image Container with subtle hover zoom */}
+                <div className="relative aspect-16/10 w-full bg-stone-50 p-6 flex items-center justify-center overflow-hidden border-b border-stone-100 block isolate">
+                  <img
+                    src={assoc.imageUrl}
+                    alt={assoc.name}
+                    referrerPolicy="no-referrer"
+                    className="max-h-full max-w-full object-contain transform group-hover:scale-108 transition-transform duration-300 ease-out drop-shadow-xs"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = "https://media.academiahgw.online/wp-content/uploads/2026/11/hgw_logo.png";
+                    }}
+                  />
+
+                  {/* Country Flag / Jurisdiction Badge */}
+                  <span className="absolute top-3 left-3 bg-[#00795F] text-white text-[11px] font-black px-2.5 py-1 rounded-lg flex items-center gap-1.5 shadow-xs">
+                    <Globe className="w-3 h-3 text-[#00A550]" />
+                    <span>{assoc.country}</span>
+                  </span>
+
+                  {/* Certified Member Badge */}
+                  <span className="absolute top-3 right-3 bg-white/95 text-stone-800 text-[10px] font-extrabold px-2 py-0.5 rounded-md shadow-2xs border border-stone-200">
+                    Gremio Oficial
+                  </span>
                 </div>
+
+                {/* Card Body */}
+                <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between">
+                  <div>
+                    <div className="text-xs font-bold text-[#00795F] uppercase tracking-wider mb-1.5">
+                      Venta Directa Responsable
+                    </div>
+
+                    <h4 className="text-base sm:text-lg font-extrabold text-black group-hover:text-[#00795F] transition-colors leading-snug line-clamp-2">
+                      {assoc.name}
+                    </h4>
+
+                    <p className="text-xs sm:text-sm text-stone-700 mt-2.5 leading-relaxed font-normal">
+                      {assoc.description}
+                    </p>
+                  </div>
+
+                  {/* Card Footer Bar */}
+                  <div className="mt-5 pt-3.5 border-t border-stone-100 flex items-center justify-between text-xs">
+                    <span className="text-[#00795F] font-bold flex items-center gap-1.5">
+                      <ShieldCheck className="w-4 h-4 text-[#00A550]" />
+                      <span>Estándar Ético Vigente</span>
+                    </span>
+                    <span className="text-stone-500 font-semibold text-[11px]">
+                      {assoc.country === 'Global' ? 'Alcance Mundial' : `Sede ${assoc.country}`}
+                    </span>
+                  </div>
+                </div>
+
               </div>
             ))}
           </div>

@@ -205,8 +205,9 @@ export const Catalog: React.FC<CatalogProps> = ({ onAddToCart, isHomeView = fals
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
             {displayedProducts.map((product) => {
               const productUrl = `/producto/${product.slug}`;
+              const currentUrl = typeof window !== 'undefined' ? window.location.href : 'https://hgwpanama.com/productos';
               const whatsappOrderText = encodeURIComponent(
-                `Hola HGW Panamá, deseo ordenar el producto "${product.name}" (${product.priceFormatted}). ¿Tienen disponibilidad para entrega en Panamá?`
+                `¡Hola! Estaba visitando tu tienda online (${currentUrl}) y quería consultar o adquirir el producto "${product.name}" (${product.priceFormatted}). Mi nombre es:`
               );
               const whatsappLink = `https://wa.me/50767788375?text=${whatsappOrderText}`;
 

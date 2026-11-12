@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Phone, Mail, Clock, CheckCircle2, Send, FileText, ArrowRight, MapPin } from 'lucide-react';
+import { Phone, Mail, Clock, CheckCircle2, Send, FileText, ArrowRight, MapPin, ShieldAlert } from 'lucide-react';
 import { Link } from '../router';
+import { getAffiliationWhatsAppUrl } from '../utils/whatsapp';
 
 export const ContactSection: React.FC = () => {
   const [name, setName] = useState('');
@@ -9,11 +10,18 @@ export const ContactSection: React.FC = () => {
 
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
-    let text = `*CONSULTA DESDE LA WEB - HGW PANAMÁ*\n`;
-    if (name.trim()) text += `👤 *Nombre:* ${name.trim()}\n`;
-    text += `📌 *Asunto:* ${topic}\n`;
-    if (message.trim()) text += `💬 *Mensaje:* ${message.trim()}\n`;
-    text += `\n¿Podrían brindarme información adicional? Gracias.`;
+    const currentUrl = typeof window !== 'undefined' ? window.location.href : 'https://hgwpanama.com';
+    let text = '';
+    
+    if (topic === 'Afiliación y Membresías') {
+      text = `¡Hola! Estaba visitando tu tienda online (${currentUrl}) y quería preguntar sobre cómo afiliarse a HGW Panamá. Mi nombre es: ${name.trim() || ''}`;
+      if (message.trim()) text += `\nDetalles: ${message.trim()}`;
+    } else {
+      text = `¡Hola! Estaba visitando tu tienda online (${currentUrl})\n`;
+      if (name.trim()) text += `👤 Nombre: ${name.trim()}\n`;
+      text += `📌 Asunto: ${topic}\n`;
+      if (message.trim()) text += `💬 Mensaje: ${message.trim()}\n`;
+    }
 
     const encoded = encodeURIComponent(text);
     window.open(`https://wa.me/50767788375?text=${encoded}`, '_blank');
@@ -40,6 +48,20 @@ export const ContactSection: React.FC = () => {
               </p>
             </div>
 
+            {/* Differentiated Attention Notice for Registered Partners */}
+            <div className="p-4 bg-amber-50/90 border border-amber-300 rounded-2xl text-xs space-y-2 shadow-2xs">
+              <div className="flex items-center gap-2 text-amber-900 font-extrabold text-sm">
+                <ShieldAlert className="w-4 h-4 text-amber-700 shrink-0" />
+                <span>Aclaración Importante sobre Canales de Atención</span>
+              </div>
+              <p className="text-stone-800 leading-relaxed font-normal">
+                El número de WhatsApp <strong className="text-black">+507 6778-8375</strong> corresponde a un <strong>Distribuidor Independiente</strong> para atender consultas comerciales, pedidos y nuevos afiliados. <em>No es un número oficial corporativo de la empresa HGW.</em>
+              </p>
+              <div className="pt-2 border-t border-amber-200 text-stone-900">
+                <strong className="text-black">¿Ya eres socio registrado de HGW?</strong> Si ya cuentas con un código de socio en HGW, debes comunicarte directamente con tu <strong>patrocinador</strong> o llamar al teléfono oficial de las oficinas principales: <strong className="text-[#00795F] font-extrabold">+507 392-8415</strong> para asistencia sobre tus órdenes o trámites corporativos.
+              </div>
+            </div>
+
             <div className="space-y-4">
               
               {/* Main Office Address */}
@@ -56,14 +78,14 @@ export const ContactSection: React.FC = () => {
                     Provincia de PANAMÁ, Corregimiento de San Francisco.
                   </p>
                   <p className="text-xs font-bold text-[#00795F] mt-1.5 flex items-center gap-2">
-                    <span>Teléfono Oficina: <strong>+507 392-8415</strong></span>
+                    <span>Teléfono Oficina Principal: <strong>+507 392-8415</strong></span>
                   </p>
                 </div>
               </div>
 
               {/* WhatsApp Item */}
               <a
-                href="https://wa.me/50767788375?text=Hola%20HGW%20Panam%C3%A1%2C%20deseo%20comunicarme%20con%20un%20distribuidor%20independiente."
+                href={getAffiliationWhatsAppUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-5 bg-stone-50 hover:bg-emerald-50/70 rounded-2xl border border-stone-200 hover:border-[#00795F] transition-all flex items-start gap-4 group"
@@ -72,11 +94,11 @@ export const ContactSection: React.FC = () => {
                   <Phone className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-xs font-bold text-stone-500 uppercase tracking-wider">WhatsApp Distribuidor</h3>
+                  <h3 className="text-xs font-bold text-stone-500 uppercase tracking-wider">WhatsApp Distribuidor Independiente</h3>
                   <p className="text-lg font-black text-black group-hover:text-[#00795F] transition-colors tabular-nums">
                     +507 6778-8375
                   </p>
-                  <p className="text-xs sm:text-sm text-stone-600 mt-0.5">Atención directa para pedidos, consultas y membresías</p>
+                  <p className="text-xs sm:text-sm text-stone-600 mt-0.5">Atención directa para cotizaciones, ventas y nuevas afiliaciones</p>
                 </div>
               </a>
 

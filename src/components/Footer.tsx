@@ -91,16 +91,20 @@ export const Footer: React.FC = () => {
               </p>
               <p className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-[#00A550] shrink-0" />
-                <span>Teléfono Oficina: <strong className="text-white font-bold">+507 392-8415</strong></span>
+                <span>Oficina Principal: <strong className="text-white font-bold">+507 392-8415</strong> (Atención Corporativa)</span>
               </p>
               <p className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>WhatsApp: <strong className="text-white font-bold">+507 6778-8375</strong></span>
+                <span>WhatsApp Distribuidor: <strong className="text-white font-bold">+507 6778-8375</strong></span>
               </p>
               <p className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-[#00A550] shrink-0" />
                 <span>Email: <strong className="text-white font-bold select-all">hgwpanama507g@gmail.com</strong></span>
               </p>
+              <div className="p-2.5 bg-stone-800 rounded-xl border border-stone-700/80 text-[11px] text-stone-300 leading-snug">
+                <strong className="text-emerald-400 font-bold block mb-0.5">Soporte a Socios Registrados:</strong>
+                Si ya es socio activo de HGW, debe comunicarse directamente con su <em>patrocinador</em> o con el teléfono corporativo <strong>+507 392-8415</strong>. El WhatsApp de este sitio corresponde a distribuidores independientes.
+              </div>
               <p className="pt-1 text-xs text-stone-400 leading-relaxed">
                 Horario: Lun - Vie 9:00 am a 6:00 pm | Sáb 9:00 am a 1:00 pm. Envíos por Servientrega a todo Panamá.
               </p>
