@@ -12,6 +12,28 @@ export interface DocumentItem {
 
 export const HGW_DOCUMENTS: DocumentItem[] = [
   {
+    id: 'doc-01',
+    slug: 'catalogo-productos-hgw-panama-2026',
+    title: 'Catálogo Oficial de Productos HGW Panamá 2026',
+    category: 'cafes-bebidas',
+    categoryLabel: 'Catálogos y Listados',
+    url: 'https://media.academiahgw.online/wp-content/uploads/2026/11/CATALOGO-PANAMA-2026_compressed-2toalla.pdf',
+    description: 'Catálogo completo y actualizado con toda la línea de productos disponibles para el mercado panameño este 2026.',
+    size: '8.4 MB',
+    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/CATALOGO_PANAMA_2026_pagina1.png'
+  },
+  {
+    id: 'doc-02',
+    slug: 'listado-de-precios-hgw-panama-2026',
+    title: 'Listado de Precios Oficial HGW Panamá 2026',
+    category: 'planes',
+    categoryLabel: 'Catálogos y Listados',
+    url: 'https://media.academiahgw.online/wp-content/uploads/2026/11/lp-1.pdf',
+    description: 'Referencia oficial de precios al público y precios de distribuidor para todos los productos en Panamá.',
+    size: '1.2 MB',
+    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/Listado-de-precios-HGW-Panama-2026.png'
+  },
+  {
     id: 'doc-12',
     slug: 'cordyceps-hgw-ficha-tecnica',
     title: '12. Cordyceps HGW - Ficha Técnica y Beneficios',
