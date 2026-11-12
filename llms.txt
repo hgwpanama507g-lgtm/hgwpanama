@@ -1,0 +1,23 @@
+# HGW Panamá
+
+> Sitio de distribuidores independientes de Health Green World (HGW) en Panamá. Ofrece el catálogo de productos con precios oficiales, planes de membresía, información sobre la oportunidad de negocio, pre-registro y documentos PDF oficiales. No es el sitio corporativo de HGW.
+
+## Páginas principales
+
+- [Inicio](https://www.hgwpanama.com/): Presentación del sitio y accesos principales.
+- [Productos](https://www.hgwpanama.com/productos): Catálogo de 56 productos con precios, presentación y ficha técnica.
+- [Membresías](https://www.hgwpanama.com/membresias): Planes de afiliación Pre-Junior, Junior, Senior y Master.
+- [Oportunidad de negocio](https://www.hgwpanama.com/oportunidad-de-negocio): Plan de compensación para distribuidores independientes.
+- [Pre-registro](https://www.hgwpanama.com/preregistro): Información y pasos para afiliarse en Panamá.
+
+## Documentos y contacto
+
+- [Documentos PDF](https://www.hgwpanama.com/documentos): Biblioteca de catálogos, listado de precios y fichas técnicas oficiales.
+- [Catálogo oficial 2026](https://www.hgwpanama.com/documentos/catalogo-productos-hgw-panama-2026): Catálogo completo de productos para Panamá.
+- [Listado de precios 2026](https://www.hgwpanama.com/documentos/listado-de-precios-hgw-panama-2026): Precios oficiales en Panamá.
+- [Directorio de oficinas](https://www.hgwpanama.com/oficinas): Oficinas y datos de contacto.
+- [Contacto](https://www.hgwpanama.com/contacto): Formas de comunicarse y preguntas frecuentes.
+
+## Opcional
+
+- [Mapa del sitio](https://www.hgwpanama.com/sitemap.xml): Lista de todas las páginas del sitio.
