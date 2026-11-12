@@ -134,51 +134,56 @@ export const DocumentsPage: React.FC = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredDocs.map((doc) => (
-              <div
-                key={doc.id}
-                className="bg-white rounded-3xl border border-stone-200 hover:border-[#00795F] hover:shadow-xl transition-all duration-300 p-6 flex flex-col justify-between group"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="px-3 py-1 bg-emerald-50 text-[#00795F] text-xs font-bold rounded-lg border border-emerald-200">
-                      {doc.categoryLabel}
-                    </span>
-                    <span className="text-xs font-mono font-bold text-stone-500 bg-stone-100 px-2 py-0.5 rounded-md">
-                      PDF ({doc.size})
-                    </span>
+            {filteredDocs.map((doc) => {
+              const docDetailPageUrl = `/documentos/${doc.id}`;
+              return (
+                <div
+                  key={doc.id}
+                  className="bg-white rounded-3xl border border-stone-200 hover:border-[#00795F] hover:shadow-xl transition-all duration-300 p-6 flex flex-col justify-between group"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="px-3 py-1 bg-emerald-50 text-[#00795F] text-xs font-bold rounded-lg border border-emerald-200">
+                        {doc.categoryLabel}
+                      </span>
+                      <span className="text-xs font-mono font-bold text-stone-500 bg-stone-100 px-2 py-0.5 rounded-md">
+                        PDF ({doc.size})
+                      </span>
+                    </div>
+
+                    <h3 className="text-base sm:text-lg font-black text-black group-hover:text-[#00795F] transition-colors leading-snug mb-2">
+                      <Link to={docDetailPageUrl} title={doc.title}>
+                        {doc.title}
+                      </Link>
+                    </h3>
+
+                    <p className="text-xs sm:text-sm text-stone-700 leading-relaxed font-normal">
+                      {doc.description}
+                    </p>
                   </div>
 
-                  <h3 className="text-base sm:text-lg font-black text-black group-hover:text-[#00795F] transition-colors leading-snug mb-2">
-                    {doc.title}
-                  </h3>
+                  <div className="mt-6 pt-4 border-t border-stone-100 grid grid-cols-2 gap-2">
+                    <Link
+                      to={docDetailPageUrl}
+                      className="py-2.5 px-3 bg-stone-100 hover:bg-stone-200 text-black text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5 text-center"
+                    >
+                      <Eye className="w-4 h-4 text-[#00795F]" />
+                      <span>Ver Ficha</span>
+                    </Link>
 
-                  <p className="text-xs sm:text-sm text-stone-700 leading-relaxed font-normal">
-                    {doc.description}
-                  </p>
+                    <a
+                      href={doc.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="py-2.5 px-3 bg-[#00795F] hover:bg-[#004d3c] text-white text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5 shadow-xs"
+                    >
+                      <Download className="w-4 h-4" />
+                      <span>Descargar</span>
+                    </a>
+                  </div>
                 </div>
-
-                <div className="mt-6 pt-4 border-t border-stone-100 grid grid-cols-2 gap-2">
-                  <button
-                    onClick={() => setPreviewDoc(doc)}
-                    className="py-2.5 px-3 bg-stone-100 hover:bg-stone-200 text-black text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5"
-                  >
-                    <Eye className="w-4 h-4 text-[#00795F]" />
-                    <span>Vista Previa</span>
-                  </button>
-
-                  <a
-                    href={doc.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="py-2.5 px-3 bg-[#00795F] hover:bg-[#004d3c] text-white text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5 shadow-xs"
-                  >
-                    <Download className="w-4 h-4" />
-                    <span>Descargar</span>
-                  </a>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
 

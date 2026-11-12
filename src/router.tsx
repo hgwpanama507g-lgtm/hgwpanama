@@ -11,6 +11,7 @@ const RouterContext = createContext<RouterContextType>({
 });
 
 import { PRODUCTS } from './data/products';
+import { HGW_DOCUMENTS } from './data/documents';
 
 export const getPageTitle = (pathname: string): string => {
   const cleanPath = pathname.replace(/\/$/, '') || '/inicio';
@@ -47,6 +48,15 @@ export const getPageTitle = (pathname: string): string => {
   const product = PRODUCTS.find((p) => p.slug === productSlug || p.id === productSlug);
   if (product) {
     return product.name;
+  }
+
+  // Check document paths: /documentos/:id
+  if (cleanPath.startsWith('/documentos/')) {
+    const docId = cleanPath.replace('/documentos/', '');
+    const foundDoc = HGW_DOCUMENTS.find((d) => d.id === docId || d.url.includes(docId));
+    if (foundDoc) {
+      return foundDoc.title;
+    }
   }
 
   return 'Distribuidores Independientes';

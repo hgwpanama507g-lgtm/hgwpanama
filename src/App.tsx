@@ -14,8 +14,10 @@ import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { ProductDetailPage } from './pages/ProductDetailPage';
 import { BusinessOpportunityPage } from './pages/BusinessOpportunityPage';
 import { DocumentsPage } from './pages/DocumentsPage';
+import { DocumentDetailPage } from './pages/DocumentDetailPage';
 import { PreRegistrationPage } from './pages/PreRegistrationPage';
 import { Product, PRODUCTS } from './data/products';
+import { HGW_DOCUMENTS } from './data/documents';
 
 function AppContent() {
   const { currentPath } = useRouter();
@@ -111,9 +113,13 @@ function AppContent() {
       return <PreRegistrationPage />;
     }
 
-    // 6. PDF Documents Library Page (/documentos or /documentos-pdf)
+    // 6. PDF Documents Library or Individual Document Detail Page
     if (currentPath === '/documentos' || currentPath === '/documentos-pdf') {
       return <DocumentsPage />;
+    }
+    if (currentPath.startsWith('/documentos/')) {
+      const docId = currentPath.replace('/documentos/', '').split('?')[0].split('#')[0];
+      return <DocumentDetailPage id={docId} />;
     }
 
     // 7. Contact Page (/contacto)
