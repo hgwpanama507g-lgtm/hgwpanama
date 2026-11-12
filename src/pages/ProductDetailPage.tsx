@@ -1,7 +1,7 @@
 import React from 'react';
 import { PRODUCTS } from '../data/products';
 import { Link } from '../router';
-import { ArrowLeft, AlertTriangle, Check, Sparkles, ArrowRight } from 'lucide-react';
+import { AlertTriangle, Check, Sparkles, ArrowRight, ShieldCheck, Clock, Package, Hash, Award } from 'lucide-react';
 import { getAffiliationWhatsAppUrl } from '../utils/whatsapp';
 import { renderWithHGWLinks } from '../utils/hgwLinker';
 
@@ -10,7 +10,7 @@ interface ProductDetailPageProps {
 }
 
 export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) => {
-  const product = PRODUCTS.find((p) => p.slug === slug || p.id === slug);
+  const product = PRODUCTS.find((p) => p.slug === slug || p.id === slug || p.code === slug);
 
   if (!product) {
     return (
@@ -21,7 +21,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
     );
   }
 
-  const [activeTab, setActiveTab] = React.useState<'description' | 'details' | 'usage'>('description');
+  const [activeTab, setActiveTab] = React.useState<'description' | 'advantages' | 'details' | 'usage'>('description');
   const whatsappUrl = getAffiliationWhatsAppUrl(typeof window !== 'undefined' ? window.location.href : undefined);
 
   // Related products based on category
@@ -39,7 +39,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
           <span className="text-stone-300">/</span>
           <Link to="/productos" className="hover:text-[#00795F] transition-colors font-bold">{product.categoryLabel}</Link>
           <span className="text-stone-300">/</span>
-          <span className="text-stone-900 font-black truncate">{renderWithHGWLinks(product.name)}</span>
+          <span className="text-stone-900 font-black truncate">{product.name}</span>
         </nav>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
@@ -57,8 +57,13 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
 
           {/* Right Column: Product Summary */}
           <div className="lg:col-span-6 flex flex-col">
-            <div className="mb-2">
+            <div className="flex items-center gap-3 mb-2">
               <span className="text-xs font-black text-[#00795F] uppercase tracking-[0.2em]">{product.categoryLabel}</span>
+              {product.code && (
+                <span className="text-xs font-bold bg-stone-100 text-stone-600 px-2.5 py-0.5 rounded-md flex items-center gap-1">
+                  <Hash className="w-3 h-3 text-[#00795F]" /> Código: {product.code}
+                </span>
+              )}
             </div>
             <h1 className="text-[35px] font-black text-black mb-4 leading-tight">
               {renderWithHGWLinks(product.name)}
@@ -79,30 +84,49 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
               )}
             </div>
 
-            <p className="text-stone-700 text-[18px] leading-relaxed mb-8 font-medium">
+            <p className="text-stone-700 text-[18px] leading-relaxed mb-6 font-medium">
               {renderWithHGWLinks(product.shortDescription)}
             </p>
 
-            <div className="space-y-4 mb-10">
-              {product.presentation && (
-                <div className="flex items-center gap-3">
-                  <span className="text-xs font-bold text-stone-400 uppercase w-28 shrink-0">Presentación:</span>
-                  <span className="text-stone-800 font-bold text-[17px]">{renderWithHGWLinks(product.presentation)}</span>
+            {/* Specifications & Highlights Box */}
+            <div className="bg-stone-50 p-5 rounded-2xl border border-stone-200/80 mb-8 space-y-3">
+              {product.netContent && (
+                <div className="flex items-center gap-3 text-sm">
+                  <span className="text-xs font-bold text-stone-400 uppercase w-32 shrink-0 flex items-center gap-1.5">
+                    <Package className="w-3.5 h-3.5 text-[#00795F]" /> Contenido neto:
+                  </span>
+                  <span className="text-stone-800 font-bold text-[15px]">{product.netContent}</span>
                 </div>
               )}
-              <div className="flex items-center gap-3">
-                <span className="text-xs font-bold text-stone-400 uppercase w-28 shrink-0">Categoría:</span>
-                <Link to="/productos" className="text-[#00795F] font-black hover:underline text-[17px]">{product.categoryLabel}</Link>
+              {product.presentation && (
+                <div className="flex items-center gap-3 text-sm">
+                  <span className="text-xs font-bold text-stone-400 uppercase w-32 shrink-0 flex items-center gap-1.5">
+                    <Award className="w-3.5 h-3.5 text-[#00795F]" /> Presentación:
+                  </span>
+                  <span className="text-stone-800 font-bold text-[15px]">{product.presentation}</span>
+                </div>
+              )}
+              {product.shelfLife && (
+                <div className="flex items-center gap-3 text-sm">
+                  <span className="text-xs font-bold text-stone-400 uppercase w-32 shrink-0 flex items-center gap-1.5">
+                    <Clock className="w-3.5 h-3.5 text-[#00795F]" /> Vida útil:
+                  </span>
+                  <span className="text-stone-800 font-bold text-[15px]">{product.shelfLife}</span>
+                </div>
+              )}
+              <div className="flex items-center gap-3 text-sm">
+                <span className="text-xs font-bold text-stone-400 uppercase w-32 shrink-0">Categoría:</span>
+                <Link to="/productos" className="text-[#00795F] font-black hover:underline text-[15px]">{product.categoryLabel}</Link>
               </div>
             </div>
 
             {/* Action Area */}
-            <div className="pt-8 border-t border-stone-100 mt-auto">
-              <div className="bg-amber-50 border-l-4 border-amber-500 p-5 mb-8 rounded-r-2xl shadow-sm">
-                <div className="flex items-center text-amber-900 font-black mb-1 text-[17px]">
+            <div className="pt-4 border-t border-stone-100 mt-auto">
+              <div className="bg-amber-50 border-l-4 border-amber-500 p-5 mb-6 rounded-r-2xl shadow-sm">
+                <div className="flex items-center text-amber-900 font-black mb-1 text-[16px]">
                   <AlertTriangle className="mr-2 w-5 h-5 shrink-0" /> Aviso de Pedido
                 </div>
-                <p className="text-[17px] text-amber-800 leading-relaxed font-medium">
+                <p className="text-[15px] text-amber-800 leading-relaxed font-medium">
                   Por favor, consulte y confirme la disponibilidad del producto vía WhatsApp antes de realizar su pedido oficial.
                 </p>
               </div>
@@ -121,26 +145,36 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
 
         {/* WooCommerce Style Tabs Section */}
         <div className="border-t border-stone-200 pt-12">
-          <div className="flex flex-wrap gap-8 border-b border-stone-200 mb-10">
+          <div className="flex flex-wrap gap-4 sm:gap-8 border-b border-stone-200 mb-10 overflow-x-auto">
             <button
               onClick={() => setActiveTab('description')}
-              className={`pb-4 text-sm font-black uppercase tracking-widest transition-all relative ${
+              className={`pb-4 text-sm font-black uppercase tracking-widest transition-all relative whitespace-nowrap ${
                 activeTab === 'description' ? 'text-black border-b-2 border-[#00795F]' : 'text-stone-400 hover:text-black'
               }`}
             >
-              Descripción
+              Descripción y Beneficios
             </button>
+            {product.advantages && product.advantages.length > 0 && (
+              <button
+                onClick={() => setActiveTab('advantages')}
+                className={`pb-4 text-sm font-black uppercase tracking-widest transition-all relative whitespace-nowrap ${
+                  activeTab === 'advantages' ? 'text-black border-b-2 border-[#00795F]' : 'text-stone-400 hover:text-black'
+                }`}
+              >
+                Ventajas
+              </button>
+            )}
             <button
               onClick={() => setActiveTab('details')}
-              className={`pb-4 text-sm font-black uppercase tracking-widest transition-all relative ${
+              className={`pb-4 text-sm font-black uppercase tracking-widest transition-all relative whitespace-nowrap ${
                 activeTab === 'details' ? 'text-black border-b-2 border-[#00795F]' : 'text-stone-400 hover:text-black'
               }`}
             >
-              Ingredientes
+              Ingredientes y Ficha
             </button>
             <button
               onClick={() => setActiveTab('usage')}
-              className={`pb-4 text-sm font-black uppercase tracking-widest transition-all relative ${
+              className={`pb-4 text-sm font-black uppercase tracking-widest transition-all relative whitespace-nowrap ${
                 activeTab === 'usage' ? 'text-black border-b-2 border-[#00795F]' : 'text-stone-400 hover:text-black'
               }`}
             >
@@ -151,15 +185,41 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
           <div className="max-w-4xl min-h-[300px]">
             {activeTab === 'description' && (
               <div className="animate-fade-in space-y-8">
+                {product.description && (
+                  <div>
+                    <h2 className="text-[26px] font-black text-black mb-4">Descripción del Producto</h2>
+                    <p className="text-[17px] text-stone-700 leading-relaxed font-medium bg-stone-50 p-6 rounded-3xl border border-stone-100">
+                      {renderWithHGWLinks(product.description)}
+                    </p>
+                  </div>
+                )}
                 <div>
-                  <h2 className="text-[30px] font-black text-black mb-6">Beneficios Principales</h2>
+                  <h2 className="text-[26px] font-black text-black mb-6">Beneficios Principales</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {product.benefits.map((b, i) => (
                       <div key={i} className="flex items-start gap-4 p-5 bg-stone-50 rounded-2xl border border-stone-100 hover:border-[#00A550]/30 transition-colors">
                         <div className="mt-1 w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
                           <Check className="w-4 h-4 text-[#00A550]" />
                         </div>
-                        <p className="text-[17px] text-stone-800 leading-relaxed font-bold">{renderWithHGWLinks(b)}</p>
+                        <p className="text-[16px] text-stone-800 leading-relaxed font-bold">{renderWithHGWLinks(b)}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'advantages' && product.advantages && (
+              <div className="animate-fade-in space-y-6">
+                <div>
+                  <h2 className="text-[26px] font-black text-black mb-6">Ventajas Destacadas</h2>
+                  <div className="space-y-3">
+                    {product.advantages.map((adv, i) => (
+                      <div key={i} className="flex items-start gap-4 p-5 bg-emerald-50/60 rounded-2xl border border-emerald-100">
+                        <div className="mt-1 w-6 h-6 rounded-full bg-[#00795F] text-white flex items-center justify-center shrink-0 text-xs font-bold">
+                          ✓
+                        </div>
+                        <p className="text-[16px] text-emerald-950 font-bold leading-relaxed">{renderWithHGWLinks(adv)}</p>
                       </div>
                     ))}
                   </div>
@@ -168,22 +228,33 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
             )}
 
             {activeTab === 'details' && (
-              <div className="animate-fade-in space-y-10">
+              <div className="animate-fade-in space-y-8">
                 <div>
-                  <h2 className="text-[30px] font-black text-black mb-6">Ficha de Ingredientes</h2>
+                  <h2 className="text-[26px] font-black text-black mb-6">Ficha de Ingredientes y Componentes</h2>
                   <div className="flex flex-wrap gap-3">
                     {product.ingredients?.map((ing, i) => (
-                      <div key={i} className="px-6 py-4 bg-emerald-50 text-[#00795F] font-black text-base rounded-2xl border border-emerald-100 flex items-center gap-3">
-                        <Sparkles className="w-5 h-5 text-[#00A550]" />
-                        {renderWithHGWLinks(ing)}
+                      <div key={i} className="px-5 py-3.5 bg-emerald-50 text-[#00795F] font-bold text-base rounded-2xl border border-emerald-100 flex items-center gap-3">
+                        <Sparkles className="w-4 h-4 text-[#00A550] shrink-0" />
+                        <span>{renderWithHGWLinks(ing)}</span>
                       </div>
                     )) || <p className="text-stone-500 italic">Información técnica disponible en el catálogo PDF.</p>}
                   </div>
                 </div>
+
+                {product.shelfLife && (
+                  <div className="p-5 bg-stone-50 rounded-2xl border border-stone-200 flex items-center gap-3">
+                    <Clock className="w-5 h-5 text-[#00795F]" />
+                    <span className="font-bold text-stone-900">Tiempo de vida útil:</span>
+                    <span className="text-stone-700">{product.shelfLife}</span>
+                  </div>
+                )}
+
                 {product.precautions && (
-                  <div className="pt-6 border-t border-stone-100">
-                    <h3 className="text-[22px] font-black text-black mb-4">Precauciones</h3>
-                    <p className="text-[17px] text-stone-600 leading-relaxed italic bg-stone-50 p-6 rounded-3xl border border-dashed border-stone-200">
+                  <div className="pt-4 border-t border-stone-100">
+                    <h3 className="text-[20px] font-black text-black mb-3 flex items-center gap-2">
+                      <ShieldCheck className="w-5 h-5 text-amber-600" /> Precauciones y Advertencias
+                    </h3>
+                    <p className="text-[16px] text-stone-700 leading-relaxed bg-amber-50/60 p-6 rounded-3xl border border-amber-200/80">
                       {renderWithHGWLinks(product.precautions)}
                     </p>
                   </div>
@@ -193,14 +264,14 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
 
             {activeTab === 'usage' && (
               <div className="animate-fade-in space-y-6">
-                <h2 className="text-[30px] font-black text-black mb-6">¿Cómo utilizar este producto?</h2>
-                <div className="bg-[#00795F] text-white p-10 rounded-[3rem] shadow-2xl relative overflow-hidden group">
+                <h2 className="text-[26px] font-black text-black mb-6">Modo de Uso e Instrucciones</h2>
+                <div className="bg-[#00795F] text-white p-8 sm:p-10 rounded-[2.5rem] shadow-xl relative overflow-hidden group">
                   <div className="absolute -top-10 -right-10 p-8 opacity-10 transform group-hover:scale-110 transition-transform duration-700">
                     <Check className="w-64 h-64" />
                   </div>
-                  <p className="text-[20px] leading-relaxed font-black relative z-10">
+                  <div className="text-[18px] sm:text-[19px] leading-relaxed font-bold relative z-10 whitespace-pre-line space-y-3">
                     {renderWithHGWLinks(product.usage || "Consulte la ficha técnica oficial para instrucciones detalladas o contacte a un distribuidor autorizado.")}
-                  </p>
+                  </div>
                 </div>
               </div>
             )}
@@ -236,7 +307,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                   <div>
                     <span className="text-[11px] font-black text-[#00795F] uppercase tracking-wider block mb-1">{rel.categoryLabel}</span>
                     <h3 className="font-bold text-black text-sm sm:text-base line-clamp-2 group-hover:text-[#00795F] transition-colors mb-2">
-                      {renderWithHGWLinks(rel.name)}
+                      {rel.name}
                     </h3>
                     <p className="text-base font-black text-[#00795F] tabular-nums">{rel.priceFormatted}</p>
                   </div>
@@ -254,10 +325,10 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
             <p className="text-stone-400 text-[18px] font-medium">Acceda a la biblioteca técnica oficial para descargar el PDF detallado.</p>
           </div>
           <Link 
-            to="/documentos" 
-            className="px-12 py-5 bg-[#00795F] hover:bg-[#00A550] text-white font-black text-lg rounded-2xl shadow-lg transition-all active:scale-95 whitespace-nowrap relative z-10"
+            to={`/documentos/${product.documentSlug || 'catalogo-productos-hgw-panama-2026'}`}
+            className="px-12 py-5 bg-[#00795F] hover:bg-[#00A550] text-white font-black text-lg rounded-2xl shadow-lg transition-all active:scale-95 whitespace-nowrap relative z-10 flex items-center gap-3"
           >
-            IR A DOCUMENTOS PDF
+            <span>VER FICHA TÉCNICA EN PDF</span>
           </Link>
         </div>
 
