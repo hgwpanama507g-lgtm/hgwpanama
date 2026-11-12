@@ -17,12 +17,18 @@ export const DocumentDetailPage: React.FC<DocumentDetailPageProps> = ({ id }) =>
     ? HGW_DOCUMENTS.filter((d) => d.category === doc.category && d.id !== doc.id).slice(0, 3)
     : [];
 
+  const viewerRef = React.useRef<HTMLDivElement>(null);
+
   const handleCopyLink = () => {
     if (typeof window !== 'undefined') {
       navigator.clipboard.writeText(window.location.href);
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
     }
+  };
+
+  const scrollToViewer = () => {
+    viewerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   if (!doc) {
@@ -104,16 +110,24 @@ export const DocumentDetailPage: React.FC<DocumentDetailPageProps> = ({ id }) =>
               </div>
             </div>
 
-            {/* Actions: Download & Share */}
+            {/* Actions: View & Download */}
             <div className="flex flex-col sm:flex-row lg:flex-col gap-3 shrink-0">
+              <button
+                onClick={scrollToViewer}
+                className="px-6 py-3.5 bg-[#00795F] hover:bg-[#004d3c] text-white font-black text-xs sm:text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 active:scale-95 text-center uppercase"
+              >
+                <Eye className="w-4 h-4" />
+                <span>VER PDF</span>
+              </button>
+
               <a
                 href={doc.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-3.5 bg-[#00795F] hover:bg-[#004d3c] text-white font-black text-xs sm:text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 active:scale-95 text-center"
+                className="px-6 py-3.5 bg-stone-900 hover:bg-black text-white font-black text-xs sm:text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 active:scale-95 text-center uppercase"
               >
                 <Download className="w-4 h-4" />
-                <span>Descargar PDF ({doc.size})</span>
+                <span>DESCARGAR PDF</span>
               </a>
 
               <button
@@ -138,16 +152,35 @@ export const DocumentDetailPage: React.FC<DocumentDetailPageProps> = ({ id }) =>
             {doc.coverImageUrl ? (
               <div className="w-full max-w-lg aspect-video overflow-hidden rounded-xl shadow-lg">
                 <img 
-                  src={doc.coverImageUrl} 
-                  alt={`Portada de ${doc.title}`} 
-                  className="w-full h-full object-cover"
-                />
-              </div>
+                   src={doc.coverImageUrl} 
+                   alt={`Portada de ${doc.title}`} 
+                   className="w-full h-full object-cover"
+                 />
+               </div>
             ) : (
-              <div className="text-center py-8">
-                <FileText className="w-12 h-12 text-stone-300 mx-auto" />
-              </div>
+               <div className="text-center py-8">
+                 <FileText className="w-12 h-12 text-stone-300 mx-auto" />
+               </div>
             )}
+          </div>
+        </div>
+
+        {/* In-Page Interactive PDF Viewer Section */}
+        <div ref={viewerRef} className="mb-14 scroll-mt-24">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+            <h2 className="text-xl font-extrabold text-black flex items-center gap-2">
+              <Eye className="w-5 h-5 text-[#00795F]" />
+              <span>LECTURA COMPLETA DEL DOCUMENTO (PDF)</span>
+            </h2>
+          </div>
+
+          <div className="bg-stone-900 rounded-3xl overflow-hidden border border-stone-300 shadow-2xl flex flex-col items-center justify-center min-h-[600px] sm:min-h-[800px] relative p-1 sm:p-2">
+            <iframe
+              src={`https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(doc.url)}`}
+              title={doc.title}
+              className="w-full h-full min-h-[600px] sm:min-h-[800px] border-0"
+              allowFullScreen
+            />
           </div>
         </div>
 
