@@ -1757,15 +1757,30 @@ export const PRODUCTS: Product[] = [
     netContent: "120 g",
     presentation: "Tubo de 120 g",
     shelfLife: "24 meses",
-    shortDescription: "Dentífrico de avanzada con complejo de probióticos para equilibrio de la microbiota oral y aliento fresco.",
-    advantages: ["Fortalece la flora bucal", "Sin abrasivos dañinos", "Frescura prolongada"],
-    benefits: [
-      "Mantiene el equilibrio del microbioma bucal.",
-      "Protege contra la formación de placa bacteriana y caries.",
-      "Proporciona frescura duradera sin dañar el esmalte dental."
+    shortDescription: "Dentífrico de avanzada con complejo de probióticos sin flúor ni triclosán para el equilibrio de la microbiota oral y aliento fresco.",
+    description: "Dentífrico de avanzada formulado con un exclusivo complejo de probióticos para mantener el equilibrio de la microbiota oral y un aliento fresco y puro. No contiene flúor ni triclosán, cuidando la mucosa y el esmalte dental con ingredientes seguros, puros y naturales.",
+    advantages: [
+      "Sin Flúor ni Triclosán (100% libre de flúor y triclosán)",
+      "Fortalece la flora bucal con probióticos activos",
+      "Sin abrasivos dañinos ni químicos agresivos",
+      "Frescura prolongada y natural"
     ],
-    ingredients: ["Complejo de probióticos activos", "Flúor controlado", "Extractos de menta"],
+    benefits: [
+      "Fórmula limpia sin flúor ni triclosán: segura y no tóxica para el cuidado diario de toda la familia.",
+      "Mantiene el equilibrio saludable del microbioma bucal.",
+      "Protege contra la formación de placa bacteriana, sarro y caries de forma natural.",
+      "Proporciona frescura duradera sin agredir el esmalte dental."
+    ],
+    ingredients: [
+      "Complejo de probióticos activos",
+      "Sin flúor",
+      "Sin triclosán",
+      "Sílice hidratada suave",
+      "Extractos naturales de menta",
+      "Glicerina vegetal"
+    ],
     usage: "Cepillar los dientes minuciosamente al menos 2 veces al día tras las comidas.",
+    precautions: "Apto para adultos y niños bajo supervisión. Conservar en lugar fresco y seco.",
     documentSlug: "catalogo-productos-hgw-panama-2026",
     inOfficialCatalog: false
   },
@@ -1782,15 +1797,30 @@ export const PRODUCTS: Product[] = [
     netContent: "120 g",
     presentation: "Tubo de 120 g",
     shelfLife: "24 meses",
-    shortDescription: "Pasta dental formulada con extracto de nanoturmalina para blanqueamiento natural y encías protegidas.",
-    advantages: ["Blanqueamiento progresivo suave", "Protección gingival", "Acción bioenergética"],
-    benefits: [
-      "Ayuda a remover manchas superficiales sin agredir el esmalte.",
-      "Propiedades aniónicas de la turmalina que protegen las encías sensibles.",
-      "Aliento limpio y puro todo el día."
+    shortDescription: "Pasta dental formulada con extracto de nanoturmalina sin flúor ni triclosán para blanqueamiento natural y encías protegidas.",
+    description: "Pasta dental formulada con extracto de nanoturmalina para un blanqueamiento progresivo suave y encías protegidas. No contiene flúor ni triclosán, ofreciendo una higiene bucal saludable y bioenergética que cuida el esmalte dental sin químicos agresivos.",
+    advantages: [
+      "Sin Flúor ni Triclosán (100% libre de flúor y triclosán)",
+      "Blanqueamiento progresivo suave sin agentes químicos agresivos",
+      "Protección gingival natural",
+      "Acción bioenergética de aniones de turmalina"
     ],
-    ingredients: ["Micropartículas de turmalina", "Sílice hidratada suave", "Extractos botánicos"],
+    benefits: [
+      "Fórmula 100% libre de flúor y triclosán.",
+      "Ayuda a remover manchas superficiales sin agredir el esmalte.",
+      "Propiedades aniónicas de la turmalina que protegen encías sensibles.",
+      "Aliento limpio, puro y fresco todo el día."
+    ],
+    ingredients: [
+      "Micropartículas de nanoturmalina",
+      "Sin flúor",
+      "Sin triclosán",
+      "Sílice hidratada suave",
+      "Extractos botánicos naturales",
+      "Saborizante natural a menta"
+    ],
     usage: "Cepillar suavemente después de cada comida durante 2 minutos.",
+    precautions: "Conservar a temperatura ambiente en lugar fresco y seco.",
     documentSlug: "catalogo-productos-hgw-panama-2026",
     inOfficialCatalog: false
   },
@@ -1807,15 +1837,30 @@ export const PRODUCTS: Product[] = [
     netContent: "120 g",
     presentation: "Tubo de 120 g",
     shelfLife: "24 meses",
-    shortDescription: "Dentífrico de carbón activado botánico y nanoturmalina para purificación profunda y neutralización de olores.",
-    advantages: ["Carbón activado purificante", "Fórmula anti-sarro", "Sin colorantes sintéticos"],
+    shortDescription: "Dentífrico de carbón activado botánico y nanoturmalina sin flúor ni triclosán para purificación profunda y neutralización de olores.",
+    description: "Dentífrico de carbón activado botánico y nanoturmalina para una purificación profunda y neutralización efectiva de olores. No contiene flúor ni triclosán, brindando un efecto détox en la cavidad oral respetando el esmalte y la microbiota bucal.",
+    advantages: [
+      "Sin Flúor ni Triclosán (100% libre de flúor y triclosán)",
+      "Carbón activado botánico purificante",
+      "Fórmula natural anti-sarro",
+      "Sin colorantes sintéticos"
+    ],
     benefits: [
+      "Fórmula limpia sin flúor ni triclosán.",
       "Absorción activa de toxinas y compuestos causantes del mal aliento.",
       "Limpieza profunda en zonas interdentales.",
-      "Efecto détox en la cavidad oral."
+      "Efecto détox natural en toda la cavidad oral."
     ],
-    ingredients: ["Carbón activo botánico", "Nanoturmalina", "Aceite esencial de menta"],
-    usage: "Usar en el cepillado habitual diario.",
+    ingredients: [
+      "Carbón activo botánico",
+      "Nanoturmalina",
+      "Sin flúor",
+      "Sin triclosán",
+      "Aceite esencial de menta",
+      "Agentes limpiadores suaves de origen vegetal"
+    ],
+    usage: "Usar en el cepillado habitual diario tras las comidas principales.",
+    precautions: "Evitar tragar. Enjuagar bien después del cepillado.",
     documentSlug: "catalogo-productos-hgw-panama-2026",
     inOfficialCatalog: false
   },
@@ -1832,15 +1877,30 @@ export const PRODUCTS: Product[] = [
     netContent: "120 g",
     presentation: "Tubo de 120 g",
     shelfLife: "24 meses",
-    shortDescription: "Dentífrico herbal con medicina tradicional china para el fortalecimiento de encías y piezas dentales.",
-    advantages: ["Extractos herbales milenarios", "Alivia inflamación gingival", "Fórmula calmante"],
+    shortDescription: "Dentífrico herbal con medicina tradicional china sin flúor ni triclosán para el fortalecimiento de encías y piezas dentales.",
+    description: "Dentífrico herbal formulado con principios de la medicina tradicional china para el cuidado integral y fortalecimiento de encías y piezas dentales. Totalmente libre de flúor y libre de triclosán, ideal para personas con encías sensibles o propensas a inflamación.",
+    advantages: [
+      "Sin Flúor ni Triclosán (100% libre de flúor y triclosán)",
+      "Extractos herbales milenarios (Lonicera japonica y menta silvestre)",
+      "Alivia la inflamación y sensibilidad gingival",
+      "Fórmula calmante y protectora"
+    ],
     benefits: [
+      "Libre de flúor y triclosán: fórmula herbal respetuosa con el organismo.",
       "Fortalece los tejidos gingivales ante sangrado o sensibilidad.",
       "Combate bacterias causantes de afecciones periodontales.",
-      "Frescura natural a hierbas orientales."
+      "Frescura natural y duradera a base de hierbas orientales."
     ],
-    ingredients: ["Extracto de Lonicera japonica", "Extracto de menta silvestre", "Glicerina vegetal"],
+    ingredients: [
+      "Extracto de Lonicera japonica",
+      "Extracto de menta silvestre",
+      "Sin flúor",
+      "Sin triclosán",
+      "Glicerina vegetal",
+      "Carbonato de calcio purificado"
+    ],
     usage: "Cepillar 2 a 3 veces al día con cepillo de cerdas suaves.",
+    precautions: "Conservar en lugar fresco y seco.",
     documentSlug: "catalogo-productos-hgw-panama-2026",
     inOfficialCatalog: false
   },

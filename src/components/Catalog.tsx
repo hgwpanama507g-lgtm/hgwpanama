@@ -256,9 +256,16 @@ export const Catalog: React.FC<CatalogProps> = ({ isHomeView = false }) => {
                   {/* Body Content */}
                   <div className="p-3 sm:p-5 flex-1 flex flex-col justify-between">
                     <div>
-                      {/* Category label */}
-                      <div className="text-[10px] sm:text-xs font-bold text-[#00795F] uppercase tracking-wider mb-1 line-clamp-1">
-                        {product.categoryLabel}
+                      {/* Category label & formula badge */}
+                      <div className="flex items-center justify-between gap-1 mb-1">
+                        <span className="text-[10px] sm:text-xs font-bold text-[#00795F] uppercase tracking-wider line-clamp-1">
+                          {product.categoryLabel}
+                        </span>
+                        {product.category === 'cuidado-bucal' && (
+                          <span className="text-[9px] sm:text-[10px] font-black text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200 shrink-0">
+                            Sin Flúor ni Triclosán
+                          </span>
+                        )}
                       </div>
 
                       {/* Product Title linking to /producto/:slug */}

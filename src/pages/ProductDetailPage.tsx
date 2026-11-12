@@ -118,6 +118,16 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                 <span className="text-xs font-bold text-stone-400 uppercase w-32 shrink-0">Categoría:</span>
                 <Link to="/productos" className="text-[#00795F] font-black hover:underline text-[15px]">{product.categoryLabel}</Link>
               </div>
+              {product.category === 'cuidado-bucal' && (
+                <div className="flex items-center gap-3 text-sm bg-emerald-50 text-emerald-950 border border-emerald-200/90 px-3.5 py-2.5 rounded-xl mt-2">
+                  <span className="text-xs font-black uppercase text-[#00795F] flex items-center gap-1.5 shrink-0">
+                    <ShieldCheck className="w-4 h-4 text-[#00795F]" /> Fórmula:
+                  </span>
+                  <span className="font-extrabold text-[14px] text-emerald-900">
+                    100% Sin Flúor ni Triclosán
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Action Area */}
