@@ -16,6 +16,7 @@ import { DocumentsPage } from './pages/DocumentsPage';
 import { DocumentDetailPage } from './pages/DocumentDetailPage';
 import { PreRegistrationPage } from './pages/PreRegistrationPage';
 import { OfficesDirectoryPage } from './pages/OfficesDirectoryPage';
+import { NotFoundPage } from './pages/NotFoundPage';
 import { PRODUCTS } from './data/products';
 import { HGW_DOCUMENTS } from './data/documents';
 
@@ -130,17 +131,37 @@ function AppContent() {
       return <ProductDetailPage slug={directSlug} />;
     }
 
+    // 10. Handle common WordPress legacy paths (redirect to Home)
+    const legacyPaths = ['/wp-content', '/wp-admin', '/category/', '/tag/', '/author/', '/?p=', '/feed/'];
+    if (legacyPaths.some(p => currentPath.includes(p))) {
+      return (
+        <div>
+          <Hero />
+          <Catalog isHomeView={true} />
+          <Memberships />
+          <AboutHGW />
+          <FAQ />
+          <ContactSection />
+        </div>
+      );
+    }
+
     // Default / Home View (/ or /inicio)
-    return (
-      <div>
-        <Hero />
-        <Catalog isHomeView={true} />
-        <Memberships />
-        <AboutHGW />
-        <FAQ />
-        <ContactSection />
-      </div>
-    );
+    if (currentPath === '/' || currentPath === '/inicio') {
+      return (
+        <div>
+          <Hero />
+          <Catalog isHomeView={true} />
+          <Memberships />
+          <AboutHGW />
+          <FAQ />
+          <ContactSection />
+        </div>
+      );
+    }
+
+    // Explicit 404 for all other unknown routes
+    return <NotFoundPage />;
   };
 
   return (

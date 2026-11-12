@@ -37,7 +37,7 @@ export const getPageTitle = (pathname: string): string => {
   if (cleanPath === '/contacto') {
     return 'Contacto y Oficinas';
   }
-  if (cleanPath === '/directorio-oficinas' || cleanPath === '/oficinas') {
+  if (cleanPath === '/oficinas' || cleanPath === '/directorio-oficinas') {
     return 'Directorio de Oficinas LATAM';
   }
 
@@ -62,7 +62,12 @@ export const getPageTitle = (pathname: string): string => {
     }
   }
 
-  return 'Distribuidores Independientes';
+  // Fallback for valid Home paths
+  if (cleanPath === '/' || cleanPath === '/inicio') {
+    return 'Inicio';
+  }
+
+  return 'Página no encontrada';
 };
 
 export const RouterProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
