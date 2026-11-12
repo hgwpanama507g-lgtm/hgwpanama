@@ -371,6 +371,74 @@ export const BusinessOpportunityPage: React.FC = () => {
           </div>
         </div>
 
+        {/* Video Resources Section */}
+        <div className="mb-20">
+          <div className="text-center max-w-3xl mx-auto mb-10">
+            <h2 className="text-[30px] font-black text-black tracking-tight mb-2">
+              Recursos de Capacitación y Presentación
+            </h2>
+            <p className="text-[17px] text-stone-700">
+              Visualiza estos videos oficiales para entender a profundidad el modelo de negocio, nuestra línea de productos y el proceso de afiliación en línea.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Video 1: Negocio */}
+            <div className="bg-white rounded-[2rem] overflow-hidden border border-stone-200 shadow-lg hover:shadow-xl transition-all group">
+              <div className="aspect-video relative">
+                <iframe
+                  className="w-full h-full"
+                  src="https://www.youtube.com/embed/oOZhonOYD6Q"
+                  title="Presentación de Negocio HGW"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                ></iframe>
+              </div>
+              <div className="p-6">
+                <h3 className="text-lg font-black text-black group-hover:text-[#00795F] transition-colors">La Oportunidad de Negocio</h3>
+                <p className="text-sm text-stone-600 mt-2">Conoce cómo funciona el sistema de ganancias mutuas y el plan de compensación oficial.</p>
+              </div>
+            </div>
+
+            {/* Video 2: Productos */}
+            <div className="bg-white rounded-[2rem] overflow-hidden border border-stone-200 shadow-lg hover:shadow-xl transition-all group">
+              <div className="aspect-video relative">
+                <iframe
+                  className="w-full h-full"
+                  src="https://www.youtube.com/embed/r-BFxBuhhbc"
+                  title="Línea de Productos HGW"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                ></iframe>
+              </div>
+              <div className="p-6">
+                <h3 className="text-lg font-black text-black group-hover:text-[#00795F] transition-colors">Nuestros Productos</h3>
+                <p className="text-sm text-stone-600 mt-2">Explora la ciencia detrás de la turmalina, el arándano y el ganoderma en nuestra línea oficial.</p>
+              </div>
+            </div>
+
+            {/* Video 3: Afiliación */}
+            <div className="bg-white rounded-[2rem] overflow-hidden border border-stone-200 shadow-lg hover:shadow-xl transition-all group">
+              <div className="aspect-video relative">
+                <iframe
+                  className="w-full h-full"
+                  src="https://www.youtube.com/embed/cR-aHkU9N4A"
+                  title="Cómo Afiliarse Online HGW"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                ></iframe>
+              </div>
+              <div className="p-6">
+                <h3 className="text-lg font-black text-black group-hover:text-[#00795F] transition-colors">Afiliación en Línea</h3>
+                <p className="text-sm text-stone-600 mt-2">Tutorial paso a paso para realizar tu registro correctamente en el portal corporativo.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Formulario Interactivo de Prerregistro (con envío seguro a hgwpanama507g@gmail.com) */}
         <div id="formulario-prerregistro" className="scroll-mt-24">
           <div className="bg-stone-50 border-2 border-[#00795F]/40 rounded-3xl p-6 sm:p-12 shadow-lg">

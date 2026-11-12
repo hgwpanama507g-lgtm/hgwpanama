@@ -40,6 +40,47 @@ function AppContent() {
     }
   }, [cartItems]);
 
+  // Web Protection: Prevent right-click, copy, cut, and common devtools shortcuts
+  useEffect(() => {
+    const handleContextMenu = (e: MouseEvent) => {
+      e.preventDefault();
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Prevent Ctrl+C, Ctrl+V, Ctrl+U (view source), Ctrl+Shift+I (inspect), Ctrl+S, Ctrl+P, Ctrl+X
+      if (
+        (e.ctrlKey || e.metaKey) &&
+        ['c', 'v', 'u', 's', 'p', 'x'].includes(e.key.toLowerCase())
+      ) {
+        e.preventDefault();
+      }
+
+      // Prevent F12 and Ctrl+Shift+I/J/C
+      if (
+        e.key === 'F12' ||
+        ((e.ctrlKey || e.metaKey) && e.shiftKey && ['i', 'j', 'c'].includes(e.key.toLowerCase()))
+      ) {
+        e.preventDefault();
+      }
+    };
+
+    const handleCopy = (e: ClipboardEvent) => {
+      e.preventDefault();
+    };
+
+    document.addEventListener('contextmenu', handleContextMenu);
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('copy', handleCopy);
+    document.addEventListener('cut', handleCopy);
+
+    return () => {
+      document.removeEventListener('contextmenu', handleContextMenu);
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('copy', handleCopy);
+      document.removeEventListener('cut', handleCopy);
+    };
+  }, []);
+
   const totalCartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   const handleAddToCart = (product: Product, quantity = 1) => {

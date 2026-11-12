@@ -4,6 +4,11 @@ import { Link } from '../router';
 import { ArrowLeft, AlertTriangle, Check, Sparkles } from 'lucide-react';
 import { getAffiliationWhatsAppUrl } from '../utils/whatsapp';
 
+interface ProductDetailPageProps {
+  slug: string;
+  onAddToCart: (product: any, quantity?: number) => void;
+}
+
 export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug, onAddToCart }) => {
   const product = PRODUCTS.find((p) => p.slug === slug || p.id === slug);
 
