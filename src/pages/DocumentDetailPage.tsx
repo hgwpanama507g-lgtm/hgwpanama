@@ -49,23 +49,28 @@ export const DocumentDetailPage: React.FC<DocumentDetailPageProps> = ({ id }) =>
     setLoading(true);
     setError(null);
 
-    // Using CORS proxy or direct URL
-    const loadingTask = pdfjsLib.getDocument(doc.url);
-    loadingTask.promise.then(
-      (loadedPdf: any) => {
+    // Using fetch to get blob and then loading with PDF.js
+    const loadPdf = async () => {
+      try {
+        const response = await fetch(doc.url);
+        if (!response.ok) throw new Error('Network response was not ok');
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const loadingTask = pdfjsLib.getDocument(url);
+        const loadedPdf = await loadingTask.promise;
         if (!isMounted) return;
         setPdfDoc(loadedPdf);
         setNumPages(loadedPdf.numPages);
         setPageNum(1);
         setLoading(false);
-      },
-      (err: any) => {
+      } catch (err: any) {
         if (!isMounted) return;
         console.error('Error loading PDF:', err);
-        setError('No se pudo cargar el archivo PDF en el visor interactivo. Puede descargarlo directamente.');
+        setError('No se pudo cargar el archivo PDF en el visor interactivo. Por favor, intente descargarlo directamente.');
         setLoading(false);
       }
-    );
+    };
+    loadPdf();
 
     return () => {
       isMounted = false;
