@@ -47,7 +47,7 @@ export const PRODUCTS: Product[] = [
     presentation: "15g x 12 sobres (180g)",
     shelfLife: "24 meses",
     shortDescription: "El café de trifolium pratense es una bebida que se elabora a partir de flores secas de trébol rojo y ofrece una alternativa interesante al café tradicional.",
-    description: "El Trifolium pratense, o trébol rojo, es una planta que se encuentra comúnmente en todo el mundo. Sus flores rosadas a rojas han sido utilizadas durante siglos por diversas culturas por sus propiedades medicinales y su potencial en la preparación de infusiones. El café de trifolium pratense es una bebida que se elabora a partir de estas flores secas y ofrece una alternativa interesante al café tradicional.",
+    description: "El Trifolium pratense, o trébol rojo, es una planta que se encuentra comúnmente en todo el mundo. Sus flores rosadas a rojas han sido utilizadas durante siglos por diversas culturas por sus propiedades medicinales y su potencial en la preparación de infusiones.\nEl café de trifolium pratense es una bebida que se elabora a partir de estas flores secas y ofrece una alternativa interesante al café tradicional.",
     advantages: [
       "Presentación práctica de consumo",
       "Agradable sabor",
@@ -217,7 +217,7 @@ export const PRODUCTS: Product[] = [
     presentation: "15g x 12 sobres (180g)",
     shelfLife: "24 meses",
     shortDescription: "En la medicina alternativa el Cordyceps a menudo es utilizado para incrementar la energía natural de las personas, mejorar su rendimiento atlético, estimular el sistema inmune y retrasar el proceso de envejecimiento.",
-    description: "En la medicina alternativa el Cordyceps a menudo es utilizado para incrementar la energía natural de las personas, mejorar su rendimiento atlético, estimular el sistema inmune y retrasar el proceso de envejecimiento. Tradicionalmente este producto es utilizado como coadyuvante en el tratamiento de enfermedades respiratorias como bronquitis crónica y asma bronquial.",
+    description: "En la medicina alternativa el Cordyceps a menudo es utilizado para incrementar la energía natural de las personas, mejorar su rendimiento atlético, estimular el sistema inmune y retrasar el proceso de envejecimiento.\nTradicionalmente este producto es utilizado como coadyuvante en el tratamiento de enfermedades respiratorias como bronquitis crónica y asma bronquial.",
     advantages: [
       "Práctico e Instantáneo.",
       "De suave textura, agradable aroma y sabor delicioso.",
@@ -492,7 +492,7 @@ export const PRODUCTS: Product[] = [
     presentation: "30 g (60 unidades)",
     shelfLife: "24 meses",
     shortDescription: "Caramelo duro con mezcla de 4 cepas probióticas activas y exquisito sabor a leche descremada con bajo aporte de azúcares.",
-    description: "Este innovador caramelo duro no es solo una golosina; es una fuente conveniente y sabrosa de Probióticos, diseñada para ayudarte a mantener el equilibrio de tu flora intestinal día a día. Cada unidad de Biolacti Candy está cargada con una potente mezcla de cepas probióticas activas clave incluyendo lactobacillus acidophilus y Bifidobacterium longum que trabajan en sinergia para reforzar y equilibrar la microbiota intestinal. Este apoyo fundamental para una digestión saludable, el bienestar general y el refuerzo de las defensas naturales de tu cuerpo. Disfruta de todos los beneficios de los probióticos en un formato que es una verdadera delicia. Su exquisito sabor a leche descremada hace que tomar tus probióticos sea un placer, sin las texturas o sabores neutros de otros suplementos. Además, gracias a la utilización de Sorbitol y Sucralosa, este caramelo mantiene un bajo aporte de azúcares, haciendo que sea una opción inteligente.",
+    description: "Este innovador caramelo duro no es solo una golosina; es una fuente conveniente y sabrosa de Probióticos, diseñada para ayudarte a mantener el equilibrio de tu flora intestinal día a día.\nCada unidad de Biolacti Candy está cargada con una potente mezcla de cepas probióticas activas clave incluyendo lactobacillus acidophilus y Bifidobacterium longum que trabajan en sinergia para reforzar y equilibrar la microbiota intestinal. Este apoyo fundamental para una digestión saludable, el bienestar general y el refuerzo de las defensas naturales de tu cuerpo. Disfruta de todos los beneficios de los probióticos en un formato que es una verdadera delicia. Su exquisito sabor a leche descremada hace que tomar tus probióticos sea un placer, sin las texturas o sabores neutros de otros suplementos. Además, gracias a la utilización de Sorbitol y Sucralosa, este caramelo mantiene un bajo aporte de azúcares, haciendo que sea una opción inteligente.",
     advantages: [
       "Soporte Digestivo Portátil: Aporta probióticos esenciales para el equilibrio intestinal en un formato de caramelo fácil de llevar.",
       "Bajo en Azúcares: Endulzado con Sorbitol y Sucralosa, presenta un bajo contenido de azúcares (2.8g por 100g).",
@@ -740,7 +740,7 @@ export const PRODUCTS: Product[] = [
     presentation: "660 g (20 porciones de 33g)",
     shelfLife: "24 meses",
     shortDescription: "Bebida instantánea que combina el reconfortante sabor del cacao con la suavidad de la leche descremada y el valioso aporte del Ganoderma.",
-    description: "CHOCO GANO, la exquisita mezcla en polvo para preparar una bebida instantánea que combina el reconfortante sabor del cacao con la suavidad de la leche descremada y el valioso aporte del Ganoderma. Diseñado para quienes buscan un momento de placer y bienestar en su día a día, este producto no solo deleita el paladar, sino que también incorpora propiedades benéficas gracias a su composición única. Cada caja contiene 20 porciones de 33 gramos, ideal para disfrutar de forma regular sin complicaciones.",
+    description: "CHOCO GANO, la exquisita mezcla en polvo para preparar una bebida instantánea que combina el reconfortante sabor del cacao con la suavidad de la leche descremada y el valioso aporte del Ganoderma. Diseñado para quienes buscan un momento de placer y bienestar en su día a día, este producto no solo deleita el paladar, sino que también incorpora propiedades benéficas gracias a su composición única.\nEntre sus principales características, destaca su práctica presentación en sobres individuales, que garantizan frescura, dosificación perfecta y máxima comodidad donde quiera que vayas. Cada caja contiene 20 porciones de 33 gramos, ideal para disfrutar de forma regular sin complicaciones. El beneficio más apreciado de CHOCO GANO es su capacidad para ofrecer energía y nutrición con un perfil bajo en grasa, gracias a la leche descremada. Además, el Ganoderma, un ingrediente reconocido por sus propiedades antioxidantes y de apoyo al sistema inmunológico, enriquece esta fórmula, brindando una experiencia que cuida de tu salud.",
     advantages: [
       "Listo en instantes: Disolución inmediata en agua fría o caliente.",
       "Práctico y portátil: Sobres individuales ideales para llevar a cualquier lugar.",
@@ -1132,7 +1132,7 @@ export const PRODUCTS: Product[] = [
     presentation: "500 mg x 60 cápsulas",
     shelfLife: "24 meses",
     shortDescription: "Excelente fuente de antioxidantes, vitaminas, minerales y otros nutrientes esenciales para el cuidado de la salud basados en la microalga espirulina.",
-    description: "Excelente fuente de antioxidantes, vitaminas, minerales y otros nutrientes que son esenciales para el cuidado de la salud. Las pastillas de Spirulina Plus son un suplemento nutricional basado en espirulina, una microalga considerada un superalimento.",
+    description: "Excelente fuente de antioxidantes, vitaminas, minerales y otros nutrientes que son esenciales para el cuidado de la salud.\nLas pastillas de Spirulina Plus son un suplemento nutricional basado en espirulina, una microalga considerada un superalimento.\n- Aumenta la energía y vitalidad\n- Refuerza el sistema inmunológico\n- Mejora la nutrición diaria\n- Apoya la desintoxicación del organismo\n- Contribuye al control del peso y el apetito",
     advantages: [
       "Superalimento 100% natural de fácil asimilación.",
       "Excelente fuente de clorofila, proteínas y minerales esenciales.",
@@ -1370,7 +1370,7 @@ export const PRODUCTS: Product[] = [
     presentation: "1 protector lumbar ajustable",
     shelfLife: "Larga vida útil",
     shortDescription: "Soporte natural y alivio diario lumbar que genera calor natural gracias a la nanoturmalina y piedras magnéticas.",
-    description: "Soporte Natural y Alivio Diario. Genera calor natural gracias a la nanoturmalina y piedras magnéticas. Diseñado para brindarte confort, estabilidad y bienestar en tu rutina diaria. Fabricado con materiales de alta calidad y piedras magnéticas.",
+    description: "Soporte Natural y Alivio Diario. Genera calor natural gracias a la nanoturmalina y piedras magnéticas. Diseñado para brindarte confort, estabilidad y bienestar en tu rutina diaria. Fabricado con materiales de alta calidad y piedras magnéticas, este cinturón",
     advantages: [
       "Materiales resistentes, transpirables y duraderos",
       "No requiere electricidad ni batería.",
@@ -1566,7 +1566,7 @@ export const PRODUCTS: Product[] = [
     presentation: "1 unidad (Capacidad 500ml)",
     shelfLife: "Larga vida útil",
     shortDescription: "Artículo fabricado a base de turmalina que convierte el agua ácida en agua alcalina de forma natural y neutraliza toxinas.",
-    description: "Es un artículo fabricado a base de turmalina lo que le confiere un efecto electromagnético que proporciona beneficios importantes para el cuidado de la salud. La Turmalina es bastante estudiada por los esotéricos como la piedra energética que tiene la capacidad de convertir el agua ácida en agua alcalina de forma natural. ¡Siente fluir tu energía desde el interior de tu ser!",
+    description: "Es un artículo fabricado a base de turmalina lo que le confiere un efecto electromagnético que proporciona beneficios importantes para el cuidado de la salud. La Turmalina es bastante estudiada por los esotéricos como la piedra energética que tiene la capacidad de convertir el agua ácida en agua alcalina de forma natural.\n¡Siente fluir tu energía desde el interior de tu ser!",
     advantages: [
       "Cuenta con un diseño anatómico, elegante y color neutro natural.",
       "Elaborado con acero inoxidable, un material no tóxico, cuenta con la piedra natural de turmalina en su interior.",
