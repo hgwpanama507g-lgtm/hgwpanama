@@ -270,7 +270,7 @@ export const Catalog: React.FC<CatalogProps> = ({ onAddToCart, isHomeView = fals
                       </h3>
 
                       {/* Short Description */}
-                      <p className="text-xs sm:text-sm text-stone-700 mt-1 sm:mt-2 line-clamp-2 leading-relaxed">
+                      <p className="text-[17px] text-stone-700 mt-1 sm:mt-2 line-clamp-2 leading-relaxed">
                         {product.shortDescription}
                       </p>
 

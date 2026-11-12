@@ -25,7 +25,7 @@ export const Hero: React.FC = () => {
               Bienestar Natural y Productos Funcionales con <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00795F] to-[#00A550]">HGW Panamá</span>
             </h1>
 
-            <p className="text-base sm:text-lg text-stone-800 leading-relaxed max-w-2xl mb-8 font-normal">
+            <p className="text-[18px] text-stone-800 leading-relaxed max-w-2xl mb-8 font-normal">
               Descubre la sinergia entre la sabiduría herbolaria milenaria y la tecnología moderna. Productos originales de arándano, turmalina, ganoderma lucidum y probióticos respaldados por certificaciones de clase mundial y asesoría personalizada de distribuidores independientes en Panamá.
             </p>
 
@@ -49,13 +49,13 @@ export const Hero: React.FC = () => {
             </div>
 
             {/* Proof bullet points */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-black w-full pt-4 border-t border-stone-200">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[17px] text-black w-full pt-4 border-t border-stone-200">
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#00A550] shrink-0" />
+                <CheckCircle2 className="w-5 h-5 text-[#00A550] shrink-0" />
                 <span className="font-medium">Productos 100% auténticos con registro FDA e ISO</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#00A550] shrink-0" />
+                <CheckCircle2 className="w-5 h-5 text-[#00A550] shrink-0" />
                 <span className="font-medium">Membresías con hasta 52% de beneficio comercial</span>
               </div>
             </div>
@@ -84,7 +84,7 @@ export const Hero: React.FC = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-5">
                     <div className="text-white">
                       <p className="text-xs font-bold text-emerald-300 uppercase tracking-wider">Línea Oficial Panamá</p>
-                      <p className="text-base sm:text-lg font-black">Arándano · Ganoderma · Turmalina</p>
+                      <p className="text-[18px] sm:text-[20px] font-black">Arándano · Ganoderma · Turmalina</p>
                     </div>
                   </div>
                 </div>

@@ -69,7 +69,7 @@ export const FAQ: React.FC = () => {
                   />
                 </button>
                 {isOpen && (
-                  <div className="px-5 pb-5 pt-1 text-sm text-stone-800 leading-relaxed border-t border-stone-100 font-normal">
+                  <div className="px-5 pb-5 pt-1 text-[17px] text-stone-800 leading-relaxed border-t border-stone-100 font-normal">
                     {faq.answer}
                   </div>
                 )}

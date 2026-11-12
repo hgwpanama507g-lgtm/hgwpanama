@@ -56,7 +56,7 @@ export const AboutHGW: React.FC = () => {
           <h2 className="text-3xl sm:text-4xl font-extrabold text-black tracking-tight">
             Sobre Health Green World (HGW)
           </h2>
-          <p className="text-base sm:text-lg text-stone-800 mt-3 leading-relaxed font-normal">
+          <p className="text-[18px] text-stone-800 mt-3 leading-relaxed font-normal">
             HGW forma parte de la corporación multinacional Green World Group, fundada por científicos pioneros en medicina tradicional china y biotecnología moderna aplicada a la nutrición y el cuidado personal.
           </p>
         </div>
@@ -80,7 +80,7 @@ export const AboutHGW: React.FC = () => {
             <div>
               <span className="text-xs font-bold text-[#00795F] uppercase tracking-wider">Fundadora & Presidenta</span>
               <h3 className="text-xl font-black text-black mt-0.5">Dra. Deming Lee</h3>
-              <p className="text-sm text-stone-700 mt-2.5 leading-relaxed font-normal">
+              <p className="text-[17px] text-stone-700 mt-2.5 leading-relaxed font-normal">
                 Doctora con amplia trayectoria en investigación biológica y medicina alternativa. Fundó Green World Group con la visión de llevar los principios herbolarios más puros a familias de los cinco continentes.
               </p>
               <div className="mt-3 flex items-center gap-1.5 text-xs text-[#00795F] font-bold">
@@ -106,7 +106,7 @@ export const AboutHGW: React.FC = () => {
             <div>
               <span className="text-xs font-bold text-[#00795F] uppercase tracking-wider">Presidente Corporativo</span>
               <h3 className="text-xl font-black text-black mt-0.5">Peter Lee</h3>
-              <p className="text-sm text-stone-700 mt-2.5 leading-relaxed font-normal">
+              <p className="text-[17px] text-stone-700 mt-2.5 leading-relaxed font-normal">
                 Líder empresarial enfocado en la expansión global, transformación digital del modelo de venta directa y el diseño de sistemas de compensación sostenibles para emprendedores independientes.
               </p>
               <div className="mt-3 flex items-center gap-1.5 text-xs text-[#00795F] font-bold">
@@ -147,7 +147,7 @@ export const AboutHGW: React.FC = () => {
               <h3 className="text-2xl sm:text-3xl font-black text-black">
                 Atención cercana, entrega confiable y asesoría personalizada
               </h3>
-              <p className="text-sm sm:text-base text-stone-800 leading-relaxed font-normal">
+              <p className="text-[17px] sm:text-[18px] text-stone-800 leading-relaxed font-normal">
                 Como distribuidores independientes de HGW en Panamá, nuestro compromiso es brindarte orientación honesta sobre los beneficios de cada formulación, disponibilidad inmediata para entrega en provincias y acompañarte si deseas afiliarte para consumo familiar o generar ingresos propios.
               </p>
 
@@ -236,7 +236,7 @@ export const AboutHGW: React.FC = () => {
             <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-black tracking-tight">
               Asociaciones de Venta Directa
             </h3>
-            <p className="text-sm sm:text-base text-stone-700 mt-2 font-normal leading-relaxed">
+            <p className="text-[17px] sm:text-[18px] text-stone-700 mt-2 font-normal leading-relaxed">
               HGW y sus distribuidores independientes operan bajo los más altos estándares éticos, respaldados por las cámaras y asociaciones de venta directa en Latinoamérica y el mundo.
             </p>
           </div>
@@ -283,7 +283,7 @@ export const AboutHGW: React.FC = () => {
                       {assoc.name}
                     </h4>
 
-                    <p className="text-xs sm:text-sm text-stone-700 mt-2.5 leading-relaxed font-normal">
+                    <p className="text-[17px] text-stone-700 mt-2.5 leading-relaxed font-normal">
                       {assoc.description}
                     </p>
                   </div>

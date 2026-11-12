@@ -100,7 +100,7 @@ export const DocumentDetailPage: React.FC<DocumentDetailPageProps> = ({ id }) =>
                 {doc.title}
               </h1>
 
-              <p className="text-sm sm:text-base text-stone-700 leading-relaxed font-normal">
+              <p className="text-[18px] text-stone-700 leading-relaxed font-normal">
                 {doc.description}
               </p>
 

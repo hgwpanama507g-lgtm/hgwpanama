@@ -177,7 +177,7 @@ export const DocumentsPage: React.FC = () => {
                         </Link>
                       </h3>
 
-                      <p className="text-xs sm:text-sm text-stone-700 leading-relaxed font-normal mb-4">
+                      <p className="text-[17px] text-stone-700 leading-relaxed font-normal mb-4">
                         {doc.description}
                       </p>
                     </div>

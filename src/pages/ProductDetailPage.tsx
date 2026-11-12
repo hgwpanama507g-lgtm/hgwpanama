@@ -34,18 +34,20 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug, onAd
           <div>
             <h1 className="text-3xl font-black mb-2">{product.name}</h1>
             <p className="text-2xl font-bold text-[#00795F] mb-4">{product.priceFormatted}</p>
-            <div className="bg-amber-50 border-l-4 border-amber-500 p-4 mb-6">
-              <div className="flex items-center text-amber-800 font-bold mb-2">
-                <AlertTriangle className="mr-2" /> Aviso importante
-              </div>
-              <p className="text-sm text-amber-700">Por favor, consulte y confirme la disponibilidad del producto a través de WhatsApp antes de realizar su pedido.</p>
-            </div>
-            <p className="text-stone-700 mb-6">{product.shortDescription}</p>
-            <h3 className="font-bold mb-2">Beneficios:</h3>
-            <ul className="list-disc pl-5 mb-6 text-stone-600">
+            <p className="text-stone-700 mb-6 text-[18px]">{product.shortDescription}</p>
+            <h3 className="font-bold mb-4">Beneficios:</h3>
+            <ul className="list-disc pl-5 mb-8 text-stone-600 space-y-2 text-[17px]">
               {product.benefits.map((b, i) => <li key={i}>{b}</li>)}
             </ul>
-            <a href={whatsappUrl} className="block w-full text-center bg-[#00795F] text-white font-bold py-3 rounded-xl">
+            
+            <div className="bg-amber-50 border-l-4 border-amber-500 p-4 mb-8 rounded-r-xl">
+              <div className="flex items-center text-amber-800 font-bold mb-2 text-[18px]">
+                <AlertTriangle className="mr-2 w-5 h-5" /> Aviso importante
+              </div>
+              <p className="text-[17px] text-amber-700 leading-relaxed font-medium">Por favor, consulte y confirme la disponibilidad del producto a través de WhatsApp antes de realizar su pedido.</p>
+            </div>
+
+            <a href={whatsappUrl} className="block w-full text-center bg-[#00795F] hover:bg-[#004d3c] text-white font-black py-4 rounded-2xl shadow-md transition-all active:scale-95 uppercase tracking-wide">
               Consultar por WhatsApp
             </a>
           </div>

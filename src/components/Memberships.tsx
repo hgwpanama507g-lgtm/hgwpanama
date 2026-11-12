@@ -18,7 +18,7 @@ export const Memberships: React.FC = () => {
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-black tracking-tight">
             Membresías HGW Panamá
           </h2>
-          <p className="text-base sm:text-lg text-stone-800 mt-3 leading-relaxed font-normal">
+          <p className="text-[18px] text-stone-800 mt-3 leading-relaxed font-normal">
             Elige tu plan de activación para consumir con descuento preferencial o emprender como Distribuidor Independiente autorizado. En todos los planes recibes <strong>productos de tu preferencia</strong> y respaldo local en Panamá.
           </p>
 
@@ -181,7 +181,7 @@ export const Memberships: React.FC = () => {
               <h3 className="text-2xl sm:text-3xl font-black tracking-tight leading-snug">
                 ¿Sabías que con el Plan Master ganas hasta un 52% en tus compras personales?
               </h3>
-              <p className="text-sm sm:text-base text-emerald-100 leading-relaxed max-w-2xl font-normal">
+              <p className="text-[17px] sm:text-[18px] text-emerald-100 leading-relaxed max-w-2xl font-normal">
                 Al comprar como miembro Master (600 BV), obtienes los precios más bajos de distribuidor con hasta un 52% de beneficio, permitiéndote márgenes del 60% en ventas directas al por menor en Panamá.
               </p>
             </div>
@@ -225,7 +225,7 @@ export const Memberships: React.FC = () => {
               <h4 className="text-lg sm:text-xl font-extrabold text-black">
                 ¿Deseas registrarte directamente en el portal oficial HGW?
               </h4>
-              <p className="text-xs sm:text-sm text-stone-700 leading-relaxed font-normal">
+              <p className="text-[17px] text-stone-700 leading-relaxed font-normal">
                 Puedes completar tu registro en el sistema corporativo internacional de Green World bajo el código oficial de nuestro equipo.
               </p>
             </div>

@@ -93,7 +93,7 @@ export const PreRegistrationPage: React.FC = () => {
           <h1 className="text-2xl sm:text-4xl font-extrabold text-black tracking-tight">
             Formulario Oficial de Pre-Registro
           </h1>
-          <p className="text-sm sm:text-base text-stone-700 mt-2 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-[17px] sm:text-[18px] text-stone-700 mt-2 max-w-2xl mx-auto leading-relaxed">
             Completa tus datos para crear tu cuenta en Health Green World Panamá. Tu solicitud se transmite directamente al correo oficial <strong className="text-black">hgwpanama507g@gmail.com</strong> bajo el patrocinio autorizado de <strong className="text-black">Yamilka Batista (Código: Yamilka507)</strong>.
           </p>
         </div>
@@ -137,7 +137,7 @@ export const PreRegistrationPage: React.FC = () => {
             <ShieldAlert className="w-4 h-4 text-amber-700 shrink-0" />
             <span>Aclaración Importante para Socios ya Afiliados a HGW</span>
           </div>
-          <p className="text-stone-800 leading-relaxed font-normal">
+          <p className="text-[17px] text-stone-800 leading-relaxed font-normal">
             Este formulario y el canal de WhatsApp publicado corresponden a un <strong>Distribuidor Independiente</strong> para nuevas afiliaciones, compras preferenciales y pedidos de nuevos prospectos. <strong>Si usted ya es socio registrado de HGW</strong>, debe comunicarse directamente con su <strong>patrocinador</strong> o llamar al teléfono oficial de las oficinas corporativas principales en Panamá: <strong className="text-black">+507 392-8415</strong> para recibir soporte en su código o pedidos.
           </p>
         </div>

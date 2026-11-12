@@ -43,7 +43,7 @@ export const ContactSection: React.FC = () => {
               <h2 className="text-3xl sm:text-4xl font-extrabold text-black tracking-tight">
                 Contáctanos en Panamá
               </h2>
-              <p className="text-base text-stone-800 mt-2 leading-relaxed font-normal">
+              <p className="text-[17px] text-stone-800 mt-2 leading-relaxed font-normal">
                 Estamos a tu disposición para asesorarte sobre cualquier producto, confirmar existencias, coordinar entregas o guiarte en tu proceso de afiliación y prerregistro.
               </p>
             </div>
@@ -54,7 +54,7 @@ export const ContactSection: React.FC = () => {
                 <ShieldAlert className="w-4 h-4 text-amber-700 shrink-0" />
                 <span>Aclaración Importante sobre Canales de Atención</span>
               </div>
-              <p className="text-stone-800 leading-relaxed font-normal">
+              <p className="text-[17px] text-stone-800 leading-relaxed font-normal">
                 El número de WhatsApp <strong className="text-black">+507 6778-8375</strong> corresponde a un <strong>Distribuidor Independiente</strong> para atender consultas comerciales, pedidos y nuevos afiliados. <em>No es un número oficial corporativo de la empresa HGW.</em>
               </p>
               <div className="pt-2 border-t border-amber-200 text-stone-900">
@@ -166,7 +166,7 @@ export const ContactSection: React.FC = () => {
             <h3 className="text-2xl font-black text-black mb-1">
               Envíanos un mensaje directo
             </h3>
-            <p className="text-sm text-stone-700 mb-6 font-normal">
+            <p className="text-[17px] text-stone-700 mb-6 font-normal">
               Escribe tus datos y tu consulta. Al enviar se abrirá WhatsApp con tu mensaje redactado listo para enviar.
             </p>
 
