@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronDown, HelpCircle } from 'lucide-react';
+import { renderWithHGWLinks } from '../utils/hgwLinker';
 
 interface FAQItem {
   question: string;
@@ -28,7 +29,7 @@ export const FAQ: React.FC = () => {
     },
     {
       question: "¿Cómo puedo afiliarme como socio distribuidor para obtener descuentos de hasta un 52%?",
-      answer: "Puedes afiliarte a través de nuestro patrocinio autorizado en Panamá (código Yamilka507). Elige el paquete de activación que mejor se ajuste a tus metas (Pre-Junior de 50 BV, Junior de 100 BV, Senior de 300 BV o Master de 600 BV). Con el plan Master compras a precio preferencial con hasta un 52% de beneficio en recompras, permitiéndote márgenes del 60% en ventas directas. Puedes completar el Pre-registro en la sección 'Oportunidad de Negocio' o escribirnos al WhatsApp."
+      answer: "Puedes afiliarte a través de nuestro patrocinio autorizado en Panamá (código Yamilka507). Elige el paquete de activación que mejor se ajuste a tus metas (Pre-Junior de 50 BV, Junior de 100 BV, Senior de 300 BV o Master de 600 BV). Con el plan Master compras a precio preferencial con hasta un 52% de beneficio en recompras, permitiéndote márgenes del 60% en ventas directas. Puedes completar el Pre-registro en la sección 'Pre-registro' o escribirnos al WhatsApp."
     }
   ];
 
@@ -45,7 +46,7 @@ export const FAQ: React.FC = () => {
             Preguntas Frecuentes
           </h2>
           <p className="text-sm text-stone-700 mt-2 font-normal">
-            Todo lo que necesitas saber sobre entregas, pagos y membresías en Panamá.
+            Todo o que necesitas saber sobre entregas, pagos y membresías en Panamá.
           </p>
         </div>
 
@@ -61,7 +62,7 @@ export const FAQ: React.FC = () => {
                   onClick={() => setOpenIdx(isOpen ? null : idx)}
                   className="w-full py-4 px-5 text-left flex items-center justify-between gap-4 font-extrabold text-base text-black hover:text-[#00795F] transition-colors"
                 >
-                  <span>{faq.question}</span>
+                  <span>{renderWithHGWLinks(faq.question)}</span>
                   <ChevronDown
                     className={`w-5 h-5 text-stone-500 shrink-0 transition-transform duration-200 ${
                       isOpen ? 'rotate-180 text-[#00795F]' : ''
@@ -70,7 +71,7 @@ export const FAQ: React.FC = () => {
                 </button>
                 {isOpen && (
                   <div className="px-5 pb-5 pt-1 text-[17px] text-stone-800 leading-relaxed border-t border-stone-100 font-normal">
-                    {faq.answer}
+                    {renderWithHGWLinks(faq.answer)}
                   </div>
                 )}
               </div>
@@ -82,4 +83,3 @@ export const FAQ: React.FC = () => {
     </section>
   );
 };
-
