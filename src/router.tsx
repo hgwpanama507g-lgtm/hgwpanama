@@ -50,10 +50,10 @@ export const getPageTitle = (pathname: string): string => {
     return product.name;
   }
 
-  // Check document paths: /documentos/:id
+  // Check document paths: /documentos/:slug
   if (cleanPath.startsWith('/documentos/')) {
-    const docId = cleanPath.replace('/documentos/', '');
-    const foundDoc = HGW_DOCUMENTS.find((d) => d.id === docId || d.url.includes(docId));
+    const docSlug = cleanPath.replace('/documentos/', '');
+    const foundDoc = HGW_DOCUMENTS.find((d) => d.slug === docSlug || d.id === docSlug || d.url.includes(docSlug));
     if (foundDoc) {
       return foundDoc.title;
     }

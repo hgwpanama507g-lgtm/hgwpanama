@@ -16,7 +16,7 @@ export const DocumentDetailPage: React.FC<DocumentDetailPageProps> = ({ id }) =>
   const { navigate } = useRouter();
   const [copied, setCopied] = useState(false);
 
-  const doc = HGW_DOCUMENTS.find((d) => d.id === id || d.url.includes(id));
+  const doc = HGW_DOCUMENTS.find((d) => d.slug === id || d.id === id || d.url.includes(id));
 
   // PDF.js Viewer States
   const [pdfDoc, setPdfDoc] = useState<any>(null);
@@ -315,7 +315,7 @@ export const DocumentDetailPage: React.FC<DocumentDetailPageProps> = ({ id }) =>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
               {relatedDocs.map((related) => {
-                const relatedUrl = `/documentos/${related.id}`;
+                const relatedUrl = `/documentos/${related.slug}`;
                 return (
                   <div
                     key={related.id}

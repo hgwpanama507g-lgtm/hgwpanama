@@ -1,5 +1,6 @@
 export interface DocumentItem {
   id: string;
+  slug: string;
   title: string;
   category: 'cafes-bebidas' | 'nutricion' | 'cuidado-personal' | 'turmalina' | 'planes';
   categoryLabel: string;
@@ -11,6 +12,7 @@ export interface DocumentItem {
 export const HGW_DOCUMENTS: DocumentItem[] = [
   {
     id: 'doc-12',
+    slug: 'cordyceps-hgw-ficha-tecnica',
     title: '12. Cordyceps HGW - Ficha Técnica y Beneficios',
     category: 'nutricion',
     categoryLabel: 'Nutrición y Suplementos',
@@ -20,6 +22,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
   },
   {
     id: 'doc-13',
+    slug: 'espirulina-hgw-nutricion-celular',
     title: '13. Espirulina HGW - Superalimento y Nutrición Celular',
     category: 'nutricion',
     categoryLabel: 'Nutrición y Suplementos',
@@ -29,6 +32,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
   },
   {
     id: 'doc-16',
+    slug: 'hgw-serie-cafe-funcional',
     title: '16. HGW Serie Café Funcional (Ganoderma, Arándano y Cordyceps)',
     category: 'cafes-bebidas',
     categoryLabel: 'Cafés y Bebidas',
@@ -38,6 +42,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
   },
   {
     id: 'doc-17',
+    slug: 'hgw-blueberry-collagen-peptide',
     title: '17. HGW Blueberry Collagen Peptide (Colágeno con Arándano)',
     category: 'nutricion',
     categoryLabel: 'Nutrición y Suplementos',
@@ -47,6 +52,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
   },
   {
     id: 'doc-18',
+    slug: 'hgw-blueberry-soybean-milk-drink',
     title: '18. HGW Blueberry Soybean Milk Drink',
     category: 'cafes-bebidas',
     categoryLabel: 'Cafés y Bebidas',
@@ -56,6 +62,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
   },
   {
     id: 'doc-20',
+    slug: 'blueberry-candy-fitonutritivos',
     title: '20. Blueberry Candy (Candies Fitonutritivos)',
     category: 'nutricion',
     categoryLabel: 'Candies y Snacks',
@@ -65,6 +72,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
   },
   {
     id: 'doc-21',
+    slug: 'olive-soap-tourmaline-soap',
     title: '21. Olive Soap & Tourmaline Soap (Jabones Botánicos)',
     category: 'cuidado-personal',
     categoryLabel: 'Cuidado Personal',
@@ -74,6 +82,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
   },
   {
     id: 'doc-22',
+    slug: 'lactiberry-bebida-probiotica',
     title: '22. Lactiberry - Bebida Probiótica con Arándanos',
     category: 'nutricion',
     categoryLabel: 'Nutrición y Suplementos',
@@ -83,6 +92,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
   },
   {
     id: 'doc-34',
+    slug: 'serie-smilife-blueberry',
     title: '34. Serie Smilife Blueberry (Cosmética Avanzada)',
     category: 'cuidado-personal',
     categoryLabel: 'Cuidado Personal y Belleza',
@@ -92,6 +102,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
   },
   {
     id: 'doc-39',
+    slug: 'accesorios-de-turmalina',
     title: '39. Accesorios de Turmalina (Fajas y Protectores Terapéuticos)',
     category: 'turmalina',
     categoryLabel: 'Turmalina y Bienestar',
@@ -101,6 +112,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
   },
   {
     id: 'doc-42',
+    slug: 'berry-juice-concentrado-frutas',
     title: '42. Berry Juice - Concentrado de Frutas Silvestres',
     category: 'cafes-bebidas',
     categoryLabel: 'Cafés y Bebidas',
@@ -110,6 +122,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
   },
   {
     id: 'doc-44',
+    slug: 'smilife-keratin-shampoo',
     title: '44. Smilife Keratin Shampoo',
     category: 'cuidado-personal',
     categoryLabel: 'Cuidado Personal',
@@ -119,6 +132,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
   },
   {
     id: 'doc-45',
+    slug: 'smilife-tourmaline-shower-gel',
     title: '45. Smilife Tourmaline Shower Gel',
     category: 'cuidado-personal',
     categoryLabel: 'Cuidado Personal',
@@ -128,6 +142,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
   },
   {
     id: 'doc-47',
+    slug: 'blueberry-wine-bebida-enologica',
     title: '47. Blueberry Wine (Bebida Enológica Funcional)',
     category: 'cafes-bebidas',
     categoryLabel: 'Cafés y Bebidas',
@@ -137,6 +152,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
   },
   {
     id: 'doc-70',
+    slug: 'protectores-e-higiene-intima-turmalina',
     title: '70. Protectores e Higiene Íntima con Turmalina',
     category: 'turmalina',
     categoryLabel: 'Turmalina y Bienestar',
@@ -146,6 +162,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
   },
   {
     id: 'doc-76',
+    slug: 'ashwagandha-coffee-cafe-adaptogeno',
     title: '76. Ashwagandha Coffee - Café Adaptógeno',
     category: 'cafes-bebidas',
     categoryLabel: 'Cafés y Bebidas',
@@ -155,6 +172,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
   },
   {
     id: 'doc-77',
+    slug: 'trebol-coffee-hgw',
     title: '77. Trébol Coffee HGW',
     category: 'cafes-bebidas',
     categoryLabel: 'Cafés y Bebidas',
@@ -164,6 +182,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
   },
   {
     id: 'doc-92',
+    slug: 'mundo-de-la-manicura-press-on-nails',
     title: '92. Mundo de la Manicura (Press On Nails HGW)',
     category: 'cuidado-personal',
     categoryLabel: 'Cuidado Personal y Belleza',
@@ -173,6 +192,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
   },
   {
     id: 'doc-100',
+    slug: 'pasta-dental-de-turmalina',
     title: '100. Pasta Dental de Turmalina (Blanca y Negra)',
     category: 'cuidado-personal',
     categoryLabel: 'Cuidado Personal',
@@ -182,6 +202,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
   },
   {
     id: 'doc-112',
+    slug: 'hgw-probiotics-toothpaste',
     title: '112. HGW Probiotics Toothpaste (Pasta con Probióticos)',
     category: 'cuidado-personal',
     categoryLabel: 'Cuidado Personal',
@@ -191,6 +212,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
   },
   {
     id: 'doc-115',
+    slug: 'jabon-de-artemisa-hgw',
     title: '115. Jabón de Artemisa HGW',
     category: 'cuidado-personal',
     categoryLabel: 'Cuidado Personal',
@@ -200,6 +222,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
   },
   {
     id: 'doc-116',
+    slug: 'almohada-magnetica-de-turmalina',
     title: '116. Almohada Magnética de Turmalina',
     category: 'turmalina',
     categoryLabel: 'Turmalina y Bienestar',

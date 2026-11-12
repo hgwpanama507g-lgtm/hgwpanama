@@ -135,7 +135,7 @@ export const DocumentsPage: React.FC = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredDocs.map((doc) => {
-              const docDetailPageUrl = `/documentos/${doc.id}`;
+              const docDetailPageUrl = `/documentos/${doc.slug}`;
               return (
                 <div
                   key={doc.id}
