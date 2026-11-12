@@ -151,25 +151,6 @@ export const DocumentDetailPage: React.FC<DocumentDetailPageProps> = ({ id }) =>
           </div>
         </div>
 
-        {/* In-Page Interactive PDF Viewer Section */}
-        <div className="mb-14">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
-            <h2 className="text-xl font-extrabold text-black flex items-center gap-2">
-              <Eye className="w-5 h-5 text-[#00795F]" />
-              <span>Vista previa real del contenido (PDF)</span>
-            </h2>
-          </div>
-
-          <div className="bg-stone-900 rounded-3xl overflow-hidden border border-stone-300 shadow-2xl flex flex-col items-center justify-center min-h-[600px] relative p-1 sm:p-2">
-            <iframe
-              src={`https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(doc.url)}`}
-              title={doc.title}
-              className="w-full h-full min-h-[600px] border-0"
-              allowFullScreen
-            />
-          </div>
-        </div>
-
         {/* Related Documents Section */}
         {relatedDocs.length > 0 && (
           <div className="pt-8 border-t border-stone-200">

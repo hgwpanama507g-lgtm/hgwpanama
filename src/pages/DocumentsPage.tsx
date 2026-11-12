@@ -6,7 +6,6 @@ import { Link } from '../router';
 export const DocumentsPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [previewDoc, setPreviewDoc] = useState<DocumentItem | null>(null);
 
   const categories = [
     { id: 'all', label: 'Todos los Documentos' },
@@ -206,73 +205,7 @@ export const DocumentsPage: React.FC = () => {
 
       </div>
 
-      {/* PDF Preview Modal */}
-      {previewDoc && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 animate-fade-in">
-          <div className="bg-white rounded-3xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden border border-stone-300">
-            {/* Modal Header */}
-            <div className="px-6 py-4 bg-stone-900 text-white flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <FileText className="w-6 h-6 text-emerald-400" />
-                <div>
-                  <h3 className="text-base font-extrabold line-clamp-1">{previewDoc.title}</h3>
-                  <p className="text-xs text-stone-400">{previewDoc.categoryLabel} · PDF ({previewDoc.size})</p>
-                </div>
-              </div>
-              <button
-                onClick={() => setPreviewDoc(null)}
-                className="p-2 text-stone-400 hover:text-white rounded-full hover:bg-stone-800 transition-colors"
-                aria-label="Cerrar vista previa"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
 
-            {/* Modal Body / Embedded or Iframe view */}
-            <div className="p-6 flex-1 overflow-y-auto space-y-4 bg-stone-50">
-              <div className="bg-white p-6 rounded-2xl border border-stone-300 space-y-3">
-                <h4 className="text-sm font-bold text-black uppercase tracking-wider">Descripción del Documento</h4>
-                <p className="text-sm text-stone-800 leading-relaxed">{previewDoc.description}</p>
-                <div className="pt-2 flex items-center gap-2 text-xs text-[#00795F] font-bold">
-                  <ShieldCheck className="w-4 h-4 text-[#00A550]" />
-                  <span>Documento oficial verificado de Health Green World</span>
-                </div>
-              </div>
-
-              {/* Embedded PDF iframe viewer */}
-              <div className="w-full aspect-4/3 bg-stone-900 rounded-2xl overflow-hidden border border-stone-300 relative">
-                <iframe
-                  src={`${previewDoc.url}#view=FitH`}
-                  title={previewDoc.title}
-                  className="w-full h-full border-0"
-                />
-              </div>
-            </div>
-
-            {/* Modal Footer */}
-            <div className="px-6 py-4 bg-white border-t border-stone-200 flex items-center justify-between">
-              <span className="text-xs text-stone-500">¿Necesitas asesoría sobre este documento? Contáctanos.</span>
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={() => setPreviewDoc(null)}
-                  className="px-4 py-2 bg-stone-100 hover:bg-stone-200 text-black text-xs font-bold rounded-xl"
-                >
-                  Cerrar
-                </button>
-                <a
-                  href={previewDoc.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-5 py-2.5 bg-[#00795F] hover:bg-[#004d3c] text-white text-xs font-black rounded-xl shadow-xs flex items-center gap-1.5"
-                >
-                  <Download className="w-4 h-4" />
-                  <span>Descargar Archivo PDF</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
     </div>
   );
