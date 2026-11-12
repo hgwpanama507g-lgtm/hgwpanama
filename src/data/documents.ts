@@ -20,7 +20,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
     url: 'https://media.academiahgw.online/wp-content/uploads/2026/11/12.-CORDYCEPS.pdf',
     description: 'Información oficial sobre el hongo Cordyceps militaris, propiedades adaptógenas y soporte inmunológico.',
     size: '2.4 MB',
-    coverImageUrl: ''
+    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/12.-CORDYCEPS.png'
   },
   {
     id: 'doc-13',
@@ -31,7 +31,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
     url: 'https://media.academiahgw.online/wp-content/uploads/2026/11/13.-ESPIRULINA.pdf',
     description: 'Detalle de la microalga espirulina combinada con ginseng, proteínas completas y clorofila.',
     size: '1.8 MB',
-    coverImageUrl: ''
+    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/13.-ESPIRULINA.png'
   },
   {
     id: 'doc-16',
@@ -42,7 +42,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
     url: 'https://media.academiahgw.online/wp-content/uploads/2026/11/16.-HGW-SERIE-CAFE.pdf',
     description: 'Catálogo completo de la línea de cafés solubles enriquecidos con extractos herbales y hongo reishi.',
     size: '3.5 MB',
-    coverImageUrl: ''
+    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/16.-HGW-SERIE-CAFE.png'
   },
   {
     id: 'doc-17',
@@ -53,7 +53,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
     url: 'https://media.academiahgw.online/wp-content/uploads/2026/11/17.-HGW-Blueberry-Collagen-Peptide.pdf',
     description: 'Ficha técnica de péptidos y tripéptidos de colágeno marino con superfrutas.',
     size: '2.1 MB',
-    coverImageUrl: ''
+    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/17.-HGW-Blueberry-Collagen-Peptide.png'
   },
   {
     id: 'doc-18',
@@ -64,7 +64,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
     url: 'https://media.academiahgw.online/wp-content/uploads/2026/11/18.-HGW-Blueberry-Soybean-Milk-Drink.pdf',
     description: 'Bebida nutritiva a base de soya seleccionada y extracto de arándano silvestre.',
     size: '1.9 MB',
-    coverImageUrl: ''
+    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/18._HGW_Blueberry_Soybean_Milk_Drink-1024x576.png'
   },
   {
     id: 'doc-20',
@@ -75,7 +75,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
     url: 'https://media.academiahgw.online/wp-content/uploads/2026/11/20.-BLUEBERRY-CANDY.pdf',
     description: 'Caramelos funcionales de arándano ricos en antioxidantes y antocianinas.',
     size: '1.5 MB',
-    coverImageUrl: ''
+    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/20._BLUEBERRY_CANDY-1024x576.png'
   },
   {
     id: 'doc-21',
@@ -86,7 +86,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
     url: 'https://media.academiahgw.online/wp-content/uploads/2026/11/21.-OLIVE-SOAP_TOURMALINE-SOAP.pdf',
     description: 'Guía de uso y propiedades de los jabones de turmalina negra y aceite de oliva virgen.',
     size: '2.0 MB',
-    coverImageUrl: ''
+    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/21._OLIVE_SOAP_TOURMALINE_SOAP-1024x576.png'
   },
   {
     id: 'doc-22',
@@ -97,7 +97,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
     url: 'https://media.academiahgw.online/wp-content/uploads/2026/11/22.-LACTIBERRY.pdf',
     description: 'Suero de leche enriquecido con probióticos, trozos de arándano y té negro.',
     size: '2.2 MB',
-    coverImageUrl: ''
+    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/22._LACTIBERRY-1024x576.png'
   },
   {
     id: 'doc-34',
@@ -108,7 +108,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
     url: 'https://media.academiahgw.online/wp-content/uploads/2026/11/34.-SERIE-SMILIFE-BLUEBERRY.pdf',
     description: 'Línea completa de sueros, tónicos, limpiadores y cremas con extracto de arándano y péptidos.',
     size: '4.8 MB',
-    coverImageUrl: ''
+    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/34._SERIE_SMILIFE_BLUEBERRY-1024x576.png'
   },
   {
     id: 'doc-39',
@@ -119,7 +119,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
     url: 'https://media.academiahgw.online/wp-content/uploads/2026/11/39.-Accesorio-de-Turmalina.pdf',
     description: 'Protectores de cintura, rodillas y cuello autocalentables con nanoturmalina e imanes.',
     size: '3.1 MB',
-    coverImageUrl: ''
+    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/39._Accesorio_de_Turmalina-1024x576.png'
   },
   {
     id: 'doc-42',
@@ -130,7 +130,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
     url: 'https://media.academiahgw.online/wp-content/uploads/2026/11/42.-BERRY-JUICE.pdf',
     description: 'Bebida funcional líquida con 11 superfrutas y antioxidantes esenciales.',
     size: '2.3 MB',
-    coverImageUrl: ''
+    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/42._BERRY_JUICE-1024x577.png'
   },
   {
     id: 'doc-44',
@@ -141,7 +141,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
     url: 'https://media.academiahgw.online/wp-content/uploads/2026/11/44.-SMILIFE-KERATIN-SHAMPOO.pdf',
     description: 'Champú capilar con queratina hidrolizada y extractos herbales para la raíz y fibra capilar.',
     size: '1.7 MB',
-    coverImageUrl: ''
+    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/44._SMILIFE_KERATIN_SHAMPOO-1024x576.png'
   },
   {
     id: 'doc-45',
@@ -152,7 +152,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
     url: 'https://media.academiahgw.online/wp-content/uploads/2026/11/45.-SMILIFE-TOURMALINE-SHOWER-GEL.pdf',
     description: 'Gel de ducha energizante con microextracto de turmalina.',
     size: '1.6 MB',
-    coverImageUrl: ''
+    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/45._SMILIFE_TOURMALINE_SHOWER_GEL-1024x576.png'
   },
   {
     id: 'doc-47',
@@ -163,7 +163,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
     url: 'https://media.academiahgw.online/wp-content/uploads/2026/11/47.-BLUEBERRY-WINE.pdf',
     description: 'Elaborado mediante fermentación natural de arándanos silvestres.',
     size: '2.9 MB',
-    coverImageUrl: ''
+    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/47._BLUEBERRY_WINE-1024x576.png'
   },
   {
     id: 'doc-70',
@@ -174,7 +174,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
     url: 'https://media.academiahgw.online/wp-content/uploads/2026/11/70.-PROTECTORES-TURMALINA.pdf',
     description: 'Toallas sanitarias y protectores diarios con banda aniónica de turmalina.',
     size: '2.5 MB',
-    coverImageUrl: ''
+    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/70._PROTECTORES_TURMALINA-1024x576.png'
   },
   {
     id: 'doc-76',
@@ -185,7 +185,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
     url: 'https://media.academiahgw.online/wp-content/uploads/2026/11/76.-Ashwagandha-Coffee.pdf',
     description: 'Café gourmet con raíz de Ashwagandha para el manejo del estrés y la vitalidad.',
     size: '2.0 MB',
-    coverImageUrl: ''
+    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/76._Ashwagandha_Coffee-1024x576.png'
   },
   {
     id: 'doc-77',
@@ -196,7 +196,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
     url: 'https://media.academiahgw.online/wp-content/uploads/2026/11/77.-TREBOL-COFFEE.pdf',
     description: 'Fórmula exclusiva de café funcional con extractos botánicos.',
     size: '1.8 MB',
-    coverImageUrl: ''
+    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/77._TREBOL_COFFEE-1024x576.png'
   },
   {
     id: 'doc-92',
@@ -207,7 +207,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
     url: 'https://media.academiahgw.online/wp-content/uploads/2026/11/92.-Mundo-de-la-manicura.pdf',
     description: 'Catálogo de uñas acrílicas reutilizables y accesorios de belleza.',
     size: '3.4 MB',
-    coverImageUrl: ''
+    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/92._Mundo_de_la_manicura-1024x576.png'
   },
   {
     id: 'doc-100',
@@ -218,7 +218,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
     url: 'https://media.academiahgw.online/wp-content/uploads/2026/11/100.-Pasta-dental-de-turmalina.pdf',
     description: 'Guía de higiene bucal con micropartículas de turmalina y xilitol.',
     size: '2.1 MB',
-    coverImageUrl: ''
+    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/100._Pasta_dental_de_turmalina-1024x576.png'
   },
   {
     id: 'doc-112',
@@ -229,7 +229,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
     url: 'https://media.academiahgw.online/wp-content/uploads/2026/11/112.-HGW-PROBIOTICS-TOOTHPASTE.pdf',
     description: 'Pasta dental con lisados de Lactobacillus para la microbiota oral.',
     size: '2.2 MB',
-    coverImageUrl: ''
+    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/112._HGW_PROBIOTICS_TOOTHPASTE-1024x576.png'
   },
   {
     id: 'doc-115',
@@ -240,7 +240,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
     url: 'https://media.academiahgw.online/wp-content/uploads/2026/11/115.-JABON-DE-ARTEMISA-1.pdf',
     description: 'Propiedades calmantes y purificantes del extracto de Artemisia argyi.',
     size: '1.6 MB',
-    coverImageUrl: ''
+    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/115._JABON_DE_ARTEMISA_1-1024x576.png'
   },
   {
     id: 'doc-116',
@@ -251,7 +251,8 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
     url: 'https://media.academiahgw.online/wp-content/uploads/2026/11/116.-Almohada-de-Turmalina.pdf',
     description: 'Guía de descanso cervical y ergonomía con imanes y turmalina.',
     size: '2.8 MB',
-    coverImageUrl: ''
+    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/116._Almohada_de_Turmalina-1024x576.png'
   }
+
 ];
 

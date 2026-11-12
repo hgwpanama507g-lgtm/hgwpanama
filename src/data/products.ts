@@ -19,6 +19,34 @@ export interface Product {
 }
 
 export const PRODUCTS: Product[] = [
+  {
+    id: "col-01",
+    slug: "collar-de-turmalina-no-2",
+    name: "Collar de Turmalina No. 2",
+    category: "turmalina",
+    categoryLabel: "Turmalina y Bienestar",
+    price: 40.00,
+    priceFormatted: "$40.00",
+    inStock: true,
+    featured: true,
+    image: "https://media.academiahgw.online/wp-content/uploads/2026/11/Collar-de-turmalina-No.-2.png",
+    shortDescription: "Elegante collar artesanal con cuentas de turmalina natural.",
+    benefits: ["Equilibrio energético", "Protección contra campos electromagnéticos"],
+  },
+  {
+    id: "pul-01",
+    slug: "pulsera-de-turmalina-no-33",
+    name: "Pulsera de Turmalina No. 33",
+    category: "turmalina",
+    categoryLabel: "Turmalina y Bienestar",
+    price: 20.00,
+    priceFormatted: "$20.00",
+    inStock: true,
+    featured: true,
+    image: "https://media.academiahgw.online/wp-content/uploads/2026/11/Pulsera-de-turmalina-No.-33-scaled.jpg",
+    shortDescription: "Delicada pulsera con cuentas de turmalina natural.",
+    benefits: ["Estilo sofisticado", "Propiedades de la turmalina"],
+  },
   // --- CAFÉS Y BEBIDAS ---
   {
     id: "110",
