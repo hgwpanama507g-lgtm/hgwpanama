@@ -6,7 +6,7 @@ interface RouterContextType {
 }
 
 const RouterContext = createContext<RouterContextType>({
-  currentPath: '/inicio',
+  currentPath: '/',
   navigate: () => {},
 });
 
@@ -14,9 +14,9 @@ import { PRODUCTS } from './data/products';
 import { HGW_DOCUMENTS } from './data/documents';
 
 export const getPageTitle = (pathname: string): string => {
-  const cleanPath = pathname.replace(/\/$/, '') || '/inicio';
+  const cleanPath = pathname.replace(/\/$/, '') || '/';
 
-  if (cleanPath === '/inicio' || cleanPath === '') {
+  if (cleanPath === '/') {
     return 'Inicio';
   }
   if (cleanPath === '/productos' || cleanPath === '/catalogo') {
@@ -65,8 +65,11 @@ export const getPageTitle = (pathname: string): string => {
 export const RouterProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const getInitialPath = () => {
     const path = window.location.pathname;
-    if (!path || path === '/' || path === '') return '/inicio';
-    return path;
+    if (path === '/inicio') {
+      window.history.replaceState(null, '', '/');
+      return '/';
+    }
+    return path || '/';
   };
 
   const [currentPath, setCurrentPath] = useState<string>(getInitialPath);
@@ -74,7 +77,7 @@ export const RouterProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   useEffect(() => {
     const handlePopState = () => {
       const path = window.location.pathname;
-      setCurrentPath(!path || path === '/' ? '/inicio' : path);
+      setCurrentPath(path || '/');
     };
 
     window.addEventListener('popstate', handlePopState);
@@ -120,7 +123,7 @@ export const Link: React.FC<LinkProps> = ({ to, className, children, onClick, ..
     }
   };
 
-  const isActive = currentPath === to || (to !== '/inicio' && currentPath.startsWith(to));
+  const isActive = currentPath === to || (to !== '/' && currentPath.startsWith(to));
 
   return (
     <a

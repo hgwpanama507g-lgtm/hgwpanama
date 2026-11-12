@@ -13,7 +13,7 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart }) => {
   const { currentPath } = useRouter();
 
   const navLinks = [
-    { label: 'Inicio', href: '/inicio' },
+    { label: 'Inicio', href: '/' },
     { label: 'Productos', href: '/productos' },
     { label: 'Membresías', href: '/membresias' },
     { label: 'Oportunidad de Negocio', href: '/oportunidad-de-negocio' },
@@ -28,7 +28,7 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart }) => {
         <div className="flex items-center justify-between gap-6 h-20 sm:h-22">
           
           {/* Zone 1: Official Logo */}
-          <Link to="/inicio" className="flex items-center gap-3 shrink-0 group">
+          <Link to="/" className="flex items-center gap-3 shrink-0 group">
             <img
               src="https://media.academiahgw.online/wp-content/uploads/2026/11/LOGO-HGW-PANAMA-DISTRIBUIDOR-INDEPENDIENTE.png"
               alt="HGW Panamá - Distribuidor Independiente"
@@ -44,7 +44,7 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart }) => {
           {/* Zone 2: Concise single-line navigation links with increased font size & pure dark text */}
           <nav className="hidden lg:flex items-center gap-7 text-[15px] font-bold text-black">
             {navLinks.map((link) => {
-              const isActive = currentPath === link.href || (link.href !== '/inicio' && currentPath.startsWith(link.href));
+              const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href));
               return (
                 <Link
                   key={link.href}
@@ -112,7 +112,7 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart }) => {
         <div className="lg:hidden border-t border-stone-200 bg-white px-4 pt-3 pb-6 shadow-xl animate-fade-in">
           <div className="flex flex-col gap-2">
             {navLinks.map((link) => {
-              const isActive = currentPath === link.href || (link.href !== '/inicio' && currentPath.startsWith(link.href));
+              const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href));
               return (
                 <Link
                   key={link.href}
