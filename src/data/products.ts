@@ -30,8 +30,18 @@ export const PRODUCTS: Product[] = [
     inStock: true,
     featured: true,
     image: "https://media.academiahgw.online/wp-content/uploads/2026/11/Collar-de-turmalina-No.-2.png",
-    shortDescription: "Elegante collar artesanal con cuentas de turmalina natural.",
-    benefits: ["Equilibrio energético", "Protección contra campos electromagnéticos"],
+    shortDescription: "Elegante accesorio artesanal que combina la sofisticación de la joyería moderna con las propiedades bioenergéticas de la turmalina natural.",
+    presentation: "1 Collar con broche de seguridad",
+    benefits: [
+      "Emite iones negativos que ayudan a equilibrar el campo bioenergético corporal.",
+      "Promueve una sensación de calma y reducción del estrés diario.",
+      "Actúa como un escudo natural contra la contaminación electromagnética (celulares, Wi-Fi).",
+      "Mejora la microcirculación en el área del cuello y hombros.",
+      "Diseño versátil para uso diario o eventos especiales."
+    ],
+    ingredients: ["Cuentas de Turmalina natural seleccionada", "Hilo de alta resistencia", "Cierre hipoalergénico"],
+    usage: "Llevar puesto diariamente como accesorio personal. Se recomienda que el collar tenga contacto directo con la piel para aprovechar mejor los iones negativos.",
+    precautions: "Evitar el contacto directo con perfumes, cremas o agentes químicos fuertes. Limpiar periódicamente con un paño suave húmedo."
   },
   {
     id: "pul-01",
@@ -44,8 +54,18 @@ export const PRODUCTS: Product[] = [
     inStock: true,
     featured: true,
     image: "https://media.academiahgw.online/wp-content/uploads/2026/11/Pulsera-de-turmalina-No.-33-scaled.jpg",
-    shortDescription: "Delicada pulsera con cuentas de turmalina natural.",
-    benefits: ["Estilo sofisticado", "Propiedades de la turmalina"],
+    shortDescription: "Delicada pulsera artesanal diseñada para brindar bienestar constante mediante la liberación de aniones por contacto térmico corporal.",
+    presentation: "1 Pulsera ajustable/elástica",
+    benefits: [
+      "Ayuda a reducir la fatiga en la muñeca y el brazo por uso excesivo de dispositivos.",
+      "Libera calor infrarrojo lejano que estimula la circulación sanguínea local.",
+      "Promueve el equilibrio de la energía vital (Qi).",
+      "Accesorio liviano y ergonómico para uso prolongado.",
+      "Materiales naturales de alta calidad."
+    ],
+    ingredients: ["Piedras de Turmalina mineral", "Nácar / Cristales decorativos", "Base elástica reforzada"],
+    usage: "Colocar en la muñeca (derecha o izquierda) de modo que las piedras tengan contacto con la piel. Ideal para usar durante la jornada laboral.",
+    precautions: "No sumergir en agua clorada (piscinas). Guardar en su estuche cuando no se utilice para evitar rayaduras en las piedras."
   },
   // --- CAFÉS Y BEBIDAS ---
   {
@@ -890,17 +910,18 @@ export const PRODUCTS: Product[] = [
     inStock: true,
     featured: true,
     image: "https://media.academiahgw.online/wp-content/uploads/2026/11/Jabon-de-turmalina.jpeg",
-    shortDescription: "Jabón facial y corporal con piedra de turmalina negra pura, generadora de aniones para activar células subcutáneas.",
-    presentation: "Pastilla en barra de 100 g",
+    shortDescription: "Fórmula de limpieza profunda con nanoturmalina negra que activa la piel mediante la liberación de iones negativos y calor térmico.",
+    presentation: "Barra de 100 g",
     benefits: [
-      "Libera iones negativos que activan la circulación subcutánea de la piel.",
-      "Mejora y previene eficazmente el acné, puntos negros y poros abiertos.",
-      "Elimina impurezas acumuladas por maquillaje y contaminación ambiental.",
-      "Apto para rostro, manos, cuerpo y zonas con exceso de grasa."
+      "Limpia profundamente los poros, eliminando toxinas y residuos de maquillaje.",
+      "Ayuda a controlar el exceso de grasa y previene la aparición de espinillas.",
+      "Estimula la microcirculación cutánea, mejorando la oxigenación celular.",
+      "Deja la piel con una sensación de frescura y vitalidad.",
+      "Apto para uso facial y corporal en todo tipo de piel."
     ],
-    ingredients: ["Base vegetal saponificada", "Piedra de turmalina negra pulverizada", "Glicerina natural"],
-    usage: "Hacer espuma con las manos húmedas, aplicar la espuma sobre el rostro o cuerpo masajeando suavemente 1 minuto y enjuagar con agua tibia.",
-    precautions: "No es medicamento. En caso de piel sumamente reactiva hacer prueba en el antebrazo."
+    ingredients: ["Jabón base vegetal", "Polvo de turmalina negra (nanopartículas)", "Glicerina vegetal", "Aceites esenciales suavizantes"],
+    usage: "Humedecer la piel y la barra de jabón. Generar abundante espuma y aplicar sobre el rostro o cuerpo con masajes circulares durante 1 o 2 minutos. Enjuagar con suficiente agua.",
+    precautions: "Evitar el contacto con los ojos. Si observa alguna reacción desfavorable, suspenda su uso. Mantener en una jabonera seca."
   },
   {
     id: "20",
@@ -912,17 +933,18 @@ export const PRODUCTS: Product[] = [
     priceFormatted: "$7.20",
     inStock: true,
     image: "https://media.academiahgw.online/wp-content/uploads/2026/11/Jabon-de-artemisa.jpeg",
-    shortDescription: "Jabón herbal elaborado con extracto y aceite esencial de hoja de Artemisia argyi, de gran poder calmante y antibacteriano.",
+    shortDescription: "Jabón artesanal formulado con extractos de Artemisia argyi, conocida por sus propiedades antibacterianas y antiinflamatorias.",
     presentation: "Barra de 100 g",
     benefits: [
-      "Extracto ancestral de artemisa con propiedades antioxidantes y calmantes.",
-      "Suave exfoliación física gracias al carbonato de calcio micronizado.",
-      "Elimina exceso de sebo sin dejar sensación tirante ni grasosa.",
-      "Ideal para pieles propensas a brotes o irritaciones leves."
+      "Combate bacterias y microorganismos en la superficie de la piel.",
+      "Calma irritaciones, picazón y rojeces cutáneas.",
+      "Proporciona una exfoliación suave que remueve células muertas.",
+      "Ideal para pieles grasas o con tendencia a dermatitis leve.",
+      "Aroma herbal natural que promueve la relajación."
     ],
-    ingredients: ["Aceite y extracto de hoja de Artemisia argyi", "Palmitato de sodio", "Cocoato de sodio", "Carbonato de calcio"],
-    usage: "Generar abundante espuma con agua y aplicar sobre el rostro masajeando suavemente antes de aclarar.",
-    precautions: "Evitar contacto con ojos."
+    ingredients: ["Extracto de hoja de Artemisia argyi", "Aceite esencial de Artemisa", "Sodio palmato", "Carbonato de calcio"],
+    usage: "Lavar el área deseada con la espuma del jabón, dejar actuar unos instantes y aclarar con abundante agua.",
+    precautions: "Uso externo solamente. Mantener fuera del alcance de los niños."
   },
   {
     id: "56",
