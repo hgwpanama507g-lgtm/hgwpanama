@@ -106,7 +106,7 @@ export const BusinessOpportunityPage: React.FC = () => {
                 to="/preregistro"
                 className="px-6 py-3.5 bg-white text-[#00795F] font-black text-sm rounded-xl shadow-md hover:bg-stone-100 transition-all active:scale-95 text-center"
               >
-                ir a link de pregistro
+                Pre-registro
               </Link>
               <a
                 href={getAffiliationWhatsAppUrl()}
@@ -347,7 +347,7 @@ export const BusinessOpportunityPage: React.FC = () => {
                       to="/preregistro"
                       className="px-3 py-2 bg-stone-200 hover:bg-[#00795F] hover:text-white text-stone-900 text-xs font-bold rounded-xl transition-all inline-block active:scale-95"
                     >
-                      ir a link de pregistro
+                      Pre-registro
                     </Link>
                   </td>
                   <td className="py-3.5 px-4 text-center">
@@ -355,7 +355,7 @@ export const BusinessOpportunityPage: React.FC = () => {
                       to="/preregistro"
                       className="px-3 py-2 bg-stone-200 hover:bg-[#00795F] hover:text-white text-stone-900 text-xs font-bold rounded-xl transition-all inline-block active:scale-95"
                     >
-                      ir a link de pregistro
+                      Pre-registro
                     </Link>
                   </td>
                   <td className="py-3.5 px-4 text-center">
@@ -363,7 +363,7 @@ export const BusinessOpportunityPage: React.FC = () => {
                       to="/preregistro"
                       className="px-3 py-2 bg-stone-200 hover:bg-[#00795F] hover:text-white text-stone-900 text-xs font-bold rounded-xl transition-all inline-block active:scale-95"
                     >
-                      ir a link de pregistro
+                      Pre-registro
                     </Link>
                   </td>
                   <td className="py-3.5 px-4 text-center bg-emerald-50/50">
@@ -371,7 +371,7 @@ export const BusinessOpportunityPage: React.FC = () => {
                       to="/preregistro"
                       className="px-4 py-2.5 bg-[#00795F] hover:bg-[#004d3c] text-white text-xs font-black rounded-xl shadow-xs transition-all inline-block active:scale-95"
                     >
-                      ir a link de pregistro ★
+                      Pre-registro ★
                     </Link>
                   </td>
                 </tr>

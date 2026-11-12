@@ -61,7 +61,7 @@ export const PreRegistrationPage: React.FC = () => {
       message += `🏠 *Dirección de Entrega:* ${address.trim() || 'No especificada'}\n`;
       message += `🚚 *Método de Entrega:* ${deliveryMethod}\n`;
       message += `💳 *Método de Pago:* ${paymentMethod}\n`;
-      message += `🤝 *Patrocinador:* Yamilka Batista (Código: Yamilka507)\n`;
+      message += `🤝 *Patrocinador:* (Por asignar / Verificado por sistema)\n`;
       if (notes.trim()) message += `📝 *Comentarios/Productos:* ${notes.trim()}\n`;
 
       const encoded = encodeURIComponent(message);
@@ -81,7 +81,7 @@ export const PreRegistrationPage: React.FC = () => {
         <nav className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-stone-600 mb-6">
           <Link to="/inicio" className="hover:text-[#00795F] transition-colors">Inicio</Link>
           <span>/</span>
-          <span className="text-black font-bold">ir a link de pregistro</span>
+          <span className="text-black font-bold">Pre-registro</span>
         </nav>
 
         {/* Page Header */}
@@ -91,29 +91,27 @@ export const PreRegistrationPage: React.FC = () => {
             <span>Afiliación y Registro Oficial · Panamá</span>
           </div>
           <h1 className="text-2xl sm:text-4xl font-extrabold text-black tracking-tight">
-            ir a link de pregistro
+            Pre-registro
           </h1>
-          <p className="text-[17px] sm:text-[18px] text-stone-700 mt-2 max-w-2xl mx-auto leading-relaxed">
-            Completa tus datos para crear tu cuenta en Health Green World Panamá. Tu solicitud se transmite directamente al correo oficial <strong className="text-black">hgwpanama507g@gmail.com</strong> bajo el patrocinio autorizado de <strong className="text-black">Yamilka Batista (Código: Yamilka507)</strong>.
-          </p>
+          {/* Legend removed as requested */}
         </div>
 
-        {/* Official Registration Link Callout */}
+        {/* Official Portal Link Callout (Neutral) */}
         <div className="bg-[#00795F] text-white rounded-3xl p-6 mb-8 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-md">
           <div className="flex items-center gap-3">
             <Sparkles className="w-6 h-6 text-emerald-300 shrink-0" />
             <div className="text-center sm:text-left">
-              <h3 className="font-black text-lg">¿Prefieres el registro oficial inmediato?</h3>
-              <p className="text-emerald-100 text-xs sm:text-sm">Regístrate directamente en el portal corporativo internacional.</p>
+              <h3 className="font-black text-lg">¿Deseas registrarte directamente?</h3>
+              <p className="text-emerald-100 text-xs sm:text-sm">Accede al portal corporativo internacional oficial de HGW.</p>
             </div>
           </div>
           <a
-            href="https://www.healthgreenworld.com/?userName=Yamilka507"
+            href="https://www.healthgreenworld.com/"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 bg-white text-[#00795F] font-black text-sm rounded-xl shadow-sm hover:bg-stone-50 transition-all active:scale-95 whitespace-nowrap"
           >
-            <span>link registro oficial</span>
+            <span>Portal Oficial HGW</span>
             <ExternalLink className="w-4 h-4" />
           </a>
         </div>
@@ -125,42 +123,33 @@ export const PreRegistrationPage: React.FC = () => {
               <Building2 className="w-5 h-5" />
             </div>
             <div className="text-xs sm:text-sm space-y-1">
-              <h3 className="font-extrabold text-black">Oficinas Principales en Panamá</h3>
+              <h3 className="font-extrabold text-black uppercase tracking-tight">HGW PANAMÁ (Ubicación)</h3>
               <p className="text-stone-700 leading-snug">
-                Avenida Porras, Plaza Royal Blue, Local No. 6, Corregimiento de San Francisco, Provincia de Panamá.
+                Avenida Porras, Plaza Royal Blue, Local No. 6, Provincia de PANAMÁ, Corregimiento de San Francisco.
               </p>
               <p className="text-stone-500 font-medium">
-                Tel: <strong>+507 392-8415</strong> · WhatsApp: <strong>+507 6778-8375</strong>
+                Contacto: <strong>+507 392-8415</strong>
               </p>
             </div>
           </div>
 
           <div className="bg-white p-5 rounded-2xl border border-stone-200 flex items-start gap-3.5 shadow-2xs">
             <div className="w-10 h-10 rounded-xl bg-[#00A550]/15 flex items-center justify-center text-[#00A550] shrink-0 mt-0.5">
-              <Truck className="w-5 h-5" />
+              <Clock className="w-5 h-5" />
             </div>
             <div className="text-xs sm:text-sm space-y-1">
-              <h3 className="font-extrabold text-black">Envíos a Domicilio por Servientrega</h3>
+              <h3 className="font-extrabold text-black uppercase tracking-tight">Horarios de Atención</h3>
               <p className="text-stone-700 leading-snug">
-                Entregas rápidas y aseguradas en Ciudad de Panamá, Panamá Oeste, Colón, Chiriquí, Veraguas, Herrera, Los Santos, Coclé y Bocas del Toro.
+                Lunes a Viernes: 09:00 am a 06:00 pm | Sábados: 09:00 am a 01:00 pm
               </p>
-              <p className="text-[#00795F] font-bold">
-                Lunes a Viernes: 9:00 am a 6:00 pm | Sábados: 9:00 am a 1:00 pm
+              <p className="text-stone-500 font-medium">
+                Domingo y Festivos: <strong>Cerrado</strong>
               </p>
             </div>
           </div>
         </div>
 
-        {/* Notice for already registered members */}
-        <div className="mb-8 p-4 sm:p-5 bg-amber-50/90 border border-amber-300 rounded-2xl text-xs space-y-1.5 shadow-2xs">
-          <div className="flex items-center gap-2 font-black text-amber-950 text-sm">
-            <ShieldAlert className="w-4 h-4 text-amber-700 shrink-0" />
-            <span>Aclaración Importante para Socios ya Afiliados a HGW</span>
-          </div>
-          <p className="text-[17px] text-stone-800 leading-relaxed font-normal">
-            Este formulario y el canal de WhatsApp publicado corresponden a un <strong>Distribuidor Independiente</strong> para nuevas afiliaciones, compras preferenciales y pedidos de nuevos prospectos. <strong>Si usted ya es socio registrado de HGW</strong>, debe comunicarse directamente con su <strong>patrocinador</strong> o llamar al teléfono oficial de las oficinas corporativas principales en Panamá: <strong className="text-black">+507 392-8415</strong> para recibir soporte en su código o pedidos.
-          </p>
-        </div>
+        {/* Notice removed as requested */}
 
         {/* Main Registration Form */}
         <div className="bg-white rounded-3xl p-6 sm:p-10 border border-stone-300 shadow-md">
@@ -170,26 +159,17 @@ export const PreRegistrationPage: React.FC = () => {
                 <MailCheck className="w-8 h-8" />
               </div>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-black">
-                ¡Solicitud de ir a link de pregistro Enviada!
+                ¡Solicitud de Pre-registro Enviada!
               </h2>
               <p className="text-sm sm:text-base text-stone-700 leading-relaxed">
-                Tu información ha sido registrada y enviada con éxito al correo oficial <strong className="text-black">hgwpanama507g@gmail.com</strong>. Se ha abierto WhatsApp para que tu patrocinadora <strong className="text-black">Yamilka Batista</strong> te dé la bienvenida y te oriente en la selección de tus productos y pago.
+                Tu información ha sido registrada y enviada con éxito al sistema de atención en Panamá (hgwpanama507g@gmail.com). Un representante se pondrá en contacto contigo para coordinar la activación, selección de productos y pago.
               </p>
               <div className="pt-4 flex flex-col sm:flex-row gap-3 justify-center">
-                <a
-                  href={`https://wa.me/50767788375?text=${encodeURIComponent(`Hola Yamilka, acabo de enviar mi formulario de pre-registro para ${fullName}. Deseo coordinar el pago y la entrega.`)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-6 py-3 bg-[#00A550] hover:bg-[#008f44] text-white font-bold text-sm rounded-xl transition-all shadow-md flex items-center justify-center gap-2"
-                >
-                  <Phone className="w-4 h-4" />
-                  <span>Confirmar por WhatsApp</span>
-                </a>
                 <button
                   onClick={() => setSubmitted(false)}
-                  className="px-6 py-3 bg-stone-100 hover:bg-stone-200 text-black font-bold text-sm rounded-xl transition-colors"
+                  className="px-8 py-3 bg-[#00795F] text-white font-bold text-sm rounded-xl transition-all shadow-md hover:bg-[#004d3c]"
                 >
-                  Llenar otro registro
+                  Regresar al formulario
                 </button>
               </div>
             </div>
@@ -218,7 +198,7 @@ export const PreRegistrationPage: React.FC = () => {
                       {accountType === 'distribuidor' && <Check className="w-5 h-5 text-[#00795F]" />}
                     </div>
                     <p className="text-xs text-stone-600 leading-relaxed">
-                      Accede a precios de mayorista, hasta 52% de ahorro en compras y comisiones por venta directa y red.
+                      Compra a precio de distribuidor con mínimo de 50 BV en productos.
                     </p>
                   </button>
 
@@ -238,27 +218,28 @@ export const PreRegistrationPage: React.FC = () => {
                       {accountType === 'cliente' && <Check className="w-5 h-5 text-[#00795F]" />}
                     </div>
                     <p className="text-xs text-stone-600 leading-relaxed">
-                      Compra productos directamente para tu consumo personal con entrega a domicilio en Panamá.
+                      Compra a precio público sin mínimo de compras.
                     </p>
                   </button>
                 </div>
               </div>
 
-              {/* Package Selection with Images (if Distribuidor) */}
+              {/* Package Selection (if Distribuidor) */}
               {accountType === 'distribuidor' && (
                 <div>
                   <div className="flex items-center justify-between mb-3">
                     <label className="text-xs font-black text-black uppercase tracking-wider">
                       2. Elige tu Paquete de Activación HGW
                     </label>
-                    <span className="text-xs font-bold text-[#00795F]">
-                      Eliges productos de tu preferencia
+                    <span className="text-[10px] sm:text-xs font-bold text-[#00795F] bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
+                      Recomienda empezar con Junior
                     </span>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     {MEMBERSHIP_PLANS.map((plan) => {
                       const isSelected = selectedPlan === plan.id;
+                      const isJunior = plan.id === 'junior';
                       return (
                         <div
                           key={plan.id}
@@ -269,14 +250,13 @@ export const PreRegistrationPage: React.FC = () => {
                               : 'border-stone-200 bg-white hover:border-stone-300 hover:shadow-xs'
                           }`}
                         >
-                          {plan.recommended && (
-                            <span className="absolute -top-2.5 right-3 bg-[#00795F] text-white text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-xs">
+                          {isJunior && (
+                            <span className="absolute -top-2.5 left-3 bg-[#00A550] text-white text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider shadow-xs z-10">
                               Recomendado
                             </span>
                           )}
 
                           <div>
-                            {/* Package Image with hover effect */}
                             <div className="relative aspect-4/3 w-full bg-stone-50 rounded-xl mb-3 flex items-center justify-center p-2 overflow-hidden border border-stone-100 group">
                               <img
                                 src={plan.packageImageUrl}
@@ -301,18 +281,9 @@ export const PreRegistrationPage: React.FC = () => {
                               {plan.priceEstimate}
                             </p>
                           </div>
-
-                          <div className="mt-3 pt-2 border-t border-stone-200/80 text-[11px] text-stone-600 space-y-1">
-                            <div>Ganancia: <strong className="text-black">{plan.directSaleProfit}</strong></div>
-                            <div>Tope Diario: <strong className="text-black">{plan.dailyEarningsCap}</strong></div>
-                          </div>
                         </div>
                       );
                     })}
-                  </div>
-
-                  <div className="mt-3 p-3 bg-stone-100 rounded-xl text-xs text-stone-700 font-medium">
-                    <strong className="text-black">Paquete seleccionado:</strong> {selectedPlanData.name} ({selectedPlanData.bv}) — Inversión aprox: {selectedPlanData.priceEstimate}. <em>Los productos se escogen libremente de todo el catálogo oficial.</em>
                   </div>
                 </div>
               )}
@@ -320,13 +291,13 @@ export const PreRegistrationPage: React.FC = () => {
               {/* Personal Data Fields */}
               <div>
                 <label className="block text-xs font-black text-black uppercase tracking-wider mb-3">
-                  {accountType === 'distribuidor' ? '3.' : '2.'} Datos Personales del Titular
+                  {accountType === 'distribuidor' ? '3.' : '2.'} Datos Personales
                 </label>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-black mb-1">
-                      Nombre y Apellido Completo *
+                      Nombre y Apellido *
                     </label>
                     <input
                       type="text"
@@ -340,7 +311,7 @@ export const PreRegistrationPage: React.FC = () => {
 
                   <div>
                     <label className="block text-xs font-bold text-black mb-1">
-                      Cédula o Pasaporte *
+                      Número Cedula o Pasaporte *
                     </label>
                     <input
                       type="text"
@@ -352,9 +323,24 @@ export const PreRegistrationPage: React.FC = () => {
                     />
                   </div>
 
+                  {accountType === 'distribuidor' && (
+                    <div>
+                      <label className="block text-xs font-bold text-black mb-1">
+                        Fecha de Nacimiento *
+                      </label>
+                      <input
+                        type="date"
+                        required
+                        value={birthDate}
+                        onChange={(e) => setBirthDate(e.target.value)}
+                        className="w-full px-4 py-3 text-sm bg-white border border-stone-300 rounded-xl text-black focus:outline-none focus:ring-2 focus:ring-[#00795F]/30 focus:border-[#00795F] font-medium"
+                      />
+                    </div>
+                  )}
+
                   <div>
                     <label className="block text-xs font-bold text-black mb-1">
-                      Teléfono Móvil / WhatsApp *
+                      Celular o Telefono de Contacto *
                     </label>
                     <input
                       type="tel"
@@ -366,117 +352,92 @@ export const PreRegistrationPage: React.FC = () => {
                     />
                   </div>
 
-                  <div>
+                  <div className="sm:col-span-2">
                     <label className="block text-xs font-bold text-black mb-1">
-                      Correo Electrónico *
+                      Provincia / Ciudad / Distrito *
+                    </label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <select
+                        value={province}
+                        onChange={(e) => setProvince(e.target.value)}
+                        className="w-full px-4 py-3 text-sm bg-white border border-stone-300 rounded-xl text-black focus:outline-none focus:ring-2 focus:ring-[#00795F]/30 focus:border-[#00795F] font-medium"
+                      >
+                        <option value="Panamá">Panamá</option>
+                        <option value="Panamá Oeste">Panamá Oeste</option>
+                        <option value="Colón">Colón</option>
+                        <option value="Chiriquí">Chiriquí</option>
+                        <option value="Coclé">Coclé</option>
+                        <option value="Veraguas">Veraguas</option>
+                        <option value="Herrera">Herrera</option>
+                        <option value="Los Santos">Los Santos</option>
+                        <option value="Bocas del Toro">Bocas del Toro</option>
+                        <option value="Darién">Darién</option>
+                        <option value="Comarca Guna Yala">Comarca Guna Yala</option>
+                        <option value="Comarca Ngäbe-Buglé">Comarca Ngäbe-Buglé</option>
+                      </select>
+                      <input
+                        type="text"
+                        value={district}
+                        onChange={(e) => setDistrict(e.target.value)}
+                        placeholder="Distrito / Corregimiento"
+                        className="w-full px-4 py-3 text-sm bg-white border border-stone-300 rounded-xl text-black placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-[#00795F]/30 focus:border-[#00795F] font-medium"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="sm:col-span-2">
+                    <label className="block text-xs font-bold text-black mb-1">
+                      Dirección Exacta para envío *
+                    </label>
+                    <textarea
+                      rows={2}
+                      required
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                      placeholder="Calle, edificio/casa, número, puntos de referencia..."
+                      className="w-full px-4 py-3 text-sm bg-white border border-stone-300 rounded-xl text-black placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-[#00795F]/30 focus:border-[#00795F] resize-none font-medium"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-2">
+                    <label className="block text-xs font-bold text-black mb-1">
+                      Correo Electrónico (Opcional)
                     </label>
                     <input
                       type="email"
-                      required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="tu-correo@ejemplo.com"
                       className="w-full px-4 py-3 text-sm bg-white border border-stone-300 rounded-xl text-black placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-[#00795F]/30 focus:border-[#00795F] font-medium"
                     />
                   </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-black mb-1">
-                      Fecha de Nacimiento
-                    </label>
-                    <input
-                      type="date"
-                      value={birthDate}
-                      onChange={(e) => setBirthDate(e.target.value)}
-                      className="w-full px-4 py-3 text-sm bg-white border border-stone-300 rounded-xl text-black focus:outline-none focus:ring-2 focus:ring-[#00795F]/30 focus:border-[#00795F] font-medium"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-black mb-1">
-                      Provincia *
-                    </label>
-                    <select
-                      value={province}
-                      onChange={(e) => setProvince(e.target.value)}
-                      className="w-full px-4 py-3 text-sm bg-white border border-stone-300 rounded-xl text-black focus:outline-none focus:ring-2 focus:ring-[#00795F]/30 focus:border-[#00795F] font-medium"
-                    >
-                      <option value="Panamá">Panamá</option>
-                      <option value="Panamá Oeste">Panamá Oeste</option>
-                      <option value="Colón">Colón</option>
-                      <option value="Chiriquí">Chiriquí</option>
-                      <option value="Coclé">Coclé</option>
-                      <option value="Veraguas">Veraguas</option>
-                      <option value="Herrera">Herrera</option>
-                      <option value="Los Santos">Los Santos</option>
-                      <option value="Bocas del Toro">Bocas del Toro</option>
-                      <option value="Darién">Darién</option>
-                      <option value="Comarca Guna Yala">Comarca Guna Yala</option>
-                      <option value="Comarca Ngäbe-Buglé">Comarca Ngäbe-Buglé</option>
-                    </select>
-                  </div>
                 </div>
               </div>
 
-              {/* Delivery & Logistics */}
+              {/* Delivery & Payment (Implicitly needed for HGW Panamá flow) */}
               <div>
                 <label className="block text-xs font-black text-black uppercase tracking-wider mb-3">
-                  {accountType === 'distribuidor' ? '4.' : '3.'} Dirección y Entrega
+                  {accountType === 'distribuidor' ? '4.' : '3.'} Preferencias de Entrega y Pago
                 </label>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-black mb-1">
-                      Distrito / Corregimiento
-                    </label>
-                    <input
-                      type="text"
-                      value={district}
-                      onChange={(e) => setDistrict(e.target.value)}
-                      placeholder="Ej. San Francisco / Bella Vista / David"
-                      className="w-full px-4 py-3 text-sm bg-white border border-stone-300 rounded-xl text-black placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-[#00795F]/30 focus:border-[#00795F] font-medium"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-black mb-1">
-                      Método de Entrega *
+                      Método de Entrega
                     </label>
                     <select
                       value={deliveryMethod}
                       onChange={(e) => setDeliveryMethod(e.target.value)}
                       className="w-full px-4 py-3 text-sm bg-white border border-stone-300 rounded-xl text-black focus:outline-none focus:ring-2 focus:ring-[#00795F]/30 focus:border-[#00795F] font-medium"
                     >
-                      <option value="Servientrega (Envío a Domicilio)">Servientrega (Envío a Domicilio a todo Panamá)</option>
-                      <option value="Retiro en Oficina Principal (San Francisco)">Retiro en Oficina Principal (Plaza Royal Blue, Local 6, San Francisco)</option>
+                      <option value="Servientrega (Envío a Domicilio)">Servientrega (Envío a Domicilio)</option>
+                      <option value="Retiro en Oficina (Avenida Porras)">Retiro en Oficina (San Francisco)</option>
                     </select>
                   </div>
 
-                  <div className="sm:col-span-2">
-                    <label className="block text-xs font-bold text-black mb-1">
-                      Dirección Completa de Entrega / Referencia
-                    </label>
-                    <textarea
-                      rows={2}
-                      value={address}
-                      onChange={(e) => setAddress(e.target.value)}
-                      placeholder="Calle, edificio/casa, número, puntos de referencia para Servientrega..."
-                      className="w-full px-4 py-3 text-sm bg-white border border-stone-300 rounded-xl text-black placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-[#00795F]/30 focus:border-[#00795F] resize-none font-medium"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Payment Method & Notes */}
-              <div>
-                <label className="block text-xs font-black text-black uppercase tracking-wider mb-3">
-                  {accountType === 'distribuidor' ? '5.' : '4.'} Preferencia de Pago y Observaciones
-                </label>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-black mb-1">
-                      Método de Pago Preferido
+                      Método de Pago
                     </label>
                     <select
                       value={paymentMethod}
@@ -485,22 +446,8 @@ export const PreRegistrationPage: React.FC = () => {
                     >
                       <option value="Yappy (Banco General)">Yappy (Banco General)</option>
                       <option value="Transferencia Bancaria ACH">Transferencia Bancaria ACH</option>
-                      <option value="Depósito en Banco">Depósito en Ventanilla Bancaria</option>
-                      <option value="Efectivo en Oficina">Efectivo en Oficina Principal</option>
+                      <option value="Efectivo en Oficina">Efectivo en Oficina</option>
                     </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-black mb-1">
-                      Productos que deseas incluir o notas
-                    </label>
-                    <input
-                      type="text"
-                      value={notes}
-                      onChange={(e) => setNotes(e.target.value)}
-                      placeholder="Ej. Blueberry Coffee, Pasta Dental, Ganoderma..."
-                      className="w-full px-4 py-3 text-sm bg-white border border-stone-300 rounded-xl text-black placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-[#00795F]/30 focus:border-[#00795F] font-medium"
-                    />
                   </div>
                 </div>
               </div>
@@ -517,21 +464,7 @@ export const PreRegistrationPage: React.FC = () => {
                 />
               </div>
 
-              {/* Sponsor Verification Box */}
-              <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 flex items-center justify-between gap-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-[#00795F] text-white flex items-center justify-center font-black text-xs shrink-0">
-                    YB
-                  </div>
-                  <div className="text-xs sm:text-sm">
-                    <p className="font-extrabold text-black">Patrocinador Autorizado HGW Panamá</p>
-                    <p className="text-stone-600 font-medium">Yamilka Batista · Código: <strong className="text-[#00795F]">Yamilka507</strong></p>
-                  </div>
-                </div>
-                <div className="text-xs font-bold text-emerald-800 bg-emerald-100 px-3 py-1 rounded-full shrink-0">
-                  Verificado
-                </div>
-              </div>
+              {/* Sponsor Verification Box (Removed for neutrality) */}
 
               {errorMsg && (
                 <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-xs font-bold flex items-center gap-2">
@@ -549,23 +482,22 @@ export const PreRegistrationPage: React.FC = () => {
                 {isSubmitting ? (
                   <>
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    <span>Transmitiendo solicitud segura...</span>
+                    <span>Enviando datos...</span>
                   </>
                 ) : (
                   <>
                     <Send className="w-5 h-5" />
-                    <span>Enviar Solicitud (ir a link de pregistro)</span>
+                    <span>Enviar Formulario de Registro</span>
                   </>
                 )}
               </button>
 
               <p className="text-xs text-stone-500 text-center leading-relaxed">
-                Al enviar autorizas la gestión de tu pre-afiliación. Tus datos están protegidos y serán procesados exclusivamente para tu registro en HGW Panamá. Se enviará una copia automática al correo <strong className="text-black">hgwpanama507g@gmail.com</strong>.
+                Tus datos están protegidos y serán procesados exclusivamente para tu registro en HGW Panamá. Se enviará una copia automática al correo <strong className="text-black">hgwpanama507g@gmail.com</strong>.
               </p>
             </form>
           )}
         </div>
-
       </div>
     </div>
   );

@@ -29,13 +29,16 @@ export const getPageTitle = (pathname: string): string => {
     return 'Oportunidad de Negocio';
   }
   if (cleanPath === '/preregistro' || cleanPath === '/pre-registro') {
-    return 'ir a link de pregistro';
+    return 'Pre-registro';
   }
   if (cleanPath === '/documentos' || cleanPath === '/documentos-pdf') {
     return 'Documentos y Catálogos Oficiales';
   }
   if (cleanPath === '/contacto') {
     return 'Contacto y Oficinas';
+  }
+  if (cleanPath === '/directorio-oficinas' || cleanPath === '/oficinas') {
+    return 'Directorio de Oficinas LATAM';
   }
 
   // Check product paths: /producto/:slug or direct /:slug

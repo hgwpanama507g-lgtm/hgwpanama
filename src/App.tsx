@@ -15,6 +15,7 @@ import { BusinessOpportunityPage } from './pages/BusinessOpportunityPage';
 import { DocumentsPage } from './pages/DocumentsPage';
 import { DocumentDetailPage } from './pages/DocumentDetailPage';
 import { PreRegistrationPage } from './pages/PreRegistrationPage';
+import { OfficesDirectoryPage } from './pages/OfficesDirectoryPage';
 import { PRODUCTS } from './data/products';
 import { HGW_DOCUMENTS } from './data/documents';
 
@@ -108,7 +109,12 @@ function AppContent() {
       return <DocumentDetailPage id={docId} />;
     }
 
-    // 7. Contact Page (/contacto)
+    // 7. Offices Directory Page (/oficinas or /directorio-oficinas)
+    if (currentPath === '/oficinas' || currentPath === '/directorio-oficinas') {
+      return <OfficesDirectoryPage />;
+    }
+
+    // 8. Contact Page (/contacto)
     if (currentPath === '/contacto') {
       return (
         <div>
@@ -118,7 +124,7 @@ function AppContent() {
       );
     }
 
-    // 8. Direct product fallback if route matches a product slug directly (e.g. /blueberry-coffee-hgw)
+    // 9. Direct product fallback if route matches a product slug directly (e.g. /blueberry-coffee-hgw)
     const directSlug = currentPath.replace(/^\//, '').split('?')[0].split('#')[0];
     if (PRODUCTS.some((p) => p.slug === directSlug || p.id === directSlug)) {
       return <ProductDetailPage slug={directSlug} />;
