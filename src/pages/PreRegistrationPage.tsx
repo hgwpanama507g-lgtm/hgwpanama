@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShieldCheck, MailCheck, Send, Phone, MapPin, Clock, Truck, Building2, Package, Sparkles, Check, AlertCircle, ShieldAlert } from 'lucide-react';
+import { ShieldCheck, MailCheck, Send, Phone, MapPin, Clock, Truck, Building2, Package, Sparkles, Check, AlertCircle, ShieldAlert, ExternalLink } from 'lucide-react';
 import { MEMBERSHIP_PLANS } from '../data/products';
 import { Link } from '../router';
 
@@ -81,7 +81,7 @@ export const PreRegistrationPage: React.FC = () => {
         <nav className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-stone-600 mb-6">
           <Link to="/inicio" className="hover:text-[#00795F] transition-colors">Inicio</Link>
           <span>/</span>
-          <span className="text-black font-bold">Formulario de Pre-Registro</span>
+          <span className="text-black font-bold">ir a link de pregistro</span>
         </nav>
 
         {/* Page Header */}
@@ -91,11 +91,31 @@ export const PreRegistrationPage: React.FC = () => {
             <span>Afiliación y Registro Oficial · Panamá</span>
           </div>
           <h1 className="text-2xl sm:text-4xl font-extrabold text-black tracking-tight">
-            Formulario Oficial de Pre-Registro
+            ir a link de pregistro
           </h1>
           <p className="text-[17px] sm:text-[18px] text-stone-700 mt-2 max-w-2xl mx-auto leading-relaxed">
             Completa tus datos para crear tu cuenta en Health Green World Panamá. Tu solicitud se transmite directamente al correo oficial <strong className="text-black">hgwpanama507g@gmail.com</strong> bajo el patrocinio autorizado de <strong className="text-black">Yamilka Batista (Código: Yamilka507)</strong>.
           </p>
+        </div>
+
+        {/* Official Registration Link Callout */}
+        <div className="bg-[#00795F] text-white rounded-3xl p-6 mb-8 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-md">
+          <div className="flex items-center gap-3">
+            <Sparkles className="w-6 h-6 text-emerald-300 shrink-0" />
+            <div className="text-center sm:text-left">
+              <h3 className="font-black text-lg">¿Prefieres el registro oficial inmediato?</h3>
+              <p className="text-emerald-100 text-xs sm:text-sm">Regístrate directamente en el portal corporativo internacional.</p>
+            </div>
+          </div>
+          <a
+            href="https://www.healthgreenworld.com/?userName=Yamilka507"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-white text-[#00795F] font-black text-sm rounded-xl shadow-sm hover:bg-stone-50 transition-all active:scale-95 whitespace-nowrap"
+          >
+            <span>link registro oficial</span>
+            <ExternalLink className="w-4 h-4" />
+          </a>
         </div>
 
         {/* Office Info & Servientrega Banner */}
@@ -150,7 +170,7 @@ export const PreRegistrationPage: React.FC = () => {
                 <MailCheck className="w-8 h-8" />
               </div>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-black">
-                ¡Solicitud de Pre-Registro Enviada!
+                ¡Solicitud de ir a link de pregistro Enviada!
               </h2>
               <p className="text-sm sm:text-base text-stone-700 leading-relaxed">
                 Tu información ha sido registrada y enviada con éxito al correo oficial <strong className="text-black">hgwpanama507g@gmail.com</strong>. Se ha abierto WhatsApp para que tu patrocinadora <strong className="text-black">Yamilka Batista</strong> te dé la bienvenida y te oriente en la selección de tus productos y pago.
@@ -534,7 +554,7 @@ export const PreRegistrationPage: React.FC = () => {
                 ) : (
                   <>
                     <Send className="w-5 h-5" />
-                    <span>Enviar Pre-Registro Oficial</span>
+                    <span>Enviar Solicitud (ir a link de pregistro)</span>
                   </>
                 )}
               </button>

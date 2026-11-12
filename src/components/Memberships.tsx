@@ -160,7 +160,7 @@ export const Memberships: React.FC = () => {
                     to="/preregistro"
                     className="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-center text-[#00795F] bg-stone-100 hover:bg-stone-200 transition-colors"
                   >
-                    Llenar Pre-Registro
+                    ir a link de pregistro
                   </Link>
                 </div>
 
@@ -245,7 +245,7 @@ export const Memberships: React.FC = () => {
                 to="/preregistro"
                 className="inline-flex items-center gap-2 px-5 py-3 bg-white hover:bg-stone-50 border border-stone-300 text-black font-bold text-xs sm:text-sm rounded-xl transition-all"
               >
-                <span>Pre-Registro Oficial</span>
+                <span>ir a link de pregistro</span>
               </Link>
             </div>
           </div>

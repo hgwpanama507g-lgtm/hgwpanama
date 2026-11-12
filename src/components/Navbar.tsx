@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
-import { ShoppingBag, Menu, X, Phone } from 'lucide-react';
+import { Menu, X, Phone } from 'lucide-react';
 import { Link, useRouter } from '../router';
 import { getAffiliationWhatsAppUrl } from '../utils/whatsapp';
 
-interface NavbarProps {
-  cartCount: number;
-  onOpenCart: () => void;
-}
+interface NavbarProps {}
 
-export const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart }) => {
+export const Navbar: React.FC<NavbarProps> = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { currentPath } = useRouter();
 
@@ -17,7 +14,7 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart }) => {
     { label: 'Productos', href: '/productos' },
     { label: 'Membresías', href: '/membresias' },
     { label: 'Oportunidad de Negocio', href: '/oportunidad-de-negocio' },
-    { label: 'Pre-Registro', href: '/preregistro' },
+    { label: 'ir a link de pregistro', href: '/preregistro' },
     { label: 'Documentos PDF', href: '/documentos' },
     { label: 'Contacto', href: '/contacto' },
   ];
@@ -61,7 +58,7 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart }) => {
             })}
           </nav>
 
-          {/* Zone 3: Direct WhatsApp Phone & Order Cart Drawer Trigger */}
+          {/* Zone 3: Direct WhatsApp Phone & Menu Trigger */}
           <div className="flex items-center gap-3 shrink-0">
             {/* WhatsApp direct callout */}
             <a
@@ -78,21 +75,6 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart }) => {
               <Phone className="w-3.5 h-3.5" />
               <span>+507 6778-8375</span>
             </a>
-
-            {/* Cart trigger button */}
-            <button
-              onClick={onOpenCart}
-              aria-label="Abrir pedido"
-              className="flex items-center gap-2.5 px-4 py-2.5 text-xs sm:text-sm font-bold text-white bg-[#00795F] hover:bg-[#004d3c] rounded-xl transition-all shadow-sm active:scale-95 whitespace-nowrap shrink-0"
-            >
-              <ShoppingBag className="w-4 h-4" />
-              <span className="hidden sm:inline">Mi Pedido</span>
-              {cartCount > 0 && (
-                <span className="bg-[#00A550] text-white text-xs font-black px-2 py-0.5 rounded-full tabular-nums">
-                  {cartCount}
-                </span>
-              )}
-            </button>
 
             {/* Mobile menu button */}
             <button

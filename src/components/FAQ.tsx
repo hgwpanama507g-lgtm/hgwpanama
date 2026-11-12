@@ -28,7 +28,7 @@ export const FAQ: React.FC = () => {
     },
     {
       question: "¿Cómo puedo afiliarme como socio distribuidor para obtener descuentos de hasta un 52%?",
-      answer: "Puedes afiliarte a través de nuestro patrocinio autorizado en Panamá (código Yamilka507). Elige el paquete de activación que mejor se ajuste a tus metas (Pre-Junior de 50 BV, Junior de 100 BV, Senior de 300 BV o Master de 600 BV). Con el plan Master compras a precio preferencial con hasta un 52% de beneficio en recompras, permitiéndote márgenes del 60% en ventas directas. Puedes completar el formulario de prerregistro en la sección 'Oportunidad de Negocio' o escribirnos al WhatsApp."
+      answer: "Puedes afiliarte a través de nuestro patrocinio autorizado en Panamá (código Yamilka507). Elige el paquete de activación que mejor se ajuste a tus metas (Pre-Junior de 50 BV, Junior de 100 BV, Senior de 300 BV o Master de 600 BV). Con el plan Master compras a precio preferencial con hasta un 52% de beneficio en recompras, permitiéndote márgenes del 60% en ventas directas. Puedes completar el ir a link de pregistro en la sección 'Oportunidad de Negocio' o escribirnos al WhatsApp."
     }
   ];
 

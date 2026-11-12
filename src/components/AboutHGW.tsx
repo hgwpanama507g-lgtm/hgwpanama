@@ -167,7 +167,7 @@ export const AboutHGW: React.FC = () => {
                 <div className="flex items-center gap-3 text-sm text-stone-800 bg-white p-3.5 rounded-xl border border-stone-200 shadow-2xs">
                   <Mail className="w-5 h-5 text-[#00A550] shrink-0" />
                   <div>
-                    <span className="text-xs text-stone-500 block">Correo para Pre-Registros</span>
+                    <span className="text-xs text-stone-500 block">Correo para ir a link de pregistro</span>
                     <strong className="text-black font-extrabold text-sm sm:text-base select-all">hgwpanama507g@gmail.com</strong>
                   </div>
                 </div>

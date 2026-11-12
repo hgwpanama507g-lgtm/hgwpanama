@@ -9,36 +9,17 @@ import { AboutHGW } from './components/AboutHGW';
 import { FAQ } from './components/FAQ';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
-import { CartDrawer, CartItem } from './components/CartDrawer';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { ProductDetailPage } from './pages/ProductDetailPage';
 import { BusinessOpportunityPage } from './pages/BusinessOpportunityPage';
 import { DocumentsPage } from './pages/DocumentsPage';
 import { DocumentDetailPage } from './pages/DocumentDetailPage';
 import { PreRegistrationPage } from './pages/PreRegistrationPage';
-import { Product, PRODUCTS } from './data/products';
+import { PRODUCTS } from './data/products';
 import { HGW_DOCUMENTS } from './data/documents';
 
 function AppContent() {
   const { currentPath } = useRouter();
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
-    try {
-      const saved = localStorage.getItem('hgw_panama_cart');
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return [];
-    }
-  });
-
-  // Save cart to localStorage
-  useEffect(() => {
-    try {
-      localStorage.setItem('hgw_panama_cart', JSON.stringify(cartItems));
-    } catch {
-      // Ignore storage errors
-    }
-  }, [cartItems]);
 
   // Web Protection: Prevent right-click, copy, cut, and common devtools shortcuts
   useEffect(() => {
@@ -81,55 +62,19 @@ function AppContent() {
     };
   }, []);
 
-  const totalCartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-
-  const handleAddToCart = (product: Product, quantity = 1) => {
-    setCartItems((prev) => {
-      const existing = prev.find((item) => item.product.id === product.id);
-      if (existing) {
-        return prev.map((item) =>
-          item.product.id === product.id
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
-        );
-      }
-      return [...prev, { product, quantity }];
-    });
-  };
-
-  const handleUpdateQuantity = (productId: string, quantity: number) => {
-    if (quantity <= 0) {
-      handleRemoveItem(productId);
-      return;
-    }
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.product.id === productId ? { ...item, quantity } : item
-      )
-    );
-  };
-
-  const handleRemoveItem = (productId: string) => {
-    setCartItems((prev) => prev.filter((item) => item.product.id !== productId));
-  };
-
-  const handleClearCart = () => {
-    setCartItems([]);
-  };
-
   // Determine current view from route
   const renderRouteView = () => {
     // 1. Dedicated Product Detail Page (/producto/:slug or /productos/:slug)
     if (currentPath.startsWith('/producto/') || currentPath.startsWith('/productos/')) {
       const slug = currentPath.replace(/^\/productos?\//, '').split('?')[0].split('#')[0];
-      return <ProductDetailPage slug={slug} onAddToCart={handleAddToCart} />;
+      return <ProductDetailPage slug={slug} />;
     }
 
     // 2. Full Catalog Page (/productos)
     if (currentPath === '/productos' || currentPath === '/catalogo') {
       return (
         <div>
-          <Catalog onAddToCart={(product) => handleAddToCart(product, 1)} isHomeView={false} />
+          <Catalog isHomeView={false} />
         </div>
       );
     }
@@ -176,14 +121,14 @@ function AppContent() {
     // 8. Direct product fallback if route matches a product slug directly (e.g. /blueberry-coffee-hgw)
     const directSlug = currentPath.replace(/^\//, '').split('?')[0].split('#')[0];
     if (PRODUCTS.some((p) => p.slug === directSlug || p.id === directSlug)) {
-      return <ProductDetailPage slug={directSlug} onAddToCart={handleAddToCart} />;
+      return <ProductDetailPage slug={directSlug} />;
     }
 
     // Default / Home View (/ or /inicio)
     return (
       <div>
         <Hero />
-        <Catalog onAddToCart={(product) => handleAddToCart(product, 1)} isHomeView={true} />
+        <Catalog isHomeView={true} />
         <Memberships />
         <AboutHGW />
         <FAQ />
@@ -198,10 +143,7 @@ function AppContent() {
       <NoticeBanner />
 
       {/* 2. Top Bar Navigation with Official Logo and Links */}
-      <Navbar
-        cartCount={totalCartCount}
-        onOpenCart={() => setIsCartOpen(true)}
-      />
+      <Navbar />
 
       {/* 3. Main Route Content */}
       <main className="flex-1">
@@ -211,17 +153,7 @@ function AppContent() {
       {/* 4. Footer with Legal, Health Disclaimers & Official Links */}
       <Footer />
 
-      {/* 5. Slide-Over Cart & Order Builder Drawer */}
-      <CartDrawer
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        items={cartItems}
-        onUpdateQuantity={handleUpdateQuantity}
-        onRemoveItem={handleRemoveItem}
-        onClearCart={handleClearCart}
-      />
-
-      {/* 6. Floating WhatsApp Button for Quick Mobile Chat */}
+      {/* 5. Floating WhatsApp Button for Quick Mobile Chat */}
       <FloatingWhatsApp />
     </div>
   );

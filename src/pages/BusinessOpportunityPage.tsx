@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CheckCircle2, TrendingUp, DollarSign, Award, ShieldCheck, ArrowRight, Phone, Send, Sparkles, Users, Package, Truck, Lock, MailCheck, ShieldAlert } from 'lucide-react';
+import { CheckCircle2, TrendingUp, DollarSign, Award, ShieldCheck, ArrowRight, Phone, Send, Sparkles, Users, Package, Truck, Lock, MailCheck, ShieldAlert, ExternalLink } from 'lucide-react';
 import { MEMBERSHIP_PLANS } from '../data/products';
 import { Link } from '../router';
 import { getAffiliationWhatsAppUrl } from '../utils/whatsapp';
@@ -106,7 +106,7 @@ export const BusinessOpportunityPage: React.FC = () => {
                 to="/preregistro"
                 className="px-6 py-3.5 bg-white text-[#00795F] font-black text-sm rounded-xl shadow-md hover:bg-stone-100 transition-all active:scale-95 text-center"
               >
-                Formulario Oficial de Pre-Registro
+                ir a link de pregistro
               </Link>
               <a
                 href={getAffiliationWhatsAppUrl()}
@@ -121,6 +121,15 @@ export const BusinessOpportunityPage: React.FC = () => {
               >
                 <Phone className="w-4 h-4 text-emerald-300" />
                 <span>Asesoría 1 a 1 por WhatsApp</span>
+              </a>
+              <a
+                href="https://www.healthgreenworld.com/?userName=Yamilka507"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white font-bold text-sm rounded-xl border border-white/30 transition-all flex items-center justify-center gap-2 active:scale-95"
+              >
+                <span>link registro oficial</span>
+                <ExternalLink className="w-4 h-4" />
               </a>
             </div>
           </div>
@@ -338,7 +347,7 @@ export const BusinessOpportunityPage: React.FC = () => {
                       to="/preregistro"
                       className="px-3 py-2 bg-stone-200 hover:bg-[#00795F] hover:text-white text-stone-900 text-xs font-bold rounded-xl transition-all inline-block active:scale-95"
                     >
-                      Pre-Registro
+                      ir a link de pregistro
                     </Link>
                   </td>
                   <td className="py-3.5 px-4 text-center">
@@ -346,7 +355,7 @@ export const BusinessOpportunityPage: React.FC = () => {
                       to="/preregistro"
                       className="px-3 py-2 bg-stone-200 hover:bg-[#00795F] hover:text-white text-stone-900 text-xs font-bold rounded-xl transition-all inline-block active:scale-95"
                     >
-                      Pre-Registro
+                      ir a link de pregistro
                     </Link>
                   </td>
                   <td className="py-3.5 px-4 text-center">
@@ -354,7 +363,7 @@ export const BusinessOpportunityPage: React.FC = () => {
                       to="/preregistro"
                       className="px-3 py-2 bg-stone-200 hover:bg-[#00795F] hover:text-white text-stone-900 text-xs font-bold rounded-xl transition-all inline-block active:scale-95"
                     >
-                      Pre-Registro
+                      ir a link de pregistro
                     </Link>
                   </td>
                   <td className="py-3.5 px-4 text-center bg-emerald-50/50">
@@ -362,7 +371,7 @@ export const BusinessOpportunityPage: React.FC = () => {
                       to="/preregistro"
                       className="px-4 py-2.5 bg-[#00795F] hover:bg-[#004d3c] text-white text-xs font-black rounded-xl shadow-xs transition-all inline-block active:scale-95"
                     >
-                      Registrar Master ★
+                      ir a link de pregistro ★
                     </Link>
                   </td>
                 </tr>

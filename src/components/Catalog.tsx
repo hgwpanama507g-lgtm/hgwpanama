@@ -1,14 +1,13 @@
 import React, { useState, useMemo } from 'react';
-import { Search, ShoppingBag, Eye, Sparkles, Filter, ArrowRight } from 'lucide-react';
+import { Search, Eye, Sparkles, Filter, ArrowRight } from 'lucide-react';
 import { Product, PRODUCTS } from '../data/products';
 import { Link } from '../router';
 
 interface CatalogProps {
-  onAddToCart: (product: Product) => void;
   isHomeView?: boolean;
 }
 
-export const Catalog: React.FC<CatalogProps> = ({ onAddToCart, isHomeView = false }) => {
+export const Catalog: React.FC<CatalogProps> = ({ isHomeView = false }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [availabilityFilter, setAvailabilityFilter] = useState<'all' | 'in-stock' | 'coming-soon'>('all');
@@ -290,35 +289,15 @@ export const Catalog: React.FC<CatalogProps> = ({ onAddToCart, isHomeView = fals
                         </span>
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2">
+                      <div className="grid grid-cols-1 gap-1.5 sm:gap-2">
                         {/* Ver Ficha (Navigates to friendly URL page) */}
                         <Link
                           to={productUrl}
-                          className="w-full py-1.5 sm:py-2.5 px-2 sm:px-3 text-[11px] sm:text-xs font-bold text-black bg-stone-100 hover:bg-stone-200 rounded-lg sm:rounded-xl transition-all hover:shadow-xs active:scale-95 flex items-center justify-center gap-1"
+                          className="w-full py-1.5 sm:py-2.5 px-2 sm:px-3 text-[11px] sm:text-xs font-bold text-white bg-[#00795F] hover:bg-[#004d3c] rounded-lg sm:rounded-xl transition-all hover:shadow-xs active:scale-95 flex items-center justify-center gap-1"
                         >
                           <Eye className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                          <span>Ver Ficha</span>
+                          <span>Ver Ficha y Consultar</span>
                         </Link>
-
-                        {/* Add to order / WhatsApp */}
-                        {product.isComingSoon ? (
-                          <a
-                            href={whatsappLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="w-full py-1.5 sm:py-2.5 px-2 sm:px-3 text-[11px] sm:text-xs font-bold text-amber-900 bg-amber-100 hover:bg-amber-200 rounded-lg sm:rounded-xl transition-all hover:shadow-xs flex items-center justify-center gap-1 text-center active:scale-95"
-                          >
-                            <span>Consultar</span>
-                          </a>
-                        ) : (
-                          <button
-                            onClick={() => onAddToCart(product)}
-                            className="w-full py-1.5 sm:py-2.5 px-2 sm:px-3 text-[11px] sm:text-xs font-bold text-white bg-[#00795F] hover:bg-[#004d3c] rounded-lg sm:rounded-xl transition-all hover:shadow-md hover:brightness-105 active:scale-95 flex items-center justify-center gap-1 cursor-pointer"
-                          >
-                            <ShoppingBag className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                            <span>Agregar</span>
-                          </button>
-                        )}
                       </div>
                     </div>
 

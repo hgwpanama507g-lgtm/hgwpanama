@@ -149,7 +149,7 @@ export const ContactSection: React.FC = () => {
                 to="/preregistro"
                 className="px-4 py-2.5 bg-[#00795F] hover:bg-[#004d3c] text-white text-xs font-bold rounded-xl transition-all shadow-xs flex items-center gap-1.5 whitespace-nowrap active:scale-95"
               >
-                <span>Ir al Pre-Registro</span>
+                <span>ir a link de pregistro</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>

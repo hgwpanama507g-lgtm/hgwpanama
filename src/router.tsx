@@ -29,7 +29,7 @@ export const getPageTitle = (pathname: string): string => {
     return 'Oportunidad de Negocio';
   }
   if (cleanPath === '/preregistro' || cleanPath === '/pre-registro') {
-    return 'Formulario de Pre-Registro';
+    return 'ir a link de pregistro';
   }
   if (cleanPath === '/documentos' || cleanPath === '/documentos-pdf') {
     return 'Documentos y Catálogos Oficiales';
