@@ -28,6 +28,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
     { label: 'Membresías', href: '/membresias' },
     { label: 'Oportunidad de Negocio', href: '/oportunidad-de-negocio' },
     { label: 'Pre-registro', href: '/preregistro' },
+    { label: 'Propiedades', href: '/informacion' },
     { label: 'Documentos PDF', href: '/documentos' },
   ];
 

@@ -16,6 +16,7 @@ import { DocumentsPage } from './pages/DocumentsPage';
 import { DocumentDetailPage } from './pages/DocumentDetailPage';
 import { PreRegistrationPage } from './pages/PreRegistrationPage';
 import { OfficesDirectoryPage } from './pages/OfficesDirectoryPage';
+import { InformationPage } from './pages/InformationPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { PRODUCTS } from './data/products';
 import { HGW_DOCUMENTS } from './data/documents';
@@ -115,7 +116,12 @@ function AppContent() {
       return <OfficesDirectoryPage />;
     }
 
-    // 8. Contact Page (/contacto)
+    // 8. Information Page on Arándanos, Turmalina, Café, Reishi
+    if (['/informacion', '/propiedades', '/beneficios', '/ingredientes'].includes(currentPath)) {
+      return <InformationPage />;
+    }
+
+    // 9. Contact Page (/contacto)
     if (currentPath === '/contacto') {
       return (
         <div>

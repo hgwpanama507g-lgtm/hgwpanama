@@ -21,7 +21,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
   }
 
   const [activeTab, setActiveTab] = React.useState<'description' | 'details' | 'usage'>('description');
-  const whatsappUrl = getAffiliationWhatsAppUrl(product.name);
+  const whatsappUrl = getAffiliationWhatsAppUrl(typeof window !== 'undefined' ? window.location.href : undefined);
 
   return (
     <div className="py-6 sm:py-12 bg-white min-h-screen">

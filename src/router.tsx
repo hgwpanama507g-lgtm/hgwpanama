@@ -40,6 +40,9 @@ export const getPageTitle = (pathname: string): string => {
   if (cleanPath === '/oficinas' || cleanPath === '/directorio-oficinas') {
     return 'Directorio de Oficinas LATAM';
   }
+  if (cleanPath === '/informacion' || cleanPath === '/propiedades' || cleanPath === '/beneficios' || cleanPath === '/ingredientes') {
+    return 'Propiedades e Ingredientes Funcionales';
+  }
 
   // Check product paths: /producto/:slug or direct /:slug
   const productSlug = cleanPath.startsWith('/producto/')
