@@ -221,11 +221,13 @@ export const DocumentDetailPage: React.FC<DocumentDetailPageProps> = ({ id }) =>
           </h2>
           <div className="bg-stone-50 rounded-3xl border border-stone-200 p-6 flex justify-center">
             {doc.coverImageUrl ? (
-              <img 
-                src={doc.coverImageUrl} 
-                alt={`Portada de ${doc.title}`} 
-                className="max-w-xs h-auto rounded-xl shadow-lg"
-              />
+              <div className="w-full max-w-lg aspect-video overflow-hidden rounded-xl shadow-lg">
+                <img 
+                  src={doc.coverImageUrl} 
+                  alt={`Portada de ${doc.title}`} 
+                  className="w-full h-full object-cover"
+                />
+              </div>
             ) : (
               <div className="text-center py-8">
                 <FileText className="w-12 h-12 text-stone-300 mx-auto" />

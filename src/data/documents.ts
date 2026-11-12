@@ -19,8 +19,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
     categoryLabel: 'Nutrición y Suplementos',
     url: 'https://media.academiahgw.online/wp-content/uploads/2026/11/12.-CORDYCEPS.pdf',
     description: 'Información oficial sobre el hongo Cordyceps militaris, propiedades adaptógenas y soporte inmunológico.',
-    size: '2.4 MB',
-    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/12.-CORDYCEPS.png'
+    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/12._CORDYCEPS-1024x576.png'
   },
   {
     id: 'doc-13',
@@ -31,7 +30,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
     url: 'https://media.academiahgw.online/wp-content/uploads/2026/11/13.-ESPIRULINA.pdf',
     description: 'Detalle de la microalga espirulina combinada con ginseng, proteínas completas y clorofila.',
     size: '1.8 MB',
-    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/13.-ESPIRULINA.png'
+    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/13._ESPIRULINA-1024x576.png'
   },
   {
     id: 'doc-16',
@@ -42,7 +41,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
     url: 'https://media.academiahgw.online/wp-content/uploads/2026/11/16.-HGW-SERIE-CAFE.pdf',
     description: 'Catálogo completo de la línea de cafés solubles enriquecidos con extractos herbales y hongo reishi.',
     size: '3.5 MB',
-    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/16.-HGW-SERIE-CAFE.png'
+    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/16._HGW_SERIE_CAF_-1024x576.png'
   },
   {
     id: 'doc-17',
@@ -53,7 +52,7 @@ export const HGW_DOCUMENTS: DocumentItem[] = [
     url: 'https://media.academiahgw.online/wp-content/uploads/2026/11/17.-HGW-Blueberry-Collagen-Peptide.pdf',
     description: 'Ficha técnica de péptidos y tripéptidos de colágeno marino con superfrutas.',
     size: '2.1 MB',
-    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/17.-HGW-Blueberry-Collagen-Peptide.png'
+    coverImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/17._HGW_Blueberry_Collagen_Peptide-1024x576.png'
   },
   {
     id: 'doc-18',

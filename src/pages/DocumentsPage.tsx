@@ -142,7 +142,7 @@ export const DocumentsPage: React.FC = () => {
                   className="bg-white rounded-3xl border border-stone-200 hover:border-[#00795F] hover:shadow-xl transition-all duration-300 flex flex-col group overflow-hidden"
                 >
                   {/* Document Cover Image */}
-                  <Link to={docDetailPageUrl} className="block aspect-[3/4] overflow-hidden bg-stone-100 relative">
+                  <Link to={docDetailPageUrl} className="block aspect-video overflow-hidden bg-stone-100 relative">
                     {doc.coverImageUrl ? (
                       <img 
                         src={doc.coverImageUrl} 
