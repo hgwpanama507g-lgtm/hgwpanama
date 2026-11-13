@@ -94,12 +94,12 @@ export function getSeoMetadata(pathname: string): SeoMetadata {
   if (cleanPath === '/pastas-dentales' || cleanPath === '/pastas') {
     return {
       title: 'Pastas Dentales HGW - 100% Sin Flúor ni Triclosán – HGW Panamá',
-      description: 'Dentífricos naturales con probióticos, nanoturmalina y hierbas chinas tradicionales. Precios desde $8.00, pagos por Yappy y envíos a todo Panamá por Servientrega en 24-48 horas.',
+      description: 'Dentífricos naturales con probióticos y nanoturmalina 100% sin flúor ni triclosán. Simulador 50 BV con 30% de descuento ($5.00 c/u), pagos por Yappy y envíos por Servientrega.',
       image: 'https://media.academiahgw.online/wp-content/uploads/2026/11/Pasta-dental-con-probioticos-HGW.jpg',
       url: `${BASE_URL}/pastas-dentales`,
       type: 'website',
       siteName: 'HGW Panamá',
-      keywords: 'pasta dental sin fluor Panama, pasta dental sin triclosan, pasta dental probioticos HGW, pasta de turmalina, envios servientrega yappy panama'
+      keywords: 'pasta dental sin fluor Panama, pasta dental sin triclosan, pasta dental probioticos HGW, pasta de turmalina, simulador 50 bv hgw, envios servientrega yappy panama'
     };
   }
 

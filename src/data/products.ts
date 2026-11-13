@@ -21,6 +21,7 @@ export interface Product {
   ingredients?: string[];
   usage?: string;
   precautions?: string;
+  bv?: number;
   featured?: boolean;
   documentSlug?: string;
   inOfficialCatalog?: boolean;
@@ -1753,6 +1754,7 @@ export const PRODUCTS: Product[] = [
     categoryLabel: "Cuidado Bucal",
     price: 8.00,
     priceFormatted: "$8.00",
+    bv: 2.50,
     inStock: true,
     image: "https://media.academiahgw.online/wp-content/uploads/2026/11/Pasta-dental-con-probioticos-HGW.jpg",
     netContent: "120 gr",
@@ -1799,6 +1801,7 @@ La presencia de probióticos ayuda a neutralizar los agentes que causan el mal a
     categoryLabel: "Cuidado Bucal",
     price: 8.00,
     priceFormatted: "$8.00",
+    bv: 3.00,
     inStock: true,
     image: "https://media.academiahgw.online/wp-content/uploads/2026/11/Pasta-dental-con-turmalina-blanca.jpg",
     netContent: "120 gr",
@@ -1845,6 +1848,7 @@ Pasta de dientes con turmalina HGW: ¡Hace que el aliento sea más fresco! (Vers
     categoryLabel: "Cuidado Bucal",
     price: 8.00,
     priceFormatted: "$8.00",
+    bv: 3.00,
     inStock: true,
     image: "https://media.academiahgw.online/wp-content/uploads/2026/11/Pasta_dental_con_turmalina_negra-removebg-preview.png",
     netContent: "120 gr",
