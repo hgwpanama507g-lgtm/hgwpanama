@@ -276,25 +276,25 @@ export const BusinessOpportunityPage: React.FC = () => {
                 </tr>
 
                 <tr>
-                  <td className="py-3.5 px-4 sm:px-6 font-bold text-stone-900">Inversión Aprox.</td>
-                  <td className="py-3.5 px-4 text-center tabular-nums font-bold">B/. 90.00</td>
-                  <td className="py-3.5 px-4 text-center tabular-nums font-bold">B/. 180.00</td>
-                  <td className="py-3.5 px-4 text-center tabular-nums font-bold">B/. 540.00</td>
-                  <td className="py-3.5 px-4 text-center tabular-nums font-extrabold text-[#00795F] bg-emerald-50/50">B/. 1024.00</td>
+                  <td className="py-3.5 px-4 sm:px-6 font-bold text-stone-900">Inversión (Costo)</td>
+                  <td className="py-3.5 px-4 text-center tabular-nums font-bold">B/. 90.00 (aprox)</td>
+                  <td className="py-3.5 px-4 text-center tabular-nums font-bold">B/. 180.00 (aprox)</td>
+                  <td className="py-3.5 px-4 text-center tabular-nums font-bold">B/. 540.00 (aprox)</td>
+                  <td className="py-3.5 px-4 text-center tabular-nums font-extrabold text-[#00795F] bg-emerald-50/50">B/. 1024.00 (aprox)</td>
                 </tr>
                 <tr>
                   <td className="py-3.5 px-4 sm:px-6 font-bold text-stone-900">Selección de Productos</td>
                   <td className="py-3.5 px-4 text-center" colSpan={4}>
-                    <span className="text-[#00795F] font-bold">Productos de su preferencia (100% a elección de todo el catálogo oficial)</span>
+                    <span className="text-[#00795F] font-bold">Productos de su preferencia</span>
                   </td>
                 </tr>
                 <tr>
-                  <td className="py-3.5 px-4 sm:px-6 font-bold text-stone-900">Ganancia Venta Directa</td>
+                  <td className="py-3.5 px-4 sm:px-6 font-bold text-stone-900">Venta Directa</td>
                   <td className="py-3.5 px-4 text-center font-bold">30%</td>
                   <td className="py-3.5 px-4 text-center font-bold">30%</td>
                   <td className="py-3.5 px-4 text-center font-bold">30%</td>
                   <td className="py-3.5 px-4 text-center font-black text-emerald-800 bg-emerald-50/50">
-                    60% (Hasta 52% en compras)
+                    60%
                   </td>
                 </tr>
                 <tr>
@@ -320,10 +320,10 @@ export const BusinessOpportunityPage: React.FC = () => {
                 </tr>
                 <tr>
                   <td className="py-3.5 px-4 sm:px-6 font-bold text-stone-900">Tope Ganancia Diaria</td>
-                  <td className="py-3.5 px-4 text-center tabular-nums font-bold">50 USD / día</td>
-                  <td className="py-3.5 px-4 text-center tabular-nums font-bold">120 USD / día</td>
-                  <td className="py-3.5 px-4 text-center tabular-nums font-bold">360 USD / día</td>
-                  <td className="py-3.5 px-4 text-center tabular-nums font-black text-[#00795F] bg-emerald-50/50">720 USD / día</td>
+                  <td className="py-3.5 px-4 text-center tabular-nums font-bold">50 USD</td>
+                  <td className="py-3.5 px-4 text-center tabular-nums font-bold">120 USD</td>
+                  <td className="py-3.5 px-4 text-center tabular-nums font-bold">360 USD</td>
+                  <td className="py-3.5 px-4 text-center tabular-nums font-black text-[#00795F] bg-emerald-50/50">720 USD</td>
                 </tr>
                 <tr>
                   <td className="py-3.5 px-4 sm:px-6 font-bold text-stone-900">Bono Élite</td>

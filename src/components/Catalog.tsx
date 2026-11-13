@@ -22,6 +22,7 @@ export const Catalog: React.FC<CatalogProps> = ({ isHomeView = false }) => {
     { id: 'nutricion', label: 'Nutrición y Colágeno' },
     { id: 'cuidado-personal', label: 'Cuidado Personal' },
     { id: 'hogar-accesorios', label: 'Hogar y Accesorios' },
+    { id: 'membresias', label: 'Membresías HGW' },
   ];
 
   // Filtering logic

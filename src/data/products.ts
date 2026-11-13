@@ -3,7 +3,7 @@ export interface Product {
   code?: string;
   slug: string;
   name: string;
-  category: 'cafes-bebidas' | 'candies-snacks' | 'cuidado-bucal' | 'turmalina' | 'cuidado-personal' | 'hogar-accesorios' | 'nutricion';
+  category: 'cafes-bebidas' | 'candies-snacks' | 'cuidado-bucal' | 'turmalina' | 'cuidado-personal' | 'hogar-accesorios' | 'nutricion' | 'membresias';
   categoryLabel: string;
   price: number;
   priceFormatted: string;
@@ -28,6 +28,158 @@ export interface Product {
 }
 
 export const PRODUCTS: Product[] = [
+  // ==========================================
+  // 0. MEMBRESÍAS OFICIALES HGW PANAMÁ
+  // ==========================================
+  {
+    id: "membresia-pre-junior",
+    code: "PJ-50",
+    slug: "membresia-pre-junior",
+    name: "Membresía Pre-Junior (50 BV)",
+    category: "membresias",
+    categoryLabel: "Membresías Oficiales",
+    price: 90.00,
+    priceFormatted: "B/. 90.00",
+    inStock: true,
+    featured: true,
+    image: "https://media.academiahgw.online/wp-content/uploads/2026/11/prejunior-hgw.png",
+    bv: 50,
+    shortDescription: "Membresía de activación Pre-Junior con 50 BV y productos de su preferencia (B/. 90.00 aprox).",
+    description: "La membresía Pre-Junior de 50 BV es el paquete de acceso inicial ideal para nuevos distribuidores independientes en Panamá. Incluye productos de su libre elección por valor de 50 BV y otorga beneficios directos en bonos de inicio rápido y desarrollo.",
+    advantages: [
+      "Productos de su preferencia",
+      "Bono Inicio rápido $5.00",
+      "Bono desarrollo 0.20 USD",
+      "Bono equipo: 5%",
+      "Tope Ganancia Diaria: 50 USD",
+      "Recompra: 5%",
+      "Venta Directa: 30%"
+    ],
+    benefits: [
+      "Productos de su preferencia",
+      "Bono Inicio rápido $5.00",
+      "Bono desarrollo 0.20 USD",
+      "Bono equipo: 5%",
+      "Tope Ganancia Diaria: 50 USD",
+      "Recompra: 5%",
+      "Venta Directa: 30%"
+    ],
+    usage: "Adquiera su paquete Pre-Junior seleccionando los productos de su preferencia en nuestra tienda online o contactando por WhatsApp.",
+    inOfficialCatalog: true
+  },
+  {
+    id: "membresia-junior",
+    code: "JR-100",
+    slug: "membresia-junior",
+    name: "Membresía Junior (100 BV)",
+    category: "membresias",
+    categoryLabel: "Membresías Oficiales",
+    price: 180.00,
+    priceFormatted: "B/. 180.00",
+    inStock: true,
+    featured: true,
+    image: "https://media.academiahgw.online/wp-content/uploads/2026/11/JUNIOR-100-BV.png",
+    bv: 100,
+    shortDescription: "Membresía recomendada Junior con 100 BV y productos de su preferencia (B/. 180.00 aprox).",
+    description: "La membresía Junior de 100 BV es el paquete más equilibrado y recomendado para iniciar con un catálogo variado de productos y activar mejores porcentajes en el plan de compensación de HGW Panamá.",
+    advantages: [
+      "Productos de su preferencia",
+      "Bono Inicio rápido $10.00",
+      "Bono desarrollo 0.50 USD",
+      "Bono equipo: 7%",
+      "Tope Ganancia Diaria: 120 USD",
+      "Recompra: 5%",
+      "Venta Directa: 30%"
+    ],
+    benefits: [
+      "Productos de su preferencia",
+      "Bono Inicio rápido $10.00",
+      "Bono desarrollo 0.50 USD",
+      "Bono equipo: 7%",
+      "Tope Ganancia Diaria: 120 USD",
+      "Recompra: 5%",
+      "Venta Directa: 30%"
+    ],
+    usage: "Adquiera su paquete Junior seleccionando los productos de su preferencia en nuestra tienda online o contactando por WhatsApp.",
+    inOfficialCatalog: true
+  },
+  {
+    id: "membresia-senior",
+    code: "SR-300",
+    slug: "membresia-senior",
+    name: "Membresía Senior (300 BV)",
+    category: "membresias",
+    categoryLabel: "Membresías Oficiales",
+    price: 540.00,
+    priceFormatted: "B/. 540.00",
+    inStock: true,
+    featured: true,
+    image: "https://media.academiahgw.online/wp-content/uploads/2026/11/senior.png",
+    bv: 300,
+    shortDescription: "Membresía avanzada Senior con 300 BV, productos de su preferencia y Bono Élite (B/. 540.00 aprox).",
+    description: "La membresía Senior de 300 BV está diseñada para líderes que buscan mayores porcentajes en bonos de equipo, bonos de desarrollo y bono élite hasta la tercera generación en HGW Panamá.",
+    advantages: [
+      "Productos de su preferencia",
+      "Bono Inicio rápido $30.00",
+      "Bono desarrollo 1.50 USD",
+      "Bono equipo: 8%",
+      "Tope Ganancia Diaria: 360 USD",
+      "Elite 4% Hasta 3era generación",
+      "Recompra: 5%",
+      "Venta Directa: 30%"
+    ],
+    benefits: [
+      "Productos de su preferencia",
+      "Bono Inicio rápido $30.00",
+      "Bono desarrollo 1.50 USD",
+      "Bono equipo: 8%",
+      "Tope Ganancia Diaria: 360 USD",
+      "Elite 4% Hasta 3era generación",
+      "Recompra: 5%",
+      "Venta Directa: 30%"
+    ],
+    usage: "Adquiera su paquete Senior seleccionando los productos de su preferencia en nuestra tienda online o contactando por WhatsApp.",
+    inOfficialCatalog: true
+  },
+  {
+    id: "membresia-master",
+    code: "MST-600",
+    slug: "membresia-master",
+    name: "Membresía Master (600 BV)",
+    category: "membresias",
+    categoryLabel: "Membresías Oficiales",
+    price: 1024.00,
+    priceFormatted: "B/. 1024.00",
+    inStock: true,
+    featured: true,
+    image: "https://media.academiahgw.online/wp-content/uploads/2026/11/master-600-bv-hgw.png",
+    bv: 600,
+    shortDescription: "Membresía máxima Master con 600 BV, productos de su preferencia y hasta 60% en ventas directas.",
+    description: "La membresía Master de 600 BV representa el máximo nivel de activación. Permite comprar con excelente beneficio en recompras, obtener márgenes de hasta el 60% en ventas directas y cobrar Bono Élite hasta la 6ta generación.",
+    advantages: [
+      "Productos de su preferencia",
+      "Bono inicio rápido $60.00",
+      "Bono desarrollo 3.00 USD",
+      "Bono equipo: 10%",
+      "Tope Ganancia Diaria: 720 USD",
+      "Elite 4% Hasta 6ta generación",
+      "Recompra: 5%",
+      "Venta Directa: 60%"
+    ],
+    benefits: [
+      "Productos de su preferencia",
+      "Bono inicio rápido $60.00",
+      "Bono desarrollo 3.00 USD",
+      "Bono equipo: 10%",
+      "Tope Ganancia Diaria: 720 USD",
+      "Elite 4% Hasta 6ta generación",
+      "Recompra: 5%",
+      "Venta Directa: 60%"
+    ],
+    usage: "Adquiera su paquete Master seleccionando los productos de su preferencia en nuestra tienda online o contactando por WhatsApp.",
+    inOfficialCatalog: true
+  },
+
   // ==========================================
   // 1. CAFÉS (Catálogo Oficial HGW 2026)
   // ==========================================
@@ -2093,67 +2245,67 @@ export const MEMBERSHIP_PLANS: MembershipPlan[] = [
     id: 'pre-junior',
     name: 'Pre-Junior',
     bv: '50 BV',
-    priceEstimate: 'Desde $100',
+    priceEstimate: 'B/. 90.00 (aprox)',
     packageImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/prejunior-hgw.png',
-    description: 'Membresía de acceso inicial para nuevos distribuidores con 50 BV acumulados en compras.',
-    benefits: ['Acceso a precios de distribuidor', 'Participación en bonos iniciales', 'Tienda virtual autorizada'],
-    productsChoice: 'Elige productos por valor de 50 BV',
-    directSaleProfit: 'Hasta 60% en ventas',
-    fastStartBonus: '20% (1ª y 2ª Gen)',
-    developmentBonus: 'Hasta 10 niveles',
+    description: 'Membresía Pre-Junior 50 BV',
+    benefits: ['Productos de su preferencia', 'Bono Inicio rápido $5.00', 'Bono desarrollo 0.20 USD', 'Bono equipo: 5%', 'Tope Ganancia Diaria: 50 USD', 'Recompra: 5%', 'Venta Directa: 30%'],
+    productsChoice: 'Productos de su preferencia',
+    directSaleProfit: '30%',
+    fastStartBonus: '$5.00',
+    developmentBonus: '0.20 USD',
     teamBonus: '5%',
-    dailyEarningsCap: '50 BV diarios',
+    dailyEarningsCap: '50 USD',
     repurchaseBonus: '5%'
   },
   {
     id: 'junior',
     name: 'Junior',
     bv: '100 BV',
-    priceEstimate: 'Desde $200',
+    priceEstimate: 'B/. 180.00 (aprox)',
     packageImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/JUNIOR-100-BV.png',
-    description: 'Membresía recomendada para iniciar con un paquete equilibrado de productos y 100 BV.',
-    benefits: ['Acceso completo al plan de compensación', 'Bonos de inicio rápido', 'Soporte y capacitación'],
+    description: 'Membresía Junior 100 BV',
+    benefits: ['Productos de su preferencia', 'Bono Inicio rápido $10.00', 'Bono desarrollo 0.50 USD', 'Bono equipo: 7%', 'Tope Ganancia Diaria: 120 USD', 'Recompra: 5%', 'Venta Directa: 30%'],
     recommended: true,
-    productsChoice: 'Elige productos por valor de 100 BV',
-    directSaleProfit: 'Hasta 60% en ventas',
-    fastStartBonus: '20% (1ª y 2ª Gen)',
-    developmentBonus: 'Hasta 10 niveles',
+    productsChoice: 'Productos de su preferencia',
+    directSaleProfit: '30%',
+    fastStartBonus: '$10.00',
+    developmentBonus: '0.50 USD',
     teamBonus: '7%',
-    dailyEarningsCap: '120 BV diarios',
+    dailyEarningsCap: '120 USD',
     repurchaseBonus: '5%'
   },
   {
     id: 'senior',
     name: 'Senior',
     bv: '300 BV',
-    priceEstimate: 'Desde $600',
+    priceEstimate: 'B/. 540.00 (aprox)',
     packageImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/senior.png',
-    description: 'Membresía avanzada para líderes con 300 BV y mayores porcentajes en bonos de equipo.',
-    benefits: ['Cobro de bonos hasta 3ª generación (Bono Élite)', 'Mayores beneficios en recompras', 'Posibilidad de escalar a Master'],
-    productsChoice: 'Elige productos por valor de 300 BV',
-    directSaleProfit: 'Hasta 60% en ventas',
-    fastStartBonus: '20% (1ª y 2ª Gen)',
-    developmentBonus: 'Hasta 10 niveles',
+    description: 'Membresía Senior 300 BV',
+    benefits: ['Productos de su preferencia', 'Bono Inicio rápido $30.00', 'Bono desarrollo 1.50 USD', 'Bono equipo: 8%', 'Tope Ganancia Diaria: 360 USD', 'Elite 4% Hasta 3era generación', 'Recompra: 5%', 'Venta Directa: 30%'],
+    productsChoice: 'Productos de su preferencia',
+    directSaleProfit: '30%',
+    fastStartBonus: '$30.00',
+    developmentBonus: '1.50 USD',
     teamBonus: '8%',
-    dailyEarningsCap: '360 BV diarios',
-    eliteBonus: '4% (Hasta 3ª Gen)',
+    dailyEarningsCap: '360 USD',
+    eliteBonus: '4% Hasta 3era gen.',
     repurchaseBonus: '5%'
   },
   {
     id: 'master',
     name: 'Master',
     bv: '600 BV',
-    priceEstimate: 'Desde $1,200',
+    priceEstimate: 'B/. 1024.00 (aprox)',
     packageImageUrl: 'https://media.academiahgw.online/wp-content/uploads/2026/11/master-600-bv-hgw.png',
-    description: 'Membresía máxima con 600 BV. Compras con hasta 52% de beneficio y márgenes del 60% en ventas directas.',
-    benefits: ['Máximos beneficios y márgenes del 60%', 'Bono Élite hasta 6ª generación', 'Acceso a bonos de liderazgo global'],
-    productsChoice: 'Elige productos por valor de 600 BV',
-    directSaleProfit: 'Hasta 60% en ventas',
-    fastStartBonus: '20% (1ª y 2ª Gen)',
-    developmentBonus: 'Hasta 10 niveles',
+    description: 'Membresía Master 600 BV',
+    benefits: ['Productos de su preferencia', 'Bono inicio rápido $60.00', 'Bono desarrollo 3.00 USD', 'Bono equipo: 10%', 'Tope Ganancia Diaria: 720 USD', 'Elite 4% Hasta 6ta generación', 'Recompra: 5%', 'Venta Directa: 60%'],
+    productsChoice: 'Productos de su preferencia',
+    directSaleProfit: '60%',
+    fastStartBonus: '$60.00',
+    developmentBonus: '3.00 USD',
     teamBonus: '10%',
-    dailyEarningsCap: '720 BV diarios',
-    eliteBonus: '4% (Hasta 6ª Gen)',
+    dailyEarningsCap: '720 USD',
+    eliteBonus: '4% Hasta 6ta gen.',
     repurchaseBonus: '5%'
   }
 ];
