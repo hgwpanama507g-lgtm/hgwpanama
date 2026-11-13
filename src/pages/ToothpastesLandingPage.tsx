@@ -426,39 +426,38 @@ export const ToothpastesLandingPage: React.FC = () => {
             </div>
 
             {/* 3. Pasta con Probioticos */}
-            <div className="bg-white rounded-3xl border border-stone-200 overflow-hidden shadow-lg flex flex-col justify-between p-6">
-              <div className="space-y-4">
-                <div className="w-14 h-14 rounded-2xl bg-emerald-100 text-[#00795F] flex items-center justify-center">
-                  <Sparkles className="w-7 h-7" />
+            <div className="bg-white rounded-3xl border border-stone-200 overflow-hidden shadow-lg flex flex-col justify-between">
+              <div>
+                <div className="aspect-video w-full bg-black relative">
+                  <iframe
+                    className="w-full h-full"
+                    src="https://www.youtube-nocookie.com/embed/ffYtOh7xwEo"
+                    title="Capacitación Pasta Dental con Probióticos HGW"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
                 </div>
-                <div>
-                  <span className="text-[10px] font-black uppercase tracking-wider text-amber-800 bg-amber-100 px-2.5 py-0.5 rounded-md">
-                    Video en Preparación
+                <div className="p-5 space-y-2">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-[#00795F] bg-emerald-50 px-2 py-0.5 rounded-md">
+                    Capacitación Oficial
                   </span>
-                  <h3 className="text-lg font-black text-stone-900 mt-2 leading-snug">
+                  <h3 className="text-base font-black text-stone-900 leading-snug">
                     Pasta Dental con Probióticos
                   </h3>
-                  <p className="text-xs text-stone-600 mt-1.5 leading-relaxed">
-                    El video de capacitación técnica para la pasta con probióticos se encuentra en edición. Mientras tanto, puedes consultar la ficha técnica oficial o solicitarnos información por WhatsApp.
+                  <p className="text-xs text-stone-600 leading-relaxed">
+                    Aprende cómo la tecnología de probióticos bioactivos restablece el microbioma oral, blanquea y protege las encías.
                   </p>
                 </div>
               </div>
-
-              <div className="pt-4 border-t border-stone-100 flex flex-col gap-2">
-                <Link
-                  to="/documentos/hgw-probiotics-toothpaste"
-                  className="w-full py-2.5 px-3 bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-bold rounded-xl text-center transition-colors"
-                >
-                  Ver Ficha Técnica PDF
-                </Link>
+              <div className="p-5 pt-0">
                 <a
-                  href={`https://wa.me/${DISTRIBUTOR_WHATSAPP_NUMBER}?text=${encodeURIComponent('¡Hola Yamilka! Me gustaría recibir información detallada sobre la Pasta Dental con Probióticos HGW. Mi nombre es:')}`}
+                  href="https://youtu.be/ffYtOh7xwEo"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-2.5 px-3 bg-[#00795F] hover:bg-[#005a46] text-white text-xs font-bold rounded-xl text-center flex items-center justify-center gap-1.5 transition-colors"
+                  className="w-full py-2 bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition-colors"
                 >
-                  <MessageCircle className="w-3.5 h-3.5" />
-                  <span>Consultar por WhatsApp</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>Ver en YouTube</span>
                 </a>
               </div>
             </div>
@@ -784,10 +783,10 @@ export const ToothpastesLandingPage: React.FC = () => {
           <AlertCircle className="w-6 h-6 text-amber-700 shrink-0 mt-0.5" />
           <div className="space-y-1.5 text-xs sm:text-sm text-amber-900 leading-relaxed">
             <strong className="font-black uppercase tracking-wider block text-amber-950 text-xs sm:text-sm">
-              Aviso Importante sobre Salud Bucal y Nuestros Productos:
+              Recomendación y Aviso de Salud Bucal:
             </strong>
             <p>
-              Las pastas dentales HGW son productos cosméticos e higiénicos formulados para el cuidado bucal diario con extractos botánicos, minerales y probióticos bioactivos. No constituyen medicamentos ni sustituyen los tratamientos médicos u odontológicos profesionales, ni pretenden diagnosticar, tratar, curar o prevenir por sí solas afecciones periodontales graves. Recomendamos realizar visitas periódicas a su odontólogo de confianza para el cuidado integral de su salud bucodental.
+              Nuestras pastas dentales HGW están diseñadas para complementar tu higiene diaria con ingredientes naturales y botánicos, pero recuerda que <strong>no curan ni tratan enfermedades</strong>. Te recomendamos con mucho cariño visitar a tu odontólogo de confianza para tu chequeo y limpieza dental cada 6 meses, asegurando así una sonrisa siempre radiante y saludable.
             </p>
           </div>
         </div>
