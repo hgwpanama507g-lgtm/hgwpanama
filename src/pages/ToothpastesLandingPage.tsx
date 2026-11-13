@@ -20,11 +20,12 @@ import {
   MapPin, 
   UserCheck, 
   ExternalLink,
-  ChevronRight,
   Award,
-  Zap
+  Zap,
+  PlayCircle,
+  AlertCircle
 } from 'lucide-react';
-import { getAffiliationWhatsAppUrl, DISTRIBUTOR_WHATSAPP_NUMBER } from '../utils/whatsapp';
+import { DISTRIBUTOR_WHATSAPP_NUMBER } from '../utils/whatsapp';
 
 export const ToothpastesLandingPage: React.FC = () => {
   // Only the 3 toothpastes arriving/available in Panama (pasta green excluded per user request)
@@ -46,10 +47,6 @@ export const ToothpastesLandingPage: React.FC = () => {
       const next = Math.max(0, current + delta);
       return { ...prev, [id]: next };
     });
-  };
-
-  const handleSetExactQty = (id: string, value: number) => {
-    setQuantities(prev => ({ ...prev, [id]: Math.max(0, value) }));
   };
 
   // Preset combinations for 50 BV
@@ -334,6 +331,135 @@ export const ToothpastesLandingPage: React.FC = () => {
                 </div>
               );
             })}
+          </div>
+        </div>
+
+        {/* TRAINING VIDEOS SECTION */}
+        <div id="videos-capacitacion" className="space-y-6">
+          <div className="text-center max-w-2xl mx-auto space-y-2">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-black uppercase tracking-wider">
+              <PlayCircle className="w-4 h-4" /> Videos de Capacitación
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-black text-stone-900">
+              Aprende sobre Nuestras Pastas Dentales
+            </h2>
+            <p className="text-stone-600 text-sm font-medium">
+              Conoce a través de estas capacitaciones los beneficios de la nanoturmalina, ingredientes botánicos y el cuidado bucal avanzado.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* 1. Video Pasta Blanca */}
+            <div className="bg-white rounded-3xl border border-stone-200 overflow-hidden shadow-lg flex flex-col justify-between">
+              <div>
+                <div className="aspect-video w-full bg-black relative">
+                  <iframe
+                    className="w-full h-full"
+                    src="https://www.youtube-nocookie.com/embed/ktx3RJ54zgI"
+                    title="Capacitación Pasta Dental de Turmalina Versión Blanca HGW"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                </div>
+                <div className="p-5 space-y-2">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-[#00795F] bg-emerald-50 px-2 py-0.5 rounded-md">
+                    Capacitación Oficial
+                  </span>
+                  <h3 className="text-base font-black text-stone-900 leading-snug">
+                    Pasta Dental de Turmalina – Versión Blanca
+                  </h3>
+                  <p className="text-xs text-stone-600 leading-relaxed">
+                    Descubre cómo los péptidos de soja, el xilitol, la menta y la turmalina combaten patógenos orales y eliminan el mal aliento.
+                  </p>
+                </div>
+              </div>
+              <div className="p-5 pt-0">
+                <a
+                  href="https://youtu.be/ktx3RJ54zgI"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-2 bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition-colors"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>Ver en YouTube</span>
+                </a>
+              </div>
+            </div>
+
+            {/* 2. Video Pasta Negra */}
+            <div className="bg-white rounded-3xl border border-stone-200 overflow-hidden shadow-lg flex flex-col justify-between">
+              <div>
+                <div className="aspect-video w-full bg-black relative">
+                  <iframe
+                    className="w-full h-full"
+                    src="https://www.youtube-nocookie.com/embed/mmWFwGHLdfM"
+                    title="Capacitación Pasta Dental de Turmalina Versión Negra HGW"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                </div>
+                <div className="p-5 space-y-2">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-stone-800 bg-stone-100 px-2 py-0.5 rounded-md">
+                    Capacitación Oficial
+                  </span>
+                  <h3 className="text-base font-black text-stone-900 leading-snug">
+                    Pasta Dental de Turmalina – Versión Negra
+                  </h3>
+                  <p className="text-xs text-stone-600 leading-relaxed">
+                    Conoce el poder blanqueador suave sin abrasivos agresivos, acción antibacteriana con madreselva y protección de encías.
+                  </p>
+                </div>
+              </div>
+              <div className="p-5 pt-0">
+                <a
+                  href="https://youtu.be/mmWFwGHLdfM"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-2 bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition-colors"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>Ver en YouTube</span>
+                </a>
+              </div>
+            </div>
+
+            {/* 3. Pasta con Probioticos */}
+            <div className="bg-white rounded-3xl border border-stone-200 overflow-hidden shadow-lg flex flex-col justify-between p-6">
+              <div className="space-y-4">
+                <div className="w-14 h-14 rounded-2xl bg-emerald-100 text-[#00795F] flex items-center justify-center">
+                  <Sparkles className="w-7 h-7" />
+                </div>
+                <div>
+                  <span className="text-[10px] font-black uppercase tracking-wider text-amber-800 bg-amber-100 px-2.5 py-0.5 rounded-md">
+                    Video en Preparación
+                  </span>
+                  <h3 className="text-lg font-black text-stone-900 mt-2 leading-snug">
+                    Pasta Dental con Probióticos
+                  </h3>
+                  <p className="text-xs text-stone-600 mt-1.5 leading-relaxed">
+                    El video de capacitación técnica para la pasta con probióticos se encuentra en edición. Mientras tanto, puedes consultar la ficha técnica oficial o solicitarnos información por WhatsApp.
+                  </p>
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-stone-100 flex flex-col gap-2">
+                <Link
+                  to="/documentos/hgw-probiotics-toothpaste"
+                  className="w-full py-2.5 px-3 bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-bold rounded-xl text-center transition-colors"
+                >
+                  Ver Ficha Técnica PDF
+                </Link>
+                <a
+                  href={`https://wa.me/${DISTRIBUTOR_WHATSAPP_NUMBER}?text=${encodeURIComponent('¡Hola Yamilka! Me gustaría recibir información detallada sobre la Pasta Dental con Probióticos HGW. Mi nombre es:')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-2.5 px-3 bg-[#00795F] hover:bg-[#005a46] text-white text-xs font-bold rounded-xl text-center flex items-center justify-center gap-1.5 transition-colors"
+                >
+                  <MessageCircle className="w-3.5 h-3.5" />
+                  <span>Consultar por WhatsApp</span>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -651,6 +777,19 @@ export const ToothpastesLandingPage: React.FC = () => {
           </div>
         </div>
 
+        {/* ORAL HEALTH DISCLAIMER */}
+        <div className="bg-amber-50/90 border border-amber-200/80 rounded-2xl p-5 sm:p-6 flex items-start gap-4 shadow-2xs">
+          <AlertCircle className="w-6 h-6 text-amber-700 shrink-0 mt-0.5" />
+          <div className="space-y-1.5 text-xs sm:text-sm text-amber-900 leading-relaxed">
+            <strong className="font-black uppercase tracking-wider block text-amber-950 text-xs sm:text-sm">
+              Aviso Importante sobre Salud Bucal y Nuestros Productos:
+            </strong>
+            <p>
+              Las pastas dentales HGW son productos cosméticos e higiénicos formulados para el cuidado bucal diario con extractos botánicos, minerales y probióticos bioactivos. No constituyen medicamentos ni sustituyen los tratamientos médicos u odontológicos profesionales, ni pretenden diagnosticar, tratar, curar o prevenir por sí solas afecciones periodontales graves. Recomendamos realizar visitas periódicas a su odontólogo de confianza para el cuidado integral de su salud bucodental.
+            </p>
+          </div>
+        </div>
+
         {/* AUTHOR / DISTRIBUTOR PROFILE SECTION (Yamilka Batista) */}
         <div className="bg-gradient-to-br from-emerald-900 via-[#004d3c] to-stone-950 text-white rounded-3xl p-8 sm:p-12 shadow-2xl relative overflow-hidden">
           {/* Subtle background glow */}
@@ -691,13 +830,13 @@ export const ToothpastesLandingPage: React.FC = () => {
                 <Sparkles className="w-3.5 h-3.5" /> Tu Asesora y Enlace Directo
               </div>
 
-              {/* Elevator Pitch */}
+              {/* Elevator Pitch (without prices, without costs, without shipping logistics) */}
               <div className="space-y-3">
                 <h4 className="text-2xl sm:text-3xl font-black text-white tracking-tight leading-snug">
-                  Cuidado bucal natural, asesoría honesta y respaldo garantizado en todo Panamá.
+                  Ayudando a las familias a sonreír con productos más sanos, puros y naturales.
                 </h4>
                 <p className="text-emerald-100 text-sm sm:text-base leading-relaxed font-normal">
-                  «¡Hola! Soy Yamilka Batista. Te doy la bienvenida a HGW Panamá. Mi propósito es ayudarte a transformar la salud bucal de tu familia con pastas dentales de alta tecnología <strong>100% libres de flúor y triclosán</strong>, y ofrecerte la mejor opción para ahorrar o generar ingresos propios. Al acumular <strong>50 BV</strong> en tus pedidos, accedes a un <strong>30% de descuento permanente</strong> comprando cada pasta a solo <strong>$5.00 USD</strong>. Ya sea que desees comprar para tu hogar como cliente o emprender como socio distribuidor en tu provincia, cuentas con mi asesoría personalizada, pagos ágiles por Yappy y envíos garantizados por Servientrega a todo el país.»
+                  «¡Hola! Soy Yamilka Batista. Mi pasión y propósito es ayudarte a ti y a tu familia a cuidar la sonrisa de la manera más saludable y consciente posible. Muchas personas no conocen la cantidad de químicos agresivos presentes en los dentífricos convencionales; por eso, me dedico a orientarte y facilitarte alternativas verdaderamente beneficiosas: pastas dentales innovadoras, <strong>100% libres de flúor y libres de triclosán</strong>, enriquecidas con probióticos bioactivos y nanoturmalina. Mi compromiso es brindarte una atención cercana, honesta y personalizada para que protejas tus encías, mantengas un aliento fresco duradero y disfrutes de una salud bucal plena todos los días.»
                 </p>
               </div>
 
@@ -729,7 +868,7 @@ export const ToothpastesLandingPage: React.FC = () => {
                   <strong className="text-white text-xs sm:text-sm font-bold truncate select-all">
                     hgwpanama507g@gmail.com
                   </strong>
-                  <span className="text-[11px] text-emerald-200">Atención y registros</span>
+                  <span className="text-[11px] text-emerald-200">Atención y consultas</span>
                 </div>
 
                 {/* Location */}
