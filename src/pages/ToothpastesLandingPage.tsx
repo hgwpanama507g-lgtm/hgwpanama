@@ -137,11 +137,11 @@ export const ToothpastesLandingPage: React.FC = () => {
           <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-emerald-100 text-[#00795F] rounded-full text-xs font-black uppercase tracking-wider shadow-2xs">
             <ShieldCheck className="w-4 h-4" /> 100% Sin Flúor ni Triclosán
           </div>
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-stone-900 tracking-tight leading-tight">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-stone-900 tracking-tight leading-tight text-center">
             Pastas Dentales HGW <br className="hidden sm:inline" />
             <span className="text-[#00795F]">Cuidado Bucal Avanzado en Panamá</span>
           </h1>
-          <p className="text-base sm:text-xl text-stone-600 font-medium max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-xl text-stone-600 font-medium max-w-3xl mx-auto leading-relaxed text-center">
             Formuladas con tecnología de probióticos bioactivos, nanoturmalina e ingredientes milenarios de la medicina tradicional china. Limpieza profunda, blanqueamiento natural y protección bucal para toda la familia.
           </p>
 
@@ -211,12 +211,10 @@ export const ToothpastesLandingPage: React.FC = () => {
 
         {/* Products Section */}
         <div className="space-y-8">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-stone-200 pb-4 gap-2">
-            <div>
-              <span className="text-xs font-black text-[#00795F] uppercase tracking-wider block">Catálogo Oficial Panamá</span>
-              <h2 className="text-2xl sm:text-3xl font-black text-stone-900">Pastas Dentales Disponibles</h2>
-            </div>
-            <span className="text-xs font-bold text-stone-500 bg-stone-100 px-3 py-1 rounded-full uppercase">
+          <div className="text-center space-y-2 border-b border-stone-200 pb-4">
+            <span className="text-xs font-black text-[#00795F] uppercase tracking-wider block">Catálogo Oficial Panamá</span>
+            <h2 className="text-2xl sm:text-3xl font-black text-stone-900 text-center">Pastas Dentales Disponibles</h2>
+            <span className="inline-block text-xs font-bold text-stone-500 bg-stone-100 px-3 py-1 rounded-full uppercase mt-1">
               {availableToothpastes.length} Variedades en Inventario
             </span>
           </div>
@@ -298,7 +296,7 @@ export const ToothpastesLandingPage: React.FC = () => {
                           {product.benefits.map((benefit, idx) => (
                             <li key={idx} className="flex items-start gap-2.5">
                               <Check className="w-5 h-5 text-[#00795F] shrink-0 mt-0.5" />
-                              <span className="text-[17px] text-black leading-relaxed font-normal">
+                              <span className="text-[16px] text-black leading-relaxed font-normal">
                                 {benefit}
                               </span>
                             </li>
@@ -342,10 +340,10 @@ export const ToothpastesLandingPage: React.FC = () => {
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-black uppercase tracking-wider">
               <PlayCircle className="w-4 h-4" /> Videos de Capacitación
             </div>
-            <h2 className="text-2xl sm:text-3xl font-black text-stone-900">
+            <h2 className="text-2xl sm:text-3xl font-black text-stone-900 text-center">
               Aprende sobre Nuestras Pastas Dentales
             </h2>
-            <p className="text-stone-600 text-sm font-medium">
+            <p className="text-stone-600 text-sm font-medium text-center">
               Conoce a través de estas capacitaciones los beneficios de la nanoturmalina, ingredientes botánicos y el cuidado bucal avanzado.
             </p>
           </div>
