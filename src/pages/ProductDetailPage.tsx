@@ -1,5 +1,6 @@
 import React from 'react';
 import { PRODUCTS } from '../data/products';
+import { findProductBySlug } from '../data/seoMetadata';
 import { Link } from '../router';
 import { AlertTriangle, Check, Sparkles, ArrowRight, ShieldCheck, Clock, Package, Hash, Award } from 'lucide-react';
 import { getAffiliationWhatsAppUrl } from '../utils/whatsapp';
@@ -10,7 +11,7 @@ interface ProductDetailPageProps {
 }
 
 export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) => {
-  const product = PRODUCTS.find((p) => p.slug === slug || p.id === slug || p.code === slug);
+  const product = findProductBySlug(slug);
 
   if (!product) {
     return (

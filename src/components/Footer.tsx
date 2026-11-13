@@ -50,6 +50,11 @@ export const Footer: React.FC = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/pastas-dentales" className="hover:text-emerald-400 transition-colors">
+                  Pastas Dentales (Sin Flúor)
+                </Link>
+              </li>
+              <li>
                 <Link to="/membresias" className="hover:text-emerald-400 transition-colors">
                   Membresías de Activación
                 </Link>

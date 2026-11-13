@@ -17,9 +17,11 @@ import { DocumentDetailPage } from './pages/DocumentDetailPage';
 import { PreRegistrationPage } from './pages/PreRegistrationPage';
 import { OfficesDirectoryPage } from './pages/OfficesDirectoryPage';
 import { InformationPage } from './pages/InformationPage';
+import { ToothpastesLandingPage } from './pages/ToothpastesLandingPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { PRODUCTS } from './data/products';
 import { HGW_DOCUMENTS } from './data/documents';
+import { findProductBySlug } from './data/seoMetadata';
 
 function AppContent() {
   const { currentPath } = useRouter();
@@ -121,6 +123,11 @@ function AppContent() {
       return <InformationPage />;
     }
 
+    // 8.1. Toothpastes Landing Page (/pastas-dentales or /pastas)
+    if (['/pastas-dentales', '/pastas'].includes(currentPath)) {
+      return <ToothpastesLandingPage />;
+    }
+
     // 9. Contact Page (/contacto)
     if (currentPath === '/contacto') {
       return (
@@ -133,7 +140,7 @@ function AppContent() {
 
     // 9. Direct product fallback if route matches a product slug directly (e.g. /blueberry-coffee-hgw)
     const directSlug = currentPath.replace(/^\//, '').split('?')[0].split('#')[0];
-    if (PRODUCTS.some((p) => p.slug === directSlug || p.id === directSlug)) {
+    if (findProductBySlug(directSlug)) {
       return <ProductDetailPage slug={directSlug} />;
     }
 

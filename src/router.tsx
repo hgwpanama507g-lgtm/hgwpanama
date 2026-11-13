@@ -12,65 +12,10 @@ const RouterContext = createContext<RouterContextType>({
 
 import { PRODUCTS } from './data/products';
 import { HGW_DOCUMENTS } from './data/documents';
+import { getSeoMetadata } from './data/seoMetadata';
 
 export const getPageTitle = (pathname: string): string => {
-  const cleanPath = pathname.replace(/\/$/, '') || '/';
-
-  if (cleanPath === '/') {
-    return 'Inicio';
-  }
-  if (cleanPath === '/productos' || cleanPath === '/catalogo') {
-    return 'Catálogo de Productos';
-  }
-  if (cleanPath === '/membresias' || cleanPath === '/membresías') {
-    return 'Planes de Membresía';
-  }
-  if (cleanPath === '/oportunidad-de-negocio' || cleanPath === '/oportunidad') {
-    return 'Oportunidad de Negocio';
-  }
-  if (cleanPath === '/preregistro' || cleanPath === '/pre-registro') {
-    return 'Pre-registro';
-  }
-  if (cleanPath === '/documentos' || cleanPath === '/documentos-pdf') {
-    return 'Documentos y Catálogos Oficiales';
-  }
-  if (cleanPath === '/contacto') {
-    return 'Contacto y Oficinas';
-  }
-  if (cleanPath === '/oficinas' || cleanPath === '/directorio-oficinas') {
-    return 'Directorio de Oficinas LATAM';
-  }
-  if (cleanPath === '/informacion' || cleanPath === '/propiedades' || cleanPath === '/beneficios' || cleanPath === '/ingredientes') {
-    return 'Propiedades e Ingredientes Funcionales';
-  }
-
-  // Check product paths: /producto/:slug or direct /:slug
-  const productSlug = cleanPath.startsWith('/producto/')
-    ? cleanPath.replace('/producto/', '')
-    : cleanPath.startsWith('/productos/')
-    ? cleanPath.replace('/productos/', '')
-    : cleanPath.replace(/^\//, '');
-
-  const product = PRODUCTS.find((p) => p.slug === productSlug || p.id === productSlug);
-  if (product) {
-    return product.name;
-  }
-
-  // Check document paths: /documentos/:slug
-  if (cleanPath.startsWith('/documentos/')) {
-    const docSlug = cleanPath.replace('/documentos/', '');
-    const foundDoc = HGW_DOCUMENTS.find((d) => d.slug === docSlug || d.id === docSlug || d.url.includes(docSlug));
-    if (foundDoc) {
-      return foundDoc.title;
-    }
-  }
-
-  // Fallback for valid Home paths
-  if (cleanPath === '/' || cleanPath === '/inicio') {
-    return 'Inicio';
-  }
-
-  return 'Página no encontrada';
+  return getSeoMetadata(pathname).title.replace(/ – HGW Panamá$/, '');
 };
 
 export const RouterProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -95,10 +40,42 @@ export const RouterProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  // Update browser tab title dynamically in Yoast SEO format: Título de la página – Separador – Título del sitio
+  // Update browser tab title and Open Graph social share metadata dynamically across all devices and crawlers
   useEffect(() => {
-    const pageTitle = getPageTitle(currentPath);
-    document.title = `${pageTitle} – HGW Panamá`;
+    const seo = getSeoMetadata(currentPath);
+    document.title = seo.title;
+
+    const updateMeta = (property: string, content: string, isName = false) => {
+      const attr = isName ? 'name' : 'property';
+      let el = document.querySelector(`meta[${attr}="${property}"]`);
+      if (!el) {
+        el = document.createElement('meta');
+        el.setAttribute(attr, property);
+        document.head.appendChild(el);
+      }
+      el.setAttribute('content', content);
+    };
+
+    updateMeta('description', seo.description, true);
+    updateMeta('og:title', seo.title);
+    updateMeta('og:description', seo.description);
+    updateMeta('og:url', seo.url);
+    updateMeta('og:image', seo.image);
+    updateMeta('og:type', seo.type);
+    updateMeta('og:site_name', seo.siteName);
+    updateMeta('twitter:card', 'summary_large_image', true);
+    updateMeta('twitter:title', seo.title, true);
+    updateMeta('twitter:description', seo.description, true);
+    updateMeta('twitter:image', seo.image, true);
+
+    // Update canonical link
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', seo.url);
   }, [currentPath]);
 
   const navigate = (to: string) => {
