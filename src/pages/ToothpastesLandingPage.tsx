@@ -103,7 +103,7 @@ export const ToothpastesLandingPage: React.FC = () => {
     if (mode === 'cliente') {
       msg = `¡Hola Yamilka! Me interesa comprar como CLIENTE la pasta dental *${productName}* a precio regular de $8.00 USD. ¿Tienen disponibilidad inmediata para envío por Servientrega y pago por Yappy? (${pageUrl}) Mi nombre es:`;
     } else {
-      msg = `¡Hola Yamilka! Me interesa comprar la pasta dental *${productName}* como SOCIO con el 30% de descuento (a $5.00 USD c/u acumulando 50 BV) y afiliarme a HGW Panamá. (${pageUrl}) Mi nombre es:`;
+      msg = `¡Hola Yamilka! Me interesa comprar la pasta dental *${productName}* como SOCIO con el 30% de descuento al acumular 50 BV y afiliarme a HGW Panamá. (${pageUrl}) Mi nombre es:`;
     }
     return `https://wa.me/${DISTRIBUTOR_WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
   };
@@ -148,12 +148,12 @@ export const ToothpastesLandingPage: React.FC = () => {
           {/* Promo Pill 50 BV banner */}
           <div className="inline-flex flex-wrap items-center justify-center gap-2 p-3 sm:p-4 bg-gradient-to-r from-emerald-600 to-[#00795F] text-white rounded-2xl shadow-lg text-sm sm:text-base font-bold">
             <BadgePercent className="w-5 h-5 text-emerald-200" />
-            <span>¡Super Promo 50 BV! Compra tus pastas a solo <strong>$5.00 USD c/u</strong> (30% de descuento) acumulando 50 BV</span>
+            <span>¡Súper Promo! Obtén un <strong>30% de descuento</strong> al acumular <strong>50 BV</strong> en pastas dentales</span>
             <a 
               href="#simulador" 
               className="ml-2 inline-flex items-center gap-1 bg-white text-[#00795F] px-3 py-1 rounded-xl text-xs font-black uppercase hover:bg-emerald-50 transition-colors shadow-xs"
             >
-              Simular Pedido <ArrowRight className="w-3.5 h-3.5" />
+              Calcular en el Simulador <ArrowRight className="w-3.5 h-3.5" />
             </a>
           </div>
         </div>
@@ -272,33 +272,35 @@ export const ToothpastesLandingPage: React.FC = () => {
                         {product.shortDescription}
                       </p>
 
-                      {/* Pricing block */}
-                      <div className="p-4 bg-emerald-50/60 rounded-2xl border border-emerald-100 space-y-1.5">
+                      {/* Pricing block - Only public price shown here; partner price is in simulator */}
+                      <div className="p-4 bg-stone-50 rounded-2xl border border-stone-200 space-y-2">
                         <div className="flex items-baseline justify-between">
-                          <span className="text-xs font-bold text-stone-500 uppercase">Precio Cliente:</span>
-                          <span className="text-2xl font-black text-stone-900">$8.00 USD</span>
+                          <span className="text-xs font-bold text-stone-500 uppercase tracking-wider">Precio al Público:</span>
+                          <span className="text-3xl font-black text-stone-900">$8.00 <span className="text-xs font-bold text-stone-500">USD</span></span>
                         </div>
-                        <div className="flex items-baseline justify-between pt-1 border-t border-emerald-200/60">
-                          <span className="text-xs font-black text-[#00795F] uppercase flex items-center gap-1">
-                            <Zap className="w-3.5 h-3.5" /> Precio Socio (50 BV):
-                          </span>
-                          <span className="text-xl font-black text-[#00795F]">$5.00 USD</span>
+                        <div className="pt-2 border-t border-stone-200/80 flex items-center justify-between text-xs">
+                          <span className="text-stone-600 font-medium">¿Deseas 30% de descuento?</span>
+                          <a 
+                            href="#simulador" 
+                            className="text-[#00795F] font-black hover:underline inline-flex items-center gap-1"
+                          >
+                            Ver en el Simulador (50 BV) <ArrowRight className="w-3 h-3" />
+                          </a>
                         </div>
-                        <p className="text-[11px] text-emerald-800 font-medium text-right">
-                          Ahorras 30% ($3.00 c/u) con 50 BV
-                        </p>
                       </div>
 
-                      {/* Detailed Benefits directly from official Catalog */}
-                      <div className="space-y-2 pt-2">
-                        <h4 className="text-xs font-black text-stone-900 uppercase tracking-wider flex items-center gap-1.5">
-                          <Award className="w-3.5 h-3.5 text-[#00795F]" /> Beneficios del Catálogo Oficial:
+                      {/* Detailed Benefits directly from official Catalog - Size ~17px black text */}
+                      <div className="space-y-3 pt-3 border-t border-stone-100">
+                        <h4 className="text-sm font-black text-black uppercase tracking-wider flex items-center gap-2">
+                          <Award className="w-4 h-4 text-[#00795F]" /> Beneficios del Catálogo Oficial:
                         </h4>
-                        <ul className="space-y-1.5 text-xs text-stone-700">
+                        <ul className="space-y-3">
                           {product.benefits.map((benefit, idx) => (
-                            <li key={idx} className="flex items-start gap-2">
-                              <Check className="w-3.5 h-3.5 text-[#00795F] shrink-0 mt-0.5" />
-                              <span className="leading-snug">{benefit}</span>
+                            <li key={idx} className="flex items-start gap-2.5">
+                              <Check className="w-5 h-5 text-[#00795F] shrink-0 mt-0.5" />
+                              <span className="text-[17px] text-black leading-relaxed font-normal">
+                                {benefit}
+                              </span>
                             </li>
                           ))}
                         </ul>
@@ -325,7 +327,7 @@ export const ToothpastesLandingPage: React.FC = () => {
                       className="w-full py-3 px-4 bg-[#00795F] hover:bg-[#004d3c] text-white text-xs sm:text-sm font-black rounded-xl shadow-md shadow-[#00795F]/20 flex items-center justify-center gap-2 transition-all uppercase tracking-wider"
                     >
                       <Zap className="w-4 h-4 text-amber-300" />
-                      <span>Comprar como Socio ($5.00 c/u)</span>
+                      <span>Comprar como Socio (30% Descuento)</span>
                     </a>
                   </div>
                 </div>

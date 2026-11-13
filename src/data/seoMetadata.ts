@@ -94,7 +94,7 @@ export function getSeoMetadata(pathname: string): SeoMetadata {
   if (cleanPath === '/pastas-dentales' || cleanPath === '/pastas') {
     return {
       title: 'Pastas Dentales HGW - 100% Sin Flúor ni Triclosán – HGW Panamá',
-      description: 'Dentífricos naturales con probióticos y nanoturmalina 100% sin flúor ni triclosán. Simulador 50 BV con 30% de descuento ($5.00 c/u), pagos por Yappy y envíos por Servientrega.',
+      description: 'Dentífricos naturales con probióticos y nanoturmalina 100% sin flúor ni triclosán. Simulador 50 BV con 30% de descuento al por mayor, pagos por Yappy y envíos por Servientrega.',
       image: 'https://media.academiahgw.online/wp-content/uploads/2026/11/Pasta-dental-con-probioticos-HGW.jpg',
       url: `${BASE_URL}/pastas-dentales`,
       type: 'website',
