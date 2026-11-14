@@ -52,7 +52,8 @@ function generatePages() {
     '/beneficios',
     '/ingredientes',
     '/contacto',
-    '/envios-y-devoluciones'
+    '/envios-y-devoluciones',
+    '/herramientas'
   ];
 
   for (const r of standardRoutes) {
@@ -140,7 +141,15 @@ function generatePages() {
       `<meta name="twitter:image" content="${escapeHtml(seo.image)}" />`
     );
 
-    // 6. Inject Schema.org structured data if product
+    // 6. Inject noindex meta tag when configured
+    if (seo.noIndex) {
+      html = html.replace(
+        '</head>',
+        `    <meta name="robots" content="noindex, nofollow" />\n  </head>`
+      );
+    }
+
+    // 7. Inject Schema.org structured data if product
     const productJsonLdObj = buildProductJsonLd(seo);
     if (productJsonLdObj) {
       const productJsonLd = `\n    <script type="application/ld+json" id="product-jsonld">\n${JSON.stringify(productJsonLdObj, null, 2)}\n    </script>`;

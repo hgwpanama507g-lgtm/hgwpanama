@@ -77,6 +77,14 @@ export const RouterProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
     canonical.setAttribute('href', seo.url);
 
+    // Sync robots meta tag for private noindex routes (e.g. /herramientas)
+    const existingRobots = document.querySelector('meta[name="robots"]');
+    if (seo.noIndex) {
+      updateMeta('robots', 'noindex, nofollow', true);
+    } else if (existingRobots) {
+      existingRobots.remove();
+    }
+
     // Sync schema.org Product JSON-LD on client-side navigation
     const existingJsonLd = document.getElementById('product-jsonld');
     const jsonLdData = buildProductJsonLd(seo);

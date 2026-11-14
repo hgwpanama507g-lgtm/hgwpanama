@@ -1,4 +1,15 @@
 {
+  "headers": [
+    {
+      "source": "/herramientas",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",

@@ -19,6 +19,7 @@ import { PreRegistrationPage } from './pages/PreRegistrationPage';
 import { OfficesDirectoryPage } from './pages/OfficesDirectoryPage';
 import { InformationPage } from './pages/InformationPage';
 import { ToothpastesLandingPage } from './pages/ToothpastesLandingPage';
+import { ToolsPage } from './pages/ToolsPage';
 import { PRODUCTS } from './data/products';
 import { HGW_DOCUMENTS } from './data/documents';
 import { findProductBySlug } from './data/seoMetadata';
@@ -26,13 +27,19 @@ import { findProductBySlug } from './data/seoMetadata';
 function AppContent() {
   const { currentPath } = useRouter();
 
-  // Web Protection: Prevent right-click, copy, cut, and common devtools shortcuts
+  // Web Protection: Prevent right-click, copy, cut, and common devtools shortcuts (except inside private /herramientas)
   useEffect(() => {
+    const isPrivateToolsRoute = () =>
+      (window.location.pathname.replace(/\/+$/, '') || '/').toLowerCase() === '/herramientas';
+
     const handleContextMenu = (e: MouseEvent) => {
+      if (isPrivateToolsRoute()) return;
       e.preventDefault();
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (isPrivateToolsRoute()) return;
+
       // Prevent Ctrl+C, Ctrl+V, Ctrl+U (view source), Ctrl+Shift+I (inspect), Ctrl+S, Ctrl+P, Ctrl+X
       if (
         (e.ctrlKey || e.metaKey) &&
@@ -51,6 +58,7 @@ function AppContent() {
     };
 
     const handleCopy = (e: ClipboardEvent) => {
+      if (isPrivateToolsRoute()) return;
       e.preventDefault();
     };
 
@@ -149,6 +157,11 @@ function AppContent() {
           </div>
         </div>
       );
+    }
+
+    // 9.2. Private Training Section (/herramientas - not linked in navigation or sitemap)
+    if (cleanPath === '/herramientas') {
+      return <ToolsPage />;
     }
 
     // 10. Direct product fallback if route matches a product slug directly (e.g. /blueberry-coffee-hgw)

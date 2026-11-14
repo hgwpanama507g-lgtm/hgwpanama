@@ -39,7 +39,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
 
   const mainLinks = [
     { label: 'Pastas Dentales', href: '/pastas-dentales' },
-    { label: 'Oportunidad de Negocio', href: '/oportunidad-de-negocio' },
+    { label: 'Negocio', href: '/oportunidad-de-negocio' },
     { label: 'Pre-registro', href: '/preregistro' },
   ];
 

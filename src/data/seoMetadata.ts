@@ -9,6 +9,7 @@ export interface SeoMetadata {
   type: 'website' | 'article' | 'product';
   siteName: string;
   keywords?: string;
+  noIndex?: boolean;
   product?: {
     name: string;
     price: number;
@@ -273,6 +274,19 @@ export function getSeoMetadata(pathname: string): SeoMetadata {
       url: `${BASE_URL}/envios-y-devoluciones`,
       type: 'website',
       siteName: 'HGW Panamá'
+    };
+  }
+
+  // 10.2. Private Distributor Training Tools (/herramientas - noindex, nofollow)
+  if (cleanPath === '/herramientas') {
+    return {
+      title: 'Entrenamiento para Distribuidores – HGW Panamá',
+      description: 'Sección privada de entrenamiento y herramientas para distribuidores independientes.',
+      image: DEFAULT_IMAGE,
+      url: `${BASE_URL}/herramientas`,
+      type: 'website',
+      siteName: 'HGW Panamá',
+      noIndex: true
     };
   }
 
