@@ -84,6 +84,11 @@ export const Footer: React.FC = () => {
                   Contacto y Envíos
                 </Link>
               </li>
+              <li>
+                <Link to="/envios-y-devoluciones" className="hover:text-emerald-400 transition-colors">
+                  Envíos y Devoluciones
+                </Link>
+              </li>
             </ul>
           </div>
 

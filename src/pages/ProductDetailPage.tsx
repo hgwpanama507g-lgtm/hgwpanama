@@ -1,28 +1,24 @@
 import React from 'react';
 import { PRODUCTS } from '../data/products';
 import { findProductBySlug } from '../data/seoMetadata';
-import { Link } from '../router';
+import { Link, Navigate } from '../router';
 import { AlertTriangle, Check, Sparkles, ArrowRight, ShieldCheck, Clock, Package, Hash, Award } from 'lucide-react';
 import { getAffiliationWhatsAppUrl } from '../utils/whatsapp';
 import { renderWithHGWLinks } from '../utils/hgwLinker';
+import { ShippingAndReturnsSection } from '../components/ShippingAndReturnsSection';
 
 interface ProductDetailPageProps {
   slug: string;
 }
 
 export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) => {
+  const [activeTab, setActiveTab] = React.useState<'description' | 'advantages' | 'details' | 'usage'>('description');
   const product = findProductBySlug(slug);
 
   if (!product) {
-    return (
-      <div className="py-20 text-center">
-        <h2 className="text-2xl font-bold">Producto no encontrado</h2>
-        <Link to="/catalogo" className="text-[#00795F] font-bold">Volver al catálogo</Link>
-      </div>
-    );
+    return <Navigate to="/productos" replace />;
   }
 
-  const [activeTab, setActiveTab] = React.useState<'description' | 'advantages' | 'details' | 'usage'>('description');
   const whatsappUrl = getAffiliationWhatsAppUrl(typeof window !== 'undefined' ? window.location.href : undefined);
 
   // Related products based on category
@@ -287,6 +283,11 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
               </div>
             )}
           </div>
+        </div>
+
+        {/* Envíos y devoluciones */}
+        <div className="mt-14">
+          <ShippingAndReturnsSection />
         </div>
 
         {/* Related Products Section */}

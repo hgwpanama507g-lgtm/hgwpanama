@@ -3,7 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { PRODUCTS } from '../src/data/products';
 import { HGW_DOCUMENTS } from '../src/data/documents';
-import { getSeoMetadata, PRODUCT_SLUG_ALIASES } from '../src/data/seoMetadata';
+import { getSeoMetadata, PRODUCT_SLUG_ALIASES, buildProductJsonLd } from '../src/data/seoMetadata';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -16,10 +16,6 @@ function escapeHtml(str: string): string {
     .replace(/'/g, '&#39;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
-}
-
-function escapeJson(str: string): string {
-  return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '');
 }
 
 function generatePages() {
@@ -55,7 +51,8 @@ function generatePages() {
     '/propiedades',
     '/beneficios',
     '/ingredientes',
-    '/contacto'
+    '/contacto',
+    '/envios-y-devoluciones'
   ];
 
   for (const r of standardRoutes) {
@@ -144,28 +141,9 @@ function generatePages() {
     );
 
     // 6. Inject Schema.org structured data if product
-    if (seo.product) {
-      const productJsonLd = `
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Product",
-      "name": "${escapeJson(seo.product.name)}",
-      "image": "${seo.product.image}",
-      "description": "${escapeJson(seo.product.description)}",
-      "brand": {
-        "@type": "Brand",
-        "name": "HGW"
-      },
-      "offers": {
-        "@type": "Offer",
-        "price": "${seo.product.price.toFixed(2)}",
-        "priceCurrency": "${seo.product.currency}",
-        "availability": "https://schema.org/${seo.product.inStock ? 'InStock' : 'PreOrder'}",
-        "url": "${seo.url}"
-      }
-    }
-    </script>`;
+    const productJsonLdObj = buildProductJsonLd(seo);
+    if (productJsonLdObj) {
+      const productJsonLd = `\n    <script type="application/ld+json" id="product-jsonld">\n${JSON.stringify(productJsonLdObj, null, 2)}\n    </script>`;
       html = html.replace('</head>', `${productJsonLd}\n  </head>`);
     }
 

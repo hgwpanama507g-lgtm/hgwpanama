@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Phone, Mail, Clock, CheckCircle2, Send, FileText, ArrowRight, MapPin, ShieldAlert } from 'lucide-react';
 import { Link } from '../router';
 import { getAffiliationWhatsAppUrl } from '../utils/whatsapp';
+import { ShippingAndReturnsSection } from './ShippingAndReturnsSection';
 
 export const ContactSection: React.FC = () => {
   const [name, setName] = useState('');
@@ -230,6 +231,10 @@ export const ContactSection: React.FC = () => {
             </form>
           </div>
 
+        </div>
+
+        <div className="mt-12">
+          <ShippingAndReturnsSection compact />
         </div>
 
       </div>

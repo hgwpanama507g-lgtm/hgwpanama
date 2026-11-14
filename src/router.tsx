@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 interface RouterContextType {
   currentPath: string;
-  navigate: (to: string) => void;
+  navigate: (to: string, options?: { replace?: boolean }) => void;
 }
 
 const RouterContext = createContext<RouterContextType>({
@@ -12,7 +12,7 @@ const RouterContext = createContext<RouterContextType>({
 
 import { PRODUCTS } from './data/products';
 import { HGW_DOCUMENTS } from './data/documents';
-import { getSeoMetadata } from './data/seoMetadata';
+import { getSeoMetadata, buildProductJsonLd } from './data/seoMetadata';
 
 export const getPageTitle = (pathname: string): string => {
   return getSeoMetadata(pathname).title.replace(/ – HGW Panamá$/, '');
@@ -21,7 +21,7 @@ export const getPageTitle = (pathname: string): string => {
 export const RouterProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const getInitialPath = () => {
     const path = window.location.pathname;
-    if (path === '/inicio') {
+    if (path.toLowerCase() === '/inicio' || path.toLowerCase() === '/inicio/') {
       window.history.replaceState(null, '', '/');
       return '/';
     }
@@ -76,11 +76,30 @@ export const RouterProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       document.head.appendChild(canonical);
     }
     canonical.setAttribute('href', seo.url);
+
+    // Sync schema.org Product JSON-LD on client-side navigation
+    const existingJsonLd = document.getElementById('product-jsonld');
+    const jsonLdData = buildProductJsonLd(seo);
+    if (jsonLdData) {
+      const script = existingJsonLd || document.createElement('script');
+      script.setAttribute('type', 'application/ld+json');
+      script.id = 'product-jsonld';
+      script.textContent = JSON.stringify(jsonLdData);
+      if (!existingJsonLd) {
+        document.head.appendChild(script);
+      }
+    } else if (existingJsonLd) {
+      existingJsonLd.remove();
+    }
   }, [currentPath]);
 
-  const navigate = (to: string) => {
+  const navigate = (to: string, options?: { replace?: boolean }) => {
     if (to === currentPath) return;
-    window.history.pushState(null, '', to);
+    if (options?.replace) {
+      window.history.replaceState(null, '', to);
+    } else {
+      window.history.pushState(null, '', to);
+    }
     setCurrentPath(to);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -93,6 +112,23 @@ export const RouterProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 };
 
 export const useRouter = () => useContext(RouterContext);
+
+interface NavigateProps {
+  to: string;
+  replace?: boolean;
+}
+
+export const Navigate: React.FC<NavigateProps> = ({ to, replace = false }) => {
+  const { navigate, currentPath } = useRouter();
+
+  useEffect(() => {
+    if (currentPath !== to) {
+      navigate(to, { replace });
+    }
+  }, [to, replace, currentPath, navigate]);
+
+  return null;
+};
 
 interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   to: string;

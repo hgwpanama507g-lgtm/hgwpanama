@@ -277,24 +277,31 @@ export const BusinessOpportunityPage: React.FC = () => {
 
                 <tr>
                   <td className="py-3.5 px-4 sm:px-6 font-bold text-stone-900">Inversión (Costo)</td>
-                  <td className="py-3.5 px-4 text-center tabular-nums font-bold">B/. 90.00 (aprox)</td>
-                  <td className="py-3.5 px-4 text-center tabular-nums font-bold">B/. 180.00 (aprox)</td>
-                  <td className="py-3.5 px-4 text-center tabular-nums font-bold">B/. 540.00 (aprox)</td>
-                  <td className="py-3.5 px-4 text-center tabular-nums font-extrabold text-[#00795F] bg-emerald-50/50">B/. 1024.00 (aprox)</td>
+                  <td className="py-3.5 px-4 text-center tabular-nums font-bold">B/. 98.00</td>
+                  <td className="py-3.5 px-4 text-center tabular-nums font-bold">B/. 180.00</td>
+                  <td className="py-3.5 px-4 text-center tabular-nums font-bold">B/. 540.00</td>
+                  <td className="py-3.5 px-4 text-center tabular-nums font-extrabold text-[#00795F] bg-emerald-50/50">B/. 1040.00</td>
+                </tr>
+                <tr>
+                  <td className="py-3.5 px-4 sm:px-6 font-bold text-stone-900">Cantidad de Productos</td>
+                  <td className="py-3.5 px-4 text-center font-bold">6 productos</td>
+                  <td className="py-3.5 px-4 text-center font-bold">19 productos</td>
+                  <td className="py-3.5 px-4 text-center font-bold">47 productos</td>
+                  <td className="py-3.5 px-4 text-center font-black text-[#00795F] bg-emerald-50/50">115 productos</td>
                 </tr>
                 <tr>
                   <td className="py-3.5 px-4 sm:px-6 font-bold text-stone-900">Selección de Productos</td>
                   <td className="py-3.5 px-4 text-center" colSpan={4}>
-                    <span className="text-[#00795F] font-bold">Productos de su preferencia</span>
+                    <span className="text-[#00795F] font-bold">La cantidad de productos y los costos en dólares pueden variar porque usted puede escoger los productos de su preferencia.</span>
                   </td>
                 </tr>
                 <tr>
-                  <td className="py-3.5 px-4 sm:px-6 font-bold text-stone-900">Venta Directa</td>
+                  <td className="py-3.5 px-4 sm:px-6 font-bold text-stone-900">Descuento / Activación</td>
                   <td className="py-3.5 px-4 text-center font-bold">30%</td>
                   <td className="py-3.5 px-4 text-center font-bold">30%</td>
                   <td className="py-3.5 px-4 text-center font-bold">30%</td>
                   <td className="py-3.5 px-4 text-center font-black text-emerald-800 bg-emerald-50/50">
-                    60%
+                    30% activación y 52% descuento en recompras
                   </td>
                 </tr>
                 <tr>

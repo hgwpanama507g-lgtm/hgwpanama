@@ -47,23 +47,100 @@ export const PRODUCT_SLUG_ALIASES: Record<string, string> = {
 };
 
 export function findProductBySlug(slug: string) {
-  const normalized = slug.trim().toLowerCase();
+  const normalized = slug.trim().replace(/^\/+|\/+$/g, '').toLowerCase();
+  if (!normalized) return undefined;
   const targetSlug = PRODUCT_SLUG_ALIASES[normalized] || normalized;
   return PRODUCTS.find(
     (p) =>
-      p.slug === targetSlug ||
-      p.slug === normalized ||
-      p.id === targetSlug ||
-      p.id === normalized ||
-      p.code === normalized
+      p.slug.toLowerCase() === targetSlug ||
+      p.slug.toLowerCase() === normalized ||
+      p.id.toLowerCase() === targetSlug ||
+      p.id.toLowerCase() === normalized ||
+      (p.code && p.code.toLowerCase() === normalized)
   );
 }
 
 const DEFAULT_IMAGE = 'https://media.academiahgw.online/wp-content/uploads/2026/11/LOGO-HGW-PANAMA-DISTRIBUIDOR-INDEPENDIENTE.png';
 const BASE_URL = 'https://www.hgwpanama.com';
 
+export const SHIPPING_AND_RETURNS_POLICY = {
+  sectionTitle: 'Envíos y devoluciones',
+  shippingLine: 'Envíos solo a Panamá, desde USD 5.00.',
+  deliveryTimeLine:
+    'Tiempo estimado de entrega: de 24 a 48 horas después de confirmado el pedido, sin contar sábados ni días feriados.',
+  returnConditionsLine: 'Condiciones de devolución: consultar con el fabricante.',
+  otherCountriesLine: 'Para otros países, regístrate en el siguiente enlace de referido:',
+  registerUrl: 'https://www.healthgreenworld.com/?userName=Yamilka507',
+  shippingRateUsd: '5.00',
+  destinationCountry: 'PA',
+  handlingDaysMin: 0,
+  handlingDaysMax: 1,
+  transitDaysMin: 1,
+  transitDaysMax: 2,
+  returnPolicyCategory: 'https://schema.org/MerchantReturnUnspecified'
+} as const;
+
+export const PRODUCT_OFFER_SHIPPING_DETAILS = {
+  "@type": "OfferShippingDetails",
+  "shippingRate": {
+    "@type": "MonetaryAmount",
+    "value": SHIPPING_AND_RETURNS_POLICY.shippingRateUsd,
+    "currency": "USD"
+  },
+  "shippingDestination": {
+    "@type": "DefinedRegion",
+    "addressCountry": SHIPPING_AND_RETURNS_POLICY.destinationCountry
+  },
+  "deliveryTime": {
+    "@type": "ShippingDeliveryTime",
+    "handlingTime": {
+      "@type": "QuantitativeValue",
+      "minValue": SHIPPING_AND_RETURNS_POLICY.handlingDaysMin,
+      "maxValue": SHIPPING_AND_RETURNS_POLICY.handlingDaysMax,
+      "unitCode": "DAY"
+    },
+    "transitTime": {
+      "@type": "QuantitativeValue",
+      "minValue": SHIPPING_AND_RETURNS_POLICY.transitDaysMin,
+      "maxValue": SHIPPING_AND_RETURNS_POLICY.transitDaysMax,
+      "unitCode": "DAY"
+    }
+  }
+} as const;
+
+export const PRODUCT_OFFER_RETURN_POLICY = {
+  "@type": "MerchantReturnPolicy",
+  "applicableCountry": SHIPPING_AND_RETURNS_POLICY.destinationCountry,
+  "returnPolicyCategory": SHIPPING_AND_RETURNS_POLICY.returnPolicyCategory
+} as const;
+
+export function buildProductJsonLd(seo: SeoMetadata) {
+  if (!seo.product) return null;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": seo.product.name,
+    "image": seo.product.image,
+    "description": seo.product.description,
+    "brand": {
+      "@type": "Brand",
+      "name": "HGW"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": seo.product.price.toFixed(2),
+      "priceCurrency": seo.product.currency,
+      "availability": `https://schema.org/${seo.product.inStock ? 'InStock' : 'PreOrder'}`,
+      "url": seo.url,
+      "shippingDetails": PRODUCT_OFFER_SHIPPING_DETAILS,
+      "hasMerchantReturnPolicy": PRODUCT_OFFER_RETURN_POLICY
+    }
+  };
+}
+
 export function getSeoMetadata(pathname: string): SeoMetadata {
-  const cleanPath = pathname.replace(/\/$/, '') || '/';
+  const cleanPath = (pathname.split('?')[0].split('#')[0].replace(/\/+$/, '') || '/').toLowerCase();
 
   // 1. Home
   if (cleanPath === '/' || cleanPath === '/inicio') {
@@ -182,6 +259,18 @@ export function getSeoMetadata(pathname: string): SeoMetadata {
       description: 'Comunícate con distribuidores independientes autorizados de HGW en Panamá vía WhatsApp y teléfono para pedidos, membresías y soporte.',
       image: DEFAULT_IMAGE,
       url: `${BASE_URL}/contacto`,
+      type: 'website',
+      siteName: 'HGW Panamá'
+    };
+  }
+
+  // 10.1. Shipping & Returns
+  if (cleanPath === '/envios-y-devoluciones' || cleanPath === '/envios') {
+    return {
+      title: 'Envíos y Devoluciones – HGW Panamá',
+      description: 'Envíos solo a Panamá desde USD 5.00 con entrega de 24 a 48 horas hábiles. Condiciones de devolución y registro internacional.',
+      image: DEFAULT_IMAGE,
+      url: `${BASE_URL}/envios-y-devoluciones`,
       type: 'website',
       siteName: 'HGW Panamá'
     };

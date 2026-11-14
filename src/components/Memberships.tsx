@@ -96,11 +96,17 @@ export const Memberships: React.FC = () => {
                     </p>
                   </div>
 
-                  {/* Direct Sales Highlight */}
-                  <div className="mt-4 p-3 bg-emerald-50/80 rounded-2xl border border-emerald-200">
-                    <div className="text-xs font-bold text-stone-600 uppercase">Ganancia Venta Directa</div>
-                    <div className="text-base font-black text-emerald-900 mt-0.5">
-                      {plan.directSaleProfit}
+                  {/* Discount & Direct Sales Highlight */}
+                  <div className="mt-4 p-3 bg-emerald-50/80 rounded-2xl border border-emerald-200 space-y-1.5">
+                    <div>
+                      <div className="text-[11px] font-bold text-stone-600 uppercase">Descuento</div>
+                      <div className="text-sm font-black text-[#00795F]">
+                        {plan.discountSummary}
+                      </div>
+                    </div>
+                    <div className="pt-1 border-t border-emerald-200/70 flex items-center justify-between text-xs">
+                      <span className="font-bold text-stone-600 uppercase">Venta Directa:</span>
+                      <strong className="text-emerald-900 font-black">{plan.directSaleProfit}</strong>
                     </div>
                   </div>
 
@@ -167,6 +173,11 @@ export const Memberships: React.FC = () => {
               </div>
             );
           })}
+        </div>
+
+        {/* Variability Notice */}
+        <div className="mb-12 p-4 bg-white border border-stone-300 rounded-2xl text-xs sm:text-sm text-stone-800 font-medium text-center shadow-2xs max-w-4xl mx-auto">
+          <strong className="text-[#00795F]">Nota sobre los paquetes:</strong> La cantidad de productos y los costos de los paquetes en dólares pueden variar porque usted puede escoger los productos de su preferencia.
         </div>
 
         {/* Master Membership Callout Banner */}

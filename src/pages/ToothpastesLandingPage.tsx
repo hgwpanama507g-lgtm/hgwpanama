@@ -1,6 +1,7 @@
 import React from 'react';
 import { PRODUCTS } from '../data/products';
 import { Link } from '../router';
+import { ShippingAndReturnsSection } from '../components/ShippingAndReturnsSection';
 import { 
   ShieldCheck, 
   Truck, 
@@ -433,6 +434,8 @@ export const ToothpastesLandingPage: React.FC = () => {
             </div>
           </div>
         </div>
+
+        <ShippingAndReturnsSection />
 
         {/* ORAL HEALTH DISCLAIMER */}
         <div className="bg-amber-50/90 border border-amber-200/80 rounded-2xl p-5 sm:p-6 flex items-start gap-4 shadow-2xs">
