@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, Search, AlertCircle, ArrowLeft } from 'lucide-react';
+import { Home, Search, AlertCircle, ShieldCheck } from 'lucide-react';
 import { Link } from '../router';
 
 export const NotFoundPage: React.FC = () => {
@@ -49,5 +49,3 @@ export const NotFoundPage: React.FC = () => {
     </div>
   );
 };
-
-import { ShieldCheck } from 'lucide-react';

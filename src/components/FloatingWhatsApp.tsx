@@ -29,7 +29,7 @@ export const FloatingWhatsApp: React.FC = () => {
       
       {/* Detailed Distributor vs Corporate Assistance Card */}
       {showCard && (
-        <div className="mb-3 w-80 sm:w-96 bg-white text-stone-900 rounded-2xl shadow-2xl border border-stone-200 p-4 animate-fade-in text-xs space-y-3 relative">
+        <div className="mb-3 w-80 sm:w-96 max-w-[calc(100vw-2.5rem)] bg-white text-stone-900 rounded-2xl shadow-2xl border border-stone-200 p-4 animate-fade-in text-xs space-y-3 relative">
           <button
             onClick={() => setShowCard(false)}
             className="absolute top-3 right-3 text-stone-400 hover:text-black p-1 rounded-md hover:bg-stone-100 transition-colors"

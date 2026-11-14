@@ -33,7 +33,7 @@ export const PreRegistrationPage: React.FC = () => {
         </div>
 
         {/* Video Tutorial Section */}
-        <div className="bg-white rounded-[2.5xl] overflow-hidden border border-stone-300 shadow-xl mb-10">
+        <div className="bg-white rounded-[2.5rem] overflow-hidden border border-stone-300 shadow-xl mb-10">
           <div className="p-6 bg-stone-900 text-white flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-[#00795F] flex items-center justify-center text-white font-black">

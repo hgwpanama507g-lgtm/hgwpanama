@@ -501,7 +501,7 @@ Nos vemos adentro. Cualquier consulta te atiendo por aquí: {{nombre}} ({{whatsa
                 return (
                   <article
                     key={script.id}
-                    className="bg-white rounded-3xl border border-stone-200 p-6 shadow-xs flex flex-col justify-between gap-4"
+                    className="bg-white rounded-3xl border border-stone-200 p-6 shadow-xs flex flex-col justify-between gap-4 min-w-0"
                   >
                     <div className="space-y-3">
                       <div className="flex items-start justify-between gap-3">
@@ -515,7 +515,7 @@ Nos vemos adentro. Cualquier consulta te atiendo por aquí: {{nombre}} ({{whatsa
                           <p className="text-xs text-stone-500 mt-0.5">{script.context}</p>
                         </div>
                       </div>
-                      <pre className="whitespace-pre-wrap font-sans text-sm text-stone-800 bg-stone-50 border border-stone-200 rounded-2xl p-4 leading-relaxed">
+                      <pre className="whitespace-pre-wrap break-words font-sans text-sm text-stone-800 bg-stone-50 border border-stone-200 rounded-2xl p-4 leading-relaxed">
                         {resolvedText}
                       </pre>
                     </div>
@@ -617,7 +617,7 @@ Nos vemos adentro. Cualquier consulta te atiendo por aquí: {{nombre}} ({{whatsa
                   return (
                     <article
                       key={script.id}
-                      className="bg-white rounded-3xl border border-stone-200 p-6 shadow-xs flex flex-col justify-between gap-4"
+                      className="bg-white rounded-3xl border border-stone-200 p-6 shadow-xs flex flex-col justify-between gap-4 min-w-0"
                     >
                       <div className="space-y-3">
                         <div>
@@ -629,7 +629,7 @@ Nos vemos adentro. Cualquier consulta te atiendo por aquí: {{nombre}} ({{whatsa
                           </h3>
                           <p className="text-xs text-stone-500 mt-0.5">{script.context}</p>
                         </div>
-                        <pre className="whitespace-pre-wrap font-sans text-sm text-stone-800 bg-stone-50 border border-stone-200 rounded-2xl p-4 leading-relaxed">
+                        <pre className="whitespace-pre-wrap break-words font-sans text-sm text-stone-800 bg-stone-50 border border-stone-200 rounded-2xl p-4 leading-relaxed">
                           {resolvedText}
                         </pre>
                       </div>
@@ -776,7 +776,7 @@ ${item.benefits.map((b) => `• ${b}`).join('\n')}
               return (
                 <article
                   key={script.id}
-                  className="bg-white rounded-3xl border border-stone-200 p-6 shadow-xs flex flex-col justify-between gap-4"
+                  className="bg-white rounded-3xl border border-stone-200 p-6 shadow-xs flex flex-col justify-between gap-4 min-w-0"
                 >
                   <div className="space-y-3">
                     <div>
@@ -788,7 +788,7 @@ ${item.benefits.map((b) => `• ${b}`).join('\n')}
                       </h3>
                       <p className="text-xs text-stone-500 mt-0.5">{script.context}</p>
                     </div>
-                    <pre className="whitespace-pre-wrap font-sans text-sm text-stone-800 bg-stone-50 border border-stone-200 rounded-2xl p-4 leading-relaxed">
+                    <pre className="whitespace-pre-wrap break-words font-sans text-sm text-stone-800 bg-stone-50 border border-stone-200 rounded-2xl p-4 leading-relaxed">
                       {resolvedText}
                     </pre>
                   </div>
@@ -888,7 +888,7 @@ ${item.benefits.map((b) => `• ${b}`).join('\n')}
                 return (
                   <article
                     key={inv.id}
-                    className="bg-white rounded-3xl border border-stone-200 p-6 shadow-xs flex flex-col justify-between gap-4"
+                    className="bg-white rounded-3xl border border-stone-200 p-6 shadow-xs flex flex-col justify-between gap-4 min-w-0"
                   >
                     <div className="space-y-3">
                       <div>
@@ -897,7 +897,7 @@ ${item.benefits.map((b) => `• ${b}`).join('\n')}
                         </h3>
                         <p className="text-xs text-stone-500 mt-0.5">{inv.context}</p>
                       </div>
-                      <pre className="whitespace-pre-wrap font-sans text-sm text-stone-800 bg-stone-50 border border-stone-200 rounded-2xl p-4 leading-relaxed">
+                      <pre className="whitespace-pre-wrap break-words font-sans text-sm text-stone-800 bg-stone-50 border border-stone-200 rounded-2xl p-4 leading-relaxed">
                         {inv.text}
                       </pre>
                     </div>

@@ -15,6 +15,10 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
   const [activeTab, setActiveTab] = React.useState<'description' | 'advantages' | 'details' | 'usage'>('description');
   const product = findProductBySlug(slug);
 
+  React.useEffect(() => {
+    setActiveTab('description');
+  }, [slug]);
+
   if (!product) {
     return <Navigate to="/productos" replace />;
   }
@@ -330,15 +334,15 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
         )}
 
         {/* Technical PDF Link */}
-        <div className="mt-24 p-10 sm:p-16 bg-stone-900 rounded-[4rem] text-white flex flex-col md:flex-row items-center justify-between gap-10 shadow-2xl relative overflow-hidden">
+        <div className="mt-24 p-6 sm:p-16 bg-stone-900 rounded-3xl sm:rounded-[4rem] text-white flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-10 shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-[#00795F]/20 to-transparent pointer-events-none" />
           <div className="text-center md:text-left relative z-10">
-            <h2 className="text-3xl sm:text-4xl font-black mb-3 text-white tracking-tight">Ficha Técnica Completa</h2>
-            <p className="text-stone-400 text-[18px] font-medium">Acceda a la biblioteca técnica oficial para descargar el PDF detallado.</p>
+            <h2 className="text-2xl sm:text-4xl font-black mb-3 text-white tracking-tight">Ficha Técnica Completa</h2>
+            <p className="text-stone-400 text-base sm:text-[18px] font-medium">Acceda a la biblioteca técnica oficial para descargar el PDF detallado.</p>
           </div>
           <Link 
             to={`/documentos/${product.documentSlug || 'catalogo-productos-hgw-panama-2026'}`}
-            className="px-12 py-5 bg-[#00795F] hover:bg-[#00A550] text-white font-black text-lg rounded-2xl shadow-lg transition-all active:scale-95 whitespace-nowrap relative z-10 flex items-center gap-3"
+            className="w-full md:w-auto px-6 sm:px-12 py-4 sm:py-5 bg-[#00795F] hover:bg-[#00A550] text-white font-black text-base sm:text-lg rounded-2xl shadow-lg transition-all active:scale-95 text-center sm:whitespace-nowrap relative z-10 flex items-center justify-center gap-3"
           >
             <span>VER FICHA TÉCNICA EN PDF</span>
           </Link>

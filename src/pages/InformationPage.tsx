@@ -7,7 +7,7 @@ export const InformationPage: React.FC = () => {
   // Find related products for each section
   const blueberryProducts = PRODUCTS.filter(p => p.category === 'cafes-bebidas' && (p.name.toLowerCase().includes('blueberry') || p.name.toLowerCase().includes('arándano') || p.name.toLowerCase().includes('vino') || p.name.toLowerCase().includes('choco blue') || p.name.toLowerCase().includes('berry juice')) || p.category === 'candies-snacks' && p.name.toLowerCase().includes('blueberry'));
   const turmalinaProducts = PRODUCTS.filter(p => p.category === 'turmalina');
-  const coffeeProducts = PRODUCTS.filter(p => p.category === 'cafes-bebidas' && p.name.toLowerCase().includes('café') || p.name.toLowerCase().includes('coffee'));
+  const coffeeProducts = PRODUCTS.filter(p => p.category === 'cafes-bebidas' && (p.name.toLowerCase().includes('café') || p.name.toLowerCase().includes('coffee')));
   const reishiProducts = PRODUCTS.filter(p => p.name.toLowerCase().includes('ganoderma') || p.name.toLowerCase().includes('gano'));
 
   return (

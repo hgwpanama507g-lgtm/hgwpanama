@@ -46,7 +46,7 @@ export const FAQ: React.FC = () => {
             Preguntas Frecuentes
           </h2>
           <p className="text-sm text-stone-700 mt-2 font-normal">
-            Todo o que necesitas saber sobre entregas, pagos y membresías en Panamá.
+            Todo lo que necesitas saber sobre entregas, pagos y membresías en Panamá.
           </p>
         </div>
 

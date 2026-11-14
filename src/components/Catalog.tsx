@@ -102,7 +102,7 @@ export const Catalog: React.FC<CatalogProps> = ({ isHomeView = false }) => {
             
             {/* Search Input */}
             <div className="md:col-span-7 flex gap-2">
-              <div className="relative flex-1">
+              <div className="relative flex-1 min-w-0">
                 <Search className="w-5 h-5 text-stone-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"

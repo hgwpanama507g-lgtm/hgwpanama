@@ -53,17 +53,19 @@ export const Navbar: React.FC<NavbarProps> = () => {
     { label: 'Oficinas HGW LATAM', href: '/oficinas' },
   ];
 
+  const normalizedPath = (currentPath.split('?')[0].split('#')[0].replace(/\/+$/, '') || '/').toLowerCase();
+
   const isProductsActive =
-    currentPath === '/productos' ||
-    currentPath === '/catalogo' ||
-    currentPath.startsWith('/producto/') ||
-    currentPath === '/membresias' ||
-    currentPath === '/membresías';
+    normalizedPath === '/productos' ||
+    normalizedPath === '/catalogo' ||
+    normalizedPath.startsWith('/producto/') ||
+    normalizedPath === '/membresias' ||
+    normalizedPath === '/membresías';
 
   return (
     <header className="sticky top-0 z-40 bg-white/98 backdrop-blur-md border-b border-stone-300 transition-all shadow-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between gap-6 h-20 sm:h-22">
+        <div className="flex items-center justify-between gap-4 xl:gap-6 h-20 sm:h-22">
           
           {/* Zone 1: Official Logo */}
           <Link to="/" className="flex items-center gap-3 shrink-0 group">
@@ -79,11 +81,11 @@ export const Navbar: React.FC<NavbarProps> = () => {
           </Link>
 
           {/* Zone 2: Navigation links with Productos, Documentos & Contact Submenus */}
-          <nav className="hidden lg:flex items-center gap-7 text-[15px] font-bold text-black">
+          <nav className="hidden lg:flex items-center gap-4 xl:gap-7 text-sm xl:text-[15px] font-bold text-black">
             <Link
               to="/"
               className={`whitespace-nowrap shrink-0 transition-colors py-1 relative ${
-                currentPath === '/'
+                normalizedPath === '/'
                   ? 'text-[#00795F] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-[#00795F]'
                   : 'text-stone-900 hover:text-[#00795F]'
               }`}
@@ -113,7 +115,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
                       to={sublink.href}
                       onClick={() => setProductsDropdownOpen(false)}
                       className={`block px-5 py-2.5 text-sm transition-colors ${
-                        currentPath === sublink.href
+                        normalizedPath === sublink.href
                           ? 'bg-emerald-50 text-[#00795F]'
                           : 'text-stone-700 hover:bg-stone-50 hover:text-[#00795F]'
                       }`}
@@ -126,7 +128,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
             </div>
 
             {mainLinks.map((link) => {
-              const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href));
+              const isActive = normalizedPath === link.href || (link.href !== '/' && normalizedPath.startsWith(link.href));
               return (
                 <Link
                   key={link.href}
@@ -147,7 +149,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
               <button
                 onClick={() => setDocsDropdownOpen(!docsDropdownOpen)}
                 className={`flex items-center gap-1.5 whitespace-nowrap shrink-0 transition-colors py-1 cursor-pointer outline-none ${
-                  docsLinks.some(l => currentPath === l.href)
+                  docsLinks.some(l => normalizedPath === l.href)
                     ? 'text-[#00795F]'
                     : 'text-stone-900 hover:text-[#00795F]'
                 }`}
@@ -164,7 +166,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
                       to={sublink.href}
                       onClick={() => setDocsDropdownOpen(false)}
                       className={`block px-5 py-2.5 text-sm transition-colors ${
-                        currentPath === sublink.href
+                        normalizedPath === sublink.href
                           ? 'bg-emerald-50 text-[#00795F]'
                           : 'text-stone-700 hover:bg-stone-50 hover:text-[#00795F]'
                       }`}
@@ -181,7 +183,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
               <button
                 onClick={() => setContactDropdownOpen(!contactDropdownOpen)}
                 className={`flex items-center gap-1.5 whitespace-nowrap shrink-0 transition-colors py-1 cursor-pointer outline-none ${
-                  contactLinks.some(l => currentPath === l.href)
+                  contactLinks.some(l => normalizedPath === l.href)
                     ? 'text-[#00795F]'
                     : 'text-stone-900 hover:text-[#00795F]'
                 }`}
@@ -198,7 +200,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
                       to={sublink.href}
                       onClick={() => setContactDropdownOpen(false)}
                       className={`block px-5 py-2.5 text-sm transition-colors ${
-                        currentPath === sublink.href
+                        normalizedPath === sublink.href
                           ? 'bg-emerald-50 text-[#00795F]'
                           : 'text-stone-700 hover:bg-stone-50 hover:text-[#00795F]'
                       }`}
@@ -233,7 +235,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
               to="/"
               onClick={() => setMobileMenuOpen(false)}
               className={`px-3 py-2.5 text-base font-bold rounded-xl transition-colors ${
-                currentPath === '/' ? 'bg-emerald-50 text-[#00795F]' : 'text-stone-900 hover:text-[#00795F]'
+                normalizedPath === '/' ? 'bg-emerald-50 text-[#00795F]' : 'text-stone-900 hover:text-[#00795F]'
               }`}
             >
               Inicio
@@ -255,7 +257,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
               {mobileProductsOpen && (
                 <div className="pl-4 mt-1 flex flex-col gap-1 border-l-2 border-emerald-200 ml-3">
                   {productsLinks.map((sublink) => {
-                    const isActive = currentPath === sublink.href;
+                    const isActive = normalizedPath === sublink.href;
                     return (
                       <Link
                         key={sublink.href}
@@ -277,7 +279,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
             </div>
 
             {mainLinks.map((link) => {
-              const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href));
+              const isActive = normalizedPath === link.href || (link.href !== '/' && normalizedPath.startsWith(link.href));
               return (
                 <Link
                   key={link.href}
@@ -296,7 +298,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
             <div className="mt-2 pt-2 border-t border-stone-100">
               <span className="px-3 text-[11px] font-black text-stone-400 uppercase tracking-widest block mb-2">Documentos PDF</span>
               {docsLinks.map((link) => {
-                const isActive = currentPath === link.href;
+                const isActive = normalizedPath === link.href;
                 return (
                   <Link
                     key={link.href}
@@ -316,7 +318,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
             <div className="mt-2 pt-2 border-t border-stone-100">
               <span className="px-3 text-[11px] font-black text-stone-400 uppercase tracking-widest block mb-2">Contacto</span>
               {contactLinks.map((link) => {
-                const isActive = currentPath === link.href;
+                const isActive = normalizedPath === link.href;
                 return (
                   <Link
                     key={link.href}
