@@ -23,6 +23,14 @@ import { ToolsPage } from './pages/ToolsPage';
 import { PRODUCTS } from './data/products';
 import { HGW_DOCUMENTS } from './data/documents';
 import { findProductBySlug } from './data/seoMetadata';
+import {
+  AdsterraBanner,
+  AdsterraResponsiveBanner,
+  AdsterraDesktopSidebarBanner,
+  AdsterraNativeBanner,
+  AdsterraSmartlinkCard,
+  AdsterraGlobalScripts
+} from './components/AdsterraAds';
 
 function AppContent() {
   const { currentPath } = useRouter();
@@ -89,7 +97,14 @@ function AppContent() {
     if (cleanPath === '/productos' || cleanPath === '/catalogo') {
       return (
         <div>
-          <Catalog isHomeView={false} />
+          <AdsterraResponsiveBanner key="catalog-top-banner" className="bg-white border-b border-stone-100" />
+          <div className="2xl:flex 2xl:items-start 2xl:justify-center 2xl:gap-6 2xl:px-6 bg-white">
+            <div className="flex-1 min-w-0">
+              <Catalog isHomeView={false} />
+            </div>
+            <AdsterraDesktopSidebarBanner format="160x600" className="pt-12 pr-2" />
+          </div>
+          <AdsterraSmartlinkCard className="bg-white" />
         </div>
       );
     }
@@ -99,6 +114,9 @@ function AppContent() {
       return (
         <div>
           <Memberships />
+          <div className="bg-white py-6 border-b border-stone-100 px-2 sm:px-6">
+            <AdsterraBanner format="300x250" />
+          </div>
           <AboutHGW />
         </div>
       );
@@ -116,26 +134,59 @@ function AppContent() {
 
     // 6. PDF Documents Library or Individual Document Detail Page
     if (cleanPath === '/documentos' || cleanPath === '/documentos-pdf') {
-      return <DocumentsPage />;
+      return (
+        <div>
+          <AdsterraResponsiveBanner key="docs-top-banner" className="bg-white border-b border-stone-100" />
+          <DocumentsPage />
+          <AdsterraSmartlinkCard className="bg-white" />
+        </div>
+      );
     }
     if (cleanPath.startsWith('/documentos/')) {
       const docId = cleanPath.replace('/documentos/', '');
-      return <DocumentDetailPage id={docId} />;
+      return (
+        <div>
+          <DocumentDetailPage id={docId} />
+          <AdsterraNativeBanner key={`native-${cleanPath}`} />
+        </div>
+      );
     }
 
     // 7. Offices Directory Page (/oficinas or /directorio-oficinas)
     if (cleanPath === '/oficinas' || cleanPath === '/directorio-oficinas') {
-      return <OfficesDirectoryPage />;
+      return (
+        <div>
+          <OfficesDirectoryPage />
+          <div className="bg-stone-50 pb-10 px-2 sm:px-6">
+            <AdsterraBanner format="300x250" />
+          </div>
+        </div>
+      );
     }
 
     // 8. Information Page on Arándanos, Turmalina, Café, Reishi
     if (['/informacion', '/propiedades', '/beneficios', '/ingredientes'].includes(cleanPath)) {
-      return <InformationPage />;
+      return (
+        <div className="bg-white">
+          <div className="2xl:flex 2xl:items-start 2xl:justify-center 2xl:gap-6 2xl:px-6">
+            <div className="flex-1 min-w-0">
+              <InformationPage />
+            </div>
+            <AdsterraDesktopSidebarBanner format="160x300" className="pt-16 pr-2" />
+          </div>
+          <AdsterraNativeBanner key={`native-${cleanPath}`} />
+        </div>
+      );
     }
 
     // 8.1. Toothpastes Landing Page (/pastas-dentales or /pastas)
     if (['/pastas-dentales', '/pastas'].includes(cleanPath)) {
-      return <ToothpastesLandingPage />;
+      return (
+        <div>
+          <ToothpastesLandingPage />
+          <AdsterraNativeBanner key={`native-${cleanPath}`} />
+        </div>
+      );
     }
 
     // 9. Contact Page (/contacto)
@@ -176,7 +227,9 @@ function AppContent() {
       return (
         <div>
           <Hero />
+          <AdsterraResponsiveBanner key="legacy-home-banner" className="bg-white border-b border-stone-100" />
           <Catalog isHomeView={true} />
+          <AdsterraNativeBanner key="legacy-home-native" />
           <Memberships />
           <AboutHGW />
           <FAQ />
@@ -190,7 +243,9 @@ function AppContent() {
       return (
         <div>
           <Hero />
+          <AdsterraResponsiveBanner key="home-top-banner" className="bg-white border-b border-stone-100" />
           <Catalog isHomeView={true} />
+          <AdsterraNativeBanner key="home-native" />
           <Memberships />
           <AboutHGW />
           <FAQ />
@@ -221,6 +276,9 @@ function AppContent() {
 
       {/* 5. Floating WhatsApp Button for Quick Mobile Chat */}
       <FloatingWhatsApp />
+
+      {/* 6. Global Adsterra Popunder & Social Bar (once globally, excluding sensitive routes) */}
+      <AdsterraGlobalScripts currentPath={currentPath} />
     </div>
   );
 }

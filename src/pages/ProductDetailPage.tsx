@@ -6,6 +6,7 @@ import { AlertTriangle, Check, Sparkles, ArrowRight, ShieldCheck, Clock, Package
 import { getAffiliationWhatsAppUrl } from '../utils/whatsapp';
 import { renderWithHGWLinks } from '../utils/hgwLinker';
 import { ShippingAndReturnsSection } from '../components/ShippingAndReturnsSection';
+import { AdsterraBanner } from '../components/AdsterraAds';
 
 interface ProductDetailPageProps {
   slug: string;
@@ -289,8 +290,13 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
           </div>
         </div>
 
+        {/* Espacio publicitario 300x250 en ficha de producto */}
+        <div className="mt-12 flex justify-center">
+          <AdsterraBanner key={`product-300x250-${product.slug}`} format="300x250" />
+        </div>
+
         {/* Envíos y devoluciones */}
-        <div className="mt-14">
+        <div className="mt-10">
           <ShippingAndReturnsSection />
         </div>
 
