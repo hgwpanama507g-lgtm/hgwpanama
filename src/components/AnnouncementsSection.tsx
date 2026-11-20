@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Megaphone,
   Phone,
@@ -7,6 +7,9 @@ import {
   ArrowRight,
   ShoppingBag,
   Sparkles,
+  Share2,
+  Check,
+  Link2,
 } from 'lucide-react';
 import { Link } from '../router';
 import {
@@ -23,19 +26,36 @@ const buildWhatsAppHref = (prefill: string) =>
   `https://wa.me/${ANNOUNCEMENT_DISTRIBUTOR.whatsappNumber}?text=${encodeURIComponent(prefill)}`;
 
 const AnnouncementCard: React.FC<{ item: AnnouncementItem }> = ({ item }) => {
+  const [copied, setCopied] = useState(false);
   const whatsappUrl = buildWhatsAppHref(item.whatsappPrefill);
+  const individualPath = `/anuncios/${item.slug}`;
+  const fullUrl =
+    typeof window !== 'undefined'
+      ? `${window.location.origin}${individualPath}`
+      : `https://www.hgwpanama.com${individualPath}`;
+
+  const handleCopyLink = () => {
+    if (typeof navigator !== 'undefined' && navigator.clipboard) {
+      navigator.clipboard.writeText(fullUrl).catch(() => undefined);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2500);
+    }
+  };
 
   return (
     <article className="bg-white rounded-3xl border border-stone-200/90 shadow-lg overflow-hidden">
       <div className="grid grid-cols-1 lg:grid-cols-12 items-stretch">
         {/* Media Column with Persuasive Image Title (25-30 chars) */}
-        <div className="lg:col-span-5 bg-stone-900 flex flex-col justify-between">
+        <Link
+          to={individualPath}
+          className="lg:col-span-5 bg-stone-900 flex flex-col justify-between group"
+        >
           <div className="relative flex-1 flex items-center justify-center bg-stone-950 p-2 sm:p-3 overflow-hidden">
             <img
               src={item.imageUrl}
               alt={item.imageAlt}
               title={item.imageTitle}
-              className="w-full h-auto max-h-[540px] object-contain rounded-xl"
+              className="w-full h-auto max-h-[540px] object-contain rounded-xl group-hover:scale-[1.02] transition-transform duration-300"
             />
           </div>
           <div className="bg-gradient-to-r from-[#00795F] to-[#005a46] px-5 py-4 border-t border-white/15">
@@ -43,26 +63,66 @@ const AnnouncementCard: React.FC<{ item: AnnouncementItem }> = ({ item }) => {
               {item.imageTitle}
             </p>
           </div>
-        </div>
+        </Link>
 
         {/* Narrative + CTA Column */}
         <div className="lg:col-span-7 p-6 sm:p-8 lg:p-10 flex flex-col justify-between gap-6">
           <div className="space-y-4">
-            <div className="flex flex-wrap items-center gap-2.5">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-[#00795F] text-xs font-black uppercase tracking-wider">
-                <Sparkles className="w-3.5 h-3.5 text-[#00A550]" />
-                <span>{item.badge}</span>
-              </span>
-              {item.dateLabel && (
-                <span className="text-xs font-semibold text-stone-500">
-                  {item.dateLabel}
+            <div className="flex flex-wrap items-center justify-between gap-2.5">
+              <div className="flex flex-wrap items-center gap-2.5">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-[#00795F] text-xs font-black uppercase tracking-wider">
+                  <Sparkles className="w-3.5 h-3.5 text-[#00A550]" />
+                  <span>{item.badge}</span>
                 </span>
-              )}
+                {item.dateLabel && (
+                  <span className="text-xs font-semibold text-stone-500">
+                    {item.dateLabel}
+                  </span>
+                )}
+              </div>
+
+              <button
+                type="button"
+                onClick={handleCopyLink}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-bold transition-colors cursor-pointer"
+                title={`Copiar URL: ${fullUrl}`}
+              >
+                {copied ? (
+                  <>
+                    <Check className="w-3.5 h-3.5 text-[#00A550]" />
+                    <span className="text-[#00795F]">URL copiada</span>
+                  </>
+                ) : (
+                  <>
+                    <Share2 className="w-3.5 h-3.5 text-[#00795F]" />
+                    <span>Copiar URL</span>
+                  </>
+                )}
+              </button>
             </div>
 
-            <h3 className="text-2xl sm:text-3xl font-black text-black leading-tight tracking-tight">
+            {/* Título individual y URL propia del anuncio */}
+            <div className="space-y-1.5">
+              <h3 className="text-2xl sm:text-3xl font-black text-black leading-tight tracking-tight">
+                <Link
+                  to={individualPath}
+                  className="hover:text-[#00795F] transition-colors"
+                >
+                  {item.title}
+                </Link>
+              </h3>
+              <Link
+                to={individualPath}
+                className="inline-flex items-center gap-1.5 text-xs font-mono text-[#00795F] hover:underline break-all"
+              >
+                <Link2 className="w-3.5 h-3.5 shrink-0" />
+                <span>{individualPath}</span>
+              </Link>
+            </div>
+
+            <p className="text-lg sm:text-xl font-extrabold text-[#00795F] leading-snug">
               {item.headline}
-            </h3>
+            </p>
 
             <div className="space-y-3 text-[17px] text-stone-800 leading-relaxed font-normal">
               {item.paragraphs.map((paragraph, idx) => (
@@ -168,6 +228,14 @@ const AnnouncementCard: React.FC<{ item: AnnouncementItem }> = ({ item }) => {
                   <span>{item.productButtonLabel || 'Ver producto'}</span>
                 </Link>
               )}
+
+              <Link
+                to={individualPath}
+                className="inline-flex items-center justify-center gap-2 px-4 py-3.5 bg-stone-900 hover:bg-black text-white font-bold text-sm rounded-xl transition-colors"
+              >
+                <span>Ver anuncio</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
             </div>
           </div>
         </div>

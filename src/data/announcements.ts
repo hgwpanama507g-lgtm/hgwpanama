@@ -10,6 +10,10 @@ export const ANNOUNCEMENT_DISTRIBUTOR = {
 
 export interface AnnouncementItem {
   id: string;
+  /** Slug único para el URL individual (/anuncios/<slug>) */
+  slug: string;
+  /** Título visible del anuncio y de su página individual */
+  title: string;
   badge: string;
   dateLabel?: string;
   headline: string;
@@ -27,11 +31,13 @@ export interface AnnouncementItem {
 
 /**
  * Lista de anuncios promocionales y novedades HGW Panamá.
- * Para subir más contenido en el futuro, agrega un nuevo objeto al inicio o final de este arreglo.
+ * Para subir más contenido en el futuro, agrega un nuevo objeto con su propio `slug` y `title`.
  */
 export const ANNOUNCEMENTS: AnnouncementItem[] = [
   {
     id: 'tourmaline-insoles-hgw',
+    slug: 'plantillas-de-turmalina-hgw',
+    title: 'Plantillas de Turmalina HGW: Comodidad en Cada Paso',
     badge: 'Producto Destacado',
     headline: '👣✨ ¡COMODIDAD QUE TE ACOMPAÑA EN CADA PASO!',
     paragraphs: [
@@ -53,6 +59,8 @@ export const ANNOUNCEMENTS: AnnouncementItem[] = [
   },
   {
     id: 'thermo-waterson-hgw',
+    slug: 'thermo-waterson-hgw',
+    title: 'Thermo Waterson HGW: Hidrátate con Estilo Todo el Día',
     badge: 'Producto Destacado',
     headline: '💧✨ ¡HIDRÁTATE CON ESTILO EN CADA MOMENTO!',
     paragraphs: [
@@ -73,3 +81,13 @@ export const ANNOUNCEMENTS: AnnouncementItem[] = [
     productButtonLabel: 'Ver ficha del Thermo Waterson',
   },
 ];
+
+export function findAnnouncementBySlug(slug: string): AnnouncementItem | undefined {
+  const normalized = slug.trim().replace(/^\/+|\/+$/g, '').toLowerCase();
+  if (!normalized) return undefined;
+  return ANNOUNCEMENTS.find(
+    (item) =>
+      item.slug.toLowerCase() === normalized ||
+      item.id.toLowerCase() === normalized
+  );
+}

@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { PRODUCTS } from '../src/data/products';
 import { HGW_DOCUMENTS } from '../src/data/documents';
+import { ANNOUNCEMENTS } from '../src/data/announcements';
 import { getSeoMetadata, PRODUCT_SLUG_ALIASES, buildProductJsonLd } from '../src/data/seoMetadata';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -81,6 +82,14 @@ function generatePages() {
   for (const d of HGW_DOCUMENTS) {
     if (d.slug) {
       routes.add(`/documentos/${d.slug}`);
+    }
+  }
+
+  // Announcements individual routes
+  for (const a of ANNOUNCEMENTS) {
+    if (a.slug) {
+      routes.add(`/anuncios/${a.slug}`);
+      routes.add(`/anuncio/${a.slug}`);
     }
   }
 
