@@ -265,6 +265,18 @@ export function getSeoMetadata(pathname: string): SeoMetadata {
     };
   }
 
+  // 10.05. Announcements
+  if (cleanPath === '/anuncios') {
+    return {
+      title: 'Anuncios y Promociones – HGW Panamá',
+      description: 'Descubre los anuncios destacados, productos recomendados y oportunidades de afiliación directa con distribuidores autorizados de HGW en Panamá.',
+      image: `${BASE_URL}/assets/aistudio/image_45258fc5.png`,
+      url: `${BASE_URL}/anuncios`,
+      type: 'website',
+      siteName: 'HGW Panamá'
+    };
+  }
+
   // 10.1. Shipping & Returns
   if (cleanPath === '/envios-y-devoluciones' || cleanPath === '/envios') {
     return {

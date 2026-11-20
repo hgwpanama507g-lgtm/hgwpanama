@@ -52,6 +52,7 @@ function generatePages() {
     '/beneficios',
     '/ingredientes',
     '/contacto',
+    '/anuncios',
     '/envios-y-devoluciones',
     '/herramientas'
   ];

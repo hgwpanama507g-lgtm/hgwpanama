@@ -41,6 +41,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
     { label: 'Pastas Dentales', href: '/pastas-dentales' },
     { label: 'Negocio', href: '/oportunidad-de-negocio' },
     { label: 'Pre-registro', href: '/preregistro' },
+    { label: 'Anuncios', href: '/anuncios' },
   ];
 
   const docsLinks = [
@@ -81,7 +82,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
           </Link>
 
           {/* Zone 2: Navigation links with Productos, Documentos & Contact Submenus */}
-          <nav className="hidden lg:flex items-center gap-4 xl:gap-7 text-sm xl:text-[15px] font-bold text-black">
+          <nav className="hidden lg:flex items-center gap-3.5 xl:gap-6 text-sm xl:text-[15px] font-bold text-black">
             <Link
               to="/"
               className={`whitespace-nowrap shrink-0 transition-colors py-1 relative ${

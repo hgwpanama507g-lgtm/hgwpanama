@@ -8,6 +8,7 @@ import { Memberships } from './components/Memberships';
 import { AboutHGW } from './components/AboutHGW';
 import { FAQ } from './components/FAQ';
 import { ContactSection } from './components/ContactSection';
+import { AnnouncementsSection } from './components/AnnouncementsSection';
 import { ShippingAndReturnsSection } from './components/ShippingAndReturnsSection';
 import { Footer } from './components/Footer';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
@@ -199,7 +200,12 @@ function AppContent() {
       );
     }
 
-    // 9.1. Shipping and Returns Page (/envios-y-devoluciones or /envios)
+    // 9.1. Announcements Section (/anuncios)
+    if (cleanPath === '/anuncios') {
+      return <AnnouncementsSection />;
+    }
+
+    // 9.2. Shipping and Returns Page (/envios-y-devoluciones or /envios)
     if (cleanPath === '/envios-y-devoluciones' || cleanPath === '/envios') {
       return (
         <div className="py-12 sm:py-20 bg-white">
@@ -230,6 +236,7 @@ function AppContent() {
           <AdsterraResponsiveBanner key="legacy-home-banner" className="bg-white border-b border-stone-100" />
           <Catalog isHomeView={true} />
           <AdsterraNativeBanner key="legacy-home-native" />
+          <AnnouncementsSection isHomeView={true} />
           <Memberships />
           <AboutHGW />
           <FAQ />
@@ -246,6 +253,7 @@ function AppContent() {
           <AdsterraResponsiveBanner key="home-top-banner" className="bg-white border-b border-stone-100" />
           <Catalog isHomeView={true} />
           <AdsterraNativeBanner key="home-native" />
+          <AnnouncementsSection isHomeView={true} />
           <Memberships />
           <AboutHGW />
           <FAQ />
