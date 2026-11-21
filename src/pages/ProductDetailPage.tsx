@@ -91,7 +91,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
             </p>
 
             {/* Specifications & Highlights Box */}
-            <div className="bg-stone-50 p-5 rounded-2xl border border-stone-200/80 mb-8 space-y-3">
+            <div className="bg-stone-50 p-5 rounded-2xl border border-stone-200/80 mb-4 space-y-3">
               {product.netContent && (
                 <div className="flex items-center gap-3 text-sm">
                   <span className="text-xs font-bold text-stone-400 uppercase w-32 shrink-0 flex items-center gap-1.5">
@@ -133,7 +133,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
             </div>
 
             {/* Action Area */}
-            <div className="pt-4 border-t border-stone-100 mt-auto">
+            <div className="pt-3 border-t border-stone-100 mt-2">
               <a 
                 href={whatsappUrl} 
                 target="_blank" 
@@ -187,46 +187,63 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
 
           <div className="max-w-4xl min-h-[300px]">
             {activeTab === 'description' && (
-              <div className="animate-fade-in space-y-8">
+              <div className="animate-fade-in space-y-6">
                 {product.description && (
-                  <div>
-                    <h2 className="text-[26px] font-black text-black mb-4">Descripción del Producto</h2>
-                    <p className="text-[17px] text-stone-700 leading-relaxed font-medium bg-stone-50 p-6 rounded-3xl border border-stone-100">
+                  <div className="space-y-2">
+                    <h2 className="text-xl sm:text-2xl font-black bg-gradient-to-r from-[#00795F] to-[#00A550] bg-clip-text text-transparent">
+                      Descripción del Producto
+                    </h2>
+                    <p className="text-base sm:text-[17px] text-black leading-[1.15] font-normal">
                       {renderWithHGWLinks(product.description)}
                     </p>
                   </div>
                 )}
-                <div>
-                  <h2 className="text-[26px] font-black text-black mb-6">Beneficios Principales</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {product.benefits.map((b, i) => (
-                      <div key={i} className="flex items-start gap-4 p-5 bg-stone-50 rounded-2xl border border-stone-100 hover:border-[#00A550]/30 transition-colors">
-                        <div className="mt-1 w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
-                          <Check className="w-4 h-4 text-[#00A550]" />
-                        </div>
-                        <p className="text-[16px] text-stone-800 leading-relaxed font-bold">{renderWithHGWLinks(b)}</p>
-                      </div>
-                    ))}
+                {product.benefits && product.benefits.length > 0 && (
+                  <div className="space-y-2 pt-2">
+                    <h2 className="text-xl sm:text-2xl font-black bg-gradient-to-r from-[#00795F] to-[#00A550] bg-clip-text text-transparent">
+                      Beneficios Principales
+                    </h2>
+                    <ul className="space-y-2 text-black text-base sm:text-[17px] leading-[1.15]">
+                      {product.benefits.map((b, i) => (
+                        <li key={i} className="flex items-start gap-2.5">
+                          <span className="text-[#00795F] font-black select-none">•</span>
+                          <span className="text-black font-normal">{renderWithHGWLinks(b)}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                </div>
+                )}
+                {product.advantages && product.advantages.length > 0 && (
+                  <div className="space-y-2 pt-2">
+                    <h2 className="text-xl sm:text-2xl font-black bg-gradient-to-r from-[#00795F] to-[#00A550] bg-clip-text text-transparent">
+                      Ventajas Destacadas
+                    </h2>
+                    <ul className="space-y-2 text-black text-base sm:text-[17px] leading-[1.15]">
+                      {product.advantages.map((adv, i) => (
+                        <li key={i} className="flex items-start gap-2.5">
+                          <span className="text-[#00795F] font-black select-none">•</span>
+                          <span className="text-black font-normal">{renderWithHGWLinks(adv)}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
             )}
 
             {activeTab === 'advantages' && product.advantages && (
-              <div className="animate-fade-in space-y-6">
-                <div>
-                  <h2 className="text-[26px] font-black text-black mb-6">Ventajas Destacadas</h2>
-                  <div className="space-y-3">
-                    {product.advantages.map((adv, i) => (
-                      <div key={i} className="flex items-start gap-4 p-5 bg-emerald-50/60 rounded-2xl border border-emerald-100">
-                        <div className="mt-1 w-6 h-6 rounded-full bg-[#00795F] text-white flex items-center justify-center shrink-0 text-xs font-bold">
-                          ✓
-                        </div>
-                        <p className="text-[16px] text-emerald-950 font-bold leading-relaxed">{renderWithHGWLinks(adv)}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+              <div className="animate-fade-in space-y-4">
+                <h2 className="text-xl sm:text-2xl font-black bg-gradient-to-r from-[#00795F] to-[#00A550] bg-clip-text text-transparent">
+                  Ventajas Destacadas
+                </h2>
+                <ul className="space-y-2 text-black text-base sm:text-[17px] leading-[1.15]">
+                  {product.advantages.map((adv, i) => (
+                    <li key={i} className="flex items-start gap-2.5">
+                      <span className="text-[#00795F] font-black select-none">•</span>
+                      <span className="text-black font-normal">{renderWithHGWLinks(adv)}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
 
