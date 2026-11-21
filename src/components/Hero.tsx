@@ -25,15 +25,15 @@ export const Hero: React.FC = () => {
               Bienestar Natural y Productos Funcionales con <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00795F] to-[#00A550]">HGW Panamá</span>
             </h1>
 
-            <p className="text-[18px] text-stone-800 leading-relaxed max-w-2xl mb-8 font-normal">
+            <p className="text-base sm:text-lg text-black leading-snug max-w-2xl mb-6 font-normal">
               Descubre la sinergia entre la sabiduría herbolaria milenaria y la tecnología moderna. Productos originales de arándano, turmalina, ganoderma lucidum y probióticos respaldados por certificaciones de clase mundial y asesoría personalizada de distribuidores independientes en Panamá.
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto mb-8">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto mb-6">
               <Link
                 to="/productos"
-                className="inline-flex items-center justify-center gap-2 px-6 py-4 text-sm font-black text-white bg-[#00795F] hover:bg-[#004d3c] rounded-xl shadow-md shadow-[#00795F]/20 active:scale-95 transition-all whitespace-nowrap text-center"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-black text-white bg-[#00795F] hover:bg-[#004d3c] rounded-xl shadow-md shadow-[#00795F]/20 active:scale-95 transition-all whitespace-nowrap text-center"
               >
                 <span>Ver Catálogo Completo</span>
                 <ArrowRight className="w-4 h-4" />
@@ -41,7 +41,7 @@ export const Hero: React.FC = () => {
 
               <Link
                 to="/oportunidad-de-negocio"
-                className="inline-flex items-center justify-center gap-2 px-6 py-4 text-sm font-bold text-[#00795F] bg-white border border-[#00795F]/40 hover:bg-[#00795F]/5 rounded-xl shadow-xs active:scale-95 transition-all whitespace-nowrap text-center"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-bold text-[#00795F] bg-white border border-[#00795F]/40 hover:bg-[#00795F]/5 rounded-xl shadow-xs active:scale-95 transition-all whitespace-nowrap text-center"
               >
                 <Sparkles className="w-4 h-4 text-[#00A550]" />
                 <span>Oportunidad de Negocio</span>

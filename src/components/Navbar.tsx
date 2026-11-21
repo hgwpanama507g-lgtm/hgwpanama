@@ -41,7 +41,6 @@ export const Navbar: React.FC<NavbarProps> = () => {
     { label: 'Pastas Dentales', href: '/pastas-dentales' },
     { label: 'Negocio', href: '/oportunidad-de-negocio' },
     { label: 'Pre-registro', href: '/preregistro' },
-    { label: 'Anuncios', href: '/anuncios' },
   ];
 
   const docsLinks = [

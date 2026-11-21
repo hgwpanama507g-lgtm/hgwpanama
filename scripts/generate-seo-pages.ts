@@ -3,7 +3,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { PRODUCTS } from '../src/data/products';
 import { HGW_DOCUMENTS } from '../src/data/documents';
-import { ANNOUNCEMENTS } from '../src/data/announcements';
 import { getSeoMetadata, PRODUCT_SLUG_ALIASES, buildProductJsonLd } from '../src/data/seoMetadata';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -53,7 +52,6 @@ function generatePages() {
     '/beneficios',
     '/ingredientes',
     '/contacto',
-    '/anuncios',
     '/envios-y-devoluciones',
     '/herramientas'
   ];
@@ -85,13 +83,7 @@ function generatePages() {
     }
   }
 
-  // Announcements individual routes
-  for (const a of ANNOUNCEMENTS) {
-    if (a.slug) {
-      routes.add(`/anuncios/${a.slug}`);
-      routes.add(`/anuncio/${a.slug}`);
-    }
-  }
+
 
   console.log(`Generating SEO pre-rendered HTML files for ${routes.size} routes...`);
 

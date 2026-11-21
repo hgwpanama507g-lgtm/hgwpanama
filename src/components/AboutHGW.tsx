@@ -122,13 +122,13 @@ export const AboutHGW: React.FC = () => {
         <div className="bg-gradient-to-br from-[#00795F]/10 via-emerald-50/50 to-stone-50 rounded-3xl p-6 sm:p-10 border border-[#00795F]/20 mb-16 shadow-xs">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
-            <div className="lg:col-span-4 flex flex-col items-center text-center">
-              <div className="w-36 h-36 sm:w-44 sm:h-44 rounded-full overflow-hidden border-4 border-white shadow-xl bg-white mb-4">
+            <div className="lg:col-span-4 flex flex-col items-center justify-center text-center my-auto h-full p-2">
+              <div className="w-36 h-36 sm:w-44 sm:h-44 rounded-full overflow-hidden border-4 border-white shadow-xl bg-white mb-4 shrink-0 mx-auto">
                 <img
                   src="https://media.academiahgw.online/wp-content/uploads/2026/11/Foto-de-Perfil-Yamilka-Batista-Emprendedora-HGW-2-1024x1024.jpeg"
                   alt="Yamilka Batista - Distribuidora Independiente Autorizada HGW Panamá"
                   referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover object-center"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = "https://media.academiahgw.online/wp-content/uploads/2026/11/Foto-de-Perfil-Yamilka-Batista-Emprendedora-HGW-1-1024x1024.jpeg";
                   }}
@@ -136,7 +136,7 @@ export const AboutHGW: React.FC = () => {
               </div>
               <h3 className="text-xl font-black text-black">Yamilka Batista</h3>
               <p className="text-xs font-bold text-[#00795F]">Emprendedora & Distribuidora Independiente</p>
-              <p className="text-xs text-stone-600 mt-1">Código de Patrocinio: <span className="font-mono font-bold text-black bg-white px-2 py-0.5 rounded-md border border-stone-200">Yamilka507</span></p>
+              <p className="text-xs text-black mt-1">Código de Patrocinio: <span className="font-mono font-bold text-black bg-white px-2 py-0.5 rounded-md border border-stone-200">Yamilka507</span></p>
             </div>
 
             <div className="lg:col-span-8 space-y-4">

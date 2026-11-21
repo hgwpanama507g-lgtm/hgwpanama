@@ -147,7 +147,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                 href={whatsappUrl} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="w-full py-5 px-8 bg-[#00795F] hover:bg-[#004d3c] text-white font-black text-xl rounded-2xl shadow-xl shadow-[#00795F]/20 flex items-center justify-center gap-3 transition-all active:scale-95 uppercase tracking-wider"
+                className="w-full py-3.5 px-6 bg-[#00795F] hover:bg-[#004d3c] text-white font-black text-base rounded-xl shadow-lg shadow-[#00795F]/20 flex items-center justify-center gap-2.5 transition-all active:scale-95 uppercase tracking-wider"
               >
                 <span>Consultar por WhatsApp</span>
               </a>

@@ -8,7 +8,6 @@ import { Memberships } from './components/Memberships';
 import { AboutHGW } from './components/AboutHGW';
 import { FAQ } from './components/FAQ';
 import { ContactSection } from './components/ContactSection';
-import { AnnouncementsSection } from './components/AnnouncementsSection';
 import { ShippingAndReturnsSection } from './components/ShippingAndReturnsSection';
 import { Footer } from './components/Footer';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
@@ -21,7 +20,6 @@ import { OfficesDirectoryPage } from './pages/OfficesDirectoryPage';
 import { InformationPage } from './pages/InformationPage';
 import { ToothpastesLandingPage } from './pages/ToothpastesLandingPage';
 import { ToolsPage } from './pages/ToolsPage';
-import { AnnouncementDetailPage } from './pages/AnnouncementDetailPage';
 import { PRODUCTS } from './data/products';
 import { HGW_DOCUMENTS } from './data/documents';
 import { findProductBySlug } from './data/seoMetadata';
@@ -201,15 +199,6 @@ function AppContent() {
       );
     }
 
-    // 9.1. Announcements Section (/anuncios) and Individual Announcement (/anuncios/:slug)
-    if (cleanPath === '/anuncios') {
-      return <AnnouncementsSection />;
-    }
-    if (cleanPath.startsWith('/anuncios/') || cleanPath.startsWith('/anuncio/')) {
-      const announcementSlug = cleanPath.replace(/^\/anuncios?\//, '');
-      return <AnnouncementDetailPage slug={announcementSlug} />;
-    }
-
     // 9.2. Shipping and Returns Page (/envios-y-devoluciones or /envios)
     if (cleanPath === '/envios-y-devoluciones' || cleanPath === '/envios') {
       return (
@@ -241,7 +230,6 @@ function AppContent() {
           <AdsterraResponsiveBanner key="legacy-home-banner" className="bg-white border-b border-stone-100" />
           <Catalog isHomeView={true} />
           <AdsterraNativeBanner key="legacy-home-native" />
-          <AnnouncementsSection isHomeView={true} />
           <Memberships />
           <AboutHGW />
           <FAQ />
@@ -258,7 +246,6 @@ function AppContent() {
           <AdsterraResponsiveBanner key="home-top-banner" className="bg-white border-b border-stone-100" />
           <Catalog isHomeView={true} />
           <AdsterraNativeBanner key="home-native" />
-          <AnnouncementsSection isHomeView={true} />
           <Memberships />
           <AboutHGW />
           <FAQ />

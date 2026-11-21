@@ -1,6 +1,5 @@
 import { PRODUCTS } from './products';
 import { HGW_DOCUMENTS } from './documents';
-import { findAnnouncementBySlug } from './announcements';
 
 export interface SeoMetadata {
   title: string;
@@ -264,32 +263,6 @@ export function getSeoMetadata(pathname: string): SeoMetadata {
       type: 'website',
       siteName: 'HGW Panamá'
     };
-  }
-
-  // 10.05. Announcements & Individual Announcement (/anuncios/:slug)
-  if (cleanPath === '/anuncios') {
-    return {
-      title: 'Anuncios y Promociones – HGW Panamá',
-      description: 'Descubre los anuncios destacados, productos recomendados y oportunidades de afiliación directa con distribuidores autorizados de HGW en Panamá.',
-      image: `${BASE_URL}/assets/aistudio/image_45258fc5.png`,
-      url: `${BASE_URL}/anuncios`,
-      type: 'website',
-      siteName: 'HGW Panamá'
-    };
-  }
-  if (cleanPath.startsWith('/anuncios/') || cleanPath.startsWith('/anuncio/')) {
-    const annSlug = cleanPath.replace(/^\/anuncios?\//, '').split('?')[0].split('#')[0];
-    const announcement = findAnnouncementBySlug(annSlug);
-    if (announcement) {
-      return {
-        title: `${announcement.title} – HGW Panamá`,
-        description: `${announcement.headline} ${announcement.paragraphs.join(' ')}`.slice(0, 160),
-        image: `${BASE_URL}${announcement.imageUrl}`,
-        url: `${BASE_URL}/anuncios/${announcement.slug}`,
-        type: 'article',
-        siteName: 'HGW Panamá'
-      };
-    }
   }
 
   // 10.1. Shipping & Returns
