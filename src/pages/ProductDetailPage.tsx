@@ -15,6 +15,7 @@ interface ProductDetailPageProps {
 export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) => {
   const [activeTab, setActiveTab] = React.useState<'description' | 'advantages' | 'details' | 'usage'>('description');
   const product = findProductBySlug(slug);
+  const isMembership = product ? (product.category === 'membresias' || product.id.startsWith('membresia-') || product.slug.startsWith('membresia-')) : false;
 
   React.useEffect(() => {
     setActiveTab('description');
@@ -189,45 +190,41 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
             {activeTab === 'description' && (
               <div className="animate-fade-in space-y-6">
                 {product.description && (
-                  <div className="space-y-2">
-                    <h2 className="text-xl sm:text-2xl font-black bg-gradient-to-r from-[#00795F] to-[#00A550] bg-clip-text text-transparent">
-                      Descripción del Producto
+                  <div>
+                    <h2 className="text-[26px] font-black text-black mb-4">
+                      {isMembership ? 'Detalle y Características del Paquete' : 'Descripción del Producto'}
                     </h2>
-                    <p className="text-base sm:text-[17px] text-black leading-[1.15] font-normal">
+                    <p className="text-[17px] text-stone-700 leading-relaxed font-medium bg-stone-50 p-6 rounded-3xl border border-stone-100">
                       {renderWithHGWLinks(product.description)}
                     </p>
                   </div>
                 )}
-                {product.benefits && product.benefits.length > 0 && (
-                  <div className="space-y-2 pt-2">
-                    <h2 className="text-xl sm:text-2xl font-black bg-gradient-to-r from-[#00795F] to-[#00A550] bg-clip-text text-transparent">
-                      Beneficios Principales
-                    </h2>
-                    <ul className="space-y-2 text-black text-base sm:text-[17px] leading-[1.15]">
+                <div>
+                  <h2 className="text-[26px] font-black text-black mb-6">
+                    {isMembership ? 'Bonos, Porcentajes y Requisitos' : 'Beneficios Principales'}
+                  </h2>
+                  {isMembership ? (
+                    <ul className="space-y-2 text-black text-base sm:text-[17px] leading-[1.15] bg-stone-50 p-6 rounded-3xl border border-stone-100">
+                      {product.advantages?.map((adv, i) => (
+                        <li key={i} className="flex items-start gap-2.5">
+                          <span className="text-[#00795F] font-black select-none">•</span>
+                          <span className="text-black font-medium">{renderWithHGWLinks(adv)}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {product.benefits.map((b, i) => (
-                        <li key={i} className="flex items-start gap-2.5">
-                          <span className="text-[#00795F] font-black select-none">•</span>
-                          <span className="text-black font-normal">{renderWithHGWLinks(b)}</span>
-                        </li>
+                        <div key={i} className="flex items-start gap-4 p-5 bg-stone-50 rounded-2xl border border-stone-100 hover:border-[#00A550]/30 transition-colors">
+                          <div className="mt-1 w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
+                            <Check className="w-4 h-4 text-[#00A550]" />
+                          </div>
+                          <p className="text-[16px] text-stone-800 leading-relaxed font-bold">{renderWithHGWLinks(b)}</p>
+                        </div>
                       ))}
-                    </ul>
-                  </div>
-                )}
-                {product.advantages && product.advantages.length > 0 && (
-                  <div className="space-y-2 pt-2">
-                    <h2 className="text-xl sm:text-2xl font-black bg-gradient-to-r from-[#00795F] to-[#00A550] bg-clip-text text-transparent">
-                      Ventajas Destacadas
-                    </h2>
-                    <ul className="space-y-2 text-black text-base sm:text-[17px] leading-[1.15]">
-                      {product.advantages.map((adv, i) => (
-                        <li key={i} className="flex items-start gap-2.5">
-                          <span className="text-[#00795F] font-black select-none">•</span>
-                          <span className="text-black font-normal">{renderWithHGWLinks(adv)}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+                    </div>
+                  )}
+                </div>
               </div>
             )}
 
