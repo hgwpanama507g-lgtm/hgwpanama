@@ -134,15 +134,6 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
 
             {/* Action Area */}
             <div className="pt-4 border-t border-stone-100 mt-auto">
-              <div className="bg-amber-50 border-l-4 border-amber-500 p-5 mb-6 rounded-r-2xl shadow-sm">
-                <div className="flex items-center text-amber-900 font-black mb-1 text-[16px]">
-                  <AlertTriangle className="mr-2 w-5 h-5 shrink-0" /> Aviso de Pedido
-                </div>
-                <p className="text-[15px] text-amber-800 leading-relaxed font-medium">
-                  Por favor, consulte y confirme la disponibilidad del producto vía WhatsApp antes de realizar su pedido oficial.
-                </p>
-              </div>
-
               <a 
                 href={whatsappUrl} 
                 target="_blank" 

@@ -119,72 +119,79 @@ export const AboutHGW: React.FC = () => {
         </div>
 
         {/* Local Independent Distributor Profile */}
-        <div className="bg-gradient-to-br from-[#00795F]/10 via-emerald-50/50 to-stone-50 rounded-3xl p-6 sm:p-10 border border-[#00795F]/20 mb-16 shadow-xs">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            
-            <div className="lg:col-span-4 flex flex-col items-center justify-center text-center my-auto h-full p-2">
-              <div className="w-36 h-36 sm:w-44 sm:h-44 rounded-full overflow-hidden border-4 border-white shadow-xl bg-white mb-4 shrink-0 mx-auto">
-                <img
-                  src="https://media.academiahgw.online/wp-content/uploads/2026/11/Foto-de-Perfil-Yamilka-Batista-Emprendedora-HGW-2-1024x1024.jpeg"
-                  alt="Yamilka Batista - Distribuidora Independiente Autorizada HGW Panamá"
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover object-center"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = "https://media.academiahgw.online/wp-content/uploads/2026/11/Foto-de-Perfil-Yamilka-Batista-Emprendedora-HGW-1-1024x1024.jpeg";
-                  }}
-                />
-              </div>
-              <h3 className="text-xl font-black text-black">Yamilka Batista</h3>
-              <p className="text-xs font-bold text-[#00795F]">Emprendedora & Distribuidora Independiente</p>
-              <p className="text-xs text-black mt-1">Código de Patrocinio: <span className="font-mono font-bold text-black bg-white px-2 py-0.5 rounded-md border border-stone-200">Yamilka507</span></p>
+        <div className="bg-gradient-to-br from-[#00795F]/10 via-emerald-50/50 to-stone-50 rounded-3xl p-8 sm:p-12 border border-[#00795F]/25 mb-16 shadow-md max-w-4xl mx-auto text-center flex flex-col items-center">
+          
+          {/* 1. Photograph at the top */}
+          <div className="w-36 h-36 sm:w-44 sm:h-44 rounded-full overflow-hidden border-4 border-white shadow-xl bg-white mb-5 mx-auto shrink-0">
+            <img
+              src="https://media.academiahgw.online/wp-content/uploads/2026/11/Foto-de-Perfil-Yamilka-Batista-Emprendedora-HGW-2-1024x1024.jpeg"
+              alt="Yamilka Batista - Distribuidora Independiente Autorizada HGW Panamá"
+              referrerPolicy="no-referrer"
+              className="w-full h-full object-cover object-center"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = "https://media.academiahgw.online/wp-content/uploads/2026/11/Foto-de-Perfil-Yamilka-Batista-Emprendedora-HGW-1-1024x1024.jpeg";
+              }}
+            />
+          </div>
+
+          {/* 2. Name below */}
+          <h3 className="text-2xl sm:text-3xl font-black text-black">Yamilka Batista</h3>
+          <p className="text-sm font-bold text-[#00795F] mt-1">Emprendedora & Distribuidora Independiente</p>
+          <p className="text-xs text-black mt-1.5">Código de Patrocinio: <span className="font-mono font-bold text-black bg-white px-2.5 py-0.5 rounded-md border border-stone-200">Yamilka507</span></p>
+
+          <div className="w-20 h-1 bg-[#00795F]/30 rounded-full my-6 mx-auto" />
+
+          {/* 3. Followed by presentation message */}
+          <div className="space-y-4 max-w-2xl mx-auto w-full">
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1 bg-[#00795F]/10 rounded-full text-xs font-bold text-[#00795F] mx-auto">
+              <HeartHandshake className="w-4 h-4" />
+              <span>Tu Enlace Directo en Panamá</span>
             </div>
 
-            <div className="lg:col-span-8 space-y-4">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#00795F]/10 rounded-full text-xs font-bold text-[#00795F]">
-                <HeartHandshake className="w-4 h-4" />
-                <span>Tu Enlace Directo en Panamá</span>
-              </div>
-              <h3 className="text-2xl sm:text-3xl font-black text-black">
-                Atención cercana, entrega confiable y asesoría personalizada
-              </h3>
-              <p className="text-[17px] sm:text-[18px] text-stone-800 leading-relaxed font-normal">
-                Como distribuidores independientes de HGW en Panamá, nuestro compromiso es brindarte orientación honesta sobre los beneficios de cada formulación, disponibilidad inmediata para entrega en provincias y acompañarte si deseas afiliarte para consumo familiar o generar ingresos propios.
-              </p>
+            <h4 className="text-xl sm:text-2xl font-black text-black">
+              Atención cercana, entrega confiable y asesoría personalizada
+            </h4>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                <a
-                  href={getAffiliationWhatsAppUrl()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 text-sm text-stone-800 hover:text-[#00795F] bg-white p-3.5 rounded-xl border border-stone-200 shadow-2xs transition-colors"
-                >
-                  <Phone className="w-5 h-5 text-[#00A550] shrink-0" />
-                  <div>
-                    <span className="text-xs text-stone-500 block">WhatsApp Distribuidor Independiente</span>
-                    <strong className="text-black font-extrabold text-sm sm:text-base">+507 6778-8375</strong>
-                  </div>
-                </a>
-                <div className="flex items-center gap-3 text-sm text-stone-800 bg-white p-3.5 rounded-xl border border-stone-200 shadow-2xs">
-                  <Mail className="w-5 h-5 text-[#00A550] shrink-0" />
-                  <div>
-                    <span className="text-xs text-stone-500 block">Correo para Pre-registro</span>
-                    <strong className="text-black font-extrabold text-sm sm:text-base select-all">hgwpanama507g@gmail.com</strong>
-                  </div>
+            <p className="text-base sm:text-[17px] text-stone-800 leading-relaxed font-normal">
+              Como distribuidores independientes de HGW en Panamá, nuestro compromiso es brindarte orientación honesta sobre los beneficios de cada formulación, disponibilidad inmediata para entrega en provincias y acompañarte si deseas afiliarte para consumo familiar o generar ingresos propios.
+            </p>
+          </div>
+
+          {/* 4. Pitch & Contact buttons / links */}
+          <div className="w-full max-w-2xl mx-auto mt-8 space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <a
+                href={getAffiliationWhatsAppUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-3 text-sm text-stone-800 hover:text-[#00795F] bg-white p-4 rounded-xl border border-stone-200 shadow-2xs transition-colors"
+              >
+                <Phone className="w-5 h-5 text-[#00A550] shrink-0" />
+                <div className="text-left">
+                  <span className="text-xs text-stone-500 block">WhatsApp Distribuidor</span>
+                  <strong className="text-black font-extrabold text-sm sm:text-base">+507 6778-8375</strong>
+                </div>
+              </a>
+              <div className="flex items-center justify-center gap-3 text-sm text-stone-800 bg-white p-4 rounded-xl border border-stone-200 shadow-2xs">
+                <Mail className="w-5 h-5 text-[#00A550] shrink-0" />
+                <div className="text-left">
+                  <span className="text-xs text-stone-500 block">Correo Pre-registro</span>
+                  <strong className="text-black font-extrabold text-sm sm:text-base select-all">hgwpanama507g@gmail.com</strong>
                 </div>
               </div>
-
-              {/* Explicit Notice: Distributor WhatsApp vs Corporate Assistance */}
-              <div className="p-3.5 bg-white/90 border border-amber-200 rounded-2xl text-xs space-y-1.5 shadow-2xs">
-                <p className="text-stone-800 leading-relaxed">
-                  <strong className="text-amber-900 font-extrabold">Aclaración de Atención al Cliente:</strong> El número de WhatsApp publicado corresponde exclusivamente a la atención de un <strong>distribuidor independiente</strong> para consultas comerciales, pedidos y nuevos afiliados. <em>No es una línea oficial de la empresa HGW.</em>
-                </p>
-                <p className="text-stone-700 leading-relaxed font-medium">
-                  📌 <strong>¿Ya eres socio registrado de HGW?</strong> Si ya estás registrado como socio, por favor comunícate directamente con tu <strong>patrocinador</strong> o con el teléfono de las oficinas principales en Panamá: <strong className="text-black">+507 392-8415</strong> para recibir asistencia en tus pedidos internos o consultas de código.
-                </p>
-              </div>
             </div>
 
+            {/* Explicit Notice: Distributor WhatsApp vs Corporate Assistance */}
+            <div className="p-4 bg-white/95 border border-amber-200 rounded-2xl text-xs space-y-1.5 shadow-2xs text-left">
+              <p className="text-stone-800 leading-relaxed">
+                <strong className="text-amber-900 font-extrabold">Aclaración de Atención al Cliente:</strong> El número de WhatsApp publicado corresponde exclusivamente a la atención de un <strong>distribuidor independiente</strong> para consultas comerciales, pedidos y nuevos afiliados. <em>No es una línea oficial de la empresa HGW.</em>
+              </p>
+              <p className="text-stone-700 leading-relaxed font-medium">
+                📌 <strong>¿Ya eres socio registrado de HGW?</strong> Si ya estás registrado como socio, por favor comunícate directamente con tu <strong>patrocinador</strong> o con el teléfono de las oficinas principales en Panamá: <strong className="text-black">+507 392-8415</strong> para recibir asistencia en tus pedidos internos o consultas de código.
+              </p>
+            </div>
           </div>
+
         </div>
 
         {/* 1. SECTION: CERTIFICACIONES DE CALIDAD */}
