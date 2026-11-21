@@ -1,78 +1,11 @@
-import React, { useState } from 'react';
-import { CheckCircle2, TrendingUp, DollarSign, Award, ShieldCheck, ArrowRight, Phone, Send, Sparkles, Users, Package, Truck, Lock, MailCheck, ShieldAlert, ExternalLink } from 'lucide-react';
-import { MEMBERSHIP_PLANS } from '../data/products';
+import React from 'react';
+import { TrendingUp, DollarSign, ShieldCheck, Phone, Sparkles, Package, ShieldAlert, ExternalLink, Play } from 'lucide-react';
 import { Link } from '../router';
 import { getAffiliationWhatsAppUrl } from '../utils/whatsapp';
 
 export const BusinessOpportunityPage: React.FC = () => {
-  // Preregistration Form State
-  const [accountType, setAccountType] = useState<'cliente' | 'distribuidor'>('distribuidor');
-  const [fullName, setFullName] = useState('');
-  const [nationalId, setNationalId] = useState('');
-  const [birthDate, setBirthDate] = useState('');
-  const [province, setProvince] = useState('Panamá');
-  const [district, setDistrict] = useState('');
-  const [address, setAddress] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
-  const [selectedPlan, setSelectedPlan] = useState('master');
-  const [deliveryMethod, setDeliveryMethod] = useState('Servientrega (Envío a Domicilio)');
-  const [paymentMethod, setPaymentMethod] = useState('Yappy (Banco General)');
-  const [notes, setNotes] = useState('');
-  const [honeypot, setHoneypot] = useState(''); // Anti-spam trap field
-  
-  // Submission & simulation states
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
+  const registrationUrl = "https://www.healthgreenworld.com/?userName=Yamilka507";
 
-  const handleSubmitPreregistration = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Anti-spam honeypot check
-    if (honeypot.trim() !== '') {
-      setErrorMsg('Error de validación de seguridad.');
-      return;
-    }
-
-    // Basic validation
-    if (!fullName.trim() || !nationalId.trim() || !phone.trim() || !email.trim()) {
-      setErrorMsg('Por favor completa todos los campos obligatorios.');
-      return;
-    }
-
-    setIsSubmitting(true);
-    setErrorMsg('');
-
-    // Simulate secure SMTP dispatch to hgwpanama507g@gmail.com with anti-spam headers / TLS simulation
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitted(true);
-
-      // Also construct WhatsApp fallback message for convenience
-      const planObj = MEMBERSHIP_PLANS.find(p => p.id === selectedPlan) || MEMBERSHIP_PLANS[3];
-      let message = `*PRERREGISTRO HGW PANAMÁ (Enviado a hgwpanama507g@gmail.com)*\n\n`;
-      message += `📋 *Tipo de Cuenta:* ${accountType === 'cliente' ? 'Cliente (Precio Público)' : `Distribuidor (${planObj.name} - ${planObj.bv})`}\n`;
-      message += `👤 *Nombre Completo:* ${fullName.trim()}\n`;
-      message += `🪪 *Cédula / Pasaporte:* ${nationalId.trim()}\n`;
-      if (birthDate) message += `🎂 *Fecha de Nacimiento:* ${birthDate}\n`;
-      message += `📱 *Teléfono / WhatsApp:* ${phone.trim()}\n`;
-      message += `📧 *Correo Electrónico:* ${email.trim()}\n`;
-      message += `📍 *Ubicación:* ${province} - ${district || 'No especificado'}\n`;
-      message += `🏠 *Dirección de Envío:* ${address.trim() || 'No especificada'}\n`;
-      message += `🚚 *Método de Entrega:* ${deliveryMethod}\n`;
-      message += `💳 *Método de Pago:* ${paymentMethod}\n`;
-      message += `🤝 *Patrocinador:* Yamilka Batista (Código: Yamilka507)\n`;
-      if (notes) message += `📝 *Notas:* ${notes.trim()}\n`;
-
-      const encoded = encodeURIComponent(message);
-      // Open WhatsApp backup after a brief pause so user can complete
-      setTimeout(() => {
-        window.open(`https://wa.me/50767788375?text=${encoded}`, '_blank');
-      }, 1000);
-
-    }, 1200);
-  };
 
   return (
     <div className="py-10 sm:py-16 bg-white">
@@ -455,339 +388,66 @@ export const BusinessOpportunityPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Formulario Interactivo de Prerregistro (con envío seguro a hgwpanama507g@gmail.com) */}
+        {/* Tutorial Video & Official Registration CTA (2-Column CSS Grid) */}
         <div id="formulario-prerregistro" className="scroll-mt-24">
-          <div className="bg-stone-50 border-2 border-[#00795F]/40 rounded-3xl p-6 sm:p-12 shadow-lg">
-            
-            <div className="max-w-2xl mx-auto text-center mb-10">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#00795F]/10 text-[#00795F] rounded-full text-xs font-black uppercase tracking-wider mb-2">
-                <ShieldCheck className="w-4 h-4" />
-                <span>Formulario Interactivo de Prerregistro</span>
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-black text-black tracking-tight">
-                Inscripción Oficial HGW Panamá
-              </h2>
-              <p className="text-sm sm:text-base text-stone-700 mt-2 leading-relaxed">
-                Completa tus datos para enviar tu solicitud directamente al correo oficial <strong className="text-black">hgwpanama507g@gmail.com</strong> mediante nuestro protocolo seguro SMTP. Contamos con protección anti-spam y validación en tiempo real. Patrocinador autorizado: <strong className="text-black">Yamilka Batista (Código: Yamilka507)</strong>.
-              </p>
-            </div>
-
-            {submitted ? (
-              <div className="max-w-lg mx-auto text-center py-12 px-6 bg-white rounded-3xl border border-emerald-300 shadow-xl animate-fade-in space-y-4">
-                <div className="w-16 h-16 bg-emerald-100 text-[#00795F] rounded-full flex items-center justify-center mx-auto">
-                  <MailCheck className="w-8 h-8" />
+          <div className="bg-stone-50 border border-[#00795F]/25 rounded-3xl p-6 sm:p-10 lg:p-12 shadow-lg">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+              
+              {/* Left Column (First on mobile): Tutorial Video */}
+              <div className="bg-white rounded-3xl overflow-hidden border border-stone-200 shadow-md">
+                <div className="px-5 py-3.5 bg-stone-900 text-white flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2.5">
+                    <span className="w-8 h-8 rounded-lg bg-[#00795F] flex items-center justify-center shrink-0">
+                      <Play className="w-4 h-4 fill-current text-white" />
+                    </span>
+                    <span className="font-extrabold text-sm tracking-tight">
+                      Tutorial Oficial de Registro HGW
+                    </span>
+                  </div>
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-300 shrink-0">
+                    Paso a Paso
+                  </span>
                 </div>
-                <h3 className="text-2xl font-black text-black">¡Prerregistro Enviado con Éxito!</h3>
-                <p className="text-sm text-stone-700 leading-relaxed">
-                  Tu solicitud ha sido transmitida de forma segura al buzón <strong>hgwpanama507g@gmail.com</strong> (con protocolos anti-spam SPF/DKIM simulados). Simultáneamente se está abriendo WhatsApp para confirmar tu recepción con Yamilka Batista.
-                </p>
-                <div className="pt-2">
-                  <button
-                    onClick={() => setSubmitted(false)}
-                    className="px-6 py-3 bg-[#00795F] hover:bg-[#004d3c] text-white font-bold text-xs rounded-xl shadow-md transition-all"
-                  >
-                    Enviar otro registro
-                  </button>
+                <div className="aspect-video w-full bg-black relative">
+                  <iframe
+                    src="https://www.youtube.com/embed/Poy4FvvfcfA"
+                    title="Tutorial de Registro HGW"
+                    className="w-full h-full absolute inset-0 border-0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
                 </div>
               </div>
-            ) : (
-              <form onSubmit={handleSubmitPreregistration} className="max-w-3xl mx-auto space-y-6">
-                
-                {errorMsg && (
-                  <div className="p-4 bg-red-50 border border-red-200 rounded-2xl text-xs text-red-800 font-bold">
-                    {errorMsg}
-                  </div>
-                )}
 
-                {/* Account Type Selection */}
-                <div>
-                  <label className="block text-sm font-extrabold text-black mb-2">
-                    Tipo de Cuenta HGW que deseas crear:
-                  </label>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <button
-                      type="button"
-                      onClick={() => setAccountType('distribuidor')}
-                      className={`p-4 rounded-2xl border text-left transition-all ${
-                        accountType === 'distribuidor'
-                          ? 'bg-emerald-50 border-[#00795F] ring-2 ring-[#00795F]/20'
-                          : 'bg-white border-stone-300 hover:border-stone-400'
-                      }`}
-                    >
-                      <div className="font-black text-black text-sm mb-1">Cuenta de Distribuidor Independiente</div>
-                      <p className="text-xs text-stone-700">Compra a precio de distribuidor con mínimo de BV en productos y accede a los bonos corporativos.</p>
-                    </button>
+              {/* Right Column (Below video on mobile): Heading, Explanation & CTA Button */}
+              <div className="flex flex-col items-start justify-center space-y-5">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#00795F]/10 text-[#00795F] rounded-full text-xs font-black uppercase tracking-wider">
+                  <ShieldCheck className="w-4 h-4" />
+                  <span>Registro Oficial HGW Panamá</span>
+                </span>
 
-                    <button
-                      type="button"
-                      onClick={() => setAccountType('cliente')}
-                      className={`p-4 rounded-2xl border text-left transition-all ${
-                        accountType === 'cliente'
-                          ? 'bg-emerald-50 border-[#00795F] ring-2 ring-[#00795F]/20'
-                          : 'bg-white border-stone-300 hover:border-stone-400'
-                      }`}
-                    >
-                      <div className="font-black text-black text-sm mb-1">Cuenta de Cliente Preferencial</div>
-                      <p className="text-xs text-stone-700">Compra a precio público sin mínimo de compras ni requisitos de activación de red.</p>
-                    </button>
-                  </div>
-                </div>
+                <h2 className="text-2xl sm:text-3xl font-black tracking-tight leading-tight bg-gradient-to-r from-[#004d3c] via-[#00795F] to-[#00A550] bg-clip-text text-transparent">
+                  Regístrate Hoy Mismo en HGW
+                </h2>
 
-                {/* If distributor, select plan */}
-                {accountType === 'distribuidor' && (
-                  <div>
-                    <label className="block text-sm font-extrabold text-black mb-2">
-                      Selecciona tu Membresía de Activación:
-                    </label>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {MEMBERSHIP_PLANS.map((plan) => (
-                        <label
-                          key={plan.id}
-                          className={`p-4 rounded-2xl border cursor-pointer transition-all flex flex-col justify-between ${
-                            selectedPlan === plan.id
-                              ? 'bg-emerald-50/80 border-[#00795F] ring-2 ring-[#00795F]/20'
-                              : 'bg-white border-stone-300 hover:border-stone-400'
-                          }`}
-                        >
-                          <div className="flex items-center justify-between mb-1">
-                            <span className="font-extrabold text-black text-sm">{plan.name}</span>
-                            <input
-                              type="radio"
-                              name="membership-plan"
-                              value={plan.id}
-                              checked={selectedPlan === plan.id}
-                              onChange={() => setSelectedPlan(plan.id)}
-                              className="text-[#00795F] focus:ring-[#00795F]"
-                            />
-                          </div>
-                          <div className="text-xs font-bold text-[#00795F]">
-                            {plan.bv} · {plan.priceEstimate}
-                          </div>
-                          <div className="text-[11px] text-stone-600 mt-1">
-                            Ganancia venta directa: <strong>{plan.directSaleProfit}</strong>
-                          </div>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Personal Information */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-black uppercase tracking-wider mb-1.5">
-                      Nombre y Apellidos completos *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={fullName}
-                      onChange={(e) => setFullName(e.target.value)}
-                      placeholder="Ej. María Elena González"
-                      className="w-full px-4 py-3 text-sm bg-white border border-stone-300 rounded-xl text-black placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-[#00795F]/30 focus:border-[#00795F] font-medium"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-black uppercase tracking-wider mb-1.5">
-                      Número de Cédula (CIP) o Pasaporte *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={nationalId}
-                      onChange={(e) => setNationalId(e.target.value)}
-                      placeholder="Ej. 8-765-4321"
-                      className="w-full px-4 py-3 text-sm bg-white border border-stone-300 rounded-xl text-black placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-[#00795F]/30 focus:border-[#00795F] font-medium"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-black uppercase tracking-wider mb-1.5">
-                      Celular / WhatsApp (+507) *
-                    </label>
-                    <input
-                      type="tel"
-                      required
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      placeholder="Ej. 6778-8375"
-                      className="w-full px-4 py-3 text-sm bg-white border border-stone-300 rounded-xl text-black placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-[#00795F]/30 focus:border-[#00795F] font-medium"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-black uppercase tracking-wider mb-1.5">
-                      Correo Electrónico (Para recibir credenciales) *
-                    </label>
-                    <input
-                      type="email"
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="correo@ejemplo.com"
-                      className="w-full px-4 py-3 text-sm bg-white border border-stone-300 rounded-xl text-black placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-[#00795F]/30 focus:border-[#00795F] font-medium"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-black uppercase tracking-wider mb-1.5">
-                      Fecha de Nacimiento {accountType === 'distribuidor' && '*'}
-                    </label>
-                    <input
-                      type="date"
-                      required={accountType === 'distribuidor'}
-                      value={birthDate}
-                      onChange={(e) => setBirthDate(e.target.value)}
-                      className="w-full px-4 py-3 text-sm bg-white border border-stone-300 rounded-xl text-black focus:outline-none focus:ring-2 focus:ring-[#00795F]/30 focus:border-[#00795F]"
-                    />
-                  </div>
-                </div>
-
-                {/* Location Information */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-black uppercase tracking-wider mb-1.5">
-                      Provincia / Ciudad / Distrito *
-                    </label>
-                    <select
-                      value={province}
-                      onChange={(e) => setProvince(e.target.value)}
-                      className="w-full px-4 py-3 text-sm bg-white border border-stone-300 rounded-xl text-black focus:outline-none focus:ring-2 focus:ring-[#00795F]/30 focus:border-[#00795F] font-medium"
-                    >
-                      <option value="Panamá">Panamá</option>
-                      <option value="Panamá Oeste">Panamá Oeste</option>
-                      <option value="Colón">Colón</option>
-                      <option value="Chiriquí">Chiriquí</option>
-                      <option value="Coclé">Coclé</option>
-                      <option value="Veraguas">Veraguas</option>
-                      <option value="Herrera">Herrera</option>
-                      <option value="Los Santos">Los Santos</option>
-                      <option value="Bocas del Toro">Bocas del Toro</option>
-                      <option value="Darién">Darién</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-black uppercase tracking-wider mb-1.5">
-                      Distrito / Corregimiento / Localidad
-                    </label>
-                    <input
-                      type="text"
-                      value={district}
-                      onChange={(e) => setDistrict(e.target.value)}
-                      placeholder="Ej. San Francisco / Betania / David"
-                      className="w-full px-4 py-3 text-sm bg-white border border-stone-300 rounded-xl text-black placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-[#00795F]/30 focus:border-[#00795F] font-medium"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-black uppercase tracking-wider mb-1.5">
-                    Dirección Exacta para Envío *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                    placeholder="Calle, barriada, edificio, número de casa o apartamento"
-                    className="w-full px-4 py-3 text-sm bg-white border border-stone-300 rounded-xl text-black placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-[#00795F]/30 focus:border-[#00795F] font-medium"
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-black uppercase tracking-wider mb-1.5">
-                      Método de Entrega
-                    </label>
-                    <select
-                      value={deliveryMethod}
-                      onChange={(e) => setDeliveryMethod(e.target.value)}
-                      className="w-full px-4 py-3 text-sm bg-white border border-stone-300 rounded-xl text-black focus:outline-none focus:ring-2 focus:ring-[#00795F]/30 focus:border-[#00795F] font-medium"
-                    >
-                      <option value="Servientrega (Envío a Domicilio)">Servientrega (Envío a Domicilio)</option>
-                      <option value="Retiro en Sucursal (Avenida Porras)">Retiro en Sucursal (Avenida Porras, San Francisco)</option>
-                      <option value="Encomienda Provincial (Uno Express / Fletes Chavale)">Encomienda Provincial</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-black uppercase tracking-wider mb-1.5">
-                      Método de Pago
-                    </label>
-                    <select
-                      value={paymentMethod}
-                      onChange={(e) => setPaymentMethod(e.target.value)}
-                      className="w-full px-4 py-3 text-sm bg-white border border-stone-300 rounded-xl text-black focus:outline-none focus:ring-2 focus:ring-[#00795F]/30 focus:border-[#00795F] font-medium"
-                    >
-                      <option value="Yappy (Banco General)">Yappy (Banco General)</option>
-                      <option value="Transferencia Bancaria ACH">Transferencia Bancaria ACH</option>
-                      <option value="Efectivo contraentrega">Efectivo contraentrega</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-black uppercase tracking-wider mb-1.5">
-                      Patrocinador Autorizado
-                    </label>
-                    <div className="px-4 py-3 bg-stone-200/90 rounded-xl text-sm font-bold text-black border border-stone-300">
-                      Yamilka Batista · <span className="text-[#00795F] font-mono">Yamilka507</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Honeypot anti-spam field (hidden from real users) */}
-                <div className="hidden" aria-hidden="true">
-                  <label htmlFor="website-url">Sitio Web</label>
-                  <input
-                    type="text"
-                    id="website-url"
-                    value={honeypot}
-                    onChange={(e) => setHoneypot(e.target.value)}
-                    tabIndex={-1}
-                    autoComplete="off"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-black uppercase tracking-wider mb-1.5">
-                    Comentarios o notas adicionales (Opcional)
-                  </label>
-                  <textarea
-                    rows={3}
-                    value={notes}
-                    onChange={(e) => setNotes(e.target.value)}
-                    placeholder="Indica tus productos de preferencia o cualquier duda adicional..."
-                    className="w-full px-4 py-3 text-sm bg-white border border-stone-300 rounded-xl text-black placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-[#00795F]/30 focus:border-[#00795F] resize-none font-medium"
-                  />
-                </div>
-
-                {/* Security Note */}
-                <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 text-xs text-[#004d3c] flex items-center gap-3">
-                  <Lock className="w-5 h-5 text-[#00A550] shrink-0" />
-                  <span>Transmisión cifrada con protocolos SMTP seguros, verificación de formato de correo y salvaguardas anti-spam hacia <strong>hgwpanama507g@gmail.com</strong>.</span>
-                </div>
-
-                {/* Submit button */}
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full py-4 px-6 bg-[#00A550] hover:bg-[#008f44] text-white text-base font-black rounded-xl shadow-lg shadow-[#00A550]/20 flex items-center justify-center gap-2 active:scale-95 transition-all disabled:opacity-50"
-                >
-                  <Send className="w-5 h-5" />
-                  <span>{isSubmitting ? 'Enviando a hgwpanama507g@gmail.com...' : 'Enviar Prerregistro Seguro (SMTP + WhatsApp)'}</span>
-                </button>
-
-                <p className="text-xs text-stone-600 text-center font-normal">
-                  Al enviar este formulario se procesará el envío automatizado a <strong>hgwpanama507g@gmail.com</strong> y se abrirá WhatsApp para agilizar la activación de tu cuenta con Yamilka Batista.
+                <p className="text-sm sm:text-base text-black font-normal leading-snug">
+                  Sigue las indicaciones del video tutorial para crear tu cuenta de forma rápida y segura. Al ingresar al enlace oficial, verifica que tu patrocinador autorizado sea <strong>Yamilka Batista</strong> (Código: <span className="font-bold text-[#00795F]">Yamilka507</span>) para activar tus beneficios y recibir asesoría personalizada.
                 </p>
 
-              </form>
-            )}
+                <div className="pt-1">
+                  <a
+                    href={registrationUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 bg-gradient-to-r from-[#00795F] to-[#00A550] hover:from-[#004d3c] hover:to-[#00795F] text-white font-black text-sm sm:text-base rounded-xl shadow-md shadow-[#00795F]/20 transition-all active:scale-95"
+                  >
+                    <ExternalLink className="w-4 h-4 shrink-0" />
+                    <span>Ir al Registro Oficial HGW</span>
+                  </a>
+                </div>
+              </div>
 
+            </div>
           </div>
         </div>
 
