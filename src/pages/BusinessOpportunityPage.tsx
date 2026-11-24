@@ -2,6 +2,7 @@ import React from 'react';
 import { TrendingUp, DollarSign, ShieldCheck, Phone, Sparkles, Package, ShieldAlert, ExternalLink, Play } from 'lucide-react';
 import { Link } from '../router';
 import { getAffiliationWhatsAppUrl } from '../utils/whatsapp';
+import { LazyYouTubeEmbed } from '../components/LazyYouTubeEmbed';
 
 export const BusinessOpportunityPage: React.FC = () => {
   const registrationUrl = "https://www.healthgreenworld.com/?userName=Yamilka507";
@@ -335,14 +336,10 @@ export const BusinessOpportunityPage: React.FC = () => {
             {/* Video 1: Negocio */}
             <div className="bg-white rounded-[2rem] overflow-hidden border border-stone-200 shadow-lg hover:shadow-xl transition-all group">
               <div className="aspect-video relative">
-                <iframe
-                  className="w-full h-full"
-                  src="https://www.youtube.com/embed/oOZhonOYD6Q"
+                <LazyYouTubeEmbed
+                  videoId="oOZhonOYD6Q"
                   title="Presentación de Negocio HGW"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                ></iframe>
+                />
               </div>
               <div className="p-6">
                 <h3 className="text-lg font-black text-black group-hover:text-[#00795F] transition-colors">La Oportunidad de Negocio</h3>
@@ -353,14 +350,10 @@ export const BusinessOpportunityPage: React.FC = () => {
             {/* Video 2: Productos */}
             <div className="bg-white rounded-[2rem] overflow-hidden border border-stone-200 shadow-lg hover:shadow-xl transition-all group">
               <div className="aspect-video relative">
-                <iframe
-                  className="w-full h-full"
-                  src="https://www.youtube.com/embed/r-BFxBuhhbc"
+                <LazyYouTubeEmbed
+                  videoId="r-BFxBuhhbc"
                   title="Línea de Productos HGW"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                ></iframe>
+                />
               </div>
               <div className="p-6">
                 <h3 className="text-lg font-black text-black group-hover:text-[#00795F] transition-colors">Nuestros Productos</h3>
@@ -371,14 +364,10 @@ export const BusinessOpportunityPage: React.FC = () => {
             {/* Video 3: Afiliación */}
             <div className="bg-white rounded-[2rem] overflow-hidden border border-stone-200 shadow-lg hover:shadow-xl transition-all group">
               <div className="aspect-video relative">
-                <iframe
-                  className="w-full h-full"
-                  src="https://www.youtube.com/embed/cR-aHkU9N4A"
+                <LazyYouTubeEmbed
+                  videoId="cR-aHkU9N4A"
                   title="Cómo Afiliarse Online HGW"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                ></iframe>
+                />
               </div>
               <div className="p-6">
                 <h3 className="text-lg font-black text-black group-hover:text-[#00795F] transition-colors">Afiliación en Línea</h3>
@@ -409,12 +398,10 @@ export const BusinessOpportunityPage: React.FC = () => {
                   </span>
                 </div>
                 <div className="aspect-video w-full bg-black relative">
-                  <iframe
-                    src="https://www.youtube.com/embed/Poy4FvvfcfA"
+                  <LazyYouTubeEmbed
+                    videoId="Poy4FvvfcfA"
                     title="Tutorial de Registro HGW"
-                    className="w-full h-full absolute inset-0 border-0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
+                    className="w-full h-full absolute inset-0"
                   />
                 </div>
               </div>

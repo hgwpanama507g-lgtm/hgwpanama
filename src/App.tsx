@@ -40,13 +40,19 @@ function AppContent() {
     const isPrivateToolsRoute = () =>
       (window.location.pathname.replace(/\/+$/, '') || '/').toLowerCase() === '/herramientas';
 
+    const isEditableTarget = (target: EventTarget | null) => {
+      if (!(target instanceof HTMLElement)) return false;
+      const tag = target.tagName;
+      return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || target.isContentEditable;
+    };
+
     const handleContextMenu = (e: MouseEvent) => {
-      if (isPrivateToolsRoute()) return;
+      if (isPrivateToolsRoute() || isEditableTarget(e.target)) return;
       e.preventDefault();
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (isPrivateToolsRoute()) return;
+      if (isPrivateToolsRoute() || isEditableTarget(e.target)) return;
 
       // Prevent Ctrl+C, Ctrl+V, Ctrl+U (view source), Ctrl+Shift+I (inspect), Ctrl+S, Ctrl+P, Ctrl+X
       if (
@@ -66,7 +72,7 @@ function AppContent() {
     };
 
     const handleCopy = (e: ClipboardEvent) => {
-      if (isPrivateToolsRoute()) return;
+      if (isPrivateToolsRoute() || isEditableTarget(e.target)) return;
       e.preventDefault();
     };
 
@@ -254,6 +260,8 @@ function AppContent() {
     normalizedRoute === '/' ||
     normalizedRoute === '/inicio' ||
     legacyHomePaths.some((p) => currentPath.toLowerCase().includes(p));
+  const isLandingWithoutNotices =
+    isHomeRoute || normalizedRoute === '/pastas-dentales' || normalizedRoute === '/pastas';
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-slate-900 font-sans antialiased selection:bg-[#4472C4] selection:text-white">
@@ -262,12 +270,12 @@ function AppContent() {
 
       {/* 2. Main Route Content with top spacing for fixed header */}
       <main className="flex-1 pt-16 sm:pt-20">
-        {!isHomeRoute && <NoticeBanner />}
+        {!isLandingWithoutNotices && <NoticeBanner />}
         {renderRouteView()}
       </main>
 
       {/* 3. Footer with Legal, Health Disclaimers & Blue Copyright Strip (Section 16) */}
-      <Footer isHomePage={isHomeRoute} />
+      <Footer isHomePage={isLandingWithoutNotices} />
 
       {/* 4. Floating WhatsApp Button for Quick Mobile Chat */}
       <FloatingWhatsApp />

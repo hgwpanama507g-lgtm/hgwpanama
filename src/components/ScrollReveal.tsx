@@ -29,34 +29,42 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
     if (!node) return;
 
     const rect = node.getBoundingClientRect();
-    if (rect.top < window.innerHeight * 0.95) {
+    if (rect.top < window.innerHeight * 1.1) {
       setIsVisible(true);
       return;
     }
+
+    const fallbackTimer = window.setTimeout(() => {
+      setIsVisible(true);
+    }, 650);
 
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
             setIsVisible(true);
+            window.clearTimeout(fallbackTimer);
             observer.disconnect();
             break;
           }
         }
       },
-      { threshold: 0.08, rootMargin: '0px 0px -30px 0px' }
+      { threshold: 0.02, rootMargin: '120px 0px 120px 0px' }
     );
 
     observer.observe(node);
-    return () => observer.disconnect();
+    return () => {
+      window.clearTimeout(fallbackTimer);
+      observer.disconnect();
+    };
   }, []);
 
   return (
     <div
       ref={ref}
       style={delayMs ? { transitionDelay: `${delayMs}ms` } : undefined}
-      className={`transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+      className={`transition-opacity duration-400 ease-out ${
+        isVisible ? 'opacity-100' : 'opacity-0'
       } ${className}`}
     >
       {children}

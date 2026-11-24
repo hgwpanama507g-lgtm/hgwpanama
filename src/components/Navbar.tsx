@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useDeferredValue } from 'react';
 import { Menu, X, Search, ArrowRight, FileText, Package, ExternalLink } from 'lucide-react';
 import { Link, useRouter } from '../router';
 import { PRODUCTS } from '../data/products';
@@ -28,17 +28,21 @@ export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const deferredSearchQuery = useDeferredValue(searchQuery);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const [activeHash, setActiveHash] = useState('inicio');
   const { currentPath, navigate } = useRouter();
 
   const normalizedPath = (currentPath.split('?')[0].split('#')[0].replace(/\/+$/, '') || '/').toLowerCase();
   const isHomePage = normalizedPath === '/' || normalizedPath === '/inicio';
 
-  // Track active section while scrolling on the home page
+  // Track active section while scrolling on the home page (rAF throttled to prevent mobile reflow lag)
   useEffect(() => {
     if (!isHomePage) return;
 
-    const handleScroll = () => {
+    let rafId: number | null = null;
+    const updateActiveHash = () => {
+      rafId = null;
       const scrollY = window.scrollY + 130;
       let current = 'inicio';
       for (const item of NAV_ITEMS) {
@@ -47,12 +51,20 @@ export const Navbar: React.FC = () => {
           current = item.hash;
         }
       }
-      setActiveHash(current);
+      setActiveHash((prev) => (prev === current ? prev : current));
     };
 
-    handleScroll();
+    const handleScroll = () => {
+      if (rafId !== null) return;
+      rafId = window.requestAnimationFrame(updateActiveHash);
+    };
+
+    updateActiveHash();
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      if (rafId !== null) window.cancelAnimationFrame(rafId);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, [isHomePage]);
 
   // Close modals on Escape key
@@ -67,6 +79,15 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  // Gentle focus after modal mounts so mobile virtual keyboard opens smoothly without locking
+  useEffect(() => {
+    if (!searchOpen) return;
+    const timer = window.setTimeout(() => {
+      searchInputRef.current?.focus({ preventScroll: true });
+    }, 60);
+    return () => window.clearTimeout(timer);
+  }, [searchOpen]);
+
   const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>, hash: string) => {
     e.preventDefault();
     setMobileMenuOpen(false);
@@ -75,7 +96,7 @@ export const Navbar: React.FC = () => {
   };
 
   const searchResults = useMemo(() => {
-    const q = searchQuery.trim().toLowerCase();
+    const q = deferredSearchQuery.trim().toLowerCase();
     if (!q) {
       return {
         products: PRODUCTS.filter((p) => p.featured).slice(0, 6),
@@ -99,7 +120,7 @@ export const Navbar: React.FC = () => {
       ).slice(0, 4),
       routes: QUICK_ROUTES.filter((r) => r.label.toLowerCase().includes(q)),
     };
-  }, [searchQuery]);
+  }, [deferredSearchQuery]);
 
   return (
     <>
@@ -222,42 +243,63 @@ export const Navbar: React.FC = () => {
         )}
       </header>
 
-      {/* Interactive Search Modal */}
+      {/* Interactive Search Modal (GPU-light & mobile-keyboard safe) */}
       {searchOpen && (
         <div
-          className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex items-start justify-center pt-16 sm:pt-24 px-4"
+          className="fixed inset-0 z-50 bg-slate-950/75 flex items-start justify-center pt-14 sm:pt-24 px-3 sm:px-4 overscroll-contain"
           role="dialog"
           aria-modal="true"
           aria-label="Buscador HGW Panamá"
           onClick={() => setSearchOpen(false)}
         >
           <div
-            className="w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden animate-fade-in"
+            className="w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Search Input Header */}
-            <div className="p-4 sm:p-5 bg-[#4472C4] text-white flex items-center gap-3">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                searchInputRef.current?.blur();
+              }}
+              className="p-3.5 sm:p-5 bg-[#4472C4] text-white flex items-center gap-2.5 sm:gap-3"
+            >
               <Search className="w-5 h-5 shrink-0 text-white/90" />
               <input
-                type="text"
-                autoFocus
+                ref={searchInputRef}
+                type="search"
+                enterKeyHint="search"
+                autoComplete="off"
+                autoCorrect="off"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Buscar productos (arándano, turmalina, café), membresías o guías..."
-                className="flex-1 bg-transparent text-white placeholder:text-white/75 text-sm sm:text-base font-medium focus:outline-none"
+                placeholder="Buscar productos, membresías o guías..."
+                className="flex-1 min-w-0 bg-transparent text-white placeholder:text-white/75 text-base font-medium focus:outline-none"
               />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearchQuery('');
+                    searchInputRef.current?.focus();
+                  }}
+                  className="px-2 py-1 rounded-lg bg-white/15 hover:bg-white/25 text-xs font-bold shrink-0 cursor-pointer"
+                >
+                  Limpiar
+                </button>
+              )}
               <button
                 type="button"
                 onClick={() => setSearchOpen(false)}
                 aria-label="Cerrar buscador"
-                className="p-1.5 rounded-lg bg-white/15 hover:bg-white/25 transition-colors cursor-pointer"
+                className="p-1.5 rounded-lg bg-white/15 hover:bg-white/25 transition-colors cursor-pointer shrink-0"
               >
                 <X className="w-5 h-5" />
               </button>
-            </div>
+            </form>
 
             {/* Search Results Body */}
-            <div className="p-4 sm:p-6 max-h-[68vh] overflow-y-auto space-y-6">
+            <div className="p-4 sm:p-6 max-h-[64dvh] overflow-y-auto overscroll-contain space-y-6">
               {/* Matching Products */}
               <div>
                 <div className="flex items-center justify-between mb-2.5">

@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ArrowRight,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  ShoppingBag,
   Check,
   Sparkles,
   ExternalLink,
@@ -17,13 +20,12 @@ import {
   Leaf,
   Droplets,
   HeartHandshake,
-  AlertCircle,
 } from 'lucide-react';
 import { PRODUCTS, CERTIFICATIONS, MEMBERSHIP_PLANS } from '../data/products';
 import { DIRECT_SALES_ASSOCIATIONS } from '../components/AboutHGW';
 import { ScrollReveal } from '../components/ScrollReveal';
 import { ContactSection } from '../components/ContactSection';
-import { ShippingAndReturnsSection } from '../components/ShippingAndReturnsSection';
+import { LazyYouTubeEmbed } from '../components/LazyYouTubeEmbed';
 import { Link } from '../router';
 import { DISTRIBUTOR_WHATSAPP_NUMBER, getAffiliationWhatsAppUrl } from '../utils/whatsapp';
 import { renderWithHGWLinks } from '../utils/hgwLinker';
@@ -176,14 +178,31 @@ export const ToothpastesLandingPage: React.FC = () => {
   // Todos los acordeones cerrados inicialmente
   const [activeServiceIdx, setActiveServiceIdx] = useState<number | null>(null);
   const [openFaqIdx, setOpenFaqIdx] = useState<number | null>(null);
+  const [carouselIndex, setCarouselIndex] = useState<number>(0);
+
+  // Todas las pastas dentales del catálogo para el carrusel principal del Hero
+  const allToothpastes = PRODUCTS.filter((p) => p.category === 'cuidado-bucal');
 
   // Only the 3 toothpastes available in Panama
-  const availableToothpastes = PRODUCTS.filter(
-    (p) =>
-      p.category === 'cuidado-bucal' &&
-      p.id !== 'pasta-herbal-china' &&
-      p.slug !== 'green-world-herbs-toothpaste'
+  const availableToothpastes = allToothpastes.filter(
+    (p) => p.id !== 'pasta-herbal-china' && p.slug !== 'green-world-herbs-toothpaste'
   );
+
+  useEffect(() => {
+    if (allToothpastes.length <= 1) return;
+    const timer = window.setInterval(() => {
+      setCarouselIndex((prev) => (prev + 1) % allToothpastes.length);
+    }, 4500);
+    return () => window.clearInterval(timer);
+  }, [allToothpastes.length]);
+
+  const currentToothpaste = allToothpastes[carouselIndex] || allToothpastes[0];
+  const handlePrevSlide = () => {
+    setCarouselIndex((prev) => (prev - 1 + allToothpastes.length) % allToothpastes.length);
+  };
+  const handleNextSlide = () => {
+    setCarouselIndex((prev) => (prev + 1) % allToothpastes.length);
+  };
 
   // Paquetes de membresía con Master de último (Junior, Senior, Master)
   const juniorPlan = MEMBERSHIP_PLANS.find((m) => m.id === 'junior') || MEMBERSHIP_PLANS[1];
@@ -219,18 +238,18 @@ export const ToothpastesLandingPage: React.FC = () => {
   return (
     <div className="bg-white text-black">
       {/* =================================================================
-          (2) BANNER A TODO EL ANCHO CON IMAGEN 21:7
+          (2) BANNER A TODO EL ANCHO CON IMAGEN DE PASTA DENTAL 21:7
           ================================================================= */}
       <section aria-label="Banner principal Pastas Dentales HGW Panamá" className="w-full bg-[#4472C4]">
         <div className="relative w-full aspect-[21/7] min-h-[180px] sm:min-h-[240px] overflow-hidden">
           <img
-            src="https://media.academiahgw.online/wp-content/uploads/2026/11/34._SERIE_SMILIFE_BLUEBERRY-1024x576.png"
+            src="https://media.academiahgw.online/wp-content/uploads/2026/11/Pasta-dental-con-probioticos-HGW.jpg"
             alt="Pastas Dentales Naturales Sin Flúor ni Triclosán HGW Panamá"
             className="w-full h-full object-cover object-center"
             referrerPolicy="no-referrer"
             onError={(e) => {
               (e.target as HTMLImageElement).src =
-                'https://media.academiahgw.online/wp-content/uploads/2026/11/Banner-Productos-HGW-1024x682.jpg';
+                'https://media.academiahgw.online/wp-content/uploads/2026/11/Pasta-dental-con-turmalina-blanca.jpg';
             }}
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#23437D]/85 via-[#4472C4]/70 to-[#23437D]/80 flex items-center justify-center px-4 text-center">
@@ -250,10 +269,23 @@ export const ToothpastesLandingPage: React.FC = () => {
       </section>
 
       {/* =================================================================
-          (3) HERO EN 2 COLUMNAS
+          (3) HERO EN 2 COLUMNAS CON FONDO DE PASTA DENTAL Y CARRUSEL + BOTÓN COMPRAR AFILIADO
           ================================================================= */}
-      <section className="py-14 sm:py-20 bg-white border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative overflow-hidden py-14 sm:py-20 bg-white border-b border-slate-100">
+        {/* Fondo sutil con imagen de pasta dental */}
+        <img
+          src="https://media.academiahgw.online/wp-content/uploads/2026/11/Pasta-dental-con-turmalina-blanca.jpg"
+          alt=""
+          aria-hidden="true"
+          referrerPolicy="no-referrer"
+          className="absolute inset-0 w-full h-full object-cover object-center opacity-20 pointer-events-none select-none"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-gradient-to-br from-white/90 via-white/85 to-[#EEF3FB]/90 pointer-events-none"
+        />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
               <div className="flex flex-col items-center text-center space-y-6">
@@ -268,29 +300,121 @@ export const ToothpastesLandingPage: React.FC = () => {
 
                 <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto">
                   <a
-                    href="#productos-pastas"
+                    href={registrationUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 bg-[#4472C4] hover:bg-[#33599E] text-white font-extrabold text-sm sm:text-base rounded-2xl shadow-lg shadow-[#4472C4]/25 hover:-translate-y-0.5 active:scale-95 transition-all"
                   >
-                    <span>Ver Pastas Dentales ($8.00 USD)</span>
-                    <ArrowRight className="w-5 h-5" />
+                    <ShoppingBag className="w-5 h-5" />
+                    <span>Comprar en Tienda Oficial</span>
+                  </a>
+                  <a
+                    href="#productos-pastas"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 bg-white hover:bg-[#EEF3FB] text-[#4472C4] border border-[#4472C4]/35 font-extrabold text-sm sm:text-base rounded-2xl shadow-sm transition-all"
+                  >
+                    <span>Ver Detalles</span>
+                    <ArrowRight className="w-4 h-4" />
                   </a>
                 </div>
               </div>
 
-              <div className="w-full">
-                <div className="aspect-[3/2] w-full rounded-3xl overflow-hidden bg-[#EEF3FB] border border-slate-200 shadow-xl group">
-                  <img
-                    src="https://media.academiahgw.online/wp-content/uploads/2026/11/Pasta-dental-con-probioticos-HGW.jpg"
-                    alt="Línea de Pastas Dentales HGW Panamá"
-                    className="w-full h-full object-cover object-center group-hover:scale-103 transition-transform duration-500"
-                    referrerPolicy="no-referrer"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src =
-                        'https://media.academiahgw.online/wp-content/uploads/2026/11/productos-hgw-1024x683.webp';
-                    }}
-                  />
+              {/* Carrusel de TODAS las pastas dentales con botón Comprar al enlace de afiliado */}
+              {currentToothpaste && (
+                <div className="w-full">
+                  <div className="relative rounded-3xl bg-white border border-slate-200 shadow-2xl overflow-hidden p-5 sm:p-6">
+                    {/* Badges superiores */}
+                    <div className="flex items-center justify-between gap-2 mb-3">
+                      <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#EEF3FB] text-[#4472C4] text-[11px] font-black uppercase tracking-wider">
+                        Sin Flúor · Cuidado Bucal
+                      </span>
+                      <span className="text-xs font-extrabold text-slate-500 tabular-nums">
+                        {carouselIndex + 1} / {allToothpastes.length}
+                      </span>
+                    </div>
+
+                    {/* Imagen del producto activo con controles Izquierda / Derecha */}
+                    <div className="relative aspect-[4/3] w-full rounded-2xl bg-[#F8FAFC] border border-slate-100 p-4 flex items-center justify-center overflow-hidden">
+                      <img
+                        key={currentToothpaste.id}
+                        src={currentToothpaste.image}
+                        alt={currentToothpaste.name}
+                        className="max-h-full max-w-full object-contain transition-transform duration-300"
+                        referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src =
+                            'https://media.academiahgw.online/wp-content/uploads/2026/11/Pasta-dental-con-probioticos-HGW.jpg';
+                        }}
+                      />
+
+                      <button
+                        type="button"
+                        onClick={handlePrevSlide}
+                        aria-label="Pasta dental anterior"
+                        className="absolute left-2.5 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/95 hover:bg-[#4472C4] text-slate-800 hover:text-white border border-slate-200 shadow-md flex items-center justify-center transition-colors cursor-pointer"
+                      >
+                        <ChevronLeft className="w-5 h-5" />
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={handleNextSlide}
+                        aria-label="Siguiente pasta dental"
+                        className="absolute right-2.5 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/95 hover:bg-[#4472C4] text-slate-800 hover:text-white border border-slate-200 shadow-md flex items-center justify-center transition-colors cursor-pointer"
+                      >
+                        <ChevronRight className="w-5 h-5" />
+                      </button>
+                    </div>
+
+                    {/* Información del slide + Botón Comprar (link de afiliado) */}
+                    <div className="mt-4 text-center space-y-2.5">
+                      <h3 className="text-lg sm:text-xl font-black text-black leading-snug line-clamp-1">
+                        {currentToothpaste.name}
+                      </h3>
+                      <div className="flex items-center justify-center gap-3 text-sm font-bold text-black">
+                        <span className="text-2xl font-black text-[#4472C4] tabular-nums">
+                          {currentToothpaste.priceFormatted} USD
+                        </span>
+                        {currentToothpaste.bv && (
+                          <span className="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-800 text-xs font-extrabold">
+                            {currentToothpaste.bv.toFixed(2)} BV
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="pt-1">
+                        <a
+                          href={registrationUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-full py-3.5 px-6 bg-[#4472C4] hover:bg-[#33599E] text-white font-extrabold text-sm sm:text-base rounded-2xl shadow-lg shadow-[#4472C4]/25 inline-flex items-center justify-center gap-2 transition-all active:scale-95"
+                        >
+                          <ShoppingBag className="w-4 h-4" />
+                          <span>Comprar</span>
+                          <ExternalLink className="w-4 h-4" />
+                        </a>
+                      </div>
+
+                      {/* Indicadores de puntos */}
+                      <div className="flex items-center justify-center gap-2 pt-2" role="tablist" aria-label="Seleccionar pasta dental">
+                        {allToothpastes.map((tp, idx) => (
+                          <button
+                            key={tp.id}
+                            type="button"
+                            onClick={() => setCarouselIndex(idx)}
+                            aria-label={`Ver ${tp.name}`}
+                            aria-selected={idx === carouselIndex}
+                            className={`h-2.5 rounded-full transition-all cursor-pointer ${
+                              idx === carouselIndex
+                                ? 'w-7 bg-[#4472C4]'
+                                : 'w-2.5 bg-slate-300 hover:bg-slate-400'
+                            }`}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </ScrollReveal>
         </div>
@@ -313,12 +437,10 @@ export const ToothpastesLandingPage: React.FC = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
               <div className="aspect-[3/2] w-full rounded-3xl overflow-hidden bg-slate-900 shadow-xl border border-slate-200">
-                <iframe
-                  src="https://www.youtube-nocookie.com/embed/ffYtOh7xwEo"
+                <LazyYouTubeEmbed
+                  videoId="ffYtOh7xwEo"
                   title="Capacitación Pasta Dental con Probióticos HGW"
-                  className="w-full h-full border-0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
+                  useNoCookie
                 />
               </div>
 
@@ -588,12 +710,10 @@ export const ToothpastesLandingPage: React.FC = () => {
                 >
                   <div>
                     <div className="aspect-[3/2] w-full rounded-2xl overflow-hidden bg-slate-900 shadow-inner mb-5 border border-slate-200">
-                      <iframe
-                        src={`https://www.youtube-nocookie.com/embed/${video.id}`}
+                      <LazyYouTubeEmbed
+                        videoId={video.id}
                         title={video.title}
-                        className="w-full h-full border-0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowFullScreen
+                        useNoCookie
                       />
                     </div>
                     <h3 className="text-lg font-extrabold text-black mb-2 leading-snug">
@@ -802,12 +922,10 @@ export const ToothpastesLandingPage: React.FC = () => {
               </div>
 
               <div className="aspect-[3/2] w-full rounded-3xl overflow-hidden bg-slate-900 shadow-xl border border-slate-200">
-                <iframe
-                  src="https://www.youtube.com/embed/oOZhonOYD6Q"
+                <LazyYouTubeEmbed
+                  videoId="oOZhonOYD6Q"
                   title="Presentación Corporativa HGW"
-                  className="w-full h-full border-0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
+                  useNoCookie
                 />
               </div>
             </div>
@@ -829,12 +947,10 @@ export const ToothpastesLandingPage: React.FC = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
               <div className="aspect-[3/2] w-full rounded-3xl overflow-hidden bg-slate-900 shadow-xl border border-slate-200">
-                <iframe
-                  src="https://www.youtube.com/embed/Poy4FvvfcfA"
+                <LazyYouTubeEmbed
+                  videoId="Poy4FvvfcfA"
                   title="Tutorial Oficial de Registro y Oportunidad HGW"
-                  className="w-full h-full border-0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
+                  useNoCookie
                 />
               </div>
 
@@ -918,19 +1034,6 @@ export const ToothpastesLandingPage: React.FC = () => {
                   </span>
                 </Link>
               ))}
-            </div>
-
-            {/* Aviso de Salud Bucal */}
-            <div className="mt-10 bg-amber-50/90 border border-amber-200/80 rounded-2xl p-5 sm:p-6 flex items-start gap-4 shadow-2xs">
-              <AlertCircle className="w-6 h-6 text-amber-700 shrink-0 mt-0.5" />
-              <div className="space-y-1.5 text-sm text-black leading-relaxed">
-                <strong className="font-black uppercase tracking-wider block text-amber-950 text-xs sm:text-sm">
-                  Recomendación y Aviso de Salud Bucal:
-                </strong>
-                <p>
-                  Nuestras pastas dentales HGW están diseñadas para complementar tu higiene diaria con ingredientes naturales y botánicos, pero recuerda que <strong>no curan ni tratan enfermedades</strong>. Te recomendamos con mucho cariño visitar a tu odontólogo de confianza para tu chequeo y limpieza dental cada 6 meses, asegurando así una sonrisa siempre radiante y saludable.
-                </p>
-              </div>
             </div>
           </ScrollReveal>
         </div>
@@ -1218,15 +1321,9 @@ export const ToothpastesLandingPage: React.FC = () => {
       </section>
 
       {/* =================================================================
-          (15) CONTACTO (Formulario + Mapa de Panamá) + POLÍTICAS DE ENVÍO
+          (15) CONTACTO (Formulario + Mapa de Panamá)
           ================================================================= */}
       <ContactSection />
-
-      <section className="py-12 bg-[#F8FAFC] border-b border-slate-100">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <ShippingAndReturnsSection />
-        </div>
-      </section>
     </div>
   );
 };

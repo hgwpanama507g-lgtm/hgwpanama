@@ -294,23 +294,30 @@ export const AdsterraNativeBanner: React.FC<AdsterraNativeBannerProps> = ({ clas
     const anchor = scriptAnchorRef.current;
     if (!anchor) return;
 
-    // Ensure no duplicate Native Banner script tag exists in the document
-    document
-      .querySelectorAll('script[data-adsterra-id="native-banner"]')
-      .forEach((existing) => existing.remove());
+    const loadNative = () => {
+      // Ensure no duplicate Native Banner script tag exists in the document
+      document
+        .querySelectorAll('script[data-adsterra-id="native-banner"]')
+        .forEach((existing) => existing.remove());
 
-    const script = document.createElement('script');
-    script.async = true;
-    script.setAttribute('async', 'async');
-    script.setAttribute('data-cfasync', 'false');
-    script.setAttribute('data-adsterra-id', 'native-banner');
-    script.src = ADSTERRA_NATIVE_BANNER.src;
-    script.onerror = () => undefined;
+      const script = document.createElement('script');
+      script.async = true;
+      script.setAttribute('async', 'async');
+      script.setAttribute('data-cfasync', 'false');
+      script.setAttribute('data-adsterra-id', 'native-banner');
+      script.src = ADSTERRA_NATIVE_BANNER.src;
+      script.onerror = () => undefined;
 
-    anchor.appendChild(script);
+      anchor.appendChild(script);
+    };
+
+    const timer = window.setTimeout(loadNative, 1200);
 
     return () => {
-      script.remove();
+      window.clearTimeout(timer);
+      document
+        .querySelectorAll('script[data-adsterra-id="native-banner"]')
+        .forEach((existing) => existing.remove());
       const container = document.getElementById(ADSTERRA_NATIVE_BANNER.containerId);
       if (container) {
         container.innerHTML = '';
@@ -377,27 +384,20 @@ export const AdsterraGlobalScripts: React.FC<AdsterraGlobalScriptsProps> = ({ cu
   useEffect(() => {
     if (isSensitive) return;
 
-    // 1. Popunder (load once globally, async, non-blocking)
-    if (!document.querySelector('script[data-adsterra-id="popunder"]')) {
-      const popunderScript = document.createElement('script');
-      popunderScript.async = true;
-      popunderScript.setAttribute('data-cfasync', 'false');
-      popunderScript.setAttribute('data-adsterra-id', 'popunder');
-      popunderScript.src = ADSTERRA_POPUNDER_SRC;
-      popunderScript.onerror = () => undefined;
-      document.body.appendChild(popunderScript);
-    }
+    // Defer Social Bar slightly after initial paint; omit Popunder so mobile buttons & keyboard are never hijacked
+    const timer = window.setTimeout(() => {
+      if (!document.querySelector('script[data-adsterra-id="social-bar"]')) {
+        const socialBarScript = document.createElement('script');
+        socialBarScript.async = true;
+        socialBarScript.setAttribute('data-cfasync', 'false');
+        socialBarScript.setAttribute('data-adsterra-id', 'social-bar');
+        socialBarScript.src = ADSTERRA_SOCIAL_BAR_SRC;
+        socialBarScript.onerror = () => undefined;
+        document.body.appendChild(socialBarScript);
+      }
+    }, 1800);
 
-    // 2. Social Bar (load once globally, async, non-blocking)
-    if (!document.querySelector('script[data-adsterra-id="social-bar"]')) {
-      const socialBarScript = document.createElement('script');
-      socialBarScript.async = true;
-      socialBarScript.setAttribute('data-cfasync', 'false');
-      socialBarScript.setAttribute('data-adsterra-id', 'social-bar');
-      socialBarScript.src = ADSTERRA_SOCIAL_BAR_SRC;
-      socialBarScript.onerror = () => undefined;
-      document.body.appendChild(socialBarScript);
-    }
+    return () => window.clearTimeout(timer);
   }, [isSensitive]);
 
   return null;

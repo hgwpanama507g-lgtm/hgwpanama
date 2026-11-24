@@ -23,6 +23,7 @@ import { ScrollReveal } from './ScrollReveal';
 import { Link } from '../router';
 import { getAffiliationWhatsAppUrl } from '../utils/whatsapp';
 import { renderWithHGWLinks } from '../utils/hgwLinker';
+import { LazyYouTubeEmbed } from './LazyYouTubeEmbed';
 
 const SERVICES_LIST = [
   {
@@ -381,12 +382,9 @@ export const LandingPage: React.FC = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
               <div className="aspect-[3/2] w-full rounded-3xl overflow-hidden bg-slate-900 shadow-xl border border-slate-200">
-                <iframe
-                  src="https://www.youtube.com/embed/r-BFxBuhhbc"
+                <LazyYouTubeEmbed
+                  videoId="r-BFxBuhhbc"
                   title="Línea de Productos y Servicios HGW"
-                  className="w-full h-full border-0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
                 />
               </div>
 
@@ -652,12 +650,9 @@ export const LandingPage: React.FC = () => {
                   className="bg-[#F8FAFC] rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center"
                 >
                   <div className="aspect-[3/2] w-full rounded-2xl overflow-hidden bg-slate-900 shadow-inner mb-5 border border-slate-200">
-                    <iframe
-                      src={`https://www.youtube.com/embed/${video.id}`}
+                    <LazyYouTubeEmbed
+                      videoId={video.id}
                       title={video.title}
-                      className="w-full h-full border-0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
                     />
                   </div>
                   <h3 className="text-lg font-extrabold text-black mb-2 leading-snug">
@@ -705,6 +700,8 @@ export const LandingPage: React.FC = () => {
                       <img
                         src={product.image}
                         alt={product.name}
+                        loading="lazy"
+                        decoding="async"
                         className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-300"
                         referrerPolicy="no-referrer"
                         onError={(e) => {
@@ -805,12 +802,9 @@ export const LandingPage: React.FC = () => {
               </div>
 
               <div className="aspect-[3/2] w-full rounded-3xl overflow-hidden bg-slate-900 shadow-xl border border-slate-200">
-                <iframe
-                  src="https://www.youtube.com/embed/oOZhonOYD6Q"
+                <LazyYouTubeEmbed
+                  videoId="oOZhonOYD6Q"
                   title="Presentación Corporativa HGW"
-                  className="w-full h-full border-0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
                 />
               </div>
             </div>
@@ -835,12 +829,9 @@ export const LandingPage: React.FC = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
               <div className="aspect-[3/2] w-full rounded-3xl overflow-hidden bg-slate-900 shadow-xl border border-slate-200">
-                <iframe
-                  src="https://www.youtube.com/embed/Poy4FvvfcfA"
+                <LazyYouTubeEmbed
+                  videoId="Poy4FvvfcfA"
                   title="Tutorial Oficial de Registro y Oportunidad HGW"
-                  className="w-full h-full border-0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
                 />
               </div>
 

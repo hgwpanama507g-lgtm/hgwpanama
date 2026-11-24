@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useDeferredValue } from 'react';
 import { Search, Eye, Sparkles, Filter, ArrowRight } from 'lucide-react';
 import { Product, PRODUCTS } from '../data/products';
 import { Link } from '../router';
@@ -9,6 +9,8 @@ interface CatalogProps {
 
 export const Catalog: React.FC<CatalogProps> = ({ isHomeView = false }) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const deferredSearchQuery = useDeferredValue(searchQuery);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [availabilityFilter, setAvailabilityFilter] = useState<'all' | 'in-stock' | 'coming-soon'>('all');
   const [sortBy, setSortBy] = useState<'featured' | 'price-asc' | 'price-desc' | 'name'>('featured');
@@ -42,8 +44,8 @@ export const Catalog: React.FC<CatalogProps> = ({ isHomeView = false }) => {
       }
 
       // Search query
-      if (searchQuery.trim() !== '') {
-        const query = searchQuery.toLowerCase().trim();
+      if (deferredSearchQuery.trim() !== '') {
+        const query = deferredSearchQuery.toLowerCase().trim();
         const matchesName = item.name.toLowerCase().includes(query);
         const matchesDesc = item.shortDescription.toLowerCase().includes(query);
         const matchesIngredients = item.ingredients?.some(i => i.toLowerCase().includes(query));
@@ -64,7 +66,7 @@ export const Catalog: React.FC<CatalogProps> = ({ isHomeView = false }) => {
       if (!a.featured && b.featured) return 1;
       return 0;
     });
-  }, [searchQuery, selectedCategory, availabilityFilter, sortBy]);
+  }, [deferredSearchQuery, selectedCategory, availabilityFilter, sortBy]);
 
   const displayedProducts = isHomeView ? filteredProducts.slice(0, 8) : filteredProducts;
 
@@ -101,29 +103,44 @@ export const Catalog: React.FC<CatalogProps> = ({ isHomeView = false }) => {
           <div className="grid grid-cols-1 md:grid-cols-12 gap-3">
             
             {/* Search Input */}
-            <div className="md:col-span-7 flex gap-2">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                searchInputRef.current?.blur();
+              }}
+              className="md:col-span-7 flex gap-2"
+            >
               <div className="relative flex-1 min-w-0">
                 <Search className="w-5 h-5 text-stone-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
-                  type="text"
+                  ref={searchInputRef}
+                  type="search"
+                  enterKeyHint="search"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Buscar por nombre o ingrediente (arándano, turmalina, ganoderma...)"
-                  className="w-full pl-11 pr-4 py-3 text-sm bg-white border border-stone-300 rounded-xl text-black placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-[#00795F]/30 focus:border-[#00795F] transition-all font-medium"
+                  className="w-full pl-11 pr-16 py-3 text-base sm:text-sm bg-white border border-stone-300 rounded-xl text-black placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-[#00795F]/30 focus:border-[#00795F] transition-all font-medium"
                 />
                 {searchQuery && (
                   <button
-                    onClick={() => setSearchQuery('')}
-                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-stone-500 hover:text-black"
+                    type="button"
+                    onClick={() => {
+                      setSearchQuery('');
+                      searchInputRef.current?.focus();
+                    }}
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-stone-500 hover:text-black cursor-pointer"
                   >
                     Limpiar
                   </button>
                 )}
               </div>
-              <button className="px-6 py-3 bg-[#00795F] hover:bg-[#004d3c] text-white font-black text-sm rounded-xl transition-all shadow-sm active:scale-95 whitespace-nowrap uppercase">
+              <button
+                type="submit"
+                className="px-5 sm:px-6 py-3 bg-[#00795F] hover:bg-[#004d3c] text-white font-black text-xs sm:text-sm rounded-xl transition-all shadow-sm active:scale-95 whitespace-nowrap uppercase cursor-pointer"
+              >
                 BUSCAR
               </button>
-            </div>
+            </form>
 
             {/* Availability Filter Buttons */}
             <div className="md:col-span-5 flex items-center justify-between sm:justify-end gap-1.5 p-1 bg-stone-200/80 rounded-xl">
@@ -229,6 +246,8 @@ export const Catalog: React.FC<CatalogProps> = ({ isHomeView = false }) => {
                     <img
                       src={product.image}
                       alt={product.name}
+                      loading="lazy"
+                      decoding="async"
                       referrerPolicy="no-referrer"
                       className="max-h-full max-w-full object-contain transform group-hover:scale-108 transition-transform duration-300 ease-out drop-shadow-xs"
                       onError={(e) => {

@@ -140,7 +140,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
                       placeholder="Tu nombre y apellido"
-                      className="w-full px-3.5 py-2.5 text-sm bg-white border border-slate-300 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#4472C4]/30 focus:border-[#4472C4]"
+                      className="w-full px-3.5 py-2.5 text-base sm:text-sm bg-white border border-slate-300 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#4472C4]/30 focus:border-[#4472C4]"
                     />
                   </div>
 
@@ -180,7 +180,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                         placeholder="6123-4567"
-                        className="w-full px-3 py-2.5 text-sm bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none tabular-nums"
+                        className="w-full px-3 py-2.5 text-base sm:text-sm bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none tabular-nums"
                       />
                     </div>
                   </div>
@@ -200,7 +200,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                       required
                       value={province}
                       onChange={(e) => setProvince(e.target.value)}
-                      className="w-full px-3.5 py-2.5 text-sm bg-white border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#4472C4]/30 focus:border-[#4472C4]"
+                      className="w-full px-3.5 py-2.5 text-base sm:text-sm bg-white border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#4472C4]/30 focus:border-[#4472C4]"
                     >
                       <option value="">Selecciona tu provincia</option>
                       {PANAMA_PROVINCES.map((prov) => (
@@ -224,7 +224,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="correo@ejemplo.com"
-                      className="w-full px-3.5 py-2.5 text-sm bg-white border border-slate-300 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#4472C4]/30 focus:border-[#4472C4]"
+                      className="w-full px-3.5 py-2.5 text-base sm:text-sm bg-white border border-slate-300 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#4472C4]/30 focus:border-[#4472C4]"
                     />
                   </div>
                 </div>
@@ -245,7 +245,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                       value={inquiry}
                       onChange={(e) => setInquiry(e.target.value)}
                       placeholder="Cuéntanos qué producto o membresía te interesa..."
-                      className="w-full px-3.5 py-2.5 text-sm bg-white border border-slate-300 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#4472C4]/30 focus:border-[#4472C4] resize-none"
+                      className="w-full px-3.5 py-2.5 text-base sm:text-sm bg-white border border-slate-300 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#4472C4]/30 focus:border-[#4472C4] resize-none"
                     />
                   </div>
 
