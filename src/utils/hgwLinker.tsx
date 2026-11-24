@@ -7,12 +7,20 @@ export const HGW_AFFILIATE_URL = 'https://www.healthgreenworld.com/?userName=Yam
  * pointing to HGW_AFFILIATE_URL with target="_blank" rel="noopener noreferrer",
  * preserving original typography, color, and styling.
  */
-export const renderWithHGWLinks = (text: string): React.ReactNode => {
+export const renderWithHGWLinks = (
+  text: string,
+  variant: 'light' | 'dark' = 'light'
+): React.ReactNode => {
   if (!text || typeof text !== 'string') return text;
 
   // Split by word boundary for "HGW"
   const parts = text.split(/\bHGW\b/g);
   if (parts.length === 1) return text;
+
+  const linkClasses =
+    variant === 'dark'
+      ? 'text-[#FDE047] font-bold underline decoration-[#FDE047]/80 underline-offset-2 hover:text-[#FEF08A] hover:decoration-[#FEF08A] transition-colors'
+      : 'text-[#00AEEF] font-bold underline decoration-[#00AEEF]/75 underline-offset-2 hover:text-[#0088CC] hover:decoration-[#0088CC] transition-colors';
 
   const result: React.ReactNode[] = [];
   parts.forEach((part, index) => {
@@ -24,7 +32,7 @@ export const renderWithHGWLinks = (text: string): React.ReactNode => {
           href={HGW_AFFILIATE_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[#1D4ED8] font-bold underline decoration-[#1D4ED8]/60 underline-offset-2 hover:text-[#1E3A8A] hover:decoration-[#1E3A8A] transition-colors"
+          className={linkClasses}
           title="Sitio Oficial HGW - Yamilka507"
         >
           HGW

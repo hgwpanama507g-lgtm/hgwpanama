@@ -404,11 +404,11 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <nav className="flex items-center justify-center lg:justify-start gap-2 text-xs font-bold text-slate-600 mb-8 overflow-x-auto whitespace-nowrap">
-              <Link to="/" className="text-[#1D4ED8] hover:text-[#1E3A8A] underline underline-offset-2 transition-colors">
+              <Link to="/" className="text-[#00AEEF] hover:text-[#0088CC] underline underline-offset-2 transition-colors">
                 Inicio
               </Link>
               <span className="text-slate-300">/</span>
-              <Link to="/productos" className="text-[#1D4ED8] hover:text-[#1E3A8A] underline underline-offset-2 transition-colors">
+              <Link to="/productos" className="text-[#00AEEF] hover:text-[#0088CC] underline underline-offset-2 transition-colors">
                 {product.categoryLabel}
               </Link>
               <span className="text-slate-300">/</span>
@@ -473,7 +473,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                     href={productWhatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 bg-white hover:bg-[#EEF3FB] text-[#1D4ED8] border border-[#1D4ED8]/35 font-extrabold text-sm sm:text-base rounded-2xl shadow-sm transition-all"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 bg-white hover:bg-[#EEF3FB] text-[#00AEEF] border border-[#00AEEF]/35 font-extrabold text-sm sm:text-base rounded-2xl shadow-sm transition-all"
                   >
                     <MessageCircle className="w-5 h-5" />
                     <span>Pedir por WhatsApp</span>
@@ -668,7 +668,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                                 href={srv.ctaHref}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 text-sm font-bold text-[#1D4ED8] underline underline-offset-4 hover:text-[#1E3A8A] pt-1"
+                                className="inline-flex items-center gap-1.5 text-sm font-bold text-[#00AEEF] underline underline-offset-4 hover:text-[#0088CC] pt-1"
                               >
                                 <span>{srv.ctaLabel}</span>
                                 <ExternalLink className="w-4 h-4" />
@@ -676,7 +676,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                             ) : srv.ctaHref?.startsWith('#') ? (
                               <a
                                 href={srv.ctaHref}
-                                className="inline-flex items-center gap-1.5 text-sm font-bold text-[#1D4ED8] underline underline-offset-4 hover:text-[#1E3A8A] pt-1"
+                                className="inline-flex items-center gap-1.5 text-sm font-bold text-[#00AEEF] underline underline-offset-4 hover:text-[#0088CC] pt-1"
                               >
                                 <span>{srv.ctaLabel}</span>
                                 <ArrowRight className="w-4 h-4" />
@@ -684,7 +684,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                             ) : (
                               <Link
                                 to={srv.ctaTo || '/productos'}
-                                className="inline-flex items-center gap-1.5 text-sm font-bold text-[#1D4ED8] underline underline-offset-4 hover:text-[#1E3A8A] pt-1"
+                                className="inline-flex items-center gap-1.5 text-sm font-bold text-[#00AEEF] underline underline-offset-4 hover:text-[#0088CC] pt-1"
                               >
                                 <span>{srv.ctaLabel}</span>
                                 <ArrowRight className="w-4 h-4" />
@@ -720,7 +720,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                     <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#EEF3FB] text-[#4472C4] group-hover:bg-[#4472C4] group-hover:text-white flex items-center justify-center mb-3 transition-colors duration-300 shadow-2xs">
                       <Icon className="w-6 h-6 sm:w-7 sm:h-7" />
                     </div>
-                    <span className="text-sm sm:text-base font-extrabold text-black group-hover:text-[#1D4ED8] transition-colors leading-snug line-clamp-2">
+                    <span className="text-sm sm:text-base font-extrabold text-black group-hover:text-[#00AEEF] transition-colors leading-snug line-clamp-2">
                       {name}
                     </span>
                   </a>
@@ -935,7 +935,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                       href={partnerWhatsappUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full py-3 px-5 bg-white hover:bg-[#EEF3FB] text-[#1D4ED8] border border-[#1D4ED8]/35 text-sm font-black rounded-xl flex items-center justify-center gap-2 transition-all"
+                      className="w-full py-3 px-5 bg-white hover:bg-[#EEF3FB] text-[#00AEEF] border border-[#00AEEF]/35 text-sm font-black rounded-xl flex items-center justify-center gap-2 transition-all"
                     >
                       <Zap className="w-4 h-4" />
                       <span>Comprar como Socio (30% a 52% Descuento)</span>
@@ -1115,7 +1115,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                   </Link>
                   <Link
                     to="/oficinas"
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-white hover:bg-[#EEF3FB] text-[#1D4ED8] border border-[#1D4ED8]/30 font-bold text-sm rounded-2xl transition-all"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-white hover:bg-[#EEF3FB] text-[#00AEEF] border border-[#00AEEF]/30 font-bold text-sm rounded-2xl transition-all"
                   >
                     <span>Oficinas Panamá y LATAM</span>
                   </Link>
@@ -1177,7 +1177,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                     href={registrationUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#EEF3FB] hover:bg-[#dbe6f8] text-[#1D4ED8] border border-[#1D4ED8]/30 font-bold text-sm rounded-2xl transition-all"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#EEF3FB] hover:bg-[#dbe6f8] text-[#00AEEF] border border-[#00AEEF]/30 font-bold text-sm rounded-2xl transition-all"
                   >
                     <span>Registro Oficial (Yamilka507)</span>
                     <ExternalLink className="w-4 h-4" />
@@ -1225,11 +1225,11 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                       }}
                     />
                   </div>
-                  <h3 className="text-base sm:text-lg font-extrabold text-black group-hover:text-[#1D4ED8] transition-colors mb-2 leading-snug">
+                  <h3 className="text-base sm:text-lg font-extrabold text-black group-hover:text-[#00AEEF] transition-colors mb-2 leading-snug">
                     {guide.title}
                   </h3>
                   <p className="text-sm text-black leading-relaxed font-normal">{guide.excerpt}</p>
-                  <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-[#1D4ED8] underline underline-offset-2">
+                  <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-[#00AEEF] underline underline-offset-2">
                     <BookOpen className="w-3.5 h-3.5" />
                     <span>Leer guía completa</span>
                   </span>
@@ -1355,7 +1355,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                   </a>
                   <a
                     href="#contacto"
-                    className="py-3.5 px-6 bg-white hover:bg-[#EEF3FB] text-[#1D4ED8] border border-[#1D4ED8]/35 font-extrabold text-sm sm:text-base rounded-2xl inline-flex items-center justify-center gap-2 transition-all"
+                    className="py-3.5 px-6 bg-white hover:bg-[#EEF3FB] text-[#00AEEF] border border-[#00AEEF]/35 font-extrabold text-sm sm:text-base rounded-2xl inline-flex items-center justify-center gap-2 transition-all"
                   >
                     <span>Consultar</span>
                     <ArrowRight className="w-4 h-4" />
@@ -1486,7 +1486,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
             <div className="mt-12 text-center">
               <Link
                 to="/membresias"
-                className="inline-flex items-center gap-2 text-sm font-bold text-[#1D4ED8] underline underline-offset-4 hover:text-[#1E3A8A]"
+                className="inline-flex items-center gap-2 text-sm font-bold text-[#00AEEF] underline underline-offset-4 hover:text-[#0088CC]"
               >
                 <span>Ver las 4 membresías oficiales (incluyendo Pre-Junior 50 BV)</span>
                 <ArrowRight className="w-4 h-4" />

@@ -58,30 +58,44 @@ const affiliateRules = [
     style.id = STYLE_ID;
     style.textContent = [
       ".auto-affiliate-link {",
-      "  color: #1D4ED8;",
+      "  color: #00AEEF;",
       "  font-weight: 700;",
       "  text-decoration: underline;",
-      "  text-decoration-color: rgba(29, 78, 216, 0.55);",
+      "  text-decoration-color: rgba(0, 174, 239, 0.7);",
       "  text-underline-offset: 2px;",
       "  transition: color 0.18s ease, text-decoration-color 0.18s ease;",
       "}",
       ".auto-affiliate-link:hover,",
       ".auto-affiliate-link:focus-visible {",
-      "  color: #1E3A8A;",
+      "  color: #0088CC;",
       "  text-decoration-color: currentColor;",
       "}",
+      ".auto-affiliate-link[data-dark-bg='true'],",
       "header .auto-affiliate-link,",
       "footer .auto-affiliate-link,",
       "[class*='bg-[#4472C4]'] .auto-affiliate-link,",
-      "[class*='bg-slate-900'] .auto-affiliate-link {",
+      "[class*='bg-[#004d3c]'] .auto-affiliate-link,",
+      "[class*='bg-[#00795F]'] .auto-affiliate-link,",
+      "[class*='bg-[#23437D]'] .auto-affiliate-link,",
+      "[class*='bg-slate-9'] .auto-affiliate-link,",
+      "[class*='bg-stone-9'] .auto-affiliate-link,",
+      "[class*='bg-black'] .auto-affiliate-link {",
       "  color: #FDE047;",
-      "  text-decoration-color: rgba(253, 224, 71, 0.75);",
+      "  text-decoration-color: rgba(253, 224, 71, 0.8);",
       "}",
+      ".auto-affiliate-link[data-dark-bg='true']:hover,",
+      ".auto-affiliate-link[data-dark-bg='true']:focus-visible,",
       "header .auto-affiliate-link:hover,",
       "footer .auto-affiliate-link:hover,",
       "[class*='bg-[#4472C4]'] .auto-affiliate-link:hover,",
-      "[class*='bg-slate-900'] .auto-affiliate-link:hover {",
-      "  color: #FFFFFF;",
+      "[class*='bg-[#004d3c]'] .auto-affiliate-link:hover,",
+      "[class*='bg-[#00795F]'] .auto-affiliate-link:hover,",
+      "[class*='bg-[#23437D]'] .auto-affiliate-link:hover,",
+      "[class*='bg-slate-9'] .auto-affiliate-link:hover,",
+      "[class*='bg-stone-9'] .auto-affiliate-link:hover,",
+      "[class*='bg-black'] .auto-affiliate-link:hover {",
+      "  color: #FEF08A;",
+      "  text-decoration-color: currentColor;",
       "}",
       "#" + DISCLOSURE_ID + " {",
       "  width: 100%;",
@@ -120,11 +134,42 @@ const affiliateRules = [
     return Boolean(parent.closest(EXCLUDED_SELECTOR));
   }
 
-  function createAffiliateAnchor(matchedText, rule) {
+  function isDarkBackgroundElement(element) {
+    let cur = element;
+    while (cur && cur.nodeType === Node.ELEMENT_NODE) {
+      const style = window.getComputedStyle(cur);
+      const bg = style.backgroundColor;
+      if (bg && bg !== "transparent" && bg !== "rgba(0, 0, 0, 0)") {
+        const match = bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+        if (match) {
+          const alpha = match[4] !== undefined ? parseFloat(match[4]) : 1;
+          if (alpha >= 0.35) {
+            const r = Number(match[1]);
+            const g = Number(match[2]);
+            const b = Number(match[3]);
+            const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+            return luminance < 0.58;
+          }
+        }
+      }
+      if (style.backgroundImage && style.backgroundImage !== "none") {
+        if (/(23437D|4472C4|004d3c|00795F|0f172a|1c1917)/i.test(cur.className || "")) {
+          return true;
+        }
+      }
+      cur = cur.parentElement;
+    }
+    return false;
+  }
+
+  function createAffiliateAnchor(matchedText, rule, isDarkBg) {
     const anchor = document.createElement("a");
     anchor.href = rule.url;
     anchor.className = "auto-affiliate-link";
     anchor.setAttribute("data-auto-affiliate", "true");
+    if (isDarkBg) {
+      anchor.setAttribute("data-dark-bg", "true");
+    }
     if (rule.openInNewTab) {
       anchor.target = "_blank";
     }
@@ -182,6 +227,7 @@ const affiliateRules = [
       return;
     }
 
+    const isDarkBg = isDarkBackgroundElement(textNode.parentElement);
     const fragment = document.createDocumentFragment();
     let safetyCounter = 0;
 
@@ -201,7 +247,7 @@ const affiliateRules = [
         fragment.appendChild(leadingNode);
       }
 
-      const anchor = createAffiliateAnchor(match.text, match.rule);
+      const anchor = createAffiliateAnchor(match.text, match.rule, isDarkBg);
       fragment.appendChild(anchor);
 
       const prevCount = pageMatchCounts.get(match.rule) || 0;
