@@ -1305,7 +1305,8 @@ export const PRODUCTS: Product[] = [
     ],
     usage: "Vía de administración: Oral. Dosificación (adultos): Tomar 1 o 2 cápsulas al día con agua. Condiciones de venta: Sin receta médica.",
     ingredients: [
-      "Microalga espirulina pura seleccionada (500 mg por cápsula)"
+      "Microalga espirulina pura seleccionada (500 mg por cápsula)",
+      "Ginseng rojo"
     ],
     precautions: "Si está embarazada o amamantando, consulte a un profesional de la salud antes de consumir el producto. No usar en caso de gota y/o fenilcetonuria.",
     documentSlug: "espirulina-hgw-nutricion-celular",
