@@ -8,6 +8,14 @@ import {
   MessageCircle,
   BookOpen,
   FileText,
+  Utensils,
+  Droplets,
+  Gem,
+  Cpu,
+  Wine,
+  Leaf,
+  Flower2,
+  Palette,
 } from 'lucide-react';
 import { PRODUCTS, CERTIFICATIONS, MEMBERSHIP_PLANS } from '../data/products';
 import { DIRECT_SALES_ASSOCIATIONS } from './AboutHGW';
@@ -65,6 +73,17 @@ const SERVICES_LIST = [
     ctaLabel: 'Ver Oportunidad',
     ctaTo: '/oportunidad-de-negocio',
   },
+];
+
+const PRODUCT_CATEGORIES_EIGHT = [
+  { name: 'Alimentos', Icon: Utensils },
+  { name: 'Cuidado personal', Icon: Droplets },
+  { name: 'Accesorios', Icon: Gem },
+  { name: 'Equipo', Icon: Cpu },
+  { name: 'Licores', Icon: Wine },
+  { name: 'Suplementos', Icon: Leaf },
+  { name: 'Belleza', Icon: Flower2 },
+  { name: 'Cosméticos', Icon: Palette },
 ];
 
 const THREE_COL_LINES = [
@@ -440,6 +459,35 @@ export const LandingPage: React.FC = () => {
                     </div>
                   );
                 })}
+              </div>
+            </div>
+
+            {/* 8 Categorías de Productos (Grid 2 columnas móvil, 4 tablet/escritorio) */}
+            <div className="mt-12 sm:mt-14 pt-10 border-t border-slate-200/80">
+              <div className="text-center max-w-2xl mx-auto mb-8">
+                <h3 className="text-xl sm:text-2xl font-black text-black tracking-tight">
+                  Categorías de Productos HGW
+                </h3>
+                <p className="text-sm sm:text-base text-black mt-1.5 font-normal">
+                  Explora nuestras 8 líneas principales diseñadas para tu salud, cuidado y bienestar integral.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-5 lg:gap-6">
+                {PRODUCT_CATEGORIES_EIGHT.map(({ name, Icon }) => (
+                  <Link
+                    key={name}
+                    to="/productos"
+                    className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-slate-200/80 shadow-sm hover:shadow-lg hover:border-[#4472C4]/50 hover:-translate-y-1 transition-all duration-300 flex flex-col items-center justify-center text-center group"
+                  >
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#EEF3FB] text-[#4472C4] group-hover:bg-[#4472C4] group-hover:text-white flex items-center justify-center mb-3 transition-colors duration-300 shadow-2xs">
+                      <Icon className="w-6 h-6 sm:w-7 sm:h-7" />
+                    </div>
+                    <span className="text-sm sm:text-base font-extrabold text-black group-hover:text-[#4472C4] transition-colors leading-snug">
+                      {name}
+                    </span>
+                  </Link>
+                ))}
               </div>
             </div>
           </ScrollReveal>
