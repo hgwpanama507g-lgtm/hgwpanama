@@ -193,7 +193,7 @@ function AppContent() {
     if (cleanPath === '/contacto') {
       return (
         <div>
-          <ContactSection />
+          <ContactSection showExtendedNotices={true} />
           <FAQ />
         </div>
       );
@@ -229,7 +229,6 @@ function AppContent() {
           <LandingPage />
           <ContactSection />
           <AdsterraNativeBanner key="legacy-home-native" />
-          <NoticeBanner />
         </div>
       );
     }
@@ -241,7 +240,6 @@ function AppContent() {
           <LandingPage />
           <ContactSection />
           <AdsterraNativeBanner key="home-native" />
-          <NoticeBanner />
         </div>
       );
     }

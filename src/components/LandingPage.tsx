@@ -1,17 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   ArrowRight,
   ChevronDown,
   Check,
-  ShieldCheck,
   Sparkles,
   ExternalLink,
   MessageCircle,
   BookOpen,
-  Play,
   FileText,
 } from 'lucide-react';
 import { PRODUCTS, CERTIFICATIONS, MEMBERSHIP_PLANS } from '../data/products';
+import { DIRECT_SALES_ASSOCIATIONS } from './AboutHGW';
 import { ScrollReveal } from './ScrollReveal';
 import { Link } from '../router';
 import { getAffiliationWhatsAppUrl } from '../utils/whatsapp';
@@ -20,7 +19,7 @@ import { renderWithHGWLinks } from '../utils/hgwLinker';
 const SERVICES_LIST = [
   {
     id: 1,
-    title: 'Servicio 1 · Productos Naturales con Respaldo Global',
+    title: 'Productos Naturales con Respaldo Global',
     detail:
       'Fórmulas originales de arándano silvestre, ganoderma lucidum, cordyceps, probióticos y tecnología de nanoturmalina avaladas por normativas FDA, ISO 9001 y GMP.',
     ctaLabel: 'Ver Catálogo',
@@ -28,7 +27,7 @@ const SERVICES_LIST = [
   },
   {
     id: 2,
-    title: 'Servicio 2 · Asesoría Personalizada en Panamá',
+    title: 'Asesoría Personalizada en Panamá',
     detail:
       'Orientación directa 1 a 1 vía WhatsApp (+507 6778-8375) con distribuidor independiente autorizado para ayudarte a elegir los productos ideales para tu rutina.',
     ctaLabel: 'Consultar por WhatsApp',
@@ -36,7 +35,7 @@ const SERVICES_LIST = [
   },
   {
     id: 3,
-    title: 'Servicio 3 · Envíos Confiables a Todo el País',
+    title: 'Envíos Confiables a Todo el País',
     detail:
       'Entregas en Panamá desde USD 5.00 en un tiempo estimado de 24 a 48 horas hábiles vía Servientrega o encomienda provincial (Uno Express, Fletes Chavale).',
     ctaLabel: 'Política de Envíos',
@@ -44,7 +43,7 @@ const SERVICES_LIST = [
   },
   {
     id: 4,
-    title: 'Servicio 4 · Membresías y Plan de Ganancias Mutuas',
+    title: 'Membresías y Plan de Ganancias Mutuas',
     detail:
       'Actívate con Pre-Junior, Junior, Senior o Master escogiendo los productos de tu preferencia y accede a descuentos preferenciales de hasta 52% en recompras.',
     ctaLabel: 'Ver Oportunidad',
@@ -87,22 +86,22 @@ const THREE_COL_LINES = [
 
 const HOME_FAQS = [
   {
-    question: '1. ¿Cómo puedo realizar un pedido en Panamá?',
+    question: '¿Cómo puedo realizar un pedido en Panamá?',
     answer:
       "Puedes explorar nuestro catálogo completo, revisar la ficha técnica de cada artículo y hacer clic en 'Consultar por WhatsApp' para coordinar la entrega y el método de pago directamente al +507 6778-8375.",
   },
   {
-    question: '2. ¿Cuáles son los métodos de pago disponibles?',
+    question: '¿Cuáles son los métodos de pago disponibles?',
     answer:
       'Aceptamos pagos mediante Yappy (Banco General), transferencias bancarias ACH y efectivo contraentrega en áreas seleccionadas de Ciudad de Panamá y Panamá Oeste.',
   },
   {
-    question: '3. ¿Realizan entregas al interior del país?',
+    question: '¿Realizan entregas al interior del país?',
     answer:
       'Sí. Coordinamos envíos a todas las provincias de Panamá (Chiriquí, Colón, Veraguas, Herrera, Los Santos, Coclé, Bocas del Toro y Darién) desde USD 5.00 en 24 a 48 horas hábiles.',
   },
   {
-    question: '4. ¿Cómo puedo afiliarme como socio distribuidor para obtener hasta 52% de beneficio?',
+    question: '¿Cómo puedo afiliarme como socio distribuidor para obtener hasta 52% de beneficio?',
     answer:
       'Puedes registrarte bajo el patrocinio autorizado en Panamá (código Yamilka507), eligiendo el paquete de activación (Pre-Junior 50 BV, Junior 100 BV, Senior 300 BV o Master 600 BV) con los productos de tu preferencia.',
   },
@@ -135,52 +134,63 @@ const BLOG_ARTICLES = [
   },
 ];
 
-const TESTIMONIAL_PLACEHOLDERS = [
+const TESTIMONIAL_VIDEOS = [
   {
-    id: 1,
-    title: 'Testimonio 1',
-    text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
+    id: 'MrD1MIwrIdM',
+    title: 'Testimonios Uso de Toallas Sanitarias con Turmalina de HGW',
+    description:
+      'Experiencias compartidas sobre el confort, frescura y tecnología con banda de turmalina en la línea femenina Enjoyable HGW.',
   },
   {
-    id: 2,
-    title: 'Testimonio 2',
-    text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
+    id: 'N-4wQJj2lz4',
+    title: 'Testimonio sobre Bienestar y Diabetes con Productos HGW',
+    description:
+      'Relato personal de bienestar acompañando el estilo de vida saludable con suplementos y bebidas funcionales HGW.',
   },
   {
-    id: 3,
-    title: 'Testimonio 3',
-    text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
+    id: 'nL5KdNarl6Y',
+    title: 'Testimonio HGW de Anabel Choquevillca · Lactiberry',
+    description:
+      'Experiencia real de consumo con nuestra bebida probiótica Lactiberry elaborada con arándanos azules y té negro.',
+  },
+  {
+    id: 'Izx1mXkDYTI',
+    title: 'Testimonio HGW de Elio Arce · Blueberry Candy',
+    description:
+      'Testimonio sobre la experiencia diaria consumiendo caramelos fitonutritivos Blueberry Candy ricos en antioxidantes.',
+  },
+  {
+    id: 'b-EtaWgbbhY',
+    title: 'Testimonio HGW de Evelin Hilarion · Lactiberry',
+    description:
+      'Reseña personal sobre el sabor y los resultados percibidos al incorporar Lactiberry en la rutina de bienestar.',
   },
 ];
 
 export const LandingPage: React.FC = () => {
-  const [activeServiceIdx, setActiveServiceIdx] = useState<number>(0);
-  const [openFaqIdx, setOpenFaqIdx] = useState<number | null>(0);
+  // Todos los acordeones cerrados inicialmente
+  const [activeServiceIdx, setActiveServiceIdx] = useState<number | null>(null);
+  const [openFaqIdx, setOpenFaqIdx] = useState<number | null>(null);
 
-  // Pick 3 real consumer featured products from PRODUCTS
-  const featuredSlugs = [
-    'blueberry-coffee',
-    'pasta-dental-de-turmalina-negra',
-    'thermo-de-turmalina',
-  ];
-  const featuredProducts = featuredSlugs
-    .map((slug) => PRODUCTS.find((p) => p.slug === slug))
-    .filter((p): p is NonNullable<typeof p> => Boolean(p));
+  // Máximo 8 productos al azar (excluyendo membresías que tienen su propia sección)
+  const randomProducts = useMemo(() => {
+    const consumerProducts = PRODUCTS.filter((p) => p.category !== 'membresias');
+    const shuffled = [...consumerProducts];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled.slice(0, 8);
+  }, []);
 
-  const fallbackProducts = PRODUCTS.filter((p) => p.category !== 'membresias').slice(0, 3);
-  const displayProducts = featuredProducts.length === 3 ? featuredProducts : fallbackProducts;
-
-  // Pick top 3 certifications (FDA, ISO 9001, GMP)
-  const topCertifications = CERTIFICATIONS.slice(0, 3);
-
-  // Pick 3 membership packages with Master highlighted in the center (Junior, Master, Senior)
+  // Paquetes de membresía con Master de último (Junior, Senior, Master)
   const juniorPlan = MEMBERSHIP_PLANS.find((m) => m.id === 'junior') || MEMBERSHIP_PLANS[1];
-  const masterPlan = MEMBERSHIP_PLANS.find((m) => m.id === 'master') || MEMBERSHIP_PLANS[3];
   const seniorPlan = MEMBERSHIP_PLANS.find((m) => m.id === 'senior') || MEMBERSHIP_PLANS[2];
+  const masterPlan = MEMBERSHIP_PLANS.find((m) => m.id === 'master') || MEMBERSHIP_PLANS[3];
   const showcasePackages = [
-    { ...juniorPlan, isCenterHighlight: false },
-    { ...masterPlan, isCenterHighlight: true },
-    { ...seniorPlan, isCenterHighlight: false },
+    { ...juniorPlan, isHighlighted: false },
+    { ...seniorPlan, isHighlighted: false },
+    { ...masterPlan, isHighlighted: true },
   ];
 
   const registrationUrl = 'https://www.healthgreenworld.com/?userName=Yamilka507';
@@ -220,7 +230,7 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* =================================================================
-          (3) HERO EN 2 COLUMNAS (Izquierda: Título centrado, párrafo, CTA | Derecha: Imagen/Video 1200x800)
+          (3) HERO EN 2 COLUMNAS
           ================================================================= */}
       <section
         id="inicio"
@@ -229,7 +239,6 @@ export const LandingPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-              {/* Left Column: Centered large title, paragraph & big CTA */}
               <div className="flex flex-col items-center text-center space-y-6">
                 <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-black text-slate-900 tracking-tight leading-tight text-balance">
                   Bienestar Natural y Productos Funcionales con{' '}
@@ -251,7 +260,6 @@ export const LandingPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Right Column: Image or Video 1200x800 (3:2 aspect) */}
               <div className="w-full">
                 <div className="aspect-[3/2] w-full rounded-3xl overflow-hidden bg-[#EEF3FB] border border-slate-200 shadow-xl group">
                   <img
@@ -272,7 +280,7 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* =================================================================
-          (4) SERVICIOS O CARACTERÍSTICAS (H2 centrado | Izquierda: 1200x800 | Derecha: 4 barras apiladas)
+          (4) SERVICIOS O CARACTERÍSTICAS (Acordeones cerrados, sin "Servicio 1, 2...")
           ================================================================= */}
       <section className="py-14 sm:py-20 bg-[#F8FAFC] border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -287,7 +295,6 @@ export const LandingPage: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
-              {/* Left: 1200x800 (3:2) Official Products Video */}
               <div className="aspect-[3/2] w-full rounded-3xl overflow-hidden bg-slate-900 shadow-xl border border-slate-200">
                 <iframe
                   src="https://www.youtube.com/embed/r-BFxBuhhbc"
@@ -298,7 +305,6 @@ export const LandingPage: React.FC = () => {
                 />
               </div>
 
-              {/* Right: 4 Stacked Service Bars */}
               <div className="space-y-4">
                 {SERVICES_LIST.map((srv, idx) => {
                   const isSelected = activeServiceIdx === idx;
@@ -313,7 +319,7 @@ export const LandingPage: React.FC = () => {
                     >
                       <button
                         type="button"
-                        onClick={() => setActiveServiceIdx(idx)}
+                        onClick={() => setActiveServiceIdx(isSelected ? null : idx)}
                         className="w-full px-6 py-4 text-left flex items-center justify-between gap-4 cursor-pointer"
                         aria-expanded={isSelected}
                       >
@@ -361,7 +367,7 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* =================================================================
-          (5) 3 COLUMNAS CON IMAGEN CIRCULAR 250x250, TÍTULO Y TEXTO CENTRADO
+          (5) 3 COLUMNAS CON IMAGEN CIRCULAR 250x250
           ================================================================= */}
       <section className="py-14 sm:py-20 bg-white border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -409,7 +415,7 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* =================================================================
-          (6) CERTIFICACIONES O RECONOCIMIENTOS (H2 | 3 cols: Imagen 1200x800, Título y Texto centrado)
+          (6) CERTIFICACIONES Y RECONOCIMIENTOS (TODAS las certificaciones + asociaciones)
           ================================================================= */}
       <section className="py-14 sm:py-20 bg-[#F8FAFC] border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -419,17 +425,18 @@ export const LandingPage: React.FC = () => {
                 Certificaciones y Reconocimientos
               </h2>
               <p className="text-sm sm:text-base text-slate-600 mt-2.5 font-normal">
-                Estándares internacionales de calidad, inocuidad y manufactura que respaldan cada producto.
+                Todas las certificaciones internacionales de calidad, inocuidad y manufactura, junto con las asociaciones de venta directa que respaldan a HGW.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {topCertifications.map((cert, idx) => (
+            {/* Certificaciones Internacionales (8 en total) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-14">
+              {CERTIFICATIONS.map((cert) => (
                 <div
                   key={cert.id}
-                  className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center"
+                  className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center"
                 >
-                  <div className="aspect-[3/2] w-full rounded-2xl overflow-hidden bg-[#F8FAFC] border border-slate-100 p-4 flex items-center justify-center mb-5">
+                  <div className="aspect-[3/2] w-full rounded-2xl overflow-hidden bg-[#F8FAFC] border border-slate-100 p-3 flex items-center justify-center mb-4">
                     <img
                       src={cert.imageUrl}
                       alt={cert.name}
@@ -441,11 +448,52 @@ export const LandingPage: React.FC = () => {
                       }}
                     />
                   </div>
-                  <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 mb-2">
-                    C/R {idx + 1} · {cert.name}
+                  <h3 className="text-base sm:text-lg font-extrabold text-slate-900 mb-1.5 leading-snug">
+                    {cert.name}
                   </h3>
-                  <p className="text-sm text-slate-600 leading-relaxed font-normal">
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
                     {cert.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            {/* Reconocimientos y Asociaciones de Venta Directa (6 en total) */}
+            <div className="text-center max-w-2xl mx-auto mb-8">
+              <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                Asociaciones y Reconocimientos de Venta Directa
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-600 mt-1.5 font-normal">
+                Respaldo gremial e institucional en Panamá, Latinoamérica y el mundo.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {DIRECT_SALES_ASSOCIATIONS.map((assoc, idx) => (
+                <div
+                  key={idx}
+                  className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center"
+                >
+                  <div className="aspect-[3/2] w-full rounded-2xl overflow-hidden bg-[#F8FAFC] border border-slate-100 p-4 flex items-center justify-center mb-4">
+                    <img
+                      src={assoc.imageUrl}
+                      alt={assoc.name}
+                      className="max-h-full max-w-full object-contain"
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src =
+                          'https://media.academiahgw.online/wp-content/uploads/2026/11/hgw_logo.png';
+                      }}
+                    />
+                  </div>
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#4472C4] mb-1">
+                    {assoc.country}
+                  </span>
+                  <h4 className="text-base font-extrabold text-slate-900 mb-1.5 leading-snug">
+                    {assoc.name}
+                  </h4>
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                    {assoc.description}
                   </p>
                 </div>
               ))}
@@ -455,7 +503,7 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* =================================================================
-          (7) TESTIMONIOS (H2 | 3 cols: Imagen/Video 1200x800, Título y Texto centrado)
+          (7) TESTIMONIOS EN VIDEO CON TÍTULO SEGÚN CADA VIDEO
           ================================================================= */}
       <section className="py-14 sm:py-20 bg-white border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -465,30 +513,30 @@ export const LandingPage: React.FC = () => {
                 Testimonios
               </h2>
               <p className="text-sm sm:text-base text-slate-600 mt-2.5 font-normal">
-                Espacio reservado para compartir experiencias reales de clientes y socios en Panamá.
+                Experiencias reales compartidas por clientes y consumidores de nuestros productos HGW.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {TESTIMONIAL_PLACEHOLDERS.map((item) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {TESTIMONIAL_VIDEOS.map((video) => (
                 <div
-                  key={item.id}
-                  className="bg-[#F8FAFC] rounded-3xl p-6 border border-slate-200/80 shadow-sm hover:shadow-md transition-all flex flex-col items-center text-center"
+                  key={video.id}
+                  className="bg-[#F8FAFC] rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center"
                 >
-                  <div className="aspect-[3/2] w-full rounded-2xl bg-[#4472C4] text-white flex flex-col items-center justify-center p-6 mb-5 shadow-inner">
-                    <Play className="w-10 h-10 text-white/90 mb-2" />
-                    <span className="text-sm font-bold tracking-wide">
-                      Imagen 1200x800 o Video
-                    </span>
-                    <span className="text-xs text-blue-100 mt-1">
-                      Marcador de posición · {item.title}
-                    </span>
+                  <div className="aspect-[3/2] w-full rounded-2xl overflow-hidden bg-slate-900 shadow-inner mb-5 border border-slate-200">
+                    <iframe
+                      src={`https://www.youtube.com/embed/${video.id}`}
+                      title={video.title}
+                      className="w-full h-full border-0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                    />
                   </div>
-                  <h3 className="text-xl font-extrabold text-slate-900 mb-2">
-                    {item.title}
+                  <h3 className="text-lg font-extrabold text-slate-900 mb-2 leading-snug">
+                    {video.title}
                   </h3>
-                  <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                    {item.text}
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                    {video.description}
                   </p>
                 </div>
               ))}
@@ -498,7 +546,7 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* =================================================================
-          (8) PRODUCTOS (H2 | 3 cols: Imagen 1000x1000, Nombre, Descripción y Botón)
+          (8) PRODUCTOS (Máximo 8 al azar: 4 cols PC, 3 cols tablet, 2 cols móvil)
           ================================================================= */}
       <section
         id="productos"
@@ -515,16 +563,16 @@ export const LandingPage: React.FC = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {displayProducts.map((product) => (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5 lg:gap-6">
+              {randomProducts.map((product) => (
                 <div
                   key={product.id}
-                  className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between text-center"
+                  className="bg-white rounded-2xl sm:rounded-3xl p-3 sm:p-5 border border-slate-200/80 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between text-center"
                 >
                   <div>
                     <Link
                       to={`/producto/${product.slug}`}
-                      className="aspect-square w-full rounded-2xl bg-[#F8FAFC] border border-slate-100 p-6 flex items-center justify-center overflow-hidden mb-5 group"
+                      className="aspect-square w-full rounded-xl sm:rounded-2xl bg-[#F8FAFC] border border-slate-100 p-3 sm:p-5 flex items-center justify-center overflow-hidden mb-3 sm:mb-4 group"
                     >
                       <img
                         src={product.image}
@@ -538,25 +586,25 @@ export const LandingPage: React.FC = () => {
                       />
                     </Link>
 
-                    <div className="text-xs font-bold text-[#4472C4] uppercase tracking-wider mb-1">
+                    <div className="text-[10px] sm:text-xs font-bold text-[#4472C4] uppercase tracking-wider mb-1 line-clamp-1">
                       {product.categoryLabel} · {product.priceFormatted}
                     </div>
 
-                    <h3 className="text-xl font-extrabold text-slate-900 mb-2 line-clamp-2">
+                    <h3 className="text-sm sm:text-base font-extrabold text-slate-900 mb-1.5 line-clamp-2 leading-snug">
                       {product.name}
                     </h3>
 
-                    <p className="text-sm text-slate-600 leading-relaxed line-clamp-3 mb-6 font-normal">
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed line-clamp-2 mb-4 font-normal">
                       {product.shortDescription}
                     </p>
                   </div>
 
                   <Link
                     to={`/producto/${product.slug}`}
-                    className="w-full py-3.5 px-5 bg-[#4472C4] hover:bg-[#33599E] text-white font-bold text-sm rounded-xl shadow-sm transition-all active:scale-95 inline-flex items-center justify-center gap-2"
+                    className="w-full py-2.5 sm:py-3 px-3 sm:px-4 bg-[#4472C4] hover:bg-[#33599E] text-white font-bold text-xs sm:text-sm rounded-xl shadow-sm transition-all active:scale-95 inline-flex items-center justify-center gap-1.5"
                   >
-                    <span>Ver Producto y Consultar</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <span>Ver Producto</span>
+                    <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
                   </Link>
                 </div>
               ))}
@@ -576,7 +624,7 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* =================================================================
-          (9) ACERCA DE LA EMPRESA (H2 centrado | Izquierda: texto + botón | Derecha: Imagen/Video 1200x800)
+          (9) ACERCA DE LA EMPRESA
           ================================================================= */}
       <section
         id="sobre-nosotros"
@@ -591,7 +639,6 @@ export const LandingPage: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-              {/* Left Column: Text + CTA */}
               <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-5">
                 <h3 className="text-2xl sm:text-3xl font-black text-slate-900 leading-tight">
                   Health Green World (Green World Group)
@@ -622,7 +669,6 @@ export const LandingPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Right Column: 1200x800 (3:2) Corporate Video */}
               <div className="aspect-[3/2] w-full rounded-3xl overflow-hidden bg-slate-900 shadow-xl border border-slate-200">
                 <iframe
                   src="https://www.youtube.com/embed/oOZhonOYD6Q"
@@ -638,7 +684,7 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* =================================================================
-          (10) OPORTUNIDAD (H2 centrado | 2 cols invertidas: Izquierda 1200x800 | Derecha texto + botón)
+          (10) OPORTUNIDAD
           ================================================================= */}
       <section
         id="oportunidad"
@@ -653,7 +699,6 @@ export const LandingPage: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-              {/* Left Column (Inverted): 1200x800 (3:2) Tutorial Video */}
               <div className="aspect-[3/2] w-full rounded-3xl overflow-hidden bg-slate-900 shadow-xl border border-slate-200">
                 <iframe
                   src="https://www.youtube.com/embed/Poy4FvvfcfA"
@@ -664,7 +709,6 @@ export const LandingPage: React.FC = () => {
                 />
               </div>
 
-              {/* Right Column: Text + CTA */}
               <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-5">
                 <h3 className="text-2xl sm:text-3xl font-black text-slate-900 leading-tight">
                   Gana hasta un <span className="text-[#4472C4]">52% de beneficio</span> con el Plan de Ganancias Mutuas
@@ -700,7 +744,7 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* =================================================================
-          (11) BLOG / ARTÍCULOS / EVENTOS / NOTICIAS (3 cols: 1200x800, Título y Extracto)
+          (11) BLOG / ARTÍCULOS / EVENTOS / NOTICIAS (Sin "Artículo 1, 2, 3...")
           ================================================================= */}
       <section className="py-14 sm:py-20 bg-white border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -734,7 +778,7 @@ export const LandingPage: React.FC = () => {
                     />
                   </div>
                   <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 group-hover:text-[#4472C4] transition-colors mb-2">
-                    Artículo {idx + 1} · {post.title}
+                    {post.title}
                   </h3>
                   <p className="text-sm text-slate-600 leading-relaxed font-normal">
                     {post.excerpt}
@@ -751,7 +795,7 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* =================================================================
-          (12) PREGUNTAS FRECUENTES (4 barras en formato acordeón desplegable)
+          (12) PREGUNTAS FRECUENTES (Todos cerrados al cargar)
           ================================================================= */}
       <section className="py-14 sm:py-20 bg-[#F8FAFC] border-b border-slate-100">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -800,7 +844,7 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* =================================================================
-          (13) PAQUETES DE MEMBRESÍA O SUSCRIPCIÓN (3 cols tarjetas con 1000x1000, resaltando paquete central)
+          (13) PAQUETES DE MEMBRESÍA O SUSCRIPCIÓN (Master es el último)
           ================================================================= */}
       <section
         id="membresias"
@@ -828,12 +872,12 @@ export const LandingPage: React.FC = () => {
                   <div
                     key={pkg.id}
                     className={`rounded-3xl p-6 sm:p-8 flex flex-col justify-between text-center transition-all duration-300 relative ${
-                      pkg.isCenterHighlight
-                        ? 'bg-gradient-to-b from-[#EEF3FB] via-white to-white border-2 border-[#4472C4] shadow-2xl md:-translate-y-3 ring-4 ring-[#4472C4]/15'
+                      pkg.isHighlighted
+                        ? 'bg-gradient-to-b from-[#EEF3FB] via-white to-white border-2 border-[#4472C4] shadow-2xl ring-4 ring-[#4472C4]/15'
                         : 'bg-white border border-slate-200 shadow-md hover:shadow-xl hover:-translate-y-1'
                     }`}
                   >
-                    {pkg.isCenterHighlight && (
+                    {pkg.isHighlighted && (
                       <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#4472C4] text-white text-xs font-extrabold px-5 py-1.5 rounded-full shadow-md inline-flex items-center gap-1.5 uppercase tracking-wider whitespace-nowrap">
                         <Sparkles className="w-3.5 h-3.5" />
                         <span>Paquete Recomendado</span>
@@ -896,7 +940,7 @@ export const LandingPage: React.FC = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         className={`w-full py-3.5 px-5 rounded-xl font-bold text-sm transition-all active:scale-95 inline-flex items-center justify-center gap-2 ${
-                          pkg.isCenterHighlight
+                          pkg.isHighlighted
                             ? 'bg-[#4472C4] hover:bg-[#33599E] text-white shadow-lg shadow-[#4472C4]/25'
                             : 'bg-slate-900 hover:bg-black text-white'
                         }`}
@@ -924,7 +968,7 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* =================================================================
-          (14) QUIÉNES SOMOS (H2 | Izquierda 1200x800 | Derecha título, párrafo, botón | Debajo: FB, X, IG, YT)
+          (14) QUIÉNES SOMOS
           ================================================================= */}
       <section className="py-14 sm:py-20 bg-[#F8FAFC] border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -936,7 +980,6 @@ export const LandingPage: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center mb-12">
-              {/* Left Column: 1200x800 (3:2) Image */}
               <div className="aspect-[3/2] w-full rounded-3xl overflow-hidden bg-white border border-slate-200 shadow-xl">
                 <img
                   src="https://media.academiahgw.online/wp-content/uploads/2026/11/Foto-de-Perfil-Yamilka-Batista-Emprendedora-HGW-2-1024x1024.jpeg"
@@ -950,7 +993,6 @@ export const LandingPage: React.FC = () => {
                 />
               </div>
 
-              {/* Right Column: Title, paragraph, CTA */}
               <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-5">
                 <span className="text-xs font-extrabold uppercase tracking-wider text-[#4472C4]">
                   Patrocinio Autorizado: Yamilka507
@@ -976,7 +1018,7 @@ export const LandingPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Centered Social Icons below: Facebook, X, Instagram, YouTube */}
+            {/* Social Icons centered below */}
             <div className="flex items-center justify-center gap-4 pt-2">
               <a
                 href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent('https://www.hgwpanama.com/')}`}
@@ -1015,10 +1057,10 @@ export const LandingPage: React.FC = () => {
               </a>
 
               <a
-                href="https://www.youtube.com/watch?v=Poy4FvvfcfA"
+                href="https://www.youtube.com/@yamilkabatistaoficial"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Tutoriales en YouTube HGW"
+                aria-label="Canal de YouTube Yamilka Batista Oficial"
                 className="w-12 h-12 rounded-xl bg-[#FF0000] text-white flex items-center justify-center shadow-md hover:-translate-y-1 transition-all"
               >
                 <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24" aria-hidden="true">

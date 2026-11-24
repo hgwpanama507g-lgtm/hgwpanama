@@ -29,9 +29,14 @@ const PANAMA_PROVINCES = [
   'Comarca Emberá-Wounaan',
 ];
 
-export const ContactSection: React.FC = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+interface ContactSectionProps {
+  showExtendedNotices?: boolean;
+}
+
+export const ContactSection: React.FC<ContactSectionProps> = ({
+  showExtendedNotices = false,
+}) => {
+  const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
   const [province, setProvince] = useState('');
   const [email, setEmail] = useState('');
@@ -44,8 +49,8 @@ export const ContactSection: React.FC = () => {
     e.preventDefault();
     setErrorMsg('');
 
-    if (!firstName.trim()) {
-      setErrorMsg('Por favor ingresa tu nombre (campo obligatorio).');
+    if (!fullName.trim()) {
+      setErrorMsg('Por favor ingresa tu nombre y apellido (campo obligatorio).');
       return;
     }
     if (!province.trim()) {
@@ -65,7 +70,7 @@ export const ContactSection: React.FC = () => {
       typeof window !== 'undefined' ? window.location.href : 'https://www.hgwpanama.com';
 
     let text = `¡Hola! Estaba visitando tu tienda online (${currentUrl}) y deseo realizar una consulta:\n\n`;
-    text += `Nombre: ${firstName.trim()}${lastName.trim() ? ` ${lastName.trim()}` : ''}\n`;
+    text += `Nombre y apellido: ${fullName.trim()}\n`;
     if (phone.trim()) text += `Teléfono: +507 ${phone.trim()}\n`;
     text += `Provincia: ${province.trim()}\n`;
     if (email.trim()) text += `Correo: ${email.trim()}\n`;
@@ -93,7 +98,7 @@ export const ContactSection: React.FC = () => {
             </p>
           </div>
 
-          {/* 2 Columns strictly matching PDF Page 13: Left = Form | Right = Google Map centered on Panama */}
+          {/* 2 Columns: Left = Form | Right = Google Map centered on Panama */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
             {/* Left Column: Contact Form */}
             <div className="lg:col-span-6 bg-[#F8FAFC] rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm">
@@ -119,39 +124,22 @@ export const ContactSection: React.FC = () => {
               )}
 
               <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-                {/* Row 1: Nombre (required), Apellidos, Teléfono (+507 & Panama Flag) */}
+                {/* Row 1: Nombre y apellido (required), Teléfono (+507 & Panama Flag) */}
                 <div className="grid grid-cols-1 sm:grid-cols-12 gap-3.5">
-                  <div className="sm:col-span-4">
+                  <div className="sm:col-span-7">
                     <label
-                      htmlFor="contact-first-name"
+                      htmlFor="contact-full-name"
                       className="block text-xs font-bold text-slate-800 mb-1.5"
                     >
-                      Nombre <span className="text-red-600">*</span>
+                      Nombre y apellido <span className="text-red-600">*</span>
                     </label>
                     <input
-                      id="contact-first-name"
+                      id="contact-full-name"
                       type="text"
                       required
-                      value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
-                      placeholder="Tu nombre"
-                      className="w-full px-3.5 py-2.5 text-sm bg-white border border-slate-300 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#4472C4]/30 focus:border-[#4472C4]"
-                    />
-                  </div>
-
-                  <div className="sm:col-span-3">
-                    <label
-                      htmlFor="contact-last-name"
-                      className="block text-xs font-bold text-slate-800 mb-1.5"
-                    >
-                      Apellidos
-                    </label>
-                    <input
-                      id="contact-last-name"
-                      type="text"
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
-                      placeholder="Apellidos"
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
+                      placeholder="Tu nombre y apellido"
                       className="w-full px-3.5 py-2.5 text-sm bg-white border border-slate-300 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#4472C4]/30 focus:border-[#4472C4]"
                     />
                   </div>
@@ -361,29 +349,31 @@ export const ContactSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Mandatory Clarifications & Shipping Summary preserved neatly below */}
-          <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="p-5 bg-amber-50/90 border border-amber-200 rounded-2xl text-xs space-y-2">
-              <div className="flex items-center gap-2 text-amber-900 font-extrabold text-sm">
-                <ShieldAlert className="w-4 h-4 text-amber-700 shrink-0" />
-                <span>Aclaración Importante sobre Canales de Atención</span>
+          {/* Clarifications & Shipping/Returns only shown on /contacto page */}
+          {showExtendedNotices && (
+            <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="p-5 bg-amber-50/90 border border-amber-200 rounded-2xl text-xs space-y-2">
+                <div className="flex items-center gap-2 text-amber-900 font-extrabold text-sm">
+                  <ShieldAlert className="w-4 h-4 text-amber-700 shrink-0" />
+                  <span>Aclaración Importante sobre Canales de Atención</span>
+                </div>
+                <p className="text-slate-800 leading-relaxed">
+                  El número de WhatsApp <strong>+507 6778-8375</strong> es atendido por un{' '}
+                  <strong>Distribuidor Independiente</strong> para ventas y nuevas afiliaciones.{' '}
+                  <em>No es una línea oficial corporativa de la empresa HGW.</em>
+                </p>
+                <p className="text-slate-800 leading-relaxed pt-1 border-t border-amber-200/80">
+                  <MapPin className="w-3.5 h-3.5 inline mr-1 text-[#4472C4]" />
+                  <strong>¿Ya eres socio registrado?</strong> Comunícate con tu patrocinador o a las oficinas principales en Avenida Porras, Plaza Royal Blue, Local No. 6, San Francisco, Panamá:{' '}
+                  <strong>+507 392-8415</strong>.
+                </p>
               </div>
-              <p className="text-slate-800 leading-relaxed">
-                El número de WhatsApp <strong>+507 6778-8375</strong> es atendido por un{' '}
-                <strong>Distribuidor Independiente</strong> para ventas y nuevas afiliaciones.{' '}
-                <em>No es una línea oficial corporativa de la empresa HGW.</em>
-              </p>
-              <p className="text-slate-800 leading-relaxed pt-1 border-t border-amber-200/80">
-                <MapPin className="w-3.5 h-3.5 inline mr-1 text-[#4472C4]" />
-                <strong>¿Ya eres socio registrado?</strong> Comunícate con tu patrocinador o a las oficinas principales en Avenida Porras, Plaza Royal Blue, Local No. 6, San Francisco, Panamá:{' '}
-                <strong>+507 392-8415</strong>.
-              </p>
-            </div>
 
-            <div>
-              <ShippingAndReturnsSection compact />
+              <div>
+                <ShippingAndReturnsSection compact />
+              </div>
             </div>
-          </div>
+          )}
         </ScrollReveal>
       </div>
     </section>
