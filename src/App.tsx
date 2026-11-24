@@ -232,6 +232,10 @@ function AppContent() {
     if (cleanPath === '/base-de-conocimiento' || cleanPath === '/base-conocimiento' || cleanPath === '/conocimiento') {
       return <KnowledgeBasePage />;
     }
+    if (cleanPath.startsWith('/base-de-conocimiento/') || cleanPath.startsWith('/base-conocimiento/')) {
+      const articleSlug = cleanPath.replace(/^\/base-(?:de-)?conocimiento\//, '').split('?')[0].split('#')[0];
+      return <KnowledgeBasePage articleIdentifier={articleSlug} />;
+    }
 
     // 10. Direct product fallback if route matches a product slug directly (e.g. /blueberry-coffee-hgw)
     const directSlug = cleanPath.replace(/^\//, '');

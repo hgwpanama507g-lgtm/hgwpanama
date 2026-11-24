@@ -1,6 +1,7 @@
 [
   {
     "id": "hgw-01",
+    "slug": "que-es-hgw-mision-filosofia",
     "title": "¿Qué es HGW (Health Green World)? Misión, Filosofía y Alcance Global",
     "summary": "Health Green World (HGW) es una compañía internacional de bienestar integral y venta directa multinacional con presencia en más de 50 países en los 5 continentes.",
     "category": "¿Qué es HGW y Fundadores?",
@@ -18,6 +19,7 @@
   },
   {
     "id": "hgw-02",
+    "slug": "historia-green-world-group-hgw",
     "title": "Historia de Green World Group y HGW: De Michigan a Latinoamérica",
     "summary": "Fundada en Michigan, EE.UU. en 1994, Green World Group nació con la visión de desarrollar suplementos botánicos seguros y eficaces.",
     "category": "¿Qué es HGW y Fundadores?",
@@ -34,6 +36,7 @@
   },
   {
     "id": "hgw-03",
+    "slug": "fundadores-dra-deming-li-peter-lee",
     "title": "Fundadores y Liderazgo: Dra. Deming Li y Peter Lee",
     "summary": "La Dra. Deming Li, PhD por la Universidad de Cornell, y Peter Lee lideran la visión científica y estratégica global de HGW.",
     "category": "¿Qué es HGW y Fundadores?",
@@ -51,6 +54,7 @@
   },
   {
     "id": "hgw-04",
+    "slug": "certificaciones-calidad-gmp-iso-fda",
     "title": "Certificaciones Internacionales de Calidad y Registro Ético",
     "summary": "HGW cuenta con certificaciones internacionales que avalan la pureza e inocuidad de sus productos: GMP, ISO 9001, FDA, Halal y membrecía en asociaciones de venta directa.",
     "category": "¿Qué es HGW y Fundadores?",
@@ -69,6 +73,7 @@
   },
   {
     "id": "hgw-05",
+    "slug": "video-tutorial-registro-paso-a-paso",
     "title": "Video Tutorial Oficial: Cómo Realizar tu Registro Paso a Paso",
     "summary": "Aprende de forma visual y guiada cómo registrarte en la plataforma oficial de HGW utilizando el código autorizado Yamilka507.",
     "category": "Afiliación y Tutoriales",
@@ -86,6 +91,7 @@
   },
   {
     "id": "hgw-06",
+    "slug": "guia-afiliacion-socio-distribuidor",
     "title": "Guía Paso a Paso para Afiliarse como Socio Distribuidor",
     "summary": "Requisitos, enlaces oficiales y procedimiento paso a paso para unirte al equipo de HGW Panamá y emprender con acompañamiento continuo.",
     "category": "Afiliación y Tutoriales",
@@ -102,6 +108,7 @@
   },
   {
     "id": "hgw-07",
+    "slug": "tienda-virtual-yappy-pagos-panama",
     "title": "Cómo Comprar en la Tienda Virtual y Métodos de Pago en Panamá",
     "summary": "Instrucciones para ordenar productos por internet, cotizar envíos y pagar cómodamente mediante Yappy, transferencia o efectivo.",
     "category": "Afiliación y Tutoriales",
@@ -119,6 +126,7 @@
   },
   {
     "id": "hgw-08",
+    "slug": "guia-activacion-paquetes-hgw",
     "title": "Guía de Activación y Elección de tu Primer Paquete HGW",
     "summary": "Conoce los 4 paquetes de activación oficial y cómo elegir el más adecuado según tu presupuesto y metas de negocio.",
     "category": "Afiliación y Tutoriales",
@@ -136,6 +144,7 @@
   },
   {
     "id": "hgw-09",
+    "slug": "plan-compensacion-ganancia-mutua-50-50",
     "title": "Plan de Compensación y el Revolucionario Plan Mutuo (50/50)",
     "summary": "El plan de compensación de HGW elimina las desventajas del binario tradicional: se gana por la línea de patrocinio y se comparte el 50% con el equipo.",
     "category": "Plan de Negocio y Membresías",
@@ -153,6 +162,7 @@
   },
   {
     "id": "hgw-10",
+    "slug": "6-formas-de-ganar-dinero-hgw",
     "title": "Las 6 Formas de Ganar Dinero en HGW: Guía Detallada",
     "summary": "Desglose exhaustivo de los 6 bonos financieros: Venta Directa, Inicio Rápido, Desarrollo, Equipo, Élite y Recompra.",
     "category": "Plan de Negocio y Membresías",
@@ -170,6 +180,7 @@
   },
   {
     "id": "hgw-11",
+    "slug": "recompras-10-bv-descuento-52-master",
     "title": "Recompras Mensuales (10 BV) y Descuento del 52% para Nivel Master",
     "summary": "Reglas de calificación mensual activa y la ventaja competitiva más potente de HGW: comprar con 52% de descuento real.",
     "category": "Plan de Negocio y Membresías",
@@ -187,6 +198,7 @@
   },
   {
     "id": "hgw-12",
+    "slug": "superalimentos-arandanos-ganoderma-cordyceps",
     "title": "Superalimentos Ancestrales HGW: Arándanos, Ganoderma y Cordyceps",
     "summary": "Estudio botánico y funcional de los tres pilares nutricionales de HGW que promueven vitalidad celular, inmunidad y longevidad.",
     "category": "Productos y Salud Natural",
@@ -204,6 +216,7 @@
   },
   {
     "id": "hgw-13",
+    "slug": "cafes-funcionales-sin-azucar",
     "title": "Catálogo de Cafés Funcionales sin Azúcar ni Químicos",
     "summary": "Guía completa de las 6 variedades de café saludable soluble HGW: beneficios, precios y cómo elegir el mejor para tu rutina.",
     "category": "Productos y Salud Natural",
@@ -221,6 +234,7 @@
   },
   {
     "id": "hgw-14",
+    "slug": "spirulina-plus-ginseng-rojo",
     "title": "Spirulina Plus con Ginseng Rojo: Superalimento Celular",
     "summary": "Análisis nutricional de las cápsulas de Spirulina Plus enriquecidas con ginseng rojo para energía, digestión y refuerzo inmune.",
     "category": "Productos y Salud Natural",
@@ -237,6 +251,7 @@
   },
   {
     "id": "hgw-15",
+    "slug": "linea-femenina-smilife-turmalina",
     "title": "Línea Femenina Smilife con Aniones de Turmalina",
     "summary": "Toallas higiénicas y protectores diarios de algodón suave con banda aniónica que ayuda a equilibrar el pH y prevenir infecciones.",
     "category": "Productos y Salud Natural",
@@ -254,6 +269,7 @@
   },
   {
     "id": "hgw-16",
+    "slug": "accesorios-terapeuticos-nanoturmalina",
     "title": "Accesorios Terapéuticos y Menaje de Nanoturmalina HGW",
     "summary": "Beneficios de los protectores articulares, pulseras, plantillas reflexológicas y el termo ionizador de agua alcalina.",
     "category": "Productos y Salud Natural",
@@ -271,6 +287,7 @@
   },
   {
     "id": "hgw-17",
+    "slug": "oficina-corporativa-panama-horarios",
     "title": "Oficina Corporativa en Panamá, Horarios y Soporte",
     "summary": "Dirección física, teléfonos, horarios de atención corporativa y canales de soporte para distribuidores en Ciudad de Panamá.",
     "category": "Oficinas y Contacto",
@@ -288,6 +305,7 @@
   },
   {
     "id": "hgw-18",
+    "slug": "envios-servientrega-devoluciones-panama",
     "title": "Políticas de Envío por Servientrega y Devoluciones en Panamá",
     "summary": "Condiciones de entrega a nivel nacional, tarifas desde $5.00 USD, plazos de 24 a 48 horas y garantía de recepción.",
     "category": "Oficinas y Contacto",

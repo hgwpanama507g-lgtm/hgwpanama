@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { PRODUCTS } from '../src/data/products';
 import { HGW_DOCUMENTS } from '../src/data/documents';
+import { knowledgeService } from '../src/services/knowledgeService';
 import { getSeoMetadata, PRODUCT_SLUG_ALIASES, buildProductJsonLd } from '../src/data/seoMetadata';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -16,6 +17,60 @@ function escapeHtml(str: string): string {
     .replace(/'/g, '&#39;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
+}
+
+function generateSitemap() {
+  const BASE_URL = 'https://www.hgwpanama.com';
+  const urls: string[] = [
+    `${BASE_URL}/`,
+    `${BASE_URL}/productos`,
+    `${BASE_URL}/membresias`,
+    `${BASE_URL}/oportunidad-de-negocio`,
+    `${BASE_URL}/preregistro`,
+    `${BASE_URL}/documentos`,
+    `${BASE_URL}/oficinas`,
+    `${BASE_URL}/informacion`,
+    `${BASE_URL}/pastas-dentales`,
+    `${BASE_URL}/contacto`,
+    `${BASE_URL}/envios-y-devoluciones`,
+    `${BASE_URL}/base-de-conocimiento`,
+  ];
+
+  // Products
+  for (const p of PRODUCTS) {
+    if (p.slug) {
+      urls.push(`${BASE_URL}/producto/${p.slug}`);
+    }
+  }
+
+  // Documents
+  for (const d of HGW_DOCUMENTS) {
+    if (d.slug) {
+      urls.push(`${BASE_URL}/documentos/${d.slug}`);
+    }
+  }
+
+  // Knowledge Base Articles
+  const knowledgeArticles = knowledgeService.getAllArticles();
+  for (const a of knowledgeArticles) {
+    if (a.slug) {
+      urls.push(`${BASE_URL}/base-de-conocimiento/${a.slug}`);
+    }
+  }
+
+  const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls
+    .map((url) => `  <url><loc>${url}</loc></url>`)
+    .join('\n')}\n</urlset>\n`;
+
+  const publicSitemapPath = path.resolve(__dirname, '../public/sitemap.xml');
+  fs.writeFileSync(publicSitemapPath, sitemapXml, 'utf-8');
+
+  const distSitemapPath = path.resolve(DIST_DIR, 'sitemap.xml');
+  if (fs.existsSync(DIST_DIR)) {
+    fs.writeFileSync(distSitemapPath, sitemapXml, 'utf-8');
+  }
+
+  console.log(`Generated sitemap.xml with ${urls.length} URLs in public/ and dist/!`);
 }
 
 function generatePages() {
@@ -55,7 +110,7 @@ function generatePages() {
     '/envios-y-devoluciones',
     '/herramientas',
     '/base-de-conocimiento',
-    '/base-conocimiento'
+    '/base-conocimiento',
   ];
 
   for (const r of standardRoutes) {
@@ -85,7 +140,18 @@ function generatePages() {
     }
   }
 
-
+  // Knowledge Base articles routes (both slug and id for full backward-compatibility)
+  const knowledgeArticles = knowledgeService.getAllArticles();
+  for (const art of knowledgeArticles) {
+    if (art.slug) {
+      routes.add(`/base-de-conocimiento/${art.slug}`);
+      routes.add(`/base-conocimiento/${art.slug}`);
+    }
+    if (art.id) {
+      routes.add(`/base-de-conocimiento/${art.id}`);
+      routes.add(`/base-conocimiento/${art.id}`);
+    }
+  }
 
   console.log(`Generating SEO pre-rendered HTML files for ${routes.size} routes...`);
 
@@ -177,6 +243,9 @@ function generatePages() {
   }
 
   console.log(`Successfully generated ${count} SEO pre-rendered pages with exact social share cards in dist/!`);
+
+  // Generate and sync updated sitemap.xml
+  generateSitemap();
 }
 
 generatePages();

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   Search,
   BookOpen,
@@ -34,6 +34,7 @@ import {
 import { knowledgeService, KnowledgeArticle } from '../services/knowledgeService';
 import { ScrollReveal } from '../components/ScrollReveal';
 import { getAffiliationWhatsAppUrl } from '../utils/whatsapp';
+import { useRouter } from '../router';
 
 // Helper to remove any markdown #, *** or ** characters from content or strings
 const cleanMarkdown = (text: string): string => {
@@ -41,10 +42,14 @@ const cleanMarkdown = (text: string): string => {
   return text.replace(/#+\s*/g, '').replace(/\*+/g, '');
 };
 
-export const KnowledgeBasePage: React.FC = () => {
+interface KnowledgeBasePageProps {
+  articleIdentifier?: string;
+}
+
+export const KnowledgeBasePage: React.FC<KnowledgeBasePageProps> = ({ articleIdentifier }) => {
+  const { navigate, currentPath } = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Todas');
-  const [selectedArticle, setSelectedArticle] = useState<KnowledgeArticle | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<'yes' | 'no' | null>(null);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
@@ -57,6 +62,28 @@ export const KnowledgeBasePage: React.FC = () => {
       title: cleanMarkdown(art.title),
     }));
   }, []);
+
+  // Determine active article based on prop or route identifier
+  const [selectedArticle, setSelectedArticle] = useState<KnowledgeArticle | null>(() => {
+    if (articleIdentifier) {
+      return knowledgeService.getArticleBySlugOrId(articleIdentifier) || null;
+    }
+    return null;
+  });
+
+  useEffect(() => {
+    if (articleIdentifier) {
+      const art = knowledgeService.getArticleBySlugOrId(articleIdentifier);
+      if (art) {
+        setSelectedArticle(art);
+        setFeedback(null);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    } else {
+      setSelectedArticle(null);
+      setFeedback(null);
+    }
+  }, [articleIdentifier, currentPath]);
 
   const rawCategories = useMemo(() => knowledgeService.getCategories(), []);
   const categories = useMemo(() => ['Todas', ...rawCategories], [rawCategories]);
@@ -132,7 +159,7 @@ export const KnowledgeBasePage: React.FC = () => {
 
   const handleCopyLink = (article: KnowledgeArticle, e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
-    const url = `${window.location.origin}/base-de-conocimiento#${article.id}`;
+    const url = `${window.location.origin}/base-de-conocimiento/${article.slug}`;
     navigator.clipboard.writeText(url).then(() => {
       setCopiedId(article.id);
       setTimeout(() => setCopiedId(null), 2500);
@@ -141,7 +168,8 @@ export const KnowledgeBasePage: React.FC = () => {
 
   const handleShareWhatsApp = (article: KnowledgeArticle, e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
-    const text = `Te comparto esta guía oficial de HGW Panamá:\n*${article.title}*\n${article.summary}\n\nLéela aquí: ${window.location.origin}/base-de-conocimiento`;
+    const url = `${window.location.origin}/base-de-conocimiento/${article.slug}`;
+    const text = `Te comparto esta guía oficial de HGW Panamá:\n*${article.title}*\n${article.summary}\n\nLéela aquí: ${url}`;
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
   };
 
@@ -204,8 +232,7 @@ export const KnowledgeBasePage: React.FC = () => {
             <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-6 mb-6">
               <button
                 onClick={() => {
-                  setSelectedArticle(null);
-                  setFeedback(null);
+                  navigate('/base-de-conocimiento');
                 }}
                 className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-[#EEF3FB] text-black hover:text-[#4472C4] font-black text-xs transition-colors cursor-pointer"
               >
@@ -368,7 +395,7 @@ export const KnowledgeBasePage: React.FC = () => {
                 <span
                   key={tag}
                   onClick={() => {
-                    setSelectedArticle(null);
+                    navigate('/base-de-conocimiento');
                     setSearchTerm(tag);
                   }}
                   className="px-2.5 py-1 bg-slate-100 hover:bg-[#EEF3FB] text-black hover:text-[#4472C4] rounded-lg text-xs font-bold transition-colors cursor-pointer border border-slate-200"
@@ -429,9 +456,7 @@ export const KnowledgeBasePage: React.FC = () => {
                       <div
                         key={rel.id}
                         onClick={() => {
-                          setSelectedArticle(rel);
-                          setFeedback(null);
-                          window.scrollTo({ top: 160, behavior: 'smooth' });
+                          navigate(`/base-de-conocimiento/${rel.slug}`);
                         }}
                         className="p-4 bg-slate-50 hover:bg-[#EEF3FB]/70 rounded-2xl border border-slate-200 hover:border-[#4472C4] cursor-pointer transition-all flex flex-col justify-between group shadow-2xs"
                       >
@@ -683,8 +708,7 @@ export const KnowledgeBasePage: React.FC = () => {
                       <div
                         key={art.id}
                         onClick={() => {
-                          setSelectedArticle(art);
-                          window.scrollTo({ top: 160, behavior: 'smooth' });
+                          navigate(`/base-de-conocimiento/${art.slug}`);
                         }}
                         className="bg-white rounded-3xl p-6 border border-slate-200 hover:border-[#4472C4] shadow-sm hover:shadow-md transition-all flex flex-col justify-between cursor-pointer group relative overflow-hidden"
                       >
