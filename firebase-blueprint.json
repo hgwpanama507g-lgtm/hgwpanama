@@ -1,0 +1,62 @@
+{
+  "entities": {
+    "ContactMessage": {
+      "title": "ContactMessage",
+      "description": "Mensajes y prospectos capturados por el asistente virtual",
+      "type": "object",
+      "properties": {
+        "fullName": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Nombre completo del visitante"
+        },
+        "phone": {
+          "type": "string",
+          "maxLength": 30,
+          "description": "Teléfono de contacto con código de país"
+        },
+        "visitorType": {
+          "type": "string",
+          "enum": ["socio", "emprendedor", "cliente", "informacion", "otro"],
+          "description": "Tipo de visitante detectado"
+        },
+        "interest": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Interés principal del usuario"
+        },
+        "summary": {
+          "type": "string",
+          "maxLength": 1000,
+          "description": "Resumen de la consulta"
+        },
+        "messages": {
+          "type": "array",
+          "description": "Historial de la conversación"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["nuevo", "contactado", "cerrado"],
+          "description": "Estado de seguimiento"
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 1000,
+          "description": "Notas internas del administrador"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Fecha y hora de creación"
+        }
+      },
+      "required": ["fullName", "phone", "visitorType", "status", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/contacts/{contactId}": {
+      "schema": "ContactMessage",
+      "description": "Colección de prospectos y mensajes capturados por el asistente virtual"
+    }
+  }
+}
