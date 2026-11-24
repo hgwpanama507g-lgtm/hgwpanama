@@ -58,12 +58,12 @@ ${knowledgeBase}`;
 
     let response: any = null;
     let lastError: any = null;
-    const modelsToTry = ["gemini-4-hydrogen", "gemini-3.1-flash-lite"];
+    const modelsToTry = ["gemini-2.5-flash", "gemini-2.5-flash-lite", "gemini-3.1-flash-lite"];
     const delays = [1000, 2000];
 
     for (const modelName of modelsToTry) {
       let attempts = 0;
-      const maxRetries = modelName === "gemini-4-hydrogen" ? 2 : 1;
+      const maxRetries = 1;
 
       while (attempts <= maxRetries) {
         try {
