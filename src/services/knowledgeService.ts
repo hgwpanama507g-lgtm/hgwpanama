@@ -8,6 +8,8 @@ export interface KnowledgeArticle {
   tags: string[];
   source: string;
   updatedAt: string;
+  readTime?: string;
+  videoUrl?: string;
   content: string;
 }
 
