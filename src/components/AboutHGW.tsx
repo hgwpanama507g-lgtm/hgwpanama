@@ -124,7 +124,7 @@ export const AboutHGW: React.FC = () => {
           {/* 1. Photograph at the top */}
           <div className="w-36 h-36 sm:w-44 sm:h-44 rounded-full overflow-hidden border-4 border-white shadow-xl bg-white mb-5 mx-auto shrink-0">
             <img
-              src="/assets/aistudio/Retrato_corporativo_de_mujer_latina_b3872491.png"
+              src="/assets/aistudio/9b2661a4-ec7f-45a0-8bdf-e2d9151cac51_5d6eabee.png"
               alt="Yamilka Batista - Distribuidora Independiente Autorizada HGW Panamá"
               className="w-full h-full object-cover object-top"
             />
