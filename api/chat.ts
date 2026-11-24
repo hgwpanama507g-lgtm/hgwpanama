@@ -56,15 +56,55 @@ ${knowledgeBase}`;
       parts: [{ text: m.content }],
     }));
 
-    const response = await ai.models.generateContent({
-      model: "gemini-4-hydrogen",
-      contents: formattedContents,
-      config: {
-        systemInstruction,
-      },
-    });
+    let response: any = null;
+    let lastError: any = null;
+    const modelsToTry = ["gemini-4-hydrogen", "gemini-3.1-flash-lite"];
+    const delays = [1000, 2000];
 
-    const reply = response.text || "Entendido. ¿En qué más puedo ayudarte con respecto a nuestros productos y membresías HGW?";
+    for (const modelName of modelsToTry) {
+      let attempts = 0;
+      const maxRetries = modelName === "gemini-4-hydrogen" ? 2 : 1;
+
+      while (attempts <= maxRetries) {
+        try {
+          response = await ai.models.generateContent({
+            model: modelName,
+            contents: formattedContents,
+            config: {
+              systemInstruction,
+            },
+          });
+          if (response && response.text) {
+            break;
+          }
+        } catch (err: any) {
+          lastError = err;
+          const status = err?.status || err?.statusCode || 0;
+          const msg = String(err?.message || '');
+          const isRateLimitOrServiceUnavailable =
+            status === 429 || status === 503 || msg.includes('429') || msg.includes('503') || msg.includes('Resource exhausted') || msg.includes('Service Unavailable');
+
+          if (isRateLimitOrServiceUnavailable && attempts < maxRetries) {
+            const waitTime = delays[attempts] || 2000;
+            await new Promise((resolve) => setTimeout(resolve, waitTime));
+            attempts++;
+            continue;
+          } else {
+            break;
+          }
+        }
+      }
+
+      if (response && response.text) {
+        break;
+      }
+    }
+
+    if (!response || !response.text) {
+      throw lastError || new Error("Failed to generate content after retries and fallback models.");
+    }
+
+    const reply = response.text;
 
     return res.status(200).json({ reply });
   } catch (error: any) {
