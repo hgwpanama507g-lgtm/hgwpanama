@@ -37,12 +37,6 @@ import { getAffiliationWhatsAppUrl } from '../utils/whatsapp';
 import { useRouter } from '../router';
 import { AFFILIATION_CONFIG } from '../config/affiliation';
 
-// Helper to remove any markdown #, *** or ** characters from content or strings
-const cleanMarkdown = (text: string): string => {
-  if (!text) return '';
-  return text.replace(/#+\s*/g, '').replace(/\*+/g, '');
-};
-
 interface KnowledgeBasePageProps {
   articleIdentifier?: string;
 }
@@ -51,43 +45,40 @@ export const KnowledgeBasePage: React.FC<KnowledgeBasePageProps> = ({ articleIde
   const { navigate, currentPath } = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Todas');
+  const [articles, setArticles] = useState<KnowledgeArticle[]>([]);
+  const [categories, setCategories] = useState<string[]>(['Todas']);
+  const [selectedArticle, setSelectedArticle] = useState<KnowledgeArticle | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<'yes' | 'no' | null>(null);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
-
-  const articles = useMemo(() => {
-    return knowledgeService.getAllArticles().map((art) => ({
-      ...art,
-      content: cleanMarkdown(art.content),
-      summary: cleanMarkdown(art.summary),
-      title: cleanMarkdown(art.title),
-    }));
-  }, []);
-
-  // Determine active article based on prop or route identifier
-  const [selectedArticle, setSelectedArticle] = useState<KnowledgeArticle | null>(() => {
-    if (articleIdentifier) {
-      return knowledgeService.getArticleBySlugOrId(articleIdentifier) || null;
-    }
-    return null;
-  });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (articleIdentifier) {
-      const art = knowledgeService.getArticleBySlugOrId(articleIdentifier);
-      if (art) {
-        setSelectedArticle(art);
-        setFeedback(null);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    } else {
-      setSelectedArticle(null);
-      setFeedback(null);
-    }
-  }, [articleIdentifier, currentPath]);
+    let isMounted = true;
+    knowledgeService.getAllArticles(false).then((fetched) => {
+      if (!isMounted) return;
+      setArticles(fetched);
+      const cats = Array.from(new Set(fetched.map(a => a.category)));
+      setCategories(['Todas', ...cats]);
 
-  const rawCategories = useMemo(() => knowledgeService.getCategories(), []);
-  const categories = useMemo(() => ['Todas', ...rawCategories], [rawCategories]);
+      if (articleIdentifier) {
+        const found = fetched.find(
+          art => (art.slug && art.slug.toLowerCase() === articleIdentifier.toLowerCase()) || art.id.toLowerCase() === articleIdentifier.toLowerCase()
+        );
+        setSelectedArticle(found || null);
+      } else {
+        setSelectedArticle(null);
+      }
+      setLoading(false);
+    }).catch(err => {
+      console.error("Error loading knowledge base:", err);
+      if (isMounted) setLoading(false);
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [articleIdentifier, currentPath]);
 
   // Category Icon & Color Configuration
   const getCategoryConfig = (category: string) => {
@@ -184,6 +175,17 @@ export const KnowledgeBasePage: React.FC<KnowledgeBasePageProps> = ({ articleIde
     { label: 'Turmalina', icon: ShieldCheck },
     { label: 'Servientrega', icon: CheckCircle2 },
   ];
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-stone-50 flex items-center justify-center">
+        <div className="text-center space-y-3">
+          <div className="w-8 h-8 border-4 border-[#4472C4] border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p className="text-xs font-bold text-slate-600">Cargando base de conocimiento...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-stone-50 py-8 sm:py-14 text-black">
@@ -318,7 +320,7 @@ export const KnowledgeBasePage: React.FC<KnowledgeBasePageProps> = ({ articleIde
 
             {/* Article Title */}
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-black mb-4">
-              {cleanMarkdown(selectedArticle.title)}
+              {selectedArticle.title}
             </h2>
 
             {/* Embedded Video Tutorial (if article contains videoUrl) */}
@@ -352,13 +354,13 @@ export const KnowledgeBasePage: React.FC<KnowledgeBasePageProps> = ({ articleIde
             <div className="p-4 sm:p-5 bg-gradient-to-r from-[#EEF3FB] to-blue-50/40 border-l-4 border-[#4472C4] rounded-r-2xl mb-8 flex items-start gap-3">
               <Info className="w-5 h-5 text-[#4472C4] shrink-0 mt-0.5" />
               <p className="text-sm sm:text-base text-black font-bold leading-relaxed">
-                {cleanMarkdown(selectedArticle.summary)}
+                {selectedArticle.summary}
               </p>
             </div>
 
             {/* Content Body */}
             <div className="max-w-none text-black text-sm sm:text-base leading-relaxed space-y-4 whitespace-pre-line font-medium">
-              {cleanMarkdown(selectedArticle.content)}
+              {selectedArticle.content}
             </div>
 
             {/* Action Box for Registration / Contact */}
@@ -477,8 +479,9 @@ export const KnowledgeBasePage: React.FC<KnowledgeBasePageProps> = ({ articleIde
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {knowledgeService
-                  .getRelatedArticles(selectedArticle.id, selectedArticle.category, 3)
+                {articles
+                  .filter(rel => rel.id !== selectedArticle.id && rel.category === selectedArticle.category)
+                  .slice(0, 3)
                   .map((rel) => {
                     const relCfg = getCategoryConfig(rel.category);
                     const RelIcon = relCfg.icon;
@@ -498,7 +501,7 @@ export const KnowledgeBasePage: React.FC<KnowledgeBasePageProps> = ({ articleIde
                             </span>
                           </div>
                           <h4 className="font-extrabold text-xs text-black group-hover:text-[#4472C4] transition-colors line-clamp-2">
-                            {cleanMarkdown(rel.title)}
+                            {rel.title}
                           </h4>
                         </div>
                         <span className="text-[11px] font-bold text-black group-hover:text-[#4472C4] flex items-center gap-1 mt-3 group-hover:translate-x-1 transition-transform">
@@ -799,12 +802,12 @@ export const KnowledgeBasePage: React.FC<KnowledgeBasePageProps> = ({ articleIde
 
                           {/* Article Title */}
                           <h3 className="font-extrabold text-base text-black group-hover:text-[#4472C4] transition-colors mb-2 line-clamp-2 leading-snug">
-                            {cleanMarkdown(art.title)}
+                            {art.title}
                           </h3>
 
                           {/* Summary */}
                           <p className="text-xs text-black line-clamp-3 leading-relaxed mb-4 font-normal">
-                            {cleanMarkdown(art.summary)}
+                            {art.summary}
                           </p>
                         </div>
 

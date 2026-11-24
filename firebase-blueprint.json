@@ -51,12 +51,35 @@
         }
       },
       "required": ["fullName", "phone", "visitorType", "status", "createdAt"]
+    },
+    "Article": {
+      "title": "Article",
+      "description": "Artículos de la Base de Conocimiento",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "slug": { "type": "string" },
+        "titulo": { "type": "string", "maxLength": 200 },
+        "resumen": { "type": "string", "maxLength": 500 },
+        "contenido": { "type": "string" },
+        "categoria": { "type": "string" },
+        "tags": { "type": "array" },
+        "source": { "type": "string" },
+        "destacado": { "type": "boolean" },
+        "publicado": { "type": "boolean" },
+        "fechaActualizacion": { "type": "string" }
+      },
+      "required": ["id", "slug", "titulo", "contenido", "categoria", "publicado"]
     }
   },
   "firestore": {
     "/contacts/{contactId}": {
       "schema": "ContactMessage",
       "description": "Colección de prospectos y mensajes capturados por el asistente virtual"
+    },
+    "/articulos/{articleId}": {
+      "schema": "Article",
+      "description": "Colección de artículos de la Base de Conocimiento HGW Panamá"
     }
   }
 }

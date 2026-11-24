@@ -258,7 +258,7 @@ export function getSeoMetadata(pathname: string): SeoMetadata {
   // 9.6. Individual Knowledge Base Article (/base-de-conocimiento/:slug or /base-conocimiento/:slug)
   if (cleanPath.startsWith('/base-de-conocimiento/') || cleanPath.startsWith('/base-conocimiento/')) {
     const articleSlug = cleanPath.replace(/^\/base-(?:de-)?conocimiento\//, '').split('?')[0].split('#')[0];
-    const art = knowledgeService.getArticleBySlugOrId(articleSlug);
+    const art = knowledgeService.getArticleBySlugOrIdSync(articleSlug);
     if (art) {
       return {
         title: `${art.title} – HGW Panamá`,

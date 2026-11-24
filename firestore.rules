@@ -7,18 +7,11 @@ service cloud.firestore {
       allow read, write: if false;
     }
 
-    // Helper to check if user is authenticated
-    function isSignedIn() {
-      return request.auth != null;
-    }
-
-    // Helper to check if authenticated user is admin (via custom claim or admin UID whitelist)
+    // Helper to check if user is authenticated admin
     function isAdmin() {
-      return isSignedIn() && (
-        request.auth.token.admin == true || 
-        request.auth.uid == 'admin' ||
-        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
-      );
+      return request.auth != null && 
+        request.auth.token.email == 'hgwpanama507g@gmail.com' &&
+        request.auth.token.email_verified == true;
     }
 
     // Validation helper for ContactMessage
@@ -41,10 +34,10 @@ service cloud.firestore {
       allow read, update, delete: if isAdmin();
     }
 
-    // Admins collection for role checking
-    match /admins/{adminId} {
-      allow read: if isSignedIn();
-      allow write: if false;
+    // Articulos collection: Public read if published == true, admin can read/write all
+    match /articulos/{articleId} {
+      allow read: if resource.data.publicado == true || isAdmin();
+      allow write: if isAdmin();
     }
   }
 }

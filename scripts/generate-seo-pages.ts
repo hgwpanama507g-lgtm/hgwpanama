@@ -51,7 +51,7 @@ function generateSitemap() {
   }
 
   // Knowledge Base Articles
-  const knowledgeArticles = knowledgeService.getAllArticles();
+  const knowledgeArticles = knowledgeService.getLocalArticles();
   for (const a of knowledgeArticles) {
     if (a.slug) {
       urls.push(`${BASE_URL}/base-de-conocimiento/${a.slug}`);
@@ -141,7 +141,7 @@ function generatePages() {
   }
 
   // Knowledge Base articles routes (both slug and id for full backward-compatibility)
-  const knowledgeArticles = knowledgeService.getAllArticles();
+  const knowledgeArticles = knowledgeService.getLocalArticles();
   for (const art of knowledgeArticles) {
     if (art.slug) {
       routes.add(`/base-de-conocimiento/${art.slug}`);
