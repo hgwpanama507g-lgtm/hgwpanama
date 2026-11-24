@@ -90,10 +90,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
         <ScrollReveal>
           {/* Section Header */}
           <div className="text-center max-w-3xl mx-auto mb-12">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight">
               Contacto
             </h2>
-            <p className="text-sm sm:text-base text-slate-600 mt-2.5 font-normal">
+            <p className="text-sm sm:text-base text-black mt-2.5 font-normal">
               Envíanos tu consulta sobre productos, pedidos, envíos o afiliaciones en la República de Panamá.
             </p>
           </div>

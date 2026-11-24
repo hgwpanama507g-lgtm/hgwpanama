@@ -22,6 +22,10 @@ const SERVICES_LIST = [
     title: 'Productos Naturales con Respaldo Global',
     detail:
       'Fórmulas originales de arándano silvestre, ganoderma lucidum, cordyceps, probióticos y tecnología de nanoturmalina avaladas por normativas FDA, ISO 9001 y GMP.',
+    bullets: [
+      'Extractos naturales de alta pureza y biodisponibilidad.',
+      'Certificaciones internacionales de calidad e inocuidad.',
+    ],
     ctaLabel: 'Ver Catálogo',
     ctaTo: '/productos',
   },
@@ -30,6 +34,10 @@ const SERVICES_LIST = [
     title: 'Asesoría Personalizada en Panamá',
     detail:
       'Orientación directa 1 a 1 vía WhatsApp (+507 6778-8375) con distribuidor independiente autorizado para ayudarte a elegir los productos ideales para tu rutina.',
+    bullets: [
+      'Atención cercana en Ciudad de Panamá y provincias.',
+      'Recomendaciones adaptadas a tu bienestar diario.',
+    ],
     ctaLabel: 'Consultar por WhatsApp',
     ctaHref: 'whatsapp',
   },
@@ -38,6 +46,10 @@ const SERVICES_LIST = [
     title: 'Envíos Confiables a Todo el País',
     detail:
       'Entregas en Panamá desde USD 5.00 en un tiempo estimado de 24 a 48 horas hábiles vía Servientrega o encomienda provincial (Uno Express, Fletes Chavale).',
+    bullets: [
+      'Cobertura nacional en todas las provincias.',
+      'Pagos fáciles por Yappy, ACH o efectivo según zona.',
+    ],
     ctaLabel: 'Política de Envíos',
     ctaTo: '/envios-y-devoluciones',
   },
@@ -46,6 +58,10 @@ const SERVICES_LIST = [
     title: 'Membresías y Plan de Ganancias Mutuas',
     detail:
       'Actívate con Pre-Junior, Junior, Senior o Master escogiendo los productos de tu preferencia y accede a descuentos preferenciales de hasta 52% en recompras.',
+    bullets: [
+      'Elige libremente los productos de tu preferencia.',
+      'Beneficios progresivos de consumo y comercialización.',
+    ],
     ctaLabel: 'Ver Oportunidad',
     ctaTo: '/oportunidad-de-negocio',
   },
@@ -132,6 +148,46 @@ const BLOG_ARTICLES = [
       'https://media.academiahgw.online/wp-content/uploads/2026/11/16._HGW_SERIE_CAF_-1024x576.png',
     to: '/informacion#cafe',
   },
+  {
+    title: 'Reishi (Ganoderma Lucidum) y Vitalidad Diaria',
+    excerpt:
+      'Aprende sobre el hongo milenario rico en polisacáridos y triterpenos que acompaña nuestras líneas de café funcional y suplementos.',
+    image:
+      'https://media.academiahgw.online/wp-content/uploads/2026/11/12._CORDYCEPS-1024x576.png',
+    to: '/informacion#reishi',
+  },
+  {
+    title: 'Espirulina: Proteína Vegetal y Fitonutrientes',
+    excerpt:
+      'Conoce los beneficios nutricionales de esta microalga rica en aminoácidos esenciales, hierro, clorofila y vitaminas naturales.',
+    image:
+      'https://media.academiahgw.online/wp-content/uploads/2026/11/13._ESPIRULINA-1024x576.png',
+    to: '/documentos',
+  },
+  {
+    title: 'Péptidos de Colágeno con Extracto de Arándano',
+    excerpt:
+      'Información detallada sobre cómo los péptidos hidrolizados de colágeno junto a las antocianinas respaldan el bienestar de piel y articulaciones.',
+    image:
+      'https://media.academiahgw.online/wp-content/uploads/2026/11/17._HGW_Blueberry_Collagen_Peptide-1024x576.png',
+    to: '/documentos',
+  },
+  {
+    title: 'Lactiberry: Probióticos con Té Negro y Arándano',
+    excerpt:
+      'Descubre nuestra bebida funcional fermentada diseñada para acompañar la salud digestiva diaria con un sabor refrescante.',
+    image:
+      'https://media.academiahgw.online/wp-content/uploads/2026/11/22._LACTIBERRY-1024x576.png',
+    to: '/documentos',
+  },
+  {
+    title: 'Pastas Dentales Sin Flúor con Probióticos y Turmalina',
+    excerpt:
+      'Guía completa sobre nuestra línea bucal herbal libre de flúor y triclosán formulada para el cuidado integral de toda la familia.',
+    image:
+      'https://media.academiahgw.online/wp-content/uploads/2026/11/34._SERIE_SMILIFE_BLUEBERRY-1024x576.png',
+    to: '/pastas-dentales',
+  },
 ];
 
 const TESTIMONIAL_VIDEOS = [
@@ -181,6 +237,16 @@ export const LandingPage: React.FC = () => {
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
     return shuffled.slice(0, 8);
+  }, []);
+
+  // 4 artículos al azar para mostrar en 4 columnas
+  const randomArticles = useMemo(() => {
+    const shuffled = [...BLOG_ARTICLES];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled.slice(0, 4);
   }, []);
 
   // Paquetes de membresía con Master de último (Junior, Senior, Master)
@@ -240,12 +306,12 @@ export const LandingPage: React.FC = () => {
           <ScrollReveal>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
               <div className="flex flex-col items-center text-center space-y-6">
-                <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-black text-slate-900 tracking-tight leading-tight text-balance">
+                <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-black text-black tracking-tight leading-tight text-balance">
                   Bienestar Natural y Productos Funcionales con{' '}
                   <span className="text-[#4472C4]">HGW Panamá</span>
                 </h1>
 
-                <p className="text-base sm:text-[17px] text-slate-600 leading-relaxed max-w-xl font-normal">
+                <p className="text-base sm:text-[17px] text-black leading-relaxed max-w-xl font-normal">
                   Descubre la sinergia entre la sabiduría herbolaria milenaria y la biotecnología moderna. Productos originales de arándano silvestre, turmalina, ganoderma lucidum y probióticos respaldados por certificaciones internacionales y asesoría directa en toda la República de Panamá.
                 </p>
 
@@ -286,10 +352,10 @@ export const LandingPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <div className="text-center max-w-3xl mx-auto mb-12">
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight">
                 Servicios y Características de HGW Panamá
               </h2>
-              <p className="text-sm sm:text-base text-slate-600 mt-2.5 font-normal">
+              <p className="text-sm sm:text-base text-black mt-2.5 font-normal">
                 Beneficios exclusivos al adquirir tus productos o activar tu código de distribuidor independiente.
               </p>
             </div>
@@ -311,16 +377,20 @@ export const LandingPage: React.FC = () => {
                   return (
                     <div
                       key={srv.id}
-                      className={`rounded-2xl transition-all duration-200 overflow-hidden shadow-sm ${
+                      className={`rounded-2xl transition-all duration-200 overflow-hidden shadow-sm border ${
                         isSelected
-                          ? 'bg-[#33599E] text-white shadow-md ring-2 ring-[#4472C4]/30'
-                          : 'bg-[#4472C4] hover:bg-[#33599E] text-white'
+                          ? 'bg-white border-[#4472C4] shadow-md ring-2 ring-[#4472C4]/25'
+                          : 'bg-[#4472C4] border-[#4472C4]'
                       }`}
                     >
                       <button
                         type="button"
                         onClick={() => setActiveServiceIdx(isSelected ? null : idx)}
-                        className="w-full px-6 py-4 text-left flex items-center justify-between gap-4 cursor-pointer"
+                        className={`w-full px-4 sm:px-6 py-4 text-left flex items-center justify-between gap-4 cursor-pointer transition-colors ${
+                          isSelected
+                            ? 'bg-[#33599E] text-white'
+                            : 'bg-[#4472C4] hover:bg-[#33599E] text-white'
+                        }`}
                         aria-expanded={isSelected}
                       >
                         <span className="font-bold text-sm sm:text-base tracking-wide">
@@ -334,25 +404,35 @@ export const LandingPage: React.FC = () => {
                       </button>
 
                       {isSelected && (
-                        <div className="px-6 pb-5 pt-1 text-xs sm:text-sm text-blue-50 border-t border-white/15 space-y-3">
-                          <p className="leading-relaxed">{srv.detail}</p>
+                        <div className="px-4 sm:px-6 py-4 sm:py-5 bg-white text-black border-t border-slate-200 space-y-3">
+                          <p className="text-[17px] leading-relaxed text-black break-words">
+                            {srv.detail}
+                          </p>
+                          <ul className="space-y-2 text-[17px] leading-relaxed text-black">
+                            {srv.bullets.map((bullet, bIdx) => (
+                              <li key={bIdx} className="flex items-start gap-2.5 break-words">
+                                <span className="text-[#4472C4] font-black leading-relaxed shrink-0">•</span>
+                                <span>{bullet}</span>
+                              </li>
+                            ))}
+                          </ul>
                           {srv.ctaHref === 'whatsapp' ? (
                             <a
                               href={whatsappUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1.5 text-xs font-bold text-white underline underline-offset-4 hover:text-blue-100"
+                              className="inline-flex items-center gap-1.5 text-sm font-bold text-[#4472C4] underline underline-offset-4 hover:text-[#33599E] pt-1"
                             >
                               <span>{srv.ctaLabel}</span>
-                              <ExternalLink className="w-3.5 h-3.5" />
+                              <ExternalLink className="w-4 h-4" />
                             </a>
                           ) : (
                             <Link
                               to={srv.ctaTo || '/productos'}
-                              className="inline-flex items-center gap-1.5 text-xs font-bold text-white underline underline-offset-4 hover:text-blue-100"
+                              className="inline-flex items-center gap-1.5 text-sm font-bold text-[#4472C4] underline underline-offset-4 hover:text-[#33599E] pt-1"
                             >
                               <span>{srv.ctaLabel}</span>
-                              <ArrowRight className="w-3.5 h-3.5" />
+                              <ArrowRight className="w-4 h-4" />
                             </Link>
                           )}
                         </div>
@@ -373,10 +453,10 @@ export const LandingPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <div className="text-center max-w-3xl mx-auto mb-12">
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight">
                 Pilares de Nuestras Fórmulas Naturales
               </h2>
-              <p className="text-sm sm:text-base text-slate-600 mt-2.5 font-normal">
+              <p className="text-sm sm:text-base text-black mt-2.5 font-normal">
                 Categorías principales diseñadas para el bienestar diario de tu familia.
               </p>
             </div>
@@ -401,10 +481,10 @@ export const LandingPage: React.FC = () => {
                       }}
                     />
                   </Link>
-                  <h3 className="text-xl font-extrabold text-slate-900 mb-2.5">
+                  <h3 className="text-xl font-extrabold text-black mb-2.5">
                     {col.title}
                   </h3>
-                  <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-xs font-normal">
+                  <p className="text-sm sm:text-base text-black leading-relaxed max-w-xs font-normal">
                     {col.description}
                   </p>
                 </div>
@@ -415,28 +495,28 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* =================================================================
-          (6) CERTIFICACIONES Y RECONOCIMIENTOS (TODAS las certificaciones + asociaciones)
+          (6) CERTIFICACIONES Y RECONOCIMIENTOS (Grid 4 escritorio, 2 tablet, 2 móviles)
           ================================================================= */}
       <section className="py-14 sm:py-20 bg-[#F8FAFC] border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <div className="text-center max-w-3xl mx-auto mb-12">
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight">
                 Certificaciones y Reconocimientos
               </h2>
-              <p className="text-sm sm:text-base text-slate-600 mt-2.5 font-normal">
+              <p className="text-sm sm:text-base text-black mt-2.5 font-normal">
                 Todas las certificaciones internacionales de calidad, inocuidad y manufactura, junto con las asociaciones de venta directa que respaldan a HGW.
               </p>
             </div>
 
-            {/* Certificaciones Internacionales (8 en total) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-14">
+            {/* Certificaciones Internacionales (4 escritorio, 2 tablet, 2 móviles) */}
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 lg:gap-6 mb-14">
               {CERTIFICATIONS.map((cert) => (
                 <div
                   key={cert.id}
-                  className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center"
+                  className="bg-white rounded-2xl sm:rounded-3xl p-3 sm:p-5 border border-slate-200/80 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center"
                 >
-                  <div className="aspect-[3/2] w-full rounded-2xl overflow-hidden bg-[#F8FAFC] border border-slate-100 p-3 flex items-center justify-center mb-4">
+                  <div className="aspect-[3/2] w-full rounded-xl sm:rounded-2xl overflow-hidden bg-[#F8FAFC] border border-slate-100 p-2 sm:p-3 flex items-center justify-center mb-3 sm:mb-4">
                     <img
                       src={cert.imageUrl}
                       alt={cert.name}
@@ -448,33 +528,33 @@ export const LandingPage: React.FC = () => {
                       }}
                     />
                   </div>
-                  <h3 className="text-base sm:text-lg font-extrabold text-slate-900 mb-1.5 leading-snug">
+                  <h3 className="text-sm sm:text-lg font-extrabold text-black mb-1 sm:mb-1.5 leading-snug">
                     {cert.name}
                   </h3>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                  <p className="text-xs sm:text-sm text-black leading-relaxed font-normal">
                     {cert.description}
                   </p>
                 </div>
               ))}
             </div>
 
-            {/* Reconocimientos y Asociaciones de Venta Directa (6 en total) */}
+            {/* Reconocimientos y Asociaciones de Venta Directa (4 escritorio, 2 tablet, 2 móviles) */}
             <div className="text-center max-w-2xl mx-auto mb-8">
-              <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+              <h3 className="text-xl sm:text-2xl font-black text-black tracking-tight">
                 Asociaciones y Reconocimientos de Venta Directa
               </h3>
-              <p className="text-xs sm:text-sm text-slate-600 mt-1.5 font-normal">
+              <p className="text-xs sm:text-sm text-black mt-1.5 font-normal">
                 Respaldo gremial e institucional en Panamá, Latinoamérica y el mundo.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 lg:gap-6">
               {DIRECT_SALES_ASSOCIATIONS.map((assoc, idx) => (
                 <div
                   key={idx}
-                  className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center"
+                  className="bg-white rounded-2xl sm:rounded-3xl p-3 sm:p-5 border border-slate-200/80 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center"
                 >
-                  <div className="aspect-[3/2] w-full rounded-2xl overflow-hidden bg-[#F8FAFC] border border-slate-100 p-4 flex items-center justify-center mb-4">
+                  <div className="aspect-[3/2] w-full rounded-xl sm:rounded-2xl overflow-hidden bg-[#F8FAFC] border border-slate-100 p-2.5 sm:p-4 flex items-center justify-center mb-3 sm:mb-4">
                     <img
                       src={assoc.imageUrl}
                       alt={assoc.name}
@@ -486,13 +566,13 @@ export const LandingPage: React.FC = () => {
                       }}
                     />
                   </div>
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#4472C4] mb-1">
+                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#4472C4] mb-1">
                     {assoc.country}
                   </span>
-                  <h4 className="text-base font-extrabold text-slate-900 mb-1.5 leading-snug">
+                  <h4 className="text-sm sm:text-base font-extrabold text-black mb-1 sm:mb-1.5 leading-snug">
                     {assoc.name}
                   </h4>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                  <p className="text-xs sm:text-sm text-black leading-relaxed font-normal">
                     {assoc.description}
                   </p>
                 </div>
@@ -509,10 +589,10 @@ export const LandingPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <div className="text-center max-w-3xl mx-auto mb-12">
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight">
                 Testimonios
               </h2>
-              <p className="text-sm sm:text-base text-slate-600 mt-2.5 font-normal">
+              <p className="text-sm sm:text-base text-black mt-2.5 font-normal">
                 Experiencias reales compartidas por clientes y consumidores de nuestros productos HGW.
               </p>
             </div>
@@ -532,10 +612,10 @@ export const LandingPage: React.FC = () => {
                       allowFullScreen
                     />
                   </div>
-                  <h3 className="text-lg font-extrabold text-slate-900 mb-2 leading-snug">
+                  <h3 className="text-lg font-extrabold text-black mb-2 leading-snug">
                     {video.title}
                   </h3>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                  <p className="text-xs sm:text-sm text-black leading-relaxed font-normal">
                     {video.description}
                   </p>
                 </div>
@@ -555,10 +635,10 @@ export const LandingPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <div className="text-center max-w-3xl mx-auto mb-12">
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight">
                 Productos
               </h2>
-              <p className="text-sm sm:text-base text-slate-600 mt-2.5 font-normal">
+              <p className="text-sm sm:text-base text-black mt-2.5 font-normal">
                 Selección destacada de nuestro catálogo oficial con precios en dólares (USD) en Panamá.
               </p>
             </div>
@@ -590,11 +670,11 @@ export const LandingPage: React.FC = () => {
                       {product.categoryLabel} · {product.priceFormatted}
                     </div>
 
-                    <h3 className="text-sm sm:text-base font-extrabold text-slate-900 mb-1.5 line-clamp-2 leading-snug">
+                    <h3 className="text-sm sm:text-base font-extrabold text-black mb-1.5 line-clamp-2 leading-snug">
                       {product.name}
                     </h3>
 
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed line-clamp-2 mb-4 font-normal">
+                    <p className="text-xs sm:text-sm text-black leading-relaxed line-clamp-2 mb-4 font-normal">
                       {product.shortDescription}
                     </p>
                   </div>
@@ -632,23 +712,30 @@ export const LandingPage: React.FC = () => {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
-            <div className="text-center max-w-3xl mx-auto mb-12">
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
+            <div className="text-center max-w-3xl mx-auto mb-12 flex flex-col items-center">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight">
                 Acerca de la Empresa
               </h2>
+              <div className="mt-5">
+                <img
+                  src="/assets/aistudio/HGW-LOGO-DE-LA-COMPANIA_b191b3d1.png"
+                  alt="Logo Oficial Health Green World (HGW)"
+                  className="h-24 sm:h-28 md:h-32 w-auto object-contain mx-auto"
+                />
+              </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
               <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-5">
-                <h3 className="text-2xl sm:text-3xl font-black text-slate-900 leading-tight">
+                <h3 className="text-2xl sm:text-3xl font-black text-black leading-tight">
                   Health Green World (Green World Group)
                 </h3>
 
-                <p className="text-base text-slate-600 leading-relaxed font-normal">
+                <p className="text-base text-black leading-relaxed font-normal">
                   HGW forma parte de la corporación multinacional Green World Group, fundada por la <strong>Dra. Deming Lee</strong> junto al liderazgo corporativo de <strong>Peter Lee</strong>. Con presencia en más de 50 países, combinamos investigación científica en medicina tradicional con biotecnología moderna.
                 </p>
 
-                <p className="text-base text-slate-600 leading-relaxed font-normal">
+                <p className="text-base text-black leading-relaxed font-normal">
                   En Panamá operamos bajo los más altos estándares éticos, afiliados a gremios de venta directa responsable como la Asociación Panameña de Venta Directa (APVD) y la Federación Mundial de Asociaciones de Venta Directa (WFDSA).
                 </p>
 
@@ -693,7 +780,7 @@ export const LandingPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <div className="text-center max-w-3xl mx-auto mb-12">
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight">
                 Oportunidad
               </h2>
             </div>
@@ -710,11 +797,11 @@ export const LandingPage: React.FC = () => {
               </div>
 
               <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-5">
-                <h3 className="text-2xl sm:text-3xl font-black text-slate-900 leading-tight">
+                <h3 className="text-2xl sm:text-3xl font-black text-black leading-tight">
                   Gana hasta un <span className="text-[#4472C4]">52% de beneficio</span> con el Plan de Ganancias Mutuas
                 </h3>
 
-                <p className="text-base text-slate-600 leading-relaxed font-normal">
+                <p className="text-base text-black leading-relaxed font-normal">
                   En HGW Panamá tú decides cómo crecer. Al activarte con la membresía Master (600 BV), accedes a compras personales con hasta un 52% de ahorro en recompras, márgenes del 60% en venta directa al consumidor, bonos de inicio rápido, desarrollo, bono de equipo diario y bono élite hasta la 6ta generación.
                 </p>
 
@@ -750,22 +837,22 @@ export const LandingPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <div className="text-center max-w-3xl mx-auto mb-12">
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight">
                 Blog, Artículos, Eventos y Noticias
               </h2>
-              <p className="text-sm sm:text-base text-slate-600 mt-2.5 font-normal">
+              <p className="text-sm sm:text-base text-black mt-2.5 font-normal">
                 Guías educativas sobre ingredientes ancestrales, formulaciones y bienestar integral.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {BLOG_ARTICLES.map((post, idx) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {randomArticles.map((post, idx) => (
                 <Link
                   key={idx}
                   to={post.to}
-                  className="bg-[#F8FAFC] rounded-3xl p-6 border border-slate-200/80 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center group"
+                  className="bg-[#F8FAFC] rounded-3xl p-5 border border-slate-200/80 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center group"
                 >
-                  <div className="aspect-[3/2] w-full rounded-2xl overflow-hidden bg-white border border-slate-100 mb-5">
+                  <div className="aspect-[3/2] w-full rounded-2xl overflow-hidden bg-white border border-slate-100 mb-4">
                     <img
                       src={post.image}
                       alt={post.title}
@@ -777,10 +864,10 @@ export const LandingPage: React.FC = () => {
                       }}
                     />
                   </div>
-                  <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 group-hover:text-[#4472C4] transition-colors mb-2">
+                  <h3 className="text-base sm:text-lg font-extrabold text-black group-hover:text-[#4472C4] transition-colors mb-2 leading-snug">
                     {post.title}
                   </h3>
-                  <p className="text-sm text-slate-600 leading-relaxed font-normal">
+                  <p className="text-sm text-black leading-relaxed font-normal">
                     {post.excerpt}
                   </p>
                   <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-[#4472C4]">
@@ -795,16 +882,16 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* =================================================================
-          (12) PREGUNTAS FRECUENTES (Todos cerrados al cargar)
+          (12) PREGUNTAS FRECUENTES (Todos cerrados al cargar, texto 17px negro)
           ================================================================= */}
       <section className="py-14 sm:py-20 bg-[#F8FAFC] border-b border-slate-100">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <div className="text-center max-w-3xl mx-auto mb-10">
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight">
                 Preguntas Frecuentes
               </h2>
-              <p className="text-sm sm:text-base text-slate-600 mt-2.5 font-normal">
+              <p className="text-sm sm:text-base text-black mt-2.5 font-normal">
                 Respuestas rápidas sobre pedidos, pagos, envíos en Panamá y afiliación.
               </p>
             </div>
@@ -821,7 +908,7 @@ export const LandingPage: React.FC = () => {
                       type="button"
                       onClick={() => setOpenFaqIdx(isOpen ? null : idx)}
                       aria-expanded={isOpen}
-                      className="w-full py-4 px-6 bg-[#4472C4] hover:bg-[#33599E] text-white text-left flex items-center justify-between gap-4 font-bold text-sm sm:text-base transition-colors cursor-pointer"
+                      className="w-full py-4 px-4 sm:px-6 bg-[#4472C4] hover:bg-[#33599E] text-white text-left flex items-center justify-between gap-4 font-bold text-sm sm:text-base transition-colors cursor-pointer"
                     >
                       <span>{faq.question}</span>
                       <ChevronDown
@@ -831,7 +918,7 @@ export const LandingPage: React.FC = () => {
                       />
                     </button>
                     {isOpen && (
-                      <div className="px-6 py-5 text-sm sm:text-base text-slate-700 leading-relaxed bg-white border-t border-slate-100 font-normal">
+                      <div className="px-4 sm:px-6 py-4 sm:py-5 text-[17px] text-black leading-relaxed bg-white border-t border-slate-100 font-normal break-words">
                         {renderWithHGWLinks(faq.answer)}
                       </div>
                     )}
@@ -844,7 +931,7 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* =================================================================
-          (13) PAQUETES DE MEMBRESÍA O SUSCRIPCIÓN (Master es el último)
+          (13) PAQUETES DE MEMBRESÍA O SUSCRIPCIÓN (Master es el último, bullets 17px negro)
           ================================================================= */}
       <section
         id="membresias"
@@ -853,10 +940,10 @@ export const LandingPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <div className="text-center max-w-3xl mx-auto mb-14">
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight">
                 Paquetes de Membresía o Suscripción
               </h2>
-              <p className="text-sm sm:text-base text-slate-600 mt-2.5 font-normal">
+              <p className="text-sm sm:text-base text-black mt-2.5 font-normal">
                 Elige los productos de tu preferencia en cada paquete. Diamante es un rango de liderazgo, no una membresía de ingreso.
               </p>
             </div>
@@ -871,7 +958,7 @@ export const LandingPage: React.FC = () => {
                 return (
                   <div
                     key={pkg.id}
-                    className={`rounded-3xl p-6 sm:p-8 flex flex-col justify-between text-center transition-all duration-300 relative ${
+                    className={`rounded-3xl p-5 sm:p-8 flex flex-col justify-between text-center transition-all duration-300 relative ${
                       pkg.isHighlighted
                         ? 'bg-gradient-to-b from-[#EEF3FB] via-white to-white border-2 border-[#4472C4] shadow-2xl ring-4 ring-[#4472C4]/15'
                         : 'bg-white border border-slate-200 shadow-md hover:shadow-xl hover:-translate-y-1'
@@ -902,7 +989,7 @@ export const LandingPage: React.FC = () => {
                         {pkg.bv} · {pkg.productCount}
                       </div>
 
-                      <h3 className="text-2xl font-black text-slate-900">
+                      <h3 className="text-2xl font-black text-black">
                         {pkg.name}
                       </h3>
 
@@ -910,25 +997,25 @@ export const LandingPage: React.FC = () => {
                         {pkg.priceEstimate}
                       </div>
 
-                      <p className="text-sm text-slate-600 leading-relaxed mb-5 font-normal">
+                      <p className="text-sm sm:text-base text-black leading-relaxed mb-5 font-normal">
                         {pkg.description}
                       </p>
 
-                      <ul className="space-y-2 text-left text-xs sm:text-sm text-slate-700 mb-6 border-t border-slate-100 pt-4">
-                        <li className="flex items-center gap-2">
-                          <Check className="w-4 h-4 text-[#4472C4] shrink-0" />
+                      <ul className="space-y-2.5 text-left text-[17px] leading-snug text-black mb-6 border-t border-slate-100 pt-4">
+                        <li className="flex items-start gap-2.5 break-words">
+                          <Check className="w-5 h-5 text-[#4472C4] shrink-0 mt-1" />
                           <span>Bono Inicio Rápido: <strong>{pkg.fastStartBonus}</strong></span>
                         </li>
-                        <li className="flex items-center gap-2">
-                          <Check className="w-4 h-4 text-[#4472C4] shrink-0" />
+                        <li className="flex items-start gap-2.5 break-words">
+                          <Check className="w-5 h-5 text-[#4472C4] shrink-0 mt-1" />
                           <span>Bono Equipo: <strong>{pkg.teamBonus}</strong></span>
                         </li>
-                        <li className="flex items-center gap-2">
-                          <Check className="w-4 h-4 text-[#4472C4] shrink-0" />
+                        <li className="flex items-start gap-2.5 break-words">
+                          <Check className="w-5 h-5 text-[#4472C4] shrink-0 mt-1" />
                           <span>Tope Diario: <strong>{pkg.dailyEarningsCap}</strong></span>
                         </li>
-                        <li className="flex items-center gap-2">
-                          <Check className="w-4 h-4 text-[#4472C4] shrink-0" />
+                        <li className="flex items-start gap-2.5 break-words">
+                          <Check className="w-5 h-5 text-[#4472C4] shrink-0 mt-1" />
                           <span>Venta Directa: <strong>{pkg.directSaleProfit}</strong></span>
                         </li>
                       </ul>
@@ -974,7 +1061,7 @@ export const LandingPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <div className="text-center max-w-3xl mx-auto mb-12">
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight">
                 Quiénes Somos
               </h2>
             </div>
@@ -997,10 +1084,10 @@ export const LandingPage: React.FC = () => {
                 <span className="text-xs font-extrabold uppercase tracking-wider text-[#4472C4]">
                   Patrocinio Autorizado: Yamilka507
                 </span>
-                <h3 className="text-2xl sm:text-3xl font-black text-slate-900 leading-tight">
+                <h3 className="text-2xl sm:text-3xl font-black text-black leading-tight">
                   Yamilka Batista · Distribuidora Independiente HGW Panamá
                 </h3>
-                <p className="text-base text-slate-600 leading-relaxed font-normal">
+                <p className="text-base text-black leading-relaxed font-normal">
                   Nuestro compromiso en Panamá es brindarte orientación honesta sobre los beneficios de cada producto, entregas confiables en ciudad y provincias, y acompañamiento personalizado si deseas afiliarte para consumo familiar o desarrollar tu propio emprendimiento independiente.
                 </p>
 
