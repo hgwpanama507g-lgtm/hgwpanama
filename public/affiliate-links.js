@@ -22,7 +22,6 @@ const affiliateRules = [
     "a, script, style, noscript, code, pre, input, textarea, select, button, title, head, svg, [contenteditable='true'], [contenteditable=''], [data-no-affiliate], .no-affiliate, [data-auto-affiliate='true'], .auto-affiliate-link";
 
   const STYLE_ID = "auto-affiliate-links-style";
-  const DISCLOSURE_ID = "auto-affiliate-disclosure";
   const processedNodes = new WeakSet();
   const pageMatchCounts = new Map();
   let observer = null;
@@ -79,33 +78,8 @@ const affiliateRules = [
       "  color: #FEF08A;",
       "  text-decoration-color: currentColor;",
       "}",
-      "#" + DISCLOSURE_ID + " {",
-      "  width: 100%;",
-      "  padding: 10px 16px;",
-      "  text-align: center;",
-      "  font-family: inherit;",
-      "  font-size: 12px;",
-      "  line-height: 1.5;",
-      "  color: #475569;",
-      "  background-color: #f8fafc;",
-      "  border-top: 1px solid #e2e8f0;",
-      "}",
     ].join("\n");
     document.head.appendChild(style);
-  }
-
-  function injectDisclosure() {
-    if (!document.body || document.getElementById(DISCLOSURE_ID)) {
-      return;
-    }
-    const disclosure = document.createElement("div");
-    disclosure.id = DISCLOSURE_ID;
-    disclosure.setAttribute("data-no-affiliate", "true");
-    disclosure.className = "no-affiliate";
-    disclosure.setAttribute("role", "note");
-    disclosure.textContent =
-      "Este sitio contiene enlaces de afiliado. Podemos recibir una comisión por compras realizadas a través de ellos, sin costo adicional para ti.";
-    document.body.appendChild(disclosure);
   }
 
   function isExcludedNode(node) {
@@ -297,7 +271,6 @@ const affiliateRules = [
     }
     injectStyles();
     processSubtree(document.body);
-    injectDisclosure();
   }
 
   function scheduleScan() {
