@@ -1,6 +1,6 @@
-import React from 'react';
+import { AFFILIATION_CONFIG } from '../config/affiliation';
 
-export const HGW_AFFILIATE_URL = 'https://www.healthgreenworld.com/?userName=Yamilka507';
+export const HGW_AFFILIATE_URL = AFFILIATION_CONFIG.affiliateUrl;
 
 /**
  * Replaces standalone occurrences of the word "HGW" in text strings with a clickable link
@@ -33,7 +33,7 @@ export const renderWithHGWLinks = (
           target="_blank"
           rel="noopener noreferrer"
           className={linkClasses}
-          title="Sitio Oficial HGW - Yamilka507"
+          title="Sitio Oficial de HGW"
         >
           HGW
         </a>

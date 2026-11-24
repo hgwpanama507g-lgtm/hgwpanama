@@ -156,12 +156,12 @@ export const Footer: React.FC<FooterProps> = ({ isHomePage = false }) => {
               </p>
               <div className="pt-2">
                 <a
-                  href="https://www.healthgreenworld.com/?userName=Yamilka507"
+                  href="https://www.healthgreenworld.com"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-xs text-blue-300 hover:text-blue-200 transition-colors font-bold"
                 >
-                  <span>Portal Oficial Health Green World (Yamilka507)</span>
+                  <span>Portal Oficial Health Green World (healthgreenworld.com)</span>
                   <ExternalLink className="w-3.5 h-3.5" />
                 </a>
               </div>
@@ -171,8 +171,9 @@ export const Footer: React.FC<FooterProps> = ({ isHomePage = false }) => {
 
         {/* Mandatory Independent Distributor Notice & Medical Disclaimer */}
         <div className="pt-8 border-t border-slate-800 text-xs text-slate-400 leading-relaxed space-y-3">
-          <p className="bg-slate-800/80 p-4 rounded-xl border border-slate-700/60 text-slate-300">
-            <strong className="text-white">Aviso Legal y de Independencia:</strong> Este sitio web es de carácter informativo y comercial, operado de manera autónoma por Distribuidores Independientes autorizados de Health Green World (HGW) en Panamá. No constituye la página web corporativa oficial ni la sede principal de Health Green World Inc. Las marcas registradas, logotipos y nombres comerciales mostrados pertenecen a sus respectivos propietarios y se utilizan únicamente con fines ilustrativos e informativos.
+          <p className="bg-slate-800/90 p-4 rounded-xl border border-blue-500/30 text-slate-200 font-medium">
+            <strong className="text-white font-bold block mb-1">Aviso de Independencia:</strong>
+            Este es un sitio informativo independiente. No es el sitio oficial de HGW ni está administrado por la empresa. La información se basa en materiales públicos y documentos de referencia.
           </p>
 
           <p>

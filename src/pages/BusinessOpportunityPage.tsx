@@ -3,9 +3,10 @@ import { TrendingUp, DollarSign, ShieldCheck, Phone, Sparkles, Package, ShieldAl
 import { Link } from '../router';
 import { getAffiliationWhatsAppUrl } from '../utils/whatsapp';
 import { LazyYouTubeEmbed } from '../components/LazyYouTubeEmbed';
+import { AFFILIATION_CONFIG } from '../config/affiliation';
 
 export const BusinessOpportunityPage: React.FC = () => {
-  const registrationUrl = "https://www.healthgreenworld.com/?userName=Yamilka507";
+  const registrationUrl = AFFILIATION_CONFIG.affiliateUrl;
 
 
   return (
@@ -57,12 +58,10 @@ export const BusinessOpportunityPage: React.FC = () => {
                 <span>Asesoría 1 a 1 por WhatsApp</span>
               </a>
               <a
-                href="https://www.healthgreenworld.com/?userName=Yamilka507"
-                target="_blank"
-                rel="noopener noreferrer"
+                href={AFFILIATION_CONFIG.contactSectionUrl}
                 className="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white font-bold text-sm rounded-xl border border-white/30 transition-all flex items-center justify-center gap-2 active:scale-95"
               >
-                <span>link registro oficial</span>
+                <span>Información y Contacto</span>
                 <ExternalLink className="w-4 h-4" />
               </a>
             </div>
@@ -414,24 +413,44 @@ export const BusinessOpportunityPage: React.FC = () => {
                 </span>
 
                 <h2 className="text-2xl sm:text-3xl font-black tracking-tight leading-tight bg-gradient-to-r from-[#004d3c] via-[#00795F] to-[#00A550] bg-clip-text text-transparent">
-                  Regístrate Hoy Mismo en HGW
+                  ¿Cómo me afilio a HGW?
                 </h2>
 
-                <p className="text-sm sm:text-base text-black font-normal leading-snug">
-                  Sigue las indicaciones del video tutorial para crear tu cuenta de forma rápida y segura. Al ingresar al enlace oficial, verifica que tu patrocinador autorizado sea <strong>Yamilka Batista</strong> (Código: <span className="font-bold text-[#00795F]">Yamilka507</span>) para activar tus beneficios y recibir asesoría personalizada.
-                </p>
-
-                <div className="pt-1">
-                  <a
-                    href={registrationUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 bg-gradient-to-r from-[#00795F] to-[#00A550] hover:from-[#004d3c] hover:to-[#00795F] text-white font-black text-sm sm:text-base rounded-xl shadow-md shadow-[#00795F]/20 transition-all active:scale-95"
-                  >
-                    <ExternalLink className="w-4 h-4 shrink-0" />
-                    <span>Ir al Registro Oficial HGW</span>
-                  </a>
+                <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl w-full">
+                  <p className="text-sm font-bold text-black leading-relaxed">
+                    {AFFILIATION_CONFIG.primaryNotice}
+                  </p>
                 </div>
+
+                <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl w-full space-y-2">
+                  <h3 className="text-xs text-black font-bold">
+                    ¿Llegaste por tu cuenta y no tienes patrocinador?
+                  </h3>
+                  <p className="text-xs text-black leading-relaxed">
+                    Si no cuentas con una persona que te haya invitado, puedes optar por registrarte a través de mi enlace de distribuidora independiente o comunicarte para orientarte:
+                  </p>
+                  <div className="flex flex-wrap items-center gap-2 pt-1">
+                    <a
+                      href={registrationUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-[#00795F] hover:bg-[#004d3c] text-white font-bold text-xs rounded-xl shadow-xs transition-colors"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" />
+                      <span>Enlace Alternativo de Registro</span>
+                    </a>
+                    <a
+                      href={AFFILIATION_CONFIG.contactSectionUrl}
+                      className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-white hover:bg-slate-100 text-black font-bold text-xs rounded-xl border border-slate-300 transition-colors"
+                    >
+                      <span>Sección de Contacto</span>
+                    </a>
+                  </div>
+                </div>
+
+                <p className="text-[11px] text-slate-500 leading-relaxed italic border-t border-slate-100 pt-3">
+                  {AFFILIATION_CONFIG.independenceDisclaimer}
+                </p>
               </div>
 
             </div>

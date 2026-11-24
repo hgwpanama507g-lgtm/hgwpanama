@@ -23,6 +23,7 @@ import {
   ThumbsUp,
 } from 'lucide-react';
 import { PRODUCTS, CERTIFICATIONS, MEMBERSHIP_PLANS, Product } from '../data/products';
+import { AFFILIATION_CONFIG } from '../config/affiliation';
 import { findProductBySlug } from '../data/seoMetadata';
 import { DIRECT_SALES_ASSOCIATIONS } from '../components/AboutHGW';
 import { ScrollReveal } from '../components/ScrollReveal';
@@ -225,7 +226,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
     product.id.startsWith('membresia-') ||
     product.slug.startsWith('membresia-');
 
-  const registrationUrl = 'https://www.healthgreenworld.com/?userName=Yamilka507';
+  const registrationUrl = AFFILIATION_CONFIG.affiliateUrl;
   const whatsappUrl = getAffiliationWhatsAppUrl(
     typeof window !== 'undefined' ? window.location.href : undefined
   );
@@ -355,7 +356,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
     {
       question: `¿Cómo obtengo descuento de socio (30% a 52%) al comprar ${product.name}?`,
       answer:
-        'Al registrarte bajo nuestro patrocinio autorizado (código Yamilka507) y activar tu membresía (Pre-Junior 50 BV, Junior 100 BV, Senior 300 BV o Master 600 BV), accedes a precios preferenciales desde el 30% hasta el 52% en todo el catálogo.',
+        'Para afiliarte a HGW y comprar con descuento, contacta a la persona que te invitó. Si no tienes patrocinador, puedes registrarte a través del enlace de distribuidora independiente de este sitio y activar tu membresía (Pre-Junior 50 BV, Junior 100 BV, Senior 300 BV o Master 600 BV) para acceder a precios preferenciales desde el 30% hasta el 52% en todo el catálogo.',
     },
   ];
 
@@ -1182,7 +1183,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                 </h3>
 
                 <p className="text-base text-black leading-relaxed font-normal">
-                  En HGW Panamá tú decides cómo crecer. Al activar tu código con 50 BV en adelante bajo el patrocinio autorizado en Panamá (Yamilka507), compras {product.name} y todo el catálogo con descuentos preferenciales desde 30% hasta 52%, además de generar bonos de equipo y ventas directas.
+                  En HGW tú decides cómo crecer. Para afiliarte, contacta a la persona que te invitó. Si llegaste por tu cuenta y no tienes patrocinador, puedes registrarte a través de este portal independiente para adquirir {product.name} y todo el catálogo con descuentos desde el 30% hasta el 52%.
                 </p>
 
                 <div className="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-3">
@@ -1194,15 +1195,13 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                     <ArrowRight className="w-4 h-4" />
                   </Link>
 
-                  <a
-                    href={registrationUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#EEF3FB] hover:bg-[#dbe6f8] text-[#00AEEF] border border-[#00AEEF]/30 font-bold text-sm rounded-2xl transition-all"
+                  <Link
+                    to="/base-de-conocimiento/como-me-afilio-a-hgw"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#EEF3FB] hover:bg-[#dbe6f8] text-[#4472C4] border border-[#4472C4]/30 font-bold text-sm rounded-2xl transition-all"
                   >
-                    <span>Registro Oficial (Yamilka507)</span>
+                    <span>¿Cómo me afilio a HGW?</span>
                     <ExternalLink className="w-4 h-4" />
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -1547,13 +1546,13 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
               <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-5">
                 <span className="text-xs font-extrabold uppercase tracking-wider text-[#4472C4] inline-flex items-center gap-1.5">
                   <HeartHandshake className="w-4 h-4" />
-                  <span>Patrocinio Autorizado: Yamilka507</span>
+                  <span>Distribuidora Independiente</span>
                 </span>
                 <h3 className="text-2xl sm:text-3xl font-black text-black leading-tight">
-                  Yamilka Batista · Distribuidora Independiente HGW Panamá
+                  Atención y Asesoría Personalizada · Panamá
                 </h3>
                 <p className="text-base text-black leading-relaxed font-normal">
-                  Si estás aquí es porque buscas algo mejor para ti y para tu familia, y quieres hacerlo con alguien en quien puedas confiar. Mi misión es compartir contigo las bondades de nuestros productos para que disfrutes de una mejor calidad de vida y bienestar. Te escucho, te oriento con honestidad sobre cada producto y te acompaño en cada paso, desde tu primera compra hasta que decidas dar el siguiente nivel. Realizo entregas confiables en la ciudad y en las provincias, y si sueñas con desarrollar tu propio emprendimiento independiente, aquí tienes una aliada que camina contigo. Escríbeme, cuéntame qué necesitas y empecemos juntas.
+                  Este portal es administrado de forma independiente para brindar información sobre productos y bienestar. Te oriento con transparencia sobre cada producto y te acompaño en tus dudas. Realizamos entregas confiables a través de Servientrega en todo Panamá. Si deseas afiliarte, recuerda contactar primero a la persona que te invitó; si no tienes patrocinador, con gusto puedo orientarte en el proceso.
                 </p>
 
                 <div className="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-3">
@@ -1564,7 +1563,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                     className="inline-flex items-center justify-center gap-2.5 px-8 py-4 bg-[#4472C4] hover:bg-[#33599E] text-white font-bold text-sm sm:text-base rounded-2xl shadow-lg shadow-[#4472C4]/25 hover:-translate-y-0.5 active:scale-95 transition-all"
                   >
                     <MessageCircle className="w-5 h-5" />
-                    <span>Hablar con Yamilka por WhatsApp</span>
+                    <span>Consultar por WhatsApp</span>
                   </a>
                 </div>
               </div>

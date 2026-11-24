@@ -2,9 +2,10 @@ import React from 'react';
 import { ShieldCheck, Play, Send, ExternalLink, Phone, Building2, Clock } from 'lucide-react';
 import { Link } from '../router';
 import { getAffiliationWhatsAppUrl } from '../utils/whatsapp';
+import { AFFILIATION_CONFIG } from '../config/affiliation';
 
 export const PreRegistrationPage: React.FC = () => {
-  const registrationUrl = "https://www.healthgreenworld.com/?userName=Yamilka507";
+  const registrationUrl = AFFILIATION_CONFIG.affiliateUrl;
   const whatsappUrl = getAffiliationWhatsAppUrl();
 
   return (
@@ -63,33 +64,48 @@ export const PreRegistrationPage: React.FC = () => {
         {/* Action Buttons: Registration & WhatsApp */}
         <div className="bg-gradient-to-br from-emerald-50 via-white to-stone-50 rounded-[2.5rem] p-8 sm:p-12 border border-emerald-100 shadow-xl text-center space-y-6">
           <h2 className="text-2xl sm:text-3xl font-black text-black tracking-tight">
-            ¿Listo para dar el siguiente paso?
+            ¿Cómo Afiliarte a HGW?
           </h2>
-          <p className="text-stone-700 text-base max-w-xl mx-auto font-medium">
-            Haz clic en el botón de registro oficial para crear tu cuenta con el patrocinador autorizado Yamilka507, y luego infórmanos por WhatsApp para recibir tu asesoría personalizada.
-          </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-            <a
-              href={registrationUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto px-8 py-5 bg-[#00795F] hover:bg-[#004d3c] text-white font-black text-lg rounded-2xl shadow-xl shadow-[#00795F]/20 flex items-center justify-center gap-3 transition-all active:scale-95 uppercase tracking-wider"
-            >
-              <ExternalLink className="w-5 h-5" />
-              <span>Ir al Registro Oficial HGW</span>
-            </a>
-
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto px-8 py-5 bg-[#25D366] hover:bg-[#1ebe5d] text-white font-black text-lg rounded-2xl shadow-xl shadow-[#25D366]/20 flex items-center justify-center gap-3 transition-all active:scale-95 uppercase tracking-wider"
-            >
-              <Phone className="w-5 h-5 fill-current" />
-              <span>Informar Registro por WhatsApp</span>
-            </a>
+          <div className="p-4 bg-emerald-100/70 border border-emerald-300 rounded-2xl max-w-xl mx-auto text-left">
+            <p className="text-black text-sm font-bold leading-relaxed">
+              {AFFILIATION_CONFIG.primaryNotice}
+            </p>
           </div>
+
+          <div className="p-4 bg-white border border-stone-200 rounded-2xl max-w-xl mx-auto text-left space-y-2">
+            <h3 className="text-xs font-bold text-black">
+              ¿Llegaste por tu cuenta y no tienes patrocinador?
+            </h3>
+            <p className="text-stone-700 text-xs font-medium leading-relaxed">
+              Si llegaste por tu cuenta y no tienes quien te patrocine, puedes afiliarte a través de mi enlace de distribuidora independiente. También puedes contactarme directamente en la sección de contacto:
+            </p>
+            <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
+              <a
+                href={registrationUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto px-6 py-3.5 bg-[#00795F] hover:bg-[#004d3c] text-white font-bold text-sm rounded-xl shadow-md shadow-[#00795F]/20 flex items-center justify-center gap-2 transition-all active:scale-95"
+              >
+                <ExternalLink className="w-4 h-4" />
+                <span>Enlace de Afiliación Alternativo</span>
+              </a>
+
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto px-6 py-3.5 bg-[#25D366] hover:bg-[#1ebe5d] text-white font-bold text-sm rounded-xl shadow-md shadow-[#25D366]/20 flex items-center justify-center gap-2 transition-all active:scale-95"
+              >
+                <Phone className="w-4 h-4 fill-current" />
+                <span>WhatsApp Administradora</span>
+              </a>
+            </div>
+          </div>
+
+          <p className="text-stone-500 text-xs italic max-w-xl mx-auto pt-2 leading-relaxed">
+            {AFFILIATION_CONFIG.independenceDisclaimer}
+          </p>
         </div>
 
         {/* Office & Hours Info Footer Card */}
