@@ -1,5 +1,5 @@
 import { GoogleGenAI } from "@google/genai";
-import { getSiteKnowledgeBase } from "../src/data/knowledgeBase";
+import { getSiteKnowledgeBase } from "../src/data/knowledgeBase.js";
 
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY || "",
@@ -22,7 +22,6 @@ export default async function handler(req: any, res: any) {
       return res.status(400).json({ error: "Messages array is required" });
     }
 
-    // Input validation: check message count and size to prevent abuse
     if (messages.length > 50) {
       return res.status(400).json({ error: "Too many messages in history" });
     }

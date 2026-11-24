@@ -1,4 +1,4 @@
-import { PRODUCTS } from '../data/products';
+import { PRODUCTS } from './products.js';
 
 export interface KnowledgeItem {
   category: string;
