@@ -1,365 +1,1476 @@
-import React from 'react';
-import { PRODUCTS } from '../data/products';
+import React, { useState, useEffect, useMemo } from 'react';
+import {
+  ArrowRight,
+  ChevronDown,
+  ShoppingBag,
+  Check,
+  Sparkles,
+  ExternalLink,
+  MessageCircle,
+  BookOpen,
+  FileText,
+  ShieldCheck,
+  Truck,
+  Clock,
+  CreditCard,
+  Award,
+  Zap,
+  Leaf,
+  Package,
+  Hash,
+  HeartHandshake,
+} from 'lucide-react';
+import { PRODUCTS, CERTIFICATIONS, MEMBERSHIP_PLANS, Product } from '../data/products';
 import { findProductBySlug } from '../data/seoMetadata';
+import { DIRECT_SALES_ASSOCIATIONS } from '../components/AboutHGW';
+import { ScrollReveal } from '../components/ScrollReveal';
+import { ContactSection } from '../components/ContactSection';
+import { LazyYouTubeEmbed } from '../components/LazyYouTubeEmbed';
 import { Link, Navigate } from '../router';
-import { AlertTriangle, Check, Sparkles, ArrowRight, ShieldCheck, Clock, Package, Hash, Award } from 'lucide-react';
-import { getAffiliationWhatsAppUrl } from '../utils/whatsapp';
+import { DISTRIBUTOR_WHATSAPP_NUMBER, getAffiliationWhatsAppUrl } from '../utils/whatsapp';
 import { renderWithHGWLinks } from '../utils/hgwLinker';
-import { ShippingAndReturnsSection } from '../components/ShippingAndReturnsSection';
-import { AdsterraBanner } from '../components/AdsterraAds';
 
 interface ProductDetailPageProps {
   slug: string;
 }
 
-export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) => {
-  const [activeTab, setActiveTab] = React.useState<'description' | 'advantages' | 'details' | 'usage'>('description');
-  const product = findProductBySlug(slug);
-  const isMembership = product ? (product.category === 'membresias' || product.id.startsWith('membresia-') || product.slug.startsWith('membresia-')) : false;
+function getHeroVideoForProduct(product: Product): { id: string; title: string } {
+  if (product.slug === 'pasta-dental-con-probioticos') {
+    return { id: 'ffYtOh7xwEo', title: 'Capacitación Pasta Dental con Probióticos HGW' };
+  }
+  if (product.slug === 'pasta-dental-de-turmalina-blanca') {
+    return { id: 'ktx3RJ54zgI', title: 'Pasta Dental de Turmalina Blanca HGW' };
+  }
+  if (product.slug === 'pasta-dental-de-turmalina-negra') {
+    return { id: 'mmWFwGHLdfM', title: 'Pasta Dental de Turmalina Negra HGW' };
+  }
+  if (product.category === 'cuidado-bucal') {
+    return { id: 'ffYtOh7xwEo', title: `${product.name} - Cuidado Bucal HGW` };
+  }
+  if (product.category === 'membresias') {
+    return { id: 'Poy4FvvfcfA', title: `Afiliación y Registro ${product.name}` };
+  }
+  return { id: 'r-BFxBuhhbc', title: `${product.name} - Línea Oficial HGW` };
+}
 
-  React.useEffect(() => {
-    setActiveTab('description');
+const EDUCATIONAL_GUIDES = [
+  {
+    title: 'Arándanos Azules y Antioxidantes',
+    excerpt:
+      'Descubre por qué el arándano silvestre es un pilar de nuestras bebidas, caramelos y suplementos funcionales en Panamá.',
+    image:
+      'https://media.academiahgw.online/wp-content/uploads/2026/11/18._HGW_Blueberry_Soybean_Milk_Drink-1024x576.png',
+    to: '/informacion#arandanos',
+  },
+  {
+    title: 'Turmalina Bioenergética',
+    excerpt:
+      'Conoce la ciencia detrás de los minerales naturales, aniones e infrarrojo lejano aplicados a bienestar y cuidado personal.',
+    image:
+      'https://media.academiahgw.online/wp-content/uploads/2026/11/21._OLIVE_SOAP_TOURMALINE_SOAP-1024x576.png',
+    to: '/informacion#turmalina',
+  },
+  {
+    title: 'Cafés con Ganoderma y Cordyceps',
+    excerpt:
+      'Explora cómo combinamos granos aromáticos con hongos adaptógenos milenarios para acompañar tu energía diaria.',
+    image:
+      'https://media.academiahgw.online/wp-content/uploads/2026/11/16._HGW_SERIE_CAF_-1024x576.png',
+    to: '/informacion#cafe',
+  },
+  {
+    title: 'Catálogos y Fichas Técnicas PDF',
+    excerpt:
+      'Consulta la biblioteca oficial con ingredientes, presentaciones, modo de uso y respaldo internacional de HGW.',
+    image:
+      'https://media.academiahgw.online/wp-content/uploads/2026/11/12._CORDYCEPS-1024x576.png',
+    to: '/documentos',
+  },
+];
+
+const PRODUCT_TESTIMONIAL_VIDEOS = [
+  {
+    id: 'nL5KdNarl6Y',
+    title: 'Testimonio HGW · Lactiberry',
+    description:
+      'Experiencia real de consumo con nuestras bebidas funcionales elaboradas con arándanos azules y té negro.',
+  },
+  {
+    id: 'Izx1mXkDYTI',
+    title: 'Testimonio HGW · Blueberry Candy',
+    description:
+      'Testimonio sobre la experiencia diaria incorporando fitonutrientes y antioxidantes naturales de HGW.',
+  },
+  {
+    id: 'MrD1MIwrIdM',
+    title: 'Testimonios · Tecnología de Turmalina HGW',
+    description:
+      'Experiencias compartidas sobre el confort, frescura y respaldo de los productos bioenergéticos HGW.',
+  },
+];
+
+export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) => {
+  const [activeServiceIdx, setActiveServiceIdx] = useState<number | null>(null);
+  const [openFaqIdx, setOpenFaqIdx] = useState<number | null>(null);
+
+  const product = findProductBySlug(slug);
+
+  useEffect(() => {
+    setActiveServiceIdx(null);
+    setOpenFaqIdx(null);
   }, [slug]);
+
+  const relatedProducts = useMemo(() => {
+    if (!product) return [];
+    const sameCategory = PRODUCTS.filter(
+      (p) => p.category === product.category && p.id !== product.id
+    );
+    if (sameCategory.length >= 4) return sameCategory.slice(0, 4);
+    const others = PRODUCTS.filter(
+      (p) => p.category !== product.category && p.category !== 'membresias' && p.id !== product.id
+    );
+    return [...sameCategory, ...others].slice(0, 4);
+  }, [product]);
 
   if (!product) {
     return <Navigate to="/productos" replace />;
   }
 
-  const whatsappUrl = getAffiliationWhatsAppUrl(typeof window !== 'undefined' ? window.location.href : undefined);
+  const isMembership =
+    product.category === 'membresias' ||
+    product.id.startsWith('membresia-') ||
+    product.slug.startsWith('membresia-');
 
-  // Related products based on category
-  const relatedProducts = PRODUCTS.filter(
-    (p) => p.category === product.category && p.id !== product.id
-  ).slice(0, 4);
+  const registrationUrl = 'https://www.healthgreenworld.com/?userName=Yamilka507';
+  const whatsappUrl = getAffiliationWhatsAppUrl(
+    typeof window !== 'undefined' ? window.location.href : undefined
+  );
+
+  const productWhatsappUrl = `https://wa.me/${DISTRIBUTOR_WHATSAPP_NUMBER}?text=${encodeURIComponent(
+    `¡Hola Yamilka! Estaba viendo *${product.name}* (${product.priceFormatted} USD) en tu tienda HGW Panamá y deseo comprarlo o hacer una consulta. Mi nombre es:`
+  )}`;
+
+  const partnerWhatsappUrl = `https://wa.me/${DISTRIBUTOR_WHATSAPP_NUMBER}?text=${encodeURIComponent(
+    `¡Hola Yamilka! Me interesa adquirir *${product.name}* con descuento de socio (30% al 52%) y conocer cómo afiliarme a HGW Panamá. Mi nombre es:`
+  )}`;
+
+  const heroVideo = getHeroVideoForProduct(product);
+
+  const productServices = [
+    {
+      id: 1,
+      title: isMembership
+        ? `Detalles y Beneficios de ${product.name}`
+        : `Descripción y Beneficios de ${product.name}`,
+      detail: product.description || product.shortDescription,
+      bullets: (product.benefits && product.benefits.length > 0
+        ? product.benefits
+        : product.advantages || []
+      ).slice(0, 4),
+      ctaLabel: 'Ver Ficha Completa Abajo',
+      ctaHref: '#ficha-producto',
+    },
+    {
+      id: 2,
+      title: 'Ingredientes, Presentación y Ficha Técnica',
+      detail:
+        product.ingredients && product.ingredients.length > 0
+          ? `Componentes destacados: ${product.ingredients.join(', ')}.`
+          : `Presentación oficial de ${product.categoryLabel} con estándares internacionales de calidad e inocuidad.`,
+      bullets: [
+        product.netContent ? `Contenido neto: ${product.netContent}` : `Categoría: ${product.categoryLabel}`,
+        product.presentation ? `Presentación: ${product.presentation}` : 'Producto original sellado de fábrica HGW',
+        product.shelfLife ? `Vida útil: ${product.shelfLife}` : 'Respaldo internacional FDA, ISO 9001 y GMP',
+      ],
+      ctaLabel: 'Ver Ficha Técnica PDF',
+      ctaTo: `/documentos/${product.documentSlug || 'catalogo-productos-hgw-panama-2026'}`,
+    },
+    {
+      id: 3,
+      title: 'Modo de Uso y Recomendaciones',
+      detail:
+        product.usage ||
+        'Utiliza este producto siguiendo las indicaciones de su empaque y ficha técnica oficial para aprovechar al máximo sus propiedades.',
+      bullets: product.precautions
+        ? [product.precautions]
+        : [
+            'Asesoría directa 1 a 1 vía WhatsApp (+507 6778-8375).',
+            'Ideal para incorporar en tu rutina diaria de bienestar.',
+          ],
+      ctaLabel: 'Consultar por WhatsApp',
+      ctaHref: productWhatsappUrl,
+      external: true,
+    },
+    {
+      id: 4,
+      title: 'Envíos en Todo Panamá y Pago por Yappy',
+      detail:
+        'Entregas confiables en Ciudad de Panamá y todas las provincias en 24 a 48 horas hábiles vía Servientrega o encomienda provincial.',
+      bullets: [
+        'Pagos cómodos por Yappy (Banco General), ACH o efectivo según zona.',
+        'Opción de adquirir como cliente o con descuento de socio (30% a 52%).',
+      ],
+      ctaLabel: 'Ver Membresías y Descuentos',
+      ctaTo: '/membresias',
+    },
+  ];
+
+  const productHighlightsEight = [
+    { name: product.categoryLabel, Icon: Leaf },
+    { name: product.inStock ? 'Disponible Panamá' : 'Bajo Pedido', Icon: Package },
+    { name: product.netContent || 'Original HGW', Icon: Award },
+    { name: product.bv ? `${product.bv.toFixed(2)} BV` : 'Calidad Global', Icon: Zap },
+    { name: 'Asesoría 1 a 1', Icon: ShieldCheck },
+    { name: 'Envío Servientrega', Icon: Truck },
+    { name: '24 a 48 Horas', Icon: Clock },
+    { name: 'Pago por Yappy', Icon: CreditCard },
+  ];
+
+  const pillarCards = (
+    product.benefits && product.benefits.length >= 3
+      ? product.benefits.slice(0, 3)
+      : [
+          product.shortDescription,
+          'Fórmula original elaborada bajo estándares internacionales FDA, ISO 9001 y GMP.',
+          'Entregas confiables en Ciudad de Panamá y provincias con asesoría directa.',
+        ]
+  ).map((text, idx) => ({
+    title:
+      idx === 0
+        ? 'Fórmula y Beneficio Clave'
+        : idx === 1
+        ? 'Calidad Certificada'
+        : 'Bienestar Integral',
+    description: text,
+  }));
+
+  const productFaqs = [
+    {
+      question: `¿Cuál es el precio y cómo puedo comprar ${product.name} en Panamá?`,
+      answer: `El precio de ${product.name} es de ${product.priceFormatted} USD. Puedes hacer clic en el botón "Comprar" para ir directo a la tienda oficial o escribirnos por WhatsApp al +507 6778-8375 para coordinar tu entrega.`,
+    },
+    {
+      question: '¿Realizan envíos a domicilio en la ciudad y provincias?',
+      answer:
+        'Sí. Realizamos entregas en Ciudad de Panamá y envíos a todas las provincias (Panamá Oeste, Chiriquí, Colón, Coclé, Veraguas, Herrera, Los Santos, Bocas del Toro y Darién) vía Servientrega o encomienda en 24 a 48 horas hábiles.',
+    },
+    {
+      question: '¿Qué métodos de pago aceptan?',
+      answer:
+        'Aceptamos pagos por Yappy (Banco General), transferencias ACH y pago en efectivo contraentrega en áreas seleccionadas de Ciudad de Panamá.',
+    },
+    {
+      question: `¿Cómo obtengo descuento de socio (30% a 52%) al comprar ${product.name}?`,
+      answer:
+        'Al registrarte bajo nuestro patrocinio autorizado (código Yamilka507) y activar tu membresía (Pre-Junior 50 BV, Junior 100 BV, Senior 300 BV o Master 600 BV), accedes a precios preferenciales desde el 30% hasta el 52% en todo el catálogo.',
+    },
+  ];
+
+  const juniorPlan = MEMBERSHIP_PLANS.find((m) => m.id === 'junior') || MEMBERSHIP_PLANS[1];
+  const seniorPlan = MEMBERSHIP_PLANS.find((m) => m.id === 'senior') || MEMBERSHIP_PLANS[2];
+  const masterPlan = MEMBERSHIP_PLANS.find((m) => m.id === 'master') || MEMBERSHIP_PLANS[3];
+  const showcasePackages = [
+    { ...juniorPlan, isHighlighted: false },
+    { ...seniorPlan, isHighlighted: false },
+    { ...masterPlan, isHighlighted: true },
+  ];
 
   return (
-    <div className="py-6 sm:py-12 bg-white min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* WooCommerce Style Breadcrumbs */}
-        <nav className="flex items-center gap-2 text-xs sm:text-sm font-medium text-stone-500 mb-8 overflow-x-auto whitespace-nowrap">
-          <Link to="/" className="hover:text-[#00795F] transition-colors font-bold">Inicio</Link>
-          <span className="text-stone-300">/</span>
-          <Link to="/productos" className="hover:text-[#00795F] transition-colors font-bold">{product.categoryLabel}</Link>
-          <span className="text-stone-300">/</span>
-          <span className="text-stone-900 font-black truncate">{product.name}</span>
-        </nav>
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
-          
-          {/* Left Column: Product Image Gallery */}
-          <div className="lg:col-span-6">
-            <div className="bg-stone-50 rounded-[2.5rem] overflow-hidden border border-stone-100 shadow-xs aspect-square flex items-center justify-center p-8 sm:p-12 group">
-              <img 
-                src={product.image} 
-                alt={product.name} 
-                className="w-full h-full object-contain transform group-hover:scale-105 transition-transform duration-500 drop-shadow-md" 
-              />
-            </div>
-          </div>
-
-          {/* Right Column: Product Summary */}
-          <div className="lg:col-span-6 flex flex-col">
-            <div className="flex items-center gap-3 mb-2">
-              <span className="text-xs font-black text-[#00795F] uppercase tracking-[0.2em]">{product.categoryLabel}</span>
-              {product.code && (
-                <span className="text-xs font-bold bg-stone-100 text-stone-600 px-2.5 py-0.5 rounded-md flex items-center gap-1">
-                  <Hash className="w-3 h-3 text-[#00795F]" /> Código: {product.code}
-                </span>
-              )}
-            </div>
-            <h1 className="text-[35px] font-black text-black mb-4 leading-tight">
-              {renderWithHGWLinks(product.name)}
-            </h1>
-            
-            <div className="flex items-center gap-4 mb-6 border-b border-stone-100 pb-6">
-              <p className="text-3xl font-black text-[#00795F] tabular-nums">
-                {product.priceFormatted}
+    <div className="bg-white text-black">
+      {/* =================================================================
+          (2) BANNER A TODO EL ANCHO 21:7 CON LA IMAGEN DEL PRODUCTO
+          ================================================================= */}
+      <section aria-label={`Banner principal ${product.name}`} className="w-full bg-[#4472C4]">
+        <div className="relative w-full aspect-[21/7] min-h-[180px] sm:min-h-[240px] overflow-hidden">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-full h-full object-cover object-center"
+            referrerPolicy="no-referrer"
+            onError={(e) => {
+              (e.target as HTMLImageElement).src =
+                'https://media.academiahgw.online/wp-content/uploads/2026/11/Banner-Productos-HGW-1024x682.jpg';
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#23437D]/88 via-[#4472C4]/75 to-[#23437D]/85 flex items-center justify-center px-4 text-center">
+            <div className="max-w-4xl mx-auto">
+              <p className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.22em] text-blue-100 mb-1.5">
+                {product.categoryLabel} {product.code ? `· Cód. ${product.code}` : ''} · HGW Panamá
               </p>
-              {product.inStock ? (
-                <span className="px-3 py-1 bg-emerald-100 text-[#00795F] text-[11px] font-black rounded-full uppercase tracking-wider">
-                  En Stock
-                </span>
-              ) : (
-                <span className="px-3 py-1 bg-amber-100 text-amber-700 text-[11px] font-black rounded-full uppercase tracking-wider">
-                  Consultar Disponibilidad
-                </span>
-              )}
-            </div>
-
-            <p className="text-stone-700 text-[18px] leading-relaxed mb-6 font-medium">
-              {renderWithHGWLinks(product.shortDescription)}
-            </p>
-
-            {/* Specifications & Highlights Box */}
-            <div className="bg-stone-50 p-5 rounded-2xl border border-stone-200/80 mb-4 space-y-3">
-              {product.netContent && (
-                <div className="flex items-center gap-3 text-sm">
-                  <span className="text-xs font-bold text-stone-400 uppercase w-32 shrink-0 flex items-center gap-1.5">
-                    <Package className="w-3.5 h-3.5 text-[#00795F]" /> Contenido neto:
-                  </span>
-                  <span className="text-stone-800 font-bold text-[15px]">{product.netContent}</span>
-                </div>
-              )}
-              {product.presentation && (
-                <div className="flex items-center gap-3 text-sm">
-                  <span className="text-xs font-bold text-stone-400 uppercase w-32 shrink-0 flex items-center gap-1.5">
-                    <Award className="w-3.5 h-3.5 text-[#00795F]" /> Presentación:
-                  </span>
-                  <span className="text-stone-800 font-bold text-[15px]">{product.presentation}</span>
-                </div>
-              )}
-              {product.shelfLife && (
-                <div className="flex items-center gap-3 text-sm">
-                  <span className="text-xs font-bold text-stone-400 uppercase w-32 shrink-0 flex items-center gap-1.5">
-                    <Clock className="w-3.5 h-3.5 text-[#00795F]" /> Vida útil:
-                  </span>
-                  <span className="text-stone-800 font-bold text-[15px]">{product.shelfLife}</span>
-                </div>
-              )}
-              <div className="flex items-center gap-3 text-sm">
-                <span className="text-xs font-bold text-stone-400 uppercase w-32 shrink-0">Categoría:</span>
-                <Link to="/productos" className="text-[#00795F] font-black hover:underline text-[15px]">{product.categoryLabel}</Link>
-              </div>
-              {product.category === 'cuidado-bucal' && (
-                <div className="flex items-center gap-3 text-sm bg-emerald-50 text-emerald-950 border border-emerald-200/90 px-3.5 py-2.5 rounded-xl mt-2">
-                  <span className="text-xs font-black uppercase text-[#00795F] flex items-center gap-1.5 shrink-0">
-                    <ShieldCheck className="w-4 h-4 text-[#00795F]" /> Fórmula:
-                  </span>
-                  <span className="font-extrabold text-[14px] text-emerald-900">
-                    100% Sin Flúor ni Triclosán
-                  </span>
-                </div>
-              )}
-            </div>
-
-            {/* Action Area */}
-            <div className="pt-3 border-t border-stone-100 mt-2">
-              <a 
-                href={whatsappUrl} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="w-full py-3.5 px-6 bg-[#00795F] hover:bg-[#004d3c] text-white font-black text-base rounded-xl shadow-lg shadow-[#00795F]/20 flex items-center justify-center gap-2.5 transition-all active:scale-95 uppercase tracking-wider"
-              >
-                <span>Consultar por WhatsApp</span>
-              </a>
+              <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight drop-shadow-sm">
+                {product.name}
+              </h2>
+              <p className="hidden sm:block text-sm md:text-base text-blue-50 font-medium mt-2 max-w-2xl mx-auto line-clamp-2">
+                {product.shortDescription}
+              </p>
             </div>
           </div>
         </div>
+      </section>
 
-        {/* WooCommerce Style Tabs Section */}
-        <div className="border-t border-stone-200 pt-12">
-          <div className="flex flex-wrap gap-4 sm:gap-8 border-b border-stone-200 mb-10 overflow-x-auto">
-            <button
-              onClick={() => setActiveTab('description')}
-              className={`pb-4 text-sm font-black uppercase tracking-widest transition-all relative whitespace-nowrap ${
-                activeTab === 'description' ? 'text-black border-b-2 border-[#00795F]' : 'text-stone-400 hover:text-black'
-              }`}
-            >
-              Descripción y Beneficios
-            </button>
-            {product.advantages && product.advantages.length > 0 && (
-              <button
-                onClick={() => setActiveTab('advantages')}
-                className={`pb-4 text-sm font-black uppercase tracking-widest transition-all relative whitespace-nowrap ${
-                  activeTab === 'advantages' ? 'text-black border-b-2 border-[#00795F]' : 'text-stone-400 hover:text-black'
-                }`}
-              >
-                Ventajas
-              </button>
-            )}
-            <button
-              onClick={() => setActiveTab('details')}
-              className={`pb-4 text-sm font-black uppercase tracking-widest transition-all relative whitespace-nowrap ${
-                activeTab === 'details' ? 'text-black border-b-2 border-[#00795F]' : 'text-stone-400 hover:text-black'
-              }`}
-            >
-              Ingredientes y Ficha
-            </button>
-            <button
-              onClick={() => setActiveTab('usage')}
-              className={`pb-4 text-sm font-black uppercase tracking-widest transition-all relative whitespace-nowrap ${
-                activeTab === 'usage' ? 'text-black border-b-2 border-[#00795F]' : 'text-stone-400 hover:text-black'
-              }`}
-            >
-              Modo de Uso
-            </button>
-          </div>
+      {/* =================================================================
+          (3) HERO EN 2 COLUMNAS CON FONDO DEL PRODUCTO Y TARJETA + BOTÓN COMPRAR AFILIADO
+          ================================================================= */}
+      <section className="relative overflow-hidden py-14 sm:py-20 bg-white border-b border-slate-100">
+        <img
+          src={product.image}
+          alt=""
+          aria-hidden="true"
+          referrerPolicy="no-referrer"
+          className="absolute inset-0 w-full h-full object-cover object-center opacity-15 pointer-events-none select-none"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-gradient-to-br from-white/92 via-white/88 to-[#EEF3FB]/92 pointer-events-none"
+        />
 
-          <div className="max-w-4xl min-h-[300px]">
-            {activeTab === 'description' && (
-              <div className="animate-fade-in space-y-6">
-                {product.description && (
-                  <div>
-                    <h2 className="text-[26px] font-black text-black mb-4">
-                      {isMembership ? 'Detalle y Características del Paquete' : 'Descripción del Producto'}
-                    </h2>
-                    <p className="text-[17px] text-stone-700 leading-relaxed font-medium bg-stone-50 p-6 rounded-3xl border border-stone-100">
-                      {renderWithHGWLinks(product.description)}
-                    </p>
-                  </div>
-                )}
-                <div>
-                  <h2 className="text-[26px] font-black text-black mb-6">
-                    {isMembership ? 'Bonos, Porcentajes y Requisitos' : 'Beneficios Principales'}
-                  </h2>
-                  {isMembership ? (
-                    <ul className="space-y-2 text-black text-base sm:text-[17px] leading-[1.15] bg-stone-50 p-6 rounded-3xl border border-stone-100">
-                      {product.advantages?.map((adv, i) => (
-                        <li key={i} className="flex items-start gap-2.5">
-                          <span className="text-[#00795F] font-black select-none">•</span>
-                          <span className="text-black font-medium">{renderWithHGWLinks(adv)}</span>
-                        </li>
-                      ))}
-                    </ul>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ScrollReveal>
+            <nav className="flex items-center justify-center lg:justify-start gap-2 text-xs font-bold text-slate-600 mb-8 overflow-x-auto whitespace-nowrap">
+              <Link to="/" className="hover:text-[#4472C4] transition-colors">
+                Inicio
+              </Link>
+              <span className="text-slate-300">/</span>
+              <Link to="/productos" className="hover:text-[#4472C4] transition-colors">
+                {product.categoryLabel}
+              </Link>
+              <span className="text-slate-300">/</span>
+              <span className="text-black font-black truncate">{product.name}</span>
+            </nav>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+              {/* Columna Izquierda: Título, Precio, Descripción y Botones CTA */}
+              <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-5">
+                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2">
+                  <span className="px-3 py-1 rounded-full bg-[#EEF3FB] text-[#4472C4] text-xs font-extrabold uppercase tracking-wider">
+                    {product.categoryLabel}
+                  </span>
+                  {product.inStock ? (
+                    <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 text-xs font-extrabold uppercase tracking-wider">
+                      En Stock Panamá
+                    </span>
                   ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {product.benefits.map((b, i) => (
-                        <div key={i} className="flex items-start gap-4 p-5 bg-stone-50 rounded-2xl border border-stone-100 hover:border-[#00A550]/30 transition-colors">
-                          <div className="mt-1 w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
-                            <Check className="w-4 h-4 text-[#00A550]" />
-                          </div>
-                          <p className="text-[16px] text-stone-800 leading-relaxed font-bold">{renderWithHGWLinks(b)}</p>
-                        </div>
-                      ))}
-                    </div>
+                    <span className="px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-extrabold uppercase tracking-wider">
+                      Consultar Disponibilidad
+                    </span>
+                  )}
+                  {product.category === 'cuidado-bucal' && (
+                    <span className="px-3 py-1 rounded-full bg-[#4472C4] text-white text-xs font-extrabold uppercase tracking-wider">
+                      Sin Flúor ni Triclosán
+                    </span>
                   )}
                 </div>
-              </div>
-            )}
 
-            {activeTab === 'advantages' && product.advantages && (
-              <div className="animate-fade-in space-y-4">
-                <h2 className="text-xl sm:text-2xl font-black bg-gradient-to-r from-[#00795F] to-[#00A550] bg-clip-text text-transparent">
-                  Ventajas Destacadas
-                </h2>
-                <ul className="space-y-2 text-black text-base sm:text-[17px] leading-[1.15]">
-                  {product.advantages.map((adv, i) => (
-                    <li key={i} className="flex items-start gap-2.5">
-                      <span className="text-[#00795F] font-black select-none">•</span>
-                      <span className="text-black font-normal">{renderWithHGWLinks(adv)}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+                <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-black text-black tracking-tight leading-tight text-balance">
+                  {renderWithHGWLinks(product.name)}
+                </h1>
 
-            {activeTab === 'details' && (
-              <div className="animate-fade-in space-y-8">
-                <div>
-                  <h2 className="text-[26px] font-black text-black mb-6">Ficha de Ingredientes y Componentes</h2>
-                  <div className="flex flex-wrap gap-3">
-                    {product.ingredients?.map((ing, i) => (
-                      <div key={i} className="px-5 py-3.5 bg-emerald-50 text-[#00795F] font-bold text-base rounded-2xl border border-emerald-100 flex items-center gap-3">
-                        <Sparkles className="w-4 h-4 text-[#00A550] shrink-0" />
-                        <span>{renderWithHGWLinks(ing)}</span>
-                      </div>
-                    )) || <p className="text-stone-500 italic">Información técnica disponible en el catálogo PDF.</p>}
-                  </div>
+                <div className="flex flex-wrap items-baseline justify-center lg:justify-start gap-3">
+                  <span className="text-3xl sm:text-4xl font-black text-[#4472C4] tabular-nums">
+                    {product.priceFormatted} <span className="text-base font-bold text-black">USD</span>
+                  </span>
+                  {product.bv && (
+                    <span className="px-3 py-1 rounded-full bg-slate-900 text-white text-xs font-black">
+                      {product.bv.toFixed(2)} BV
+                    </span>
+                  )}
                 </div>
 
-                {product.shelfLife && (
-                  <div className="p-5 bg-stone-50 rounded-2xl border border-stone-200 flex items-center gap-3">
-                    <Clock className="w-5 h-5 text-[#00795F]" />
-                    <span className="font-bold text-stone-900">Tiempo de vida útil:</span>
-                    <span className="text-stone-700">{product.shelfLife}</span>
-                  </div>
-                )}
+                <p className="text-base sm:text-[17px] text-black leading-relaxed max-w-xl font-normal">
+                  {renderWithHGWLinks(product.shortDescription)}
+                </p>
 
-                {product.precautions && (
-                  <div className="pt-4 border-t border-stone-100">
-                    <h3 className="text-[20px] font-black text-black mb-3 flex items-center gap-2">
-                      <ShieldCheck className="w-5 h-5 text-amber-600" /> Precauciones y Advertencias
-                    </h3>
-                    <p className="text-[16px] text-stone-700 leading-relaxed bg-amber-50/60 p-6 rounded-3xl border border-amber-200/80">
-                      {renderWithHGWLinks(product.precautions)}
-                    </p>
-                  </div>
-                )}
-              </div>
-            )}
+                <div className="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 w-full sm:w-auto">
+                  <a
+                    href={registrationUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 bg-[#4472C4] hover:bg-[#33599E] text-white font-extrabold text-sm sm:text-base rounded-2xl shadow-lg shadow-[#4472C4]/25 hover:-translate-y-0.5 active:scale-95 transition-all"
+                  >
+                    <ShoppingBag className="w-5 h-5" />
+                    <span>Comprar en Tienda Oficial</span>
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
 
-            {activeTab === 'usage' && (
-              <div className="animate-fade-in space-y-6">
-                <h2 className="text-[26px] font-black text-black mb-6">Modo de Uso e Instrucciones</h2>
-                <div className="bg-[#00795F] text-white p-8 sm:p-10 rounded-[2.5rem] shadow-xl relative overflow-hidden group">
-                  <div className="absolute -top-10 -right-10 p-8 opacity-10 transform group-hover:scale-110 transition-transform duration-700">
-                    <Check className="w-64 h-64" />
-                  </div>
-                  <div className="text-[18px] sm:text-[19px] leading-relaxed font-bold relative z-10 whitespace-pre-line space-y-3">
-                    {renderWithHGWLinks(product.usage || "Consulte la ficha técnica oficial para instrucciones detalladas o contacte a un distribuidor autorizado.")}
-                  </div>
+                  <a
+                    href={productWhatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 bg-white hover:bg-[#EEF3FB] text-[#4472C4] border border-[#4472C4]/35 font-extrabold text-sm sm:text-base rounded-2xl shadow-sm transition-all"
+                  >
+                    <MessageCircle className="w-5 h-5" />
+                    <span>Pedir por WhatsApp</span>
+                  </a>
                 </div>
               </div>
-            )}
-          </div>
-        </div>
 
-        {/* Espacio publicitario 300x250 en ficha de producto */}
-        <div className="mt-12 flex justify-center">
-          <AdsterraBanner key={`product-300x250-${product.slug}`} format="300x250" />
-        </div>
+              {/* Columna Derecha: Tarjeta Visual del Producto + Specs + Botón Comprar Afiliado */}
+              <div className="w-full">
+                <div className="rounded-3xl bg-white border border-slate-200 shadow-2xl overflow-hidden p-5 sm:p-6">
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEF3FB] text-[#4472C4] text-[11px] font-black uppercase tracking-wider">
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span>Producto Original HGW</span>
+                    </span>
+                    {product.code && (
+                      <span className="inline-flex items-center gap-1 text-xs font-extrabold text-slate-600">
+                        <Hash className="w-3.5 h-3.5 text-[#4472C4]" />
+                        Cód. {product.code}
+                      </span>
+                    )}
+                  </div>
 
-        {/* Envíos y devoluciones */}
-        <div className="mt-10">
-          <ShippingAndReturnsSection />
-        </div>
-
-        {/* Related Products Section */}
-        {relatedProducts.length > 0 && (
-          <div className="mt-20 border-t border-stone-200 pt-16">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-2xl sm:text-3xl font-black text-black tracking-tight">
-                Productos Relacionados en {product.categoryLabel}
-              </h2>
-              <Link to="/productos" className="text-sm font-black text-[#00795F] hover:underline flex items-center gap-1">
-                Ver todo <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-              {relatedProducts.map((rel) => (
-                <Link
-                  to={`/producto/${rel.slug}`}
-                  key={rel.id}
-                  className="bg-stone-50 rounded-3xl p-4 sm:p-6 border border-stone-200 hover:border-[#00795F] hover:shadow-lg transition-all flex flex-col justify-between group"
-                >
-                  <div className="aspect-square bg-white rounded-2xl p-4 mb-4 flex items-center justify-center border border-stone-100 overflow-hidden">
+                  <div className="aspect-[4/3] w-full rounded-2xl bg-[#F8FAFC] border border-slate-100 p-4 flex items-center justify-center overflow-hidden group">
                     <img
-                      src={rel.image}
-                      alt={rel.name}
+                      src={product.image}
+                      alt={product.name}
                       className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-300"
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src =
+                          'https://media.academiahgw.online/wp-content/uploads/2026/11/productos-hgw-1024x683.webp';
+                      }}
                     />
                   </div>
-                  <div>
-                    <span className="text-[11px] font-black text-[#00795F] uppercase tracking-wider block mb-1">{rel.categoryLabel}</span>
-                    <h3 className="font-bold text-black text-sm sm:text-base line-clamp-2 group-hover:text-[#00795F] transition-colors mb-2">
-                      {rel.name}
-                    </h3>
-                    <p className="text-base font-black text-[#00795F] tabular-nums">{rel.priceFormatted}</p>
+
+                  {/* Mini ficha rápida */}
+                  <div className="mt-4 grid grid-cols-2 gap-2.5 text-xs">
+                    {product.netContent && (
+                      <div className="p-2.5 rounded-xl bg-[#F8FAFC] border border-slate-100">
+                        <span className="block text-[10px] font-bold uppercase text-slate-500">
+                          Contenido
+                        </span>
+                        <strong className="text-black font-extrabold">{product.netContent}</strong>
+                      </div>
+                    )}
+                    {product.presentation && (
+                      <div className="p-2.5 rounded-xl bg-[#F8FAFC] border border-slate-100">
+                        <span className="block text-[10px] font-bold uppercase text-slate-500">
+                          Presentación
+                        </span>
+                        <strong className="text-black font-extrabold line-clamp-1">
+                          {product.presentation}
+                        </strong>
+                      </div>
+                    )}
                   </div>
+
+                  <div className="mt-4">
+                    <a
+                      href={registrationUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full py-3.5 px-6 bg-[#4472C4] hover:bg-[#33599E] text-white font-extrabold text-sm sm:text-base rounded-2xl shadow-lg shadow-[#4472C4]/25 inline-flex items-center justify-center gap-2 transition-all active:scale-95"
+                    >
+                      <ShoppingBag className="w-4 h-4" />
+                      <span>Comprar ({product.priceFormatted} USD)</span>
+                      <ExternalLink className="w-4 h-4" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* =================================================================
+          (4) SERVICIOS, ESPECIFICACIONES + 8 CARACTERÍSTICAS EN GRID
+          ================================================================= */}
+      <section className="py-14 sm:py-20 bg-[#F8FAFC] border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ScrollReveal>
+            <div className="text-center max-w-3xl mx-auto mb-12">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight">
+                Información Clave y Formas de Compra
+              </h2>
+              <p className="text-sm sm:text-base text-black mt-2.5 font-normal">
+                Todo sobre {product.name}: ingredientes, modo de uso, pagos por Yappy y envíos en Panamá.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
+              <div className="aspect-[3/2] w-full rounded-3xl overflow-hidden bg-slate-900 shadow-xl border border-slate-200">
+                <LazyYouTubeEmbed
+                  videoId={heroVideo.id}
+                  title={heroVideo.title}
+                  useNoCookie
+                />
+              </div>
+
+              <div className="space-y-4">
+                {productServices.map((srv, idx) => {
+                  const isSelected = activeServiceIdx === idx;
+                  return (
+                    <div
+                      key={srv.id}
+                      className={`rounded-2xl transition-all duration-200 overflow-hidden shadow-sm border ${
+                        isSelected
+                          ? 'bg-white border-[#4472C4] shadow-md ring-2 ring-[#4472C4]/25'
+                          : 'bg-[#4472C4] border-[#4472C4]'
+                      }`}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => setActiveServiceIdx(isSelected ? null : idx)}
+                        className={`w-full px-4 sm:px-6 py-4 text-left flex items-center justify-between gap-4 cursor-pointer transition-colors ${
+                          isSelected
+                            ? 'bg-[#33599E] text-white'
+                            : 'bg-[#4472C4] hover:bg-[#33599E] text-white'
+                        }`}
+                        aria-expanded={isSelected}
+                      >
+                        <span className="font-bold text-sm sm:text-base tracking-wide">
+                          {srv.title}
+                        </span>
+                        <ChevronDown
+                          className={`w-5 h-5 shrink-0 transition-transform duration-200 ${
+                            isSelected ? 'rotate-180' : ''
+                          }`}
+                        />
+                      </button>
+
+                      {isSelected && (
+                        <div className="px-4 sm:px-6 py-4 sm:py-5 bg-white text-black border-t border-slate-200 space-y-3">
+                          <p className="text-[17px] leading-relaxed text-black break-words">
+                            {srv.detail}
+                          </p>
+                          {srv.bullets.length > 0 && (
+                            <ul className="space-y-2 text-[17px] leading-relaxed text-black">
+                              {srv.bullets.map((bullet, bIdx) => (
+                                <li key={bIdx} className="flex items-start gap-2.5 break-words">
+                                  <span className="text-[#4472C4] font-black leading-relaxed shrink-0">
+                                    •
+                                  </span>
+                                  <span>{bullet}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                          {srv.external ? (
+                            <a
+                              href={srv.ctaHref}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 text-sm font-bold text-[#4472C4] underline underline-offset-4 hover:text-[#33599E] pt-1"
+                            >
+                              <span>{srv.ctaLabel}</span>
+                              <ExternalLink className="w-4 h-4" />
+                            </a>
+                          ) : srv.ctaHref?.startsWith('#') ? (
+                            <a
+                              href={srv.ctaHref}
+                              className="inline-flex items-center gap-1.5 text-sm font-bold text-[#4472C4] underline underline-offset-4 hover:text-[#33599E] pt-1"
+                            >
+                              <span>{srv.ctaLabel}</span>
+                              <ArrowRight className="w-4 h-4" />
+                            </a>
+                          ) : (
+                            <Link
+                              to={srv.ctaTo || '/productos'}
+                              className="inline-flex items-center gap-1.5 text-sm font-bold text-[#4472C4] underline underline-offset-4 hover:text-[#33599E] pt-1"
+                            >
+                              <span>{srv.ctaLabel}</span>
+                              <ArrowRight className="w-4 h-4" />
+                            </Link>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* 8 Destacados en Grid 2 columnas móvil / 4 tablet & escritorio */}
+            <div className="mt-12 sm:mt-14 pt-10 border-t border-slate-200/80">
+              <div className="text-center max-w-2xl mx-auto mb-8">
+                <h3 className="text-xl sm:text-2xl font-black text-black tracking-tight">
+                  Ventajas y Respaldo de Compra en Panamá
+                </h3>
+                <p className="text-sm sm:text-base text-black mt-1.5 font-normal">
+                  Calidad certificada, atención personalizada y envíos seguros a todo el país.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-5 lg:gap-6">
+                {productHighlightsEight.map(({ name, Icon }) => (
+                  <a
+                    key={name}
+                    href="#ficha-producto"
+                    className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-slate-200/80 shadow-sm hover:shadow-lg hover:border-[#4472C4]/50 hover:-translate-y-1 transition-all duration-300 flex flex-col items-center justify-center text-center group"
+                  >
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#EEF3FB] text-[#4472C4] group-hover:bg-[#4472C4] group-hover:text-white flex items-center justify-center mb-3 transition-colors duration-300 shadow-2xs">
+                      <Icon className="w-6 h-6 sm:w-7 sm:h-7" />
+                    </div>
+                    <span className="text-sm sm:text-base font-extrabold text-black group-hover:text-[#4472C4] transition-colors leading-snug line-clamp-2">
+                      {name}
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* =================================================================
+          (5) 3 PILARES / BENEFICIOS DESTACADOS DEL PRODUCTO
+          ================================================================= */}
+      <section className="py-14 sm:py-20 bg-white border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ScrollReveal>
+            <div className="text-center max-w-3xl mx-auto mb-12">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight">
+                Pilares de {product.name}
+              </h2>
+              <p className="text-sm sm:text-base text-black mt-2.5 font-normal">
+                Beneficios diseñados para acompañar el bienestar diario de tu familia.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+              {pillarCards.map((pillar, idx) => (
+                <div key={idx} className="flex flex-col items-center text-center group">
+                  <div className="w-[180px] h-[180px] sm:w-[210px] sm:h-[210px] rounded-full overflow-hidden border-4 border-[#EEF3FB] shadow-lg bg-[#F8FAFC] p-5 flex items-center justify-center mb-6 group-hover:border-[#4472C4] group-hover:shadow-xl transition-all duration-300">
+                    <img
+                      src={product.image}
+                      alt={pillar.title}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
+                  <h3 className="text-xl font-extrabold text-black mb-2.5">{pillar.title}</h3>
+                  <p className="text-sm sm:text-base text-black leading-relaxed max-w-xs font-normal">
+                    {renderWithHGWLinks(pillar.description)}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* =================================================================
+          (6) CERTIFICACIONES Y RECONOCIMIENTOS (Grid 4 escritorio, 2 tablet, 2 móviles)
+          ================================================================= */}
+      <section className="py-14 sm:py-20 bg-[#F8FAFC] border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ScrollReveal>
+            <div className="text-center max-w-3xl mx-auto mb-12">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight">
+                Certificaciones y Reconocimientos
+              </h2>
+              <p className="text-sm sm:text-base text-black mt-2.5 font-normal">
+                Certificaciones internacionales de calidad, inocuidad y manufactura, junto con las asociaciones de venta directa que respaldan a HGW.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 lg:gap-6 mb-14">
+              {CERTIFICATIONS.map((cert) => (
+                <div
+                  key={cert.id}
+                  className="bg-white rounded-2xl sm:rounded-3xl p-3 sm:p-5 border border-slate-200/80 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center"
+                >
+                  <div className="aspect-[3/2] w-full rounded-xl sm:rounded-2xl overflow-hidden bg-[#F8FAFC] border border-slate-100 p-2 sm:p-3 flex items-center justify-center mb-3 sm:mb-4">
+                    <img
+                      src={cert.imageUrl}
+                      alt={cert.name}
+                      loading="lazy"
+                      decoding="async"
+                      className="max-h-full max-w-full object-contain"
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src =
+                          'https://media.academiahgw.online/wp-content/uploads/2026/11/hgw_logo.png';
+                      }}
+                    />
+                  </div>
+                  <h3 className="text-sm sm:text-lg font-extrabold text-black mb-1 sm:mb-1.5 leading-snug">
+                    {cert.name}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-black leading-relaxed font-normal">
+                    {cert.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div className="text-center max-w-2xl mx-auto mb-8">
+              <h3 className="text-xl sm:text-2xl font-black text-black tracking-tight">
+                Asociaciones y Reconocimientos de Venta Directa
+              </h3>
+              <p className="text-xs sm:text-sm text-black mt-1.5 font-normal">
+                Respaldo gremial e institucional en Panamá, Latinoamérica y el mundo.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 lg:gap-6">
+              {DIRECT_SALES_ASSOCIATIONS.map((assoc, idx) => (
+                <div
+                  key={idx}
+                  className="bg-white rounded-2xl sm:rounded-3xl p-3 sm:p-5 border border-slate-200/80 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center"
+                >
+                  <div className="aspect-[3/2] w-full rounded-xl sm:rounded-2xl overflow-hidden bg-[#F8FAFC] border border-slate-100 p-2.5 sm:p-4 flex items-center justify-center mb-3 sm:mb-4">
+                    <img
+                      src={assoc.imageUrl}
+                      alt={assoc.name}
+                      loading="lazy"
+                      decoding="async"
+                      className="max-h-full max-w-full object-contain"
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src =
+                          'https://media.academiahgw.online/wp-content/uploads/2026/11/hgw_logo.png';
+                      }}
+                    />
+                  </div>
+                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#4472C4] mb-1">
+                    {assoc.country}
+                  </span>
+                  <h4 className="text-sm sm:text-base font-extrabold text-black mb-1 sm:mb-1.5 leading-snug">
+                    {assoc.name}
+                  </h4>
+                  <p className="text-xs sm:text-sm text-black leading-relaxed font-normal">
+                    {assoc.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* =================================================================
+          (7) TESTIMONIOS EN VIDEO (Carga diferida)
+          ================================================================= */}
+      <section className="py-14 sm:py-20 bg-white border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ScrollReveal>
+            <div className="text-center max-w-3xl mx-auto mb-12">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight">
+                Testimonios y Experiencias HGW
+              </h2>
+              <p className="text-sm sm:text-base text-black mt-2.5 font-normal">
+                Experiencias reales compartidas por clientes y consumidores de nuestros productos naturales.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {PRODUCT_TESTIMONIAL_VIDEOS.map((video) => (
+                <div
+                  key={video.id}
+                  className="bg-[#F8FAFC] rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center"
+                >
+                  <div className="aspect-[3/2] w-full rounded-2xl overflow-hidden bg-slate-900 shadow-inner mb-5 border border-slate-200">
+                    <LazyYouTubeEmbed videoId={video.id} title={video.title} useNoCookie />
+                  </div>
+                  <h3 className="text-lg font-extrabold text-black mb-2 leading-snug">
+                    {video.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-black leading-relaxed font-normal">
+                    {video.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* =================================================================
+          (8) FICHA COMPLETA DEL PRODUCTO + PRODUCTOS RELACIONADOS
+          ================================================================= */}
+      <section
+        id="ficha-producto"
+        className="scroll-mt-24 py-14 sm:py-20 bg-[#F8FAFC] border-b border-slate-100"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ScrollReveal>
+            <div className="text-center max-w-3xl mx-auto mb-12">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight">
+                Ficha Técnica y Especificaciones
+              </h2>
+              <p className="text-sm sm:text-base text-black mt-2.5 font-normal">
+                Detalle oficial de {product.name} en Panamá.
+              </p>
+            </div>
+
+            {/* Tarjeta completa del producto */}
+            <div className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-lg mb-14">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <div className="lg:col-span-5 space-y-4">
+                  <div className="aspect-square w-full rounded-2xl bg-[#F8FAFC] border border-slate-100 p-6 flex items-center justify-center overflow-hidden">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      loading="lazy"
+                      decoding="async"
+                      className="max-h-full max-w-full object-contain"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
+
+                  <div className="p-4 bg-[#EEF3FB] rounded-2xl border border-[#4472C4]/25 space-y-2">
+                    <div className="flex items-baseline justify-between">
+                      <span className="text-xs font-bold text-black uppercase tracking-wider">
+                        Precio Oficial:
+                      </span>
+                      <span className="text-3xl font-black text-[#4472C4] tabular-nums">
+                        {product.priceFormatted} <span className="text-xs font-bold text-black">USD</span>
+                      </span>
+                    </div>
+                    <div className="pt-2 border-t border-[#4472C4]/20 flex items-center justify-between text-xs">
+                      <span className="text-black font-medium">Descuento de Socio:</span>
+                      <span className="text-[#4472C4] font-black">30% a 52% con membresía</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2.5">
+                    <a
+                      href={registrationUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full py-3.5 px-5 bg-[#4472C4] hover:bg-[#33599E] text-white text-sm font-black rounded-xl shadow-md shadow-[#4472C4]/25 flex items-center justify-center gap-2 transition-all active:scale-95"
+                    >
+                      <ShoppingBag className="w-4 h-4" />
+                      <span>Comprar en Tienda Oficial</span>
+                      <ExternalLink className="w-4 h-4" />
+                    </a>
+
+                    <a
+                      href={productWhatsappUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full py-3 px-5 bg-slate-900 hover:bg-black text-white text-sm font-black rounded-xl flex items-center justify-center gap-2 transition-all active:scale-95"
+                    >
+                      <MessageCircle className="w-4 h-4" />
+                      <span>Pedir como Cliente ({product.priceFormatted})</span>
+                    </a>
+
+                    <a
+                      href={partnerWhatsappUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full py-3 px-5 bg-white hover:bg-[#EEF3FB] text-[#4472C4] border border-[#4472C4]/35 text-sm font-black rounded-xl flex items-center justify-center gap-2 transition-all"
+                    >
+                      <Zap className="w-4 h-4" />
+                      <span>Comprar como Socio (30% a 52% Descuento)</span>
+                    </a>
+                  </div>
+                </div>
+
+                <div className="lg:col-span-7 space-y-6">
+                  {product.description && (
+                    <div>
+                      <h3 className="text-xl font-black text-black mb-2">
+                        {isMembership ? 'Detalle del Paquete' : 'Descripción'}
+                      </h3>
+                      <p className="text-[17px] text-black leading-relaxed font-normal">
+                        {renderWithHGWLinks(product.description)}
+                      </p>
+                    </div>
+                  )}
+
+                  {product.benefits && product.benefits.length > 0 && (
+                    <div>
+                      <h3 className="text-xl font-black text-black mb-3">Beneficios Principales</h3>
+                      <ul className="space-y-2.5 text-[17px] leading-snug text-black">
+                        {product.benefits.map((benefit, idx) => (
+                          <li key={idx} className="flex items-start gap-2.5 break-words">
+                            <Check className="w-5 h-5 text-[#4472C4] shrink-0 mt-1" />
+                            <span>{renderWithHGWLinks(benefit)}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {product.advantages && product.advantages.length > 0 && (
+                    <div>
+                      <h3 className="text-xl font-black text-black mb-3">
+                        {isMembership ? 'Bonos y Requisitos' : 'Ventajas Destacadas'}
+                      </h3>
+                      <ul className="space-y-2 text-[17px] leading-snug text-black">
+                        {product.advantages.map((adv, idx) => (
+                          <li key={idx} className="flex items-start gap-2.5 break-words">
+                            <span className="text-[#4472C4] font-black shrink-0">•</span>
+                            <span>{renderWithHGWLinks(adv)}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {product.ingredients && product.ingredients.length > 0 && (
+                    <div>
+                      <h3 className="text-xl font-black text-black mb-3">
+                        Ingredientes y Componentes
+                      </h3>
+                      <div className="flex flex-wrap gap-2">
+                        {product.ingredients.map((ing, idx) => (
+                          <span
+                            key={idx}
+                            className="px-4 py-2 rounded-xl bg-[#EEF3FB] text-black font-bold text-sm border border-[#4472C4]/20 inline-flex items-center gap-2"
+                          >
+                            <Sparkles className="w-3.5 h-3.5 text-[#4472C4] shrink-0" />
+                            <span>{renderWithHGWLinks(ing)}</span>
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {product.usage && (
+                    <div className="p-5 rounded-2xl bg-[#F8FAFC] border border-slate-200">
+                      <h3 className="text-lg font-black text-black mb-2">Modo de Uso</h3>
+                      <p className="text-[17px] text-black leading-relaxed whitespace-pre-line font-normal">
+                        {renderWithHGWLinks(product.usage)}
+                      </p>
+                    </div>
+                  )}
+
+                  <div className="pt-2 flex flex-wrap gap-3">
+                    <Link
+                      to={`/documentos/${product.documentSlug || 'catalogo-productos-hgw-panama-2026'}`}
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-[#4472C4] hover:bg-[#33599E] text-white font-bold text-sm rounded-xl transition-all"
+                    >
+                      <FileText className="w-4 h-4" />
+                      <span>Ver Ficha Técnica en PDF</span>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Productos Relacionados */}
+            {relatedProducts.length > 0 && (
+              <div>
+                <div className="text-center max-w-2xl mx-auto mb-8">
+                  <h3 className="text-xl sm:text-2xl font-black text-black tracking-tight">
+                    Más Productos de {product.categoryLabel}
+                  </h3>
+                </div>
+
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5 lg:gap-6">
+                  {relatedProducts.map((rel) => (
+                    <div
+                      key={rel.id}
+                      className="bg-white rounded-2xl sm:rounded-3xl p-3 sm:p-5 border border-slate-200/80 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between text-center"
+                    >
+                      <div>
+                        <Link
+                          to={`/producto/${rel.slug}`}
+                          className="aspect-square w-full rounded-xl sm:rounded-2xl bg-[#F8FAFC] border border-slate-100 p-3 sm:p-5 flex items-center justify-center overflow-hidden mb-3 sm:mb-4 group"
+                        >
+                          <img
+                            src={rel.image}
+                            alt={rel.name}
+                            loading="lazy"
+                            decoding="async"
+                            className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-300"
+                            referrerPolicy="no-referrer"
+                          />
+                        </Link>
+                        <div className="text-[10px] sm:text-xs font-bold text-[#4472C4] uppercase tracking-wider mb-1 line-clamp-1">
+                          {rel.categoryLabel} · {rel.priceFormatted}
+                        </div>
+                        <h4 className="text-sm sm:text-base font-extrabold text-black mb-2 line-clamp-2 leading-snug">
+                          {rel.name}
+                        </h4>
+                      </div>
+
+                      <Link
+                        to={`/producto/${rel.slug}`}
+                        className="w-full py-2.5 sm:py-3 px-3 sm:px-4 bg-[#4472C4] hover:bg-[#33599E] text-white font-bold text-xs sm:text-sm rounded-xl shadow-sm transition-all active:scale-95 inline-flex items-center justify-center gap-1.5"
+                      >
+                        <span>Ver Producto</span>
+                        <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="mt-12 text-center">
+              <Link
+                to="/productos"
+                className="inline-flex items-center justify-center gap-2.5 px-8 py-4 bg-slate-900 hover:bg-black text-white font-extrabold text-sm sm:text-base rounded-2xl shadow-md hover:-translate-y-0.5 active:scale-95 transition-all"
+              >
+                <span>Ver Catálogo Completo ({PRODUCTS.length} Productos)</span>
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* =================================================================
+          (9) ACERCA DE LA EMPRESA (Con Logo Oficial de HGW)
+          ================================================================= */}
+      <section className="py-14 sm:py-20 bg-white border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ScrollReveal>
+            <div className="text-center max-w-3xl mx-auto mb-12 flex flex-col items-center">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight">
+                Acerca de la Empresa
+              </h2>
+              <div className="mt-5">
+                <img
+                  src="/assets/aistudio/HGW-LOGO-DE-LA-COMPANIA_b191b3d1.png"
+                  alt="Logo Oficial Health Green World (HGW)"
+                  loading="lazy"
+                  decoding="async"
+                  className="h-24 sm:h-28 md:h-32 w-auto object-contain mx-auto"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+              <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-5">
+                <h3 className="text-2xl sm:text-3xl font-black text-black leading-tight">
+                  Health Green World (Green World Group)
+                </h3>
+
+                <p className="text-base text-black leading-relaxed font-normal">
+                  HGW forma parte de la corporación multinacional Green World Group, fundada por la <strong>Dra. Deming Lee</strong> junto al liderazgo corporativo de <strong>Peter Lee</strong>. Con presencia en más de 50 países, combinamos investigación científica en medicina tradicional con biotecnología moderna.
+                </p>
+
+                <p className="text-base text-black leading-relaxed font-normal">
+                  En Panamá operamos bajo los más altos estándares éticos, afiliados a gremios de venta directa responsable como la Asociación Panameña de Venta Directa (APVD) y la Federación Mundial de Asociaciones de Venta Directa (WFDSA).
+                </p>
+
+                <div className="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-3">
+                  <Link
+                    to="/documentos"
+                    className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-[#4472C4] hover:bg-[#33599E] text-white font-bold text-sm sm:text-base rounded-2xl shadow-md hover:-translate-y-0.5 active:scale-95 transition-all"
+                  >
+                    <FileText className="w-4 h-4" />
+                    <span>Ver Catálogos y Documentos PDF</span>
+                  </Link>
+                  <Link
+                    to="/oficinas"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#EEF3FB] hover:bg-[#dbe6f8] text-[#4472C4] font-bold text-sm rounded-2xl transition-all"
+                  >
+                    <span>Oficinas Panamá y LATAM</span>
+                  </Link>
+                </div>
+              </div>
+
+              <div className="aspect-[3/2] w-full rounded-3xl overflow-hidden bg-slate-900 shadow-xl border border-slate-200">
+                <LazyYouTubeEmbed
+                  videoId="oOZhonOYD6Q"
+                  title="Presentación Corporativa HGW"
+                  useNoCookie
+                />
+              </div>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* =================================================================
+          (10) OPORTUNIDAD
+          ================================================================= */}
+      <section className="py-14 sm:py-20 bg-[#F8FAFC] border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ScrollReveal>
+            <div className="text-center max-w-3xl mx-auto mb-12">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight">
+                Oportunidad y Descuentos para Socios
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+              <div className="aspect-[3/2] w-full rounded-3xl overflow-hidden bg-slate-900 shadow-xl border border-slate-200">
+                <LazyYouTubeEmbed
+                  videoId="Poy4FvvfcfA"
+                  title="Tutorial Oficial de Registro y Oportunidad HGW"
+                  useNoCookie
+                />
+              </div>
+
+              <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-5">
+                <h3 className="text-2xl sm:text-3xl font-black text-black leading-tight">
+                  Gana hasta un <span className="text-[#4472C4]">52% de beneficio</span> con el Plan de Ganancias Mutuas
+                </h3>
+
+                <p className="text-base text-black leading-relaxed font-normal">
+                  En HGW Panamá tú decides cómo crecer. Al activar tu código con 50 BV en adelante bajo el patrocinio autorizado en Panamá (Yamilka507), compras {product.name} y todo el catálogo con descuentos preferenciales desde 30% hasta 52%, además de generar bonos de equipo y ventas directas.
+                </p>
+
+                <div className="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-3">
+                  <Link
+                    to="/oportunidad-de-negocio"
+                    className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-[#4472C4] hover:bg-[#33599E] text-white font-bold text-sm sm:text-base rounded-2xl shadow-md hover:-translate-y-0.5 active:scale-95 transition-all"
+                  >
+                    <span>Ver Plan de Negocio</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+
+                  <a
+                    href={registrationUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-white hover:bg-[#EEF3FB] text-[#4472C4] border border-[#4472C4]/30 font-bold text-sm rounded-2xl transition-all"
+                  >
+                    <span>Registro Oficial (Yamilka507)</span>
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* =================================================================
+          (11) GUÍAS EDUCATIVAS (4 COLUMNAS)
+          ================================================================= */}
+      <section className="py-14 sm:py-20 bg-white border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ScrollReveal>
+            <div className="text-center max-w-3xl mx-auto mb-12">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight">
+                Guías Educativas y Recursos HGW
+              </h2>
+              <p className="text-sm sm:text-base text-black mt-2.5 font-normal">
+                Aprende más sobre nuestros ingredientes ancestrales, formulaciones y documentación técnica.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {EDUCATIONAL_GUIDES.map((guide, idx) => (
+                <Link
+                  key={idx}
+                  to={guide.to}
+                  className="bg-[#F8FAFC] rounded-3xl p-5 border border-slate-200/80 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center group"
+                >
+                  <div className="aspect-[3/2] w-full rounded-2xl overflow-hidden bg-white border border-slate-100 mb-4">
+                    <img
+                      src={guide.image}
+                      alt={guide.title}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src =
+                          'https://media.academiahgw.online/wp-content/uploads/2026/11/productos-hgw-1024x683.webp';
+                      }}
+                    />
+                  </div>
+                  <h3 className="text-base sm:text-lg font-extrabold text-black group-hover:text-[#4472C4] transition-colors mb-2 leading-snug">
+                    {guide.title}
+                  </h3>
+                  <p className="text-sm text-black leading-relaxed font-normal">{guide.excerpt}</p>
+                  <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-[#4472C4]">
+                    <BookOpen className="w-3.5 h-3.5" />
+                    <span>Leer guía completa</span>
+                  </span>
                 </Link>
               ))}
             </div>
-          </div>
-        )}
-
-        {/* Technical PDF Link */}
-        <div className="mt-24 p-6 sm:p-16 bg-stone-900 rounded-3xl sm:rounded-[4rem] text-white flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-10 shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-[#00795F]/20 to-transparent pointer-events-none" />
-          <div className="text-center md:text-left relative z-10">
-            <h2 className="text-2xl sm:text-4xl font-black mb-3 text-white tracking-tight">Ficha Técnica Completa</h2>
-            <p className="text-stone-400 text-base sm:text-[18px] font-medium">Acceda a la biblioteca técnica oficial para descargar el PDF detallado.</p>
-          </div>
-          <Link 
-            to={`/documentos/${product.documentSlug || 'catalogo-productos-hgw-panama-2026'}`}
-            className="w-full md:w-auto px-6 sm:px-12 py-4 sm:py-5 bg-[#00795F] hover:bg-[#00A550] text-white font-black text-base sm:text-lg rounded-2xl shadow-lg transition-all active:scale-95 text-center sm:whitespace-nowrap relative z-10 flex items-center justify-center gap-3"
-          >
-            <span>VER FICHA TÉCNICA EN PDF</span>
-          </Link>
+          </ScrollReveal>
         </div>
+      </section>
 
-      </div>
+      {/* =================================================================
+          (12) PREGUNTAS FRECUENTES (Todos cerrados al cargar, texto 17px negro)
+          ================================================================= */}
+      <section className="py-14 sm:py-20 bg-[#F8FAFC] border-b border-slate-100">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ScrollReveal>
+            <div className="text-center max-w-3xl mx-auto mb-10">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight">
+                Preguntas Frecuentes
+              </h2>
+              <p className="text-sm sm:text-base text-black mt-2.5 font-normal">
+                Respuestas rápidas sobre {product.name}, pagos por Yappy, envíos y membresías en Panamá.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              {productFaqs.map((faq, idx) => {
+                const isOpen = openFaqIdx === idx;
+                return (
+                  <div
+                    key={idx}
+                    className="rounded-2xl overflow-hidden shadow-sm border border-[#4472C4]/25 bg-white transition-all"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setOpenFaqIdx(isOpen ? null : idx)}
+                      aria-expanded={isOpen}
+                      className="w-full py-4 px-4 sm:px-6 bg-[#4472C4] hover:bg-[#33599E] text-white text-left flex items-center justify-between gap-4 font-bold text-sm sm:text-base transition-colors cursor-pointer"
+                    >
+                      <span>{faq.question}</span>
+                      <ChevronDown
+                        className={`w-5 h-5 shrink-0 transition-transform duration-200 ${
+                          isOpen ? 'rotate-180' : ''
+                        }`}
+                      />
+                    </button>
+                    {isOpen && (
+                      <div className="px-4 sm:px-6 py-4 sm:py-5 text-[17px] text-black leading-relaxed bg-white border-t border-slate-100 font-normal break-words">
+                        {renderWithHGWLinks(faq.answer)}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* =================================================================
+          (13) PAQUETES DE MEMBRESÍA O SUSCRIPCIÓN (Master es el último, bullets 17px negro)
+          ================================================================= */}
+      <section className="py-14 sm:py-20 bg-white border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ScrollReveal>
+            <div className="text-center max-w-3xl mx-auto mb-14">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight">
+                Paquetes de Membresía o Suscripción
+              </h2>
+              <p className="text-sm sm:text-base text-black mt-2.5 font-normal">
+                Elige los productos de tu preferencia en cada paquete. Diamante es un rango de liderazgo, no una membresía de ingreso.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+              {showcasePackages.map((pkg) => {
+                const pkgWhatsAppText = encodeURIComponent(
+                  `¡Hola! Estaba viendo ${product.name} y quería preguntar sobre cómo afiliarse a HGW Panamá con el paquete "${pkg.name}" (${pkg.bv}). Mi nombre es:`
+                );
+                const pkgWhatsAppUrl = `https://wa.me/50767788375?text=${pkgWhatsAppText}`;
+
+                return (
+                  <div
+                    key={pkg.id}
+                    className={`rounded-3xl p-5 sm:p-8 flex flex-col justify-between text-center transition-all duration-300 relative ${
+                      pkg.isHighlighted
+                        ? 'bg-gradient-to-b from-[#EEF3FB] via-white to-white border-2 border-[#4472C4] shadow-2xl ring-4 ring-[#4472C4]/15'
+                        : 'bg-white border border-slate-200 shadow-md hover:shadow-xl hover:-translate-y-1'
+                    }`}
+                  >
+                    {pkg.isHighlighted && (
+                      <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#4472C4] text-white text-xs font-extrabold px-5 py-1.5 rounded-full shadow-md inline-flex items-center gap-1.5 uppercase tracking-wider whitespace-nowrap">
+                        <Sparkles className="w-3.5 h-3.5" />
+                        <span>Paquete Recomendado</span>
+                      </div>
+                    )}
+
+                    <div>
+                      <div className="aspect-square w-full rounded-2xl bg-[#F8FAFC] border border-slate-100 p-5 flex items-center justify-center overflow-hidden mb-5">
+                        <img
+                          src={pkg.packageImageUrl}
+                          alt={`Paquete ${pkg.name} HGW`}
+                          loading="lazy"
+                          decoding="async"
+                          className="max-h-full max-w-full object-contain hover:scale-105 transition-transform duration-300"
+                          referrerPolicy="no-referrer"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src =
+                              'https://media.academiahgw.online/wp-content/uploads/2026/11/productos-hgw-1024x683.webp';
+                          }}
+                        />
+                      </div>
+
+                      <div className="text-xs font-extrabold text-[#4472C4] uppercase tracking-wider mb-1">
+                        {pkg.bv} · {pkg.productCount}
+                      </div>
+
+                      <h3 className="text-2xl font-black text-black">{pkg.name}</h3>
+
+                      <div className="text-3xl font-black text-[#4472C4] mt-2 mb-3 tabular-nums">
+                        {pkg.priceEstimate}
+                      </div>
+
+                      <p className="text-sm sm:text-base text-black leading-relaxed mb-5 font-normal">
+                        {pkg.description}
+                      </p>
+
+                      <ul className="space-y-2.5 text-left text-[17px] leading-snug text-black mb-6 border-t border-slate-100 pt-4">
+                        <li className="flex items-start gap-2.5 break-words">
+                          <Check className="w-5 h-5 text-[#4472C4] shrink-0 mt-1" />
+                          <span>
+                            Bono Inicio Rápido: <strong>{pkg.fastStartBonus}</strong>
+                          </span>
+                        </li>
+                        <li className="flex items-start gap-2.5 break-words">
+                          <Check className="w-5 h-5 text-[#4472C4] shrink-0 mt-1" />
+                          <span>
+                            Bono Equipo: <strong>{pkg.teamBonus}</strong>
+                          </span>
+                        </li>
+                        <li className="flex items-start gap-2.5 break-words">
+                          <Check className="w-5 h-5 text-[#4472C4] shrink-0 mt-1" />
+                          <span>
+                            Tope Diario: <strong>{pkg.dailyEarningsCap}</strong>
+                          </span>
+                        </li>
+                        <li className="flex items-start gap-2.5 break-words">
+                          <Check className="w-5 h-5 text-[#4472C4] shrink-0 mt-1" />
+                          <span>
+                            Venta Directa: <strong>{pkg.directSaleProfit}</strong>
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div className="space-y-2.5">
+                      <a
+                        href={pkgWhatsAppUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`w-full py-3.5 px-5 rounded-xl font-bold text-sm transition-all active:scale-95 inline-flex items-center justify-center gap-2 ${
+                          pkg.isHighlighted
+                            ? 'bg-[#4472C4] hover:bg-[#33599E] text-white shadow-lg shadow-[#4472C4]/25'
+                            : 'bg-slate-900 hover:bg-black text-white'
+                        }`}
+                      >
+                        <span>Elegir {pkg.name}</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </a>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="mt-12 text-center">
+              <Link
+                to="/membresias"
+                className="inline-flex items-center gap-2 text-sm font-bold text-[#4472C4] hover:underline"
+              >
+                <span>Ver las 4 membresías oficiales (incluyendo Pre-Junior 50 BV)</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* =================================================================
+          (14) QUIÉNES SOMOS
+          ================================================================= */}
+      <section className="py-14 sm:py-20 bg-[#F8FAFC] border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ScrollReveal>
+            <div className="text-center max-w-3xl mx-auto mb-12">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight">
+                Quiénes Somos
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center mb-12">
+              <div className="aspect-[3/2] w-full rounded-3xl overflow-hidden bg-white border border-slate-200 shadow-xl">
+                <img
+                  src="https://media.academiahgw.online/wp-content/uploads/2026/11/WhatsApp-Image-2026-11-23-at-11.35.46-PM.jpeg"
+                  alt="Yamilka Batista - Distribuidora Independiente HGW Panamá"
+                  loading="lazy"
+                  decoding="async"
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-contain object-bottom"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = '/assets/aistudio/image_2b0e74c9.png';
+                  }}
+                />
+              </div>
+
+              <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-5">
+                <span className="text-xs font-extrabold uppercase tracking-wider text-[#4472C4] inline-flex items-center gap-1.5">
+                  <HeartHandshake className="w-4 h-4" />
+                  <span>Patrocinio Autorizado: Yamilka507</span>
+                </span>
+                <h3 className="text-2xl sm:text-3xl font-black text-black leading-tight">
+                  Yamilka Batista · Distribuidora Independiente HGW Panamá
+                </h3>
+                <p className="text-base text-black leading-relaxed font-normal">
+                  Si estás aquí es porque buscas algo mejor para ti y para tu familia, y quieres hacerlo con alguien en quien puedas confiar. Mi misión es compartir contigo las bondades de nuestros productos para que disfrutes de una mejor calidad de vida y bienestar. Te escucho, te oriento con honestidad sobre cada producto y te acompaño en cada paso, desde tu primera compra hasta que decidas dar el siguiente nivel. Realizo entregas confiables en la ciudad y en las provincias, y si sueñas con desarrollar tu propio emprendimiento independiente, aquí tienes una aliada que camina contigo. Escríbeme, cuéntame qué necesitas y empecemos juntas.
+                </p>
+
+                <div className="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-3">
+                  <a
+                    href={whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2.5 px-8 py-4 bg-[#4472C4] hover:bg-[#33599E] text-white font-bold text-sm sm:text-base rounded-2xl shadow-lg shadow-[#4472C4]/25 hover:-translate-y-0.5 active:scale-95 transition-all"
+                  >
+                    <MessageCircle className="w-5 h-5" />
+                    <span>Hablar con Yamilka por WhatsApp</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Redes Sociales */}
+            <div className="flex items-center justify-center gap-4 pt-2">
+              <a
+                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                  `https://www.hgwpanama.com/producto/${product.slug}`
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Compartir en Facebook"
+                className="w-12 h-12 rounded-xl bg-[#1877F2] text-white flex items-center justify-center shadow-md hover:-translate-y-1 transition-all"
+              >
+                <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" />
+                </svg>
+              </a>
+
+              <a
+                href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
+                  `https://www.hgwpanama.com/producto/${product.slug}`
+                )}&text=${encodeURIComponent(`${product.name} - HGW Panamá`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Compartir en X"
+                className="w-12 h-12 rounded-xl bg-slate-950 text-white flex items-center justify-center shadow-md hover:-translate-y-1 transition-all"
+              >
+                <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+              </a>
+
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram y Contacto HGW Panamá"
+                className="w-12 h-12 rounded-xl bg-gradient-to-tr from-[#F58529] via-[#DD2A7B] to-[#8134AF] text-white flex items-center justify-center shadow-md hover:-translate-y-1 transition-all"
+              >
+                <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zm5.25-2.75a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                </svg>
+              </a>
+
+              <a
+                href="https://www.youtube.com/@yamilkabatistaoficial"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Canal de YouTube Yamilka Batista Oficial"
+                className="w-12 h-12 rounded-xl bg-[#FF0000] text-white flex items-center justify-center shadow-md hover:-translate-y-1 transition-all"
+              >
+                <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                </svg>
+              </a>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* =================================================================
+          (15) CONTACTO (Formulario + Mapa de Panamá)
+          ================================================================= */}
+      <ContactSection />
     </div>
   );
 };

@@ -260,8 +260,16 @@ function AppContent() {
     normalizedRoute === '/' ||
     normalizedRoute === '/inicio' ||
     legacyHomePaths.some((p) => currentPath.toLowerCase().includes(p));
+  const directProductSlug = normalizedRoute.replace(/^\//, '');
+  const isIndividualProductRoute =
+    normalizedRoute.startsWith('/producto/') ||
+    normalizedRoute.startsWith('/productos/') ||
+    Boolean(findProductBySlug(directProductSlug));
   const isLandingWithoutNotices =
-    isHomeRoute || normalizedRoute === '/pastas-dentales' || normalizedRoute === '/pastas';
+    isHomeRoute ||
+    normalizedRoute === '/pastas-dentales' ||
+    normalizedRoute === '/pastas' ||
+    isIndividualProductRoute;
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-slate-900 font-sans antialiased selection:bg-[#4472C4] selection:text-white">
