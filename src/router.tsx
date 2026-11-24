@@ -102,7 +102,39 @@ export const RouterProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   }, [currentPath]);
 
   const navigate = (to: string, options?: { replace?: boolean }) => {
-    if (to === currentPath) return;
+    const [rawPath, rawHash] = to.split('#');
+    const targetPath = rawPath || '/';
+    const normalizedCurrent = (currentPath.split('#')[0].replace(/\/+$/, '') || '/').toLowerCase();
+    const normalizedTarget = (targetPath.replace(/\/+$/, '') || '/').toLowerCase();
+
+    if (rawHash) {
+      if (normalizedCurrent !== normalizedTarget) {
+        if (options?.replace) {
+          window.history.replaceState(null, '', to);
+        } else {
+          window.history.pushState(null, '', to);
+        }
+        setCurrentPath(targetPath);
+        setTimeout(() => {
+          const el = document.getElementById(rawHash);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 80);
+      } else {
+        window.history.replaceState(null, '', `#${rawHash}`);
+        const el = document.getElementById(rawHash);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+      return;
+    }
+
+    if (to === currentPath) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
     if (options?.replace) {
       window.history.replaceState(null, '', to);
     } else {

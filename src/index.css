@@ -1,7 +1,10 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Montserrat', system-ui, -apple-system, sans-serif;
+  --color-hgw-blue: #4472C4;
+  --color-hgw-blue-dark: #33599E;
+  --color-hgw-blue-light: #EEF3FB;
   --color-hgw-primary: #00795F;
   --color-hgw-accent: #00A550;
   --color-hgw-dark: #004d3c;
@@ -12,7 +15,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -35,38 +38,28 @@
     -ms-user-select: text;
     user-select: text;
   }
+}
 
-  p {
-    font-size: 18px;
+@keyframes fadeInSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
   }
-
-  h1 {
-    font-size: 35px;
-    line-height: 1.2;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
+}
 
-  h2 {
-    font-size: 30px;
-    line-height: 1.3;
+.animate-fade-in {
+  animation: fadeInSlideDown 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
-
-  h3 {
-    font-size: 28px;
-    line-height: 1.3;
-  }
-
-  h4 {
-    font-size: 22px;
-    line-height: 1.4;
-  }
-
-  h5 {
-    font-size: 19px;
-    line-height: 1.4;
-  }
-
-  h6 {
-    font-size: 18px;
-    line-height: 1.4;
+  .animate-fade-in {
+    animation: none;
   }
 }

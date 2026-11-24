@@ -1,244 +1,391 @@
 import React, { useState } from 'react';
-import { Phone, Mail, Clock, CheckCircle2, Send, FileText, ArrowRight, MapPin, ShieldAlert } from 'lucide-react';
-import { Link } from '../router';
+import {
+  Phone,
+  Mail,
+  Send,
+  MapPin,
+  ShieldAlert,
+  CheckCircle2,
+  Check,
+  RefreshCw,
+} from 'lucide-react';
 import { getAffiliationWhatsAppUrl } from '../utils/whatsapp';
 import { ShippingAndReturnsSection } from './ShippingAndReturnsSection';
+import { ScrollReveal } from './ScrollReveal';
+
+const PANAMA_PROVINCES = [
+  'Panamá',
+  'Panamá Oeste',
+  'Colón',
+  'Chiriquí',
+  'Coclé',
+  'Veraguas',
+  'Herrera',
+  'Los Santos',
+  'Bocas del Toro',
+  'Darién',
+  'Comarca Guna Yala',
+  'Comarca Ngäbe-Buglé',
+  'Comarca Emberá-Wounaan',
+];
 
 export const ContactSection: React.FC = () => {
-  const [name, setName] = useState('');
-  const [topic, setTopic] = useState('Consulta de Productos');
-  const [message, setMessage] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [province, setProvince] = useState('');
+  const [email, setEmail] = useState('');
+  const [inquiry, setInquiry] = useState('');
+  const [isNotRobot, setIsNotRobot] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+  const [submitted, setSubmitted] = useState(false);
 
-  const handleSendMessage = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const currentUrl = typeof window !== 'undefined' ? window.location.href : 'https://hgwpanama.com';
-    let text = '';
-    
-    if (topic === 'Afiliación y Membresías') {
-      text = `¡Hola! Estaba visitando tu tienda online (${currentUrl}) y quería preguntar sobre cómo afiliarse a HGW Panamá. Mi nombre es: ${name.trim() || ''}`;
-      if (message.trim()) text += `\nDetalles: ${message.trim()}`;
-    } else {
-      text = `¡Hola! Estaba visitando tu tienda online (${currentUrl})\n`;
-      if (name.trim()) text += `👤 Nombre: ${name.trim()}\n`;
-      text += `📌 Asunto: ${topic}\n`;
-      if (message.trim()) text += `💬 Mensaje: ${message.trim()}\n`;
+    setErrorMsg('');
+
+    if (!firstName.trim()) {
+      setErrorMsg('Por favor ingresa tu nombre (campo obligatorio).');
+      return;
+    }
+    if (!province.trim()) {
+      setErrorMsg('Por favor selecciona tu provincia (campo obligatorio).');
+      return;
+    }
+    if (!inquiry.trim()) {
+      setErrorMsg('Por favor escribe tu consulta (campo obligatorio).');
+      return;
+    }
+    if (!isNotRobot) {
+      setErrorMsg('Por favor marca la casilla "No soy un robot" para continuar.');
+      return;
     }
 
+    const currentUrl =
+      typeof window !== 'undefined' ? window.location.href : 'https://www.hgwpanama.com';
+
+    let text = `¡Hola! Estaba visitando tu tienda online (${currentUrl}) y deseo realizar una consulta:\n\n`;
+    text += `Nombre: ${firstName.trim()}${lastName.trim() ? ` ${lastName.trim()}` : ''}\n`;
+    if (phone.trim()) text += `Teléfono: +507 ${phone.trim()}\n`;
+    text += `Provincia: ${province.trim()}\n`;
+    if (email.trim()) text += `Correo: ${email.trim()}\n`;
+    text += `Consulta: ${inquiry.trim()}\n`;
+
+    setSubmitted(true);
     const encoded = encodeURIComponent(text);
     window.open(`https://wa.me/50767788375?text=${encoded}`, '_blank');
   };
 
   return (
-    <section id="contacto" className="py-12 sm:py-20 bg-white border-b border-stone-200">
+    <section
+      id="contacto"
+      className="scroll-mt-24 py-14 sm:py-20 bg-white border-b border-slate-100"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
-          
-          {/* Left Column: Contact details */}
-          <div className="lg:col-span-5 space-y-6">
-            <div>
-              <div className="inline-flex items-center gap-2 text-xs font-bold text-[#00795F] uppercase tracking-wider mb-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#00A550]" />
-                <span>Atención Personalizada en Panamá</span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-black tracking-tight">
-                Contáctanos en Panamá
-              </h2>
-              <p className="text-[17px] text-stone-800 mt-2 leading-relaxed font-normal">
-                Estamos a tu disposición para asesorarte sobre cualquier producto, confirmar existencias, coordinar entregas o guiarte en tu proceso de afiliación y prerregistro.
-              </p>
+        <ScrollReveal>
+          {/* Section Header */}
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
+              Contacto
+            </h2>
+            <p className="text-sm sm:text-base text-slate-600 mt-2.5 font-normal">
+              Envíanos tu consulta sobre productos, pedidos, envíos o afiliaciones en la República de Panamá.
+            </p>
+          </div>
+
+          {/* 2 Columns strictly matching PDF Page 13: Left = Form | Right = Google Map centered on Panama */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+            {/* Left Column: Contact Form */}
+            <div className="lg:col-span-6 bg-[#F8FAFC] rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm">
+              {submitted && (
+                <div className="mb-6 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs sm:text-sm flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                  <div>
+                    <strong className="block font-bold">¡Consulta preparada!</strong>
+                    <span>
+                      Se abrió WhatsApp con tu mensaje listo para enviar al +507 6778-8375.
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              {errorMsg && (
+                <div
+                  role="alert"
+                  className="mb-6 p-3.5 rounded-2xl bg-red-50 border border-red-200 text-red-800 text-xs sm:text-sm font-semibold"
+                >
+                  {errorMsg}
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+                {/* Row 1: Nombre (required), Apellidos, Teléfono (+507 & Panama Flag) */}
+                <div className="grid grid-cols-1 sm:grid-cols-12 gap-3.5">
+                  <div className="sm:col-span-4">
+                    <label
+                      htmlFor="contact-first-name"
+                      className="block text-xs font-bold text-slate-800 mb-1.5"
+                    >
+                      Nombre <span className="text-red-600">*</span>
+                    </label>
+                    <input
+                      id="contact-first-name"
+                      type="text"
+                      required
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      placeholder="Tu nombre"
+                      className="w-full px-3.5 py-2.5 text-sm bg-white border border-slate-300 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#4472C4]/30 focus:border-[#4472C4]"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-3">
+                    <label
+                      htmlFor="contact-last-name"
+                      className="block text-xs font-bold text-slate-800 mb-1.5"
+                    >
+                      Apellidos
+                    </label>
+                    <input
+                      id="contact-last-name"
+                      type="text"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                      placeholder="Apellidos"
+                      className="w-full px-3.5 py-2.5 text-sm bg-white border border-slate-300 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#4472C4]/30 focus:border-[#4472C4]"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-5">
+                    <label
+                      htmlFor="contact-phone"
+                      className="block text-xs font-bold text-slate-800 mb-1.5"
+                    >
+                      Teléfono
+                    </label>
+                    <div className="flex items-center bg-white border border-slate-300 rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-[#4472C4]/30 focus-within:border-[#4472C4]">
+                      {/* Panama Flag SVG + +507 Prefix */}
+                      <div className="flex items-center gap-1.5 pl-3 pr-2 py-2.5 bg-slate-50 border-r border-slate-200 shrink-0">
+                        <svg
+                          className="w-5 h-3.5 rounded-[2px] shadow-2xs shrink-0"
+                          viewBox="0 0 36 24"
+                          aria-label="Bandera de Panamá"
+                        >
+                          <rect width="18" height="12" fill="#FFFFFF" />
+                          <rect x="18" width="18" height="12" fill="#DA121A" />
+                          <rect y="12" width="18" height="12" fill="#072357" />
+                          <rect x="18" y="12" width="18" height="12" fill="#FFFFFF" />
+                          <polygon
+                            points="9,2.8 9.9,5.5 12.8,5.5 10.5,7.2 11.4,9.9 9,8.2 6.6,9.9 7.5,7.2 5.2,5.5 8.1,5.5"
+                            fill="#072357"
+                          />
+                          <polygon
+                            points="27,14.8 27.9,17.5 30.8,17.5 28.5,19.2 29.4,21.9 27,20.2 24.6,21.9 25.5,19.2 23.2,17.5 26.1,17.5"
+                            fill="#DA121A"
+                          />
+                        </svg>
+                        <span className="text-xs font-bold text-slate-800">+507</span>
+                      </div>
+                      <input
+                        id="contact-phone"
+                        type="tel"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        placeholder="6123-4567"
+                        className="w-full px-3 py-2.5 text-sm bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none tabular-nums"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Row 2: Provincia (required), Correo (opcional) */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  <div>
+                    <label
+                      htmlFor="contact-province"
+                      className="block text-xs font-bold text-slate-800 mb-1.5"
+                    >
+                      Provincia <span className="text-red-600">*</span>
+                    </label>
+                    <select
+                      id="contact-province"
+                      required
+                      value={province}
+                      onChange={(e) => setProvince(e.target.value)}
+                      className="w-full px-3.5 py-2.5 text-sm bg-white border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#4472C4]/30 focus:border-[#4472C4]"
+                    >
+                      <option value="">Selecciona tu provincia</option>
+                      {PANAMA_PROVINCES.map((prov) => (
+                        <option key={prov} value={prov}>
+                          {prov}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="contact-email"
+                      className="block text-xs font-bold text-slate-800 mb-1.5"
+                    >
+                      Correo (opcional)
+                    </label>
+                    <input
+                      id="contact-email"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="correo@ejemplo.com"
+                      className="w-full px-3.5 py-2.5 text-sm bg-white border border-slate-300 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#4472C4]/30 focus:border-[#4472C4]"
+                    />
+                  </div>
+                </div>
+
+                {/* Row 3: Escriba su consulta (required) & No soy un robot reCAPTCHA box */}
+                <div className="grid grid-cols-1 sm:grid-cols-12 gap-3.5 items-start">
+                  <div className="sm:col-span-7">
+                    <label
+                      htmlFor="contact-inquiry"
+                      className="block text-xs font-bold text-slate-800 mb-1.5"
+                    >
+                      Escriba su consulta <span className="text-red-600">*</span>
+                    </label>
+                    <textarea
+                      id="contact-inquiry"
+                      rows={4}
+                      required
+                      value={inquiry}
+                      onChange={(e) => setInquiry(e.target.value)}
+                      placeholder="Cuéntanos qué producto o membresía te interesa..."
+                      className="w-full px-3.5 py-2.5 text-sm bg-white border border-slate-300 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#4472C4]/30 focus:border-[#4472C4] resize-none"
+                    />
+                  </div>
+
+                  {/* reCAPTCHA-style "No soy un robot" widget */}
+                  <div className="sm:col-span-5 sm:pt-6">
+                    <div
+                      onClick={() => setIsNotRobot(!isNotRobot)}
+                      role="checkbox"
+                      aria-checked={isNotRobot}
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === ' ' || e.key === 'Enter') {
+                          e.preventDefault();
+                          setIsNotRobot(!isNotRobot);
+                        }
+                      }}
+                      className="bg-white border border-slate-300 rounded-xl p-3.5 shadow-2xs flex items-center justify-between gap-2 cursor-pointer select-none hover:border-[#4472C4] transition-colors"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <span
+                          className={`w-6 h-6 rounded-sm border-2 flex items-center justify-center transition-colors shrink-0 ${
+                            isNotRobot
+                              ? 'bg-[#4472C4] border-[#4472C4] text-white'
+                              : 'bg-white border-slate-400'
+                          }`}
+                        >
+                          {isNotRobot && <Check className="w-4 h-4 stroke-[3]" />}
+                        </span>
+                        <span className="text-xs font-semibold text-slate-800">
+                          No soy un robot
+                        </span>
+                      </div>
+
+                      <div className="flex flex-col items-center text-[9px] text-slate-500 leading-tight shrink-0">
+                        <RefreshCw className="w-4 h-4 text-[#4472C4] mb-0.5" />
+                        <span className="font-bold">reCAPTCHA</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  className="w-full py-4 px-6 bg-[#4472C4] hover:bg-[#33599E] text-white font-extrabold text-sm sm:text-base rounded-xl shadow-lg shadow-[#4472C4]/25 flex items-center justify-center gap-2.5 active:scale-95 transition-all cursor-pointer"
+                >
+                  <Send className="w-4 h-4" />
+                  <span>Enviar Consulta por WhatsApp</span>
+                </button>
+              </form>
             </div>
 
-            {/* Differentiated Attention Notice for Registered Partners */}
-            <div className="p-4 bg-amber-50/90 border border-amber-300 rounded-2xl text-xs space-y-2 shadow-2xs">
+            {/* Right Column: Google Maps Embedded Centered on Panama */}
+            <div className="lg:col-span-6 space-y-4">
+              <div className="w-full h-[360px] sm:h-[430px] rounded-3xl overflow-hidden border border-slate-200 shadow-lg bg-[#EEF3FB]">
+                <iframe
+                  title="Mapa de Panamá - HGW Panamá"
+                  src="https://maps.google.com/maps?q=Panama&ll=8.537981,-80.782127&z=7&output=embed"
+                  className="w-full h-full border-0"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  allowFullScreen
+                />
+              </div>
+
+              {/* Compact Quick Contact Cards beneath Map */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <a
+                  href={getAffiliationWhatsAppUrl()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-4 bg-[#F8FAFC] hover:bg-[#EEF3FB] rounded-2xl border border-slate-200 flex items-center gap-3 transition-colors"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-[#4472C4]/10 text-[#4472C4] flex items-center justify-center shrink-0">
+                    <Phone className="w-5 h-5" />
+                  </div>
+                  <div className="min-w-0">
+                    <span className="text-[11px] font-bold text-slate-500 uppercase block">
+                      WhatsApp Distribuidor
+                    </span>
+                    <strong className="text-sm font-black text-slate-900 tabular-nums">
+                      +507 6778-8375
+                    </strong>
+                  </div>
+                </a>
+
+                <div className="p-4 bg-[#F8FAFC] rounded-2xl border border-slate-200 flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-[#4472C4]/10 text-[#4472C4] flex items-center justify-center shrink-0">
+                    <Mail className="w-5 h-5" />
+                  </div>
+                  <div className="min-w-0">
+                    <span className="text-[11px] font-bold text-slate-500 uppercase block">
+                      Correo Pre-registro
+                    </span>
+                    <strong className="text-xs sm:text-sm font-black text-slate-900 truncate block select-all">
+                      hgwpanama507g@gmail.com
+                    </strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Mandatory Clarifications & Shipping Summary preserved neatly below */}
+          <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="p-5 bg-amber-50/90 border border-amber-200 rounded-2xl text-xs space-y-2">
               <div className="flex items-center gap-2 text-amber-900 font-extrabold text-sm">
                 <ShieldAlert className="w-4 h-4 text-amber-700 shrink-0" />
                 <span>Aclaración Importante sobre Canales de Atención</span>
               </div>
-              <p className="text-[17px] text-stone-800 leading-relaxed font-normal">
-                El número de WhatsApp <strong className="text-black">+507 6778-8375</strong> corresponde a un <strong>Distribuidor Independiente</strong> para atender consultas comerciales, pedidos y nuevos afiliados. <em>No es un número oficial corporativo de la empresa HGW.</em>
+              <p className="text-slate-800 leading-relaxed">
+                El número de WhatsApp <strong>+507 6778-8375</strong> es atendido por un{' '}
+                <strong>Distribuidor Independiente</strong> para ventas y nuevas afiliaciones.{' '}
+                <em>No es una línea oficial corporativa de la empresa HGW.</em>
               </p>
-              <div className="pt-2 border-t border-amber-200 text-stone-900">
-                <strong className="text-black">¿Ya eres socio registrado de HGW?</strong> Si ya cuentas con un código de socio en HGW, debes comunicarte directamente con tu <strong>patrocinador</strong> o llamar al teléfono oficial de las oficinas principales: <strong className="text-[#00795F] font-extrabold">+507 392-8415</strong> para asistencia sobre tus órdenes o trámites corporativos.
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              
-              {/* Main Office Address */}
-              <div className="p-5 bg-stone-50 rounded-2xl border border-stone-200 flex items-start gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-[#00795F]/15 flex items-center justify-center text-[#00795F] shrink-0">
-                  <MapPin className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="text-xs font-bold text-stone-500 uppercase tracking-wider">Oficinas Principales en Panamá</h3>
-                  <p className="text-sm sm:text-base font-bold text-black mt-0.5 leading-snug">
-                    Avenida Porras, Plaza Royal Blue, Local No. 6
-                  </p>
-                  <p className="text-xs text-stone-600 mt-1">
-                    Provincia de PANAMÁ, Corregimiento de San Francisco.
-                  </p>
-                  <p className="text-xs font-bold text-[#00795F] mt-1.5 flex items-center gap-2">
-                    <span>Teléfono Oficina Principal: <strong>+507 392-8415</strong></span>
-                  </p>
-                </div>
-              </div>
-
-              {/* WhatsApp Item */}
-              <a
-                href={getAffiliationWhatsAppUrl()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-5 bg-stone-50 hover:bg-emerald-50/70 rounded-2xl border border-stone-200 hover:border-[#00795F] transition-all flex items-start gap-4 group"
-              >
-                <div className="w-12 h-12 rounded-2xl bg-[#00A550]/15 flex items-center justify-center text-[#00A550] group-hover:scale-105 transition-transform shrink-0">
-                  <Phone className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="text-xs font-bold text-stone-500 uppercase tracking-wider">WhatsApp Distribuidor Independiente</h3>
-                  <p className="text-lg font-black text-black group-hover:text-[#00795F] transition-colors tabular-nums">
-                    +507 6778-8375
-                  </p>
-                  <p className="text-xs sm:text-sm text-stone-600 mt-0.5">Atención directa para cotizaciones, ventas y nuevas afiliaciones</p>
-                </div>
-              </a>
-
-              {/* Email Item */}
-              <div className="p-5 bg-stone-50 rounded-2xl border border-stone-200 flex items-start gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-[#00795F]/10 flex items-center justify-center text-[#00795F] shrink-0">
-                  <Mail className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="text-xs font-bold text-stone-500 uppercase tracking-wider">Correo Electrónico</h3>
-                  <p className="text-base font-bold text-black select-all">
-                    hgwpanama507g@gmail.com
-                  </p>
-                  <p className="text-xs sm:text-sm text-stone-600 mt-0.5">Buzón directo para pre-registros y atención oficial</p>
-                </div>
-              </div>
-
-              {/* Hours */}
-              <div className="p-5 bg-stone-50 rounded-2xl border border-stone-200 flex items-start gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-stone-200/80 flex items-center justify-center text-stone-800 shrink-0">
-                  <Clock className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="text-xs font-bold text-stone-500 uppercase tracking-wider">Horarios de Atención</h3>
-                  <p className="text-xs sm:text-sm font-bold text-black leading-snug">
-                    Lunes a Viernes: 09:00 am a 06:00 pm<br />
-                    Sábados: 09:00 am a 01:00 pm<br />
-                    <span className="text-stone-500 font-normal">Domingos y Festivos: Cerrado</span>
-                  </p>
-                  <p className="text-xs text-[#00795F] font-bold mt-1">Envíos a todo el país vía Servientrega</p>
-                </div>
-              </div>
-
-            </div>
-
-            {/* Quick banner linking to Dedicated Preregistration Page */}
-            <div className="p-5 bg-emerald-50 rounded-2xl border border-emerald-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div className="space-y-1">
-                <div className="flex items-center gap-2 text-xs font-bold text-[#00795F] uppercase">
-                  <FileText className="w-4 h-4" />
-                  <span>¿Deseas emprender con nosotros?</span>
-                </div>
-                <p className="text-sm font-black text-black">
-                  Llena el formulario oficial de pre-registro
-                </p>
-              </div>
-              <Link
-                to="/preregistro"
-                className="px-4 py-2.5 bg-[#00795F] hover:bg-[#004d3c] text-white text-xs font-bold rounded-xl transition-all shadow-xs flex items-center gap-1.5 whitespace-nowrap active:scale-95"
-              >
-                <span>Pre-registro</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
-
-            <div className="p-4 bg-stone-100 border border-stone-200 rounded-2xl text-xs sm:text-sm text-stone-800 flex items-center gap-3">
-              <CheckCircle2 className="w-5 h-5 text-[#00A550] shrink-0" />
-              <span>Garantía de productos 100% auténticos suministrados por distribuidores autorizados de HGW en Panamá.</span>
-            </div>
-
-          </div>
-
-          {/* Right Column: Form sending directly to WhatsApp */}
-          <div className="lg:col-span-7 bg-stone-50 rounded-3xl p-6 sm:p-10 border border-stone-300 shadow-sm">
-            <h3 className="text-2xl font-black text-black mb-1">
-              Envíanos un mensaje directo
-            </h3>
-            <p className="text-[17px] text-stone-700 mb-6 font-normal">
-              Escribe tus datos y tu consulta. Al enviar se abrirá WhatsApp con tu mensaje redactado listo para enviar.
-            </p>
-
-            <form onSubmit={handleSendMessage} className="space-y-4">
-              <div>
-                <label className="block text-xs font-bold text-black uppercase tracking-wider mb-1.5">
-                  Nombre completo *
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Ej. Carlos Rodríguez"
-                  className="w-full px-4 py-3 text-sm bg-white border border-stone-300 rounded-xl text-black placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-[#00795F]/30 focus:border-[#00795F] transition-all font-medium"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-black uppercase tracking-wider mb-1.5">
-                  Motivo de la consulta *
-                </label>
-                <select
-                  value={topic}
-                  onChange={(e) => setTopic(e.target.value)}
-                  className="w-full px-4 py-3 text-sm bg-white border border-stone-300 rounded-xl text-black focus:outline-none focus:ring-2 focus:ring-[#00795F]/30 focus:border-[#00795F] transition-all font-medium"
-                >
-                  <option value="Consulta de Productos">Consulta sobre productos específicos</option>
-                  <option value="Hacer un Pedido">Hacer un pedido y coordinar entrega</option>
-                  <option value="Afiliación y Membresías">Afiliarme como socio distribuidor</option>
-                  <option value="Envíos al Interior">Consultar envíos a provincias</option>
-                  <option value="Otro">Otro motivo</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-black uppercase tracking-wider mb-1.5">
-                  Mensaje o detalle de tu consulta *
-                </label>
-                <textarea
-                  rows={4}
-                  required
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Escribe aquí tu duda, producto que te interesa o tu ubicación en Panamá..."
-                  className="w-full px-4 py-3 text-sm bg-white border border-stone-300 rounded-xl text-black placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-[#00795F]/30 focus:border-[#00795F] transition-all resize-none font-medium"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="w-full py-4 px-6 text-base font-black text-white bg-[#00A550] hover:bg-[#008f44] rounded-xl flex items-center justify-center gap-2 shadow-md shadow-[#00A550]/20 active:scale-95 transition-all text-center"
-              >
-                <Send className="w-5 h-5" />
-                <span>Enviar mensaje por WhatsApp</span>
-              </button>
-
-              <p className="text-xs text-stone-500 text-center">
-                Respuesta en minutos en horario de atención. Al enviar serás redirigido a la aplicación oficial de WhatsApp.
+              <p className="text-slate-800 leading-relaxed pt-1 border-t border-amber-200/80">
+                <MapPin className="w-3.5 h-3.5 inline mr-1 text-[#4472C4]" />
+                <strong>¿Ya eres socio registrado?</strong> Comunícate con tu patrocinador o a las oficinas principales en Avenida Porras, Plaza Royal Blue, Local No. 6, San Francisco, Panamá:{' '}
+                <strong>+507 392-8415</strong>.
               </p>
-            </form>
+            </div>
+
+            <div>
+              <ShippingAndReturnsSection compact />
+            </div>
           </div>
-
-        </div>
-
-        <div className="mt-12">
-          <ShippingAndReturnsSection compact />
-        </div>
-
+        </ScrollReveal>
       </div>
     </section>
   );
 };
-

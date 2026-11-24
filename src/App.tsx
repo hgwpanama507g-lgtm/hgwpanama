@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { RouterProvider, useRouter, Navigate } from './router';
 import { Navbar } from './components/Navbar';
 import { NoticeBanner } from './components/NoticeBanner';
-import { Hero } from './components/Hero';
+import { LandingPage } from './components/LandingPage';
 import { Catalog } from './components/Catalog';
 import { Memberships } from './components/Memberships';
 import { AboutHGW } from './components/AboutHGW';
@@ -226,14 +226,10 @@ function AppContent() {
     if (legacyPaths.some(p => currentPath.toLowerCase().includes(p))) {
       return (
         <div>
-          <Hero />
-          <AdsterraResponsiveBanner key="legacy-home-banner" className="bg-white border-b border-stone-100" />
-          <Catalog isHomeView={true} />
-          <AdsterraNativeBanner key="legacy-home-native" />
-          <Memberships />
-          <AboutHGW />
-          <FAQ />
+          <LandingPage />
           <ContactSection />
+          <AdsterraNativeBanner key="legacy-home-native" />
+          <NoticeBanner />
         </div>
       );
     }
@@ -242,14 +238,10 @@ function AppContent() {
     if (cleanPath === '/' || cleanPath === '/inicio') {
       return (
         <div>
-          <Hero />
-          <AdsterraResponsiveBanner key="home-top-banner" className="bg-white border-b border-stone-100" />
-          <Catalog isHomeView={true} />
-          <AdsterraNativeBanner key="home-native" />
-          <Memberships />
-          <AboutHGW />
-          <FAQ />
+          <LandingPage />
           <ContactSection />
+          <AdsterraNativeBanner key="home-native" />
+          <NoticeBanner />
         </div>
       );
     }
@@ -258,26 +250,27 @@ function AppContent() {
     return <Navigate to="/productos" replace />;
   };
 
-  return (
-    <div className="min-h-screen flex flex-col bg-stone-50 text-stone-900 font-sans antialiased selection:bg-[#00795F] selection:text-white">
-      {/* 1. Mandatory Independent Distributor Disclaimer Banner */}
-      <NoticeBanner />
+  const normalizedRoute = (currentPath.split('?')[0].split('#')[0].replace(/\/+$/, '') || '/').toLowerCase();
+  const isHomeRoute = normalizedRoute === '/' || normalizedRoute === '/inicio';
 
-      {/* 2. Top Bar Navigation with Official Logo and Links */}
+  return (
+    <div className="min-h-screen flex flex-col bg-white text-slate-900 font-sans antialiased selection:bg-[#4472C4] selection:text-white">
+      {/* 1. Fixed Blue Top Bar Navigation (Section 1) */}
       <Navbar />
 
-      {/* 3. Main Route Content */}
-      <main className="flex-1">
+      {/* 2. Main Route Content with top spacing for fixed header */}
+      <main className="flex-1 pt-16 sm:pt-20">
+        {!isHomeRoute && <NoticeBanner />}
         {renderRouteView()}
       </main>
 
-      {/* 4. Footer with Legal, Health Disclaimers & Official Links */}
+      {/* 3. Footer with Legal, Health Disclaimers & Blue Copyright Strip (Section 16) */}
       <Footer />
 
-      {/* 5. Floating WhatsApp Button for Quick Mobile Chat */}
+      {/* 4. Floating WhatsApp Button for Quick Mobile Chat */}
       <FloatingWhatsApp />
 
-      {/* 6. Global Adsterra Popunder & Social Bar (once globally, excluding sensitive routes) */}
+      {/* 5. Global Adsterra Popunder & Social Bar (once globally, excluding sensitive routes) */}
       <AdsterraGlobalScripts currentPath={currentPath} />
     </div>
   );
