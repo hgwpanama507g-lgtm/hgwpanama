@@ -21,7 +21,7 @@ import { InformationPage } from './pages/InformationPage';
 import { ToothpastesLandingPage } from './pages/ToothpastesLandingPage';
 import { ToolsPage } from './pages/ToolsPage';
 import { AdminPanelPage } from './pages/AdminPanelPage';
-import { VirtualAssistantChat } from './components/VirtualAssistantChat';
+import { KnowledgeBasePage } from './pages/KnowledgeBasePage';
 import { PRODUCTS } from './data/products';
 import { HGW_DOCUMENTS } from './data/documents';
 import { findProductBySlug } from './data/seoMetadata';
@@ -228,6 +228,11 @@ function AppContent() {
       return <AdminPanelPage />;
     }
 
+    // 9.4. Knowledge Base (/base-de-conocimiento)
+    if (cleanPath === '/base-de-conocimiento' || cleanPath === '/base-conocimiento' || cleanPath === '/conocimiento') {
+      return <KnowledgeBasePage />;
+    }
+
     // 10. Direct product fallback if route matches a product slug directly (e.g. /blueberry-coffee-hgw)
     const directSlug = cleanPath.replace(/^\//, '');
     if (findProductBySlug(directSlug)) {
@@ -295,10 +300,7 @@ function AppContent() {
       {/* 4. Floating WhatsApp Button for Quick Mobile Chat */}
       <FloatingWhatsApp />
 
-      {/* 5. Virtual Assistant AI Chat */}
-      <VirtualAssistantChat />
-
-      {/* 6. Global Adsterra Popunder & Social Bar (once globally, excluding sensitive routes) */}
+      {/* 5. Global Adsterra Popunder & Social Bar (once globally, excluding sensitive routes) */}
       <AdsterraGlobalScripts currentPath={currentPath} />
     </div>
   );

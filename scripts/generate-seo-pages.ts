@@ -53,7 +53,9 @@ function generatePages() {
     '/ingredientes',
     '/contacto',
     '/envios-y-devoluciones',
-    '/herramientas'
+    '/herramientas',
+    '/base-de-conocimiento',
+    '/base-conocimiento'
   ];
 
   for (const r of standardRoutes) {

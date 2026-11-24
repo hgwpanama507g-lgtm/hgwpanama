@@ -17,15 +17,29 @@
     scroll-behavior: smooth;
     font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
     -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  body {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
 
   img {
     -webkit-user-drag: none;
     user-drag: none;
+    pointer-events: none;
   }
 
   input, textarea, select {
     -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
     user-select: text;
   }
 

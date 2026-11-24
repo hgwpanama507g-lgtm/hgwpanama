@@ -13,6 +13,7 @@ const NAV_ITEMS = [
 ];
 
 const QUICK_ROUTES = [
+  { label: 'Base de Conocimiento y Guías', href: '/base-de-conocimiento' },
   { label: 'Catálogo Completo de Productos', href: '/productos' },
   { label: 'Pastas Dentales Sin Flúor', href: '/pastas-dentales' },
   { label: 'Membresías Oficiales HGW', href: '/membresias' },

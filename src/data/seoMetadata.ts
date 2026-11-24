@@ -241,6 +241,19 @@ export function getSeoMetadata(pathname: string): SeoMetadata {
     };
   }
 
+  // 9.5. Knowledge Base (/base-de-conocimiento)
+  if (cleanPath === '/base-de-conocimiento' || cleanPath === '/base-conocimiento' || cleanPath === '/conocimiento') {
+    return {
+      title: 'Base de Conocimiento y Guías Oficiales – HGW Panamá',
+      description: 'Consulta artículos, manuales, fichas técnicas de productos, ingredientes naturales y plan de compensación de HGW Panamá.',
+      image: DEFAULT_IMAGE,
+      url: `${BASE_URL}/base-de-conocimiento`,
+      type: 'website',
+      siteName: 'HGW Panamá',
+      keywords: 'base de conocimiento hgw, manuales hgw, guias de productos hgw, plan de compensacion hgw'
+    };
+  }
+
   // 9. Raw Materials / Functional Ingredients Info
   if (['/informacion', '/propiedades', '/beneficios', '/ingredientes'].includes(cleanPath)) {
     return {
