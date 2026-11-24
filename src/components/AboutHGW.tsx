@@ -152,8 +152,8 @@ export const AboutHGW: React.FC = () => {
               Atención cercana, entrega confiable y asesoría personalizada
             </h4>
 
-            <p className="text-base sm:text-[17px] text-stone-800 leading-relaxed font-normal">
-              Como distribuidores independientes de HGW en Panamá, nuestro compromiso es brindarte orientación honesta sobre los beneficios de cada formulación, disponibilidad inmediata para entrega en provincias y acompañarte si deseas afiliarte para consumo familiar o generar ingresos propios.
+            <p className="text-base sm:text-[17px] text-black leading-relaxed font-normal">
+              Si estás aquí es porque buscas algo mejor para ti y para tu familia, y quieres hacerlo con alguien en quien puedas confiar. Mi misión es compartir contigo las bondades de nuestros productos para que disfrutes de una mejor calidad de vida y bienestar. Te escucho, te oriento con honestidad sobre cada producto y te acompaño en cada paso, desde tu primera compra hasta que decidas dar el siguiente nivel. Realizo entregas confiables en la ciudad y en las provincias, y si sueñas con desarrollar tu propio emprendimiento independiente, aquí tienes una aliada que camina contigo. Escríbeme, cuéntame qué necesitas y empecemos juntas.
             </p>
           </div>
 

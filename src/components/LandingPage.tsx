@@ -1088,7 +1088,7 @@ export const LandingPage: React.FC = () => {
                   Yamilka Batista · Distribuidora Independiente HGW Panamá
                 </h3>
                 <p className="text-base text-black leading-relaxed font-normal">
-                  Nuestro compromiso en Panamá es brindarte orientación honesta sobre los beneficios de cada producto, entregas confiables en ciudad y provincias, y acompañamiento personalizado si deseas afiliarte para consumo familiar o desarrollar tu propio emprendimiento independiente.
+                  Si estás aquí es porque buscas algo mejor para ti y para tu familia, y quieres hacerlo con alguien en quien puedas confiar. Mi misión es compartir contigo las bondades de nuestros productos para que disfrutes de una mejor calidad de vida y bienestar. Te escucho, te oriento con honestidad sobre cada producto y te acompaño en cada paso, desde tu primera compra hasta que decidas dar el siguiente nivel. Realizo entregas confiables en la ciudad y en las provincias, y si sueñas con desarrollar tu propio emprendimiento independiente, aquí tienes una aliada que camina contigo. Escríbeme, cuéntame qué necesitas y empecemos juntas.
                 </p>
 
                 <div className="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-3">
