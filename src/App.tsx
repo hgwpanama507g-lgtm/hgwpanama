@@ -248,8 +248,12 @@ function AppContent() {
     return <Navigate to="/productos" replace />;
   };
 
+  const legacyHomePaths = ['/wp-content', '/wp-admin', '/category/', '/tag/', '/author/', '/?p=', '/feed/'];
   const normalizedRoute = (currentPath.split('?')[0].split('#')[0].replace(/\/+$/, '') || '/').toLowerCase();
-  const isHomeRoute = normalizedRoute === '/' || normalizedRoute === '/inicio';
+  const isHomeRoute =
+    normalizedRoute === '/' ||
+    normalizedRoute === '/inicio' ||
+    legacyHomePaths.some((p) => currentPath.toLowerCase().includes(p));
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-slate-900 font-sans antialiased selection:bg-[#4472C4] selection:text-white">
@@ -263,7 +267,7 @@ function AppContent() {
       </main>
 
       {/* 3. Footer with Legal, Health Disclaimers & Blue Copyright Strip (Section 16) */}
-      <Footer />
+      <Footer isHomePage={isHomeRoute} />
 
       {/* 4. Floating WhatsApp Button for Quick Mobile Chat */}
       <FloatingWhatsApp />

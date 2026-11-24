@@ -2,7 +2,23 @@ import React from 'react';
 import { Phone, Mail, ExternalLink, ShieldCheck, MapPin } from 'lucide-react';
 import { Link } from '../router';
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  isHomePage?: boolean;
+}
+
+export const Footer: React.FC<FooterProps> = ({ isHomePage = false }) => {
+  if (isHomePage) {
+    return (
+      <footer className="w-full bg-[#4472C4] text-white py-8 px-4 sm:px-6 lg:px-8 border-t border-white/15">
+        <div className="max-w-4xl mx-auto text-center">
+          <p className="text-xs sm:text-sm leading-relaxed font-medium text-white">
+            Este es un sitio web no oficial de Health Green World (HGW). El contenido presentado en este blog es operado y mantenido por un socio independiente de HGW Latinoamérica. Toda la información y opiniones expresadas son de responsabilidad exclusiva del autor y no reflejan necesariamente las políticas o directrices oficiales de HGW. Para información oficial, visite el sitio web de la empresa.
+          </p>
+        </div>
+      </footer>
+    );
+  }
+
   return (
     <footer className="bg-slate-900 text-slate-300 text-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
