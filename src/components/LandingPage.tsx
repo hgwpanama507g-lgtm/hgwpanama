@@ -1117,9 +1117,13 @@ export const LandingPage: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center mb-12">
               <div className="aspect-[3/2] w-full rounded-3xl overflow-hidden bg-white border border-slate-200 shadow-xl">
                 <img
-                  src="/assets/aistudio/Retrato_corporativo_de_mujer_latina_b3872491.png"
+                  src="https://media.academiahgw.online/wp-content/uploads/2026/11/WhatsApp-Image-2026-11-23-at-11.35.46-PM.jpeg"
                   alt="Yamilka Batista - Distribuidora Independiente HGW Panamá"
-                  className="w-full h-full object-cover object-top"
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-contain object-bottom"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = '/assets/aistudio/image_2b0e74c9.png';
+                  }}
                 />
               </div>
 

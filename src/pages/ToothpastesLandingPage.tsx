@@ -461,9 +461,13 @@ export const ToothpastesLandingPage: React.FC = () => {
             <div className="flex flex-col items-center text-center space-y-4">
               <div className="relative w-44 h-44 sm:w-52 sm:h-52 rounded-full p-1.5 bg-gradient-to-tr from-[#00A550] via-emerald-400 to-white shadow-2xl">
                 <img
-                  src="/assets/aistudio/9b2661a4-ec7f-45a0-8bdf-e2d9151cac51_5d6eabee.png"
+                  src="https://media.academiahgw.online/wp-content/uploads/2026/11/WhatsApp-Image-2026-11-23-at-11.35.46-PM.jpeg"
                   alt="Yamilka Batista - Distribuidora Independiente Autorizada HGW Panamá"
+                  referrerPolicy="no-referrer"
                   className="w-full h-full object-cover object-top rounded-full bg-white"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = "/assets/aistudio/image_2b0e74c9.png";
+                  }}
                 />
                 <span className="absolute bottom-2 right-2 bg-[#00A550] text-white p-2 rounded-full shadow-lg border-2 border-emerald-950">
                   <UserCheck className="w-5 h-5" />
