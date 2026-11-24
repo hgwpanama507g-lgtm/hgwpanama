@@ -232,6 +232,10 @@ function AppContent() {
     if (cleanPath === '/base-de-conocimiento' || cleanPath === '/base-conocimiento' || cleanPath === '/conocimiento') {
       return <KnowledgeBasePage />;
     }
+    if (cleanPath.startsWith('/base-de-conocimiento/producto/') || cleanPath.startsWith('/base-de-conocimiento/productos/') || cleanPath.startsWith('/base-conocimiento/producto/') || cleanPath.startsWith('/base-conocimiento/productos/')) {
+      const prodId = cleanPath.replace(/^\/base-(?:de-)?conocimiento\/productos?\//, '').split('?')[0].split('#')[0];
+      return <KnowledgeBasePage productIdentifier={prodId} />;
+    }
     if (cleanPath.startsWith('/base-de-conocimiento/') || cleanPath.startsWith('/base-conocimiento/')) {
       const articleSlug = cleanPath.replace(/^\/base-(?:de-)?conocimiento\//, '').split('?')[0].split('#')[0];
       return <KnowledgeBasePage articleIdentifier={articleSlug} />;

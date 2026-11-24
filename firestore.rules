@@ -39,5 +39,11 @@ service cloud.firestore {
       allow read: if resource.data.publicado == true || isAdmin();
       allow write: if isAdmin();
     }
+
+    // Productos collection: Public read if estado == 'publicado' or 'agotado', admin can read/write all
+    match /productos/{productId} {
+      allow read: if resource.data.estado in ['publicado', 'agotado'] || isAdmin();
+      allow write: if isAdmin();
+    }
   }
 }

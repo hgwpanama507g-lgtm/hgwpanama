@@ -15,11 +15,15 @@ import {
   X,
   Lock,
   AlertTriangle,
-  FileText
+  FileText,
+  Package,
+  Copy,
+  ExternalLink,
 } from 'lucide-react';
 import { auth } from '../lib/firebase';
 import { signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, User } from 'firebase/auth';
 import { knowledgeService, KnowledgeArticle } from '../services/knowledgeService';
+import { productosService, FirestoreProduct, sanitizeImageUrl } from '../services/productosService';
 import { Link } from '../router';
 
 const ADMIN_EMAIL = 'hgwpanama507g@gmail.com';
@@ -28,15 +32,26 @@ export const AdminPanelPage: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [unauthorized, setUnauthorized] = useState(false);
+  const [activeTab, setActiveTab] = useState<'articulos' | 'productos'>('articulos');
+
+  // Articles state
   const [articles, setArticles] = useState<KnowledgeArticle[]>([]);
   const [loadingArticles, setLoadingArticles] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('Todas');
-  
-  // Editor state
+  const [articleSearch, setArticleSearch] = useState('');
+  const [selectedArticleCategory, setSelectedArticleCategory] = useState('Todas');
   const [editingArticle, setEditingArticle] = useState<Partial<KnowledgeArticle> | null>(null);
-  const [isCreating, setIsCreating] = useState(false);
-  const [previewMode, setPreviewMode] = useState(false);
+  const [isCreatingArticle, setIsCreatingArticle] = useState(false);
+  const [articlePreview, setArticlePreview] = useState(false);
+
+  // Products state
+  const [products, setProducts] = useState<FirestoreProduct[]>([]);
+  const [loadingProducts, setLoadingProducts] = useState(false);
+  const [productSearch, setProductSearch] = useState('');
+  const [selectedProductStatus, setSelectedProductStatus] = useState('todos');
+  const [editingProduct, setEditingProduct] = useState<Partial<FirestoreProduct> | null>(null);
+  const [isCreatingProduct, setIsCreatingProduct] = useState(false);
+  const [productPreview, setProductPreview] = useState(false);
+
   const [seedStatus, setSeedStatus] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -46,7 +61,7 @@ export const AdminPanelPage: React.FC = () => {
         if (currentUser.email === ADMIN_EMAIL) {
           setUser(currentUser);
           setUnauthorized(false);
-          loadArticles();
+          loadData();
         } else {
           setUnauthorized(true);
           setUser(null);
@@ -61,6 +76,11 @@ export const AdminPanelPage: React.FC = () => {
     return () => unsubscribe();
   }, []);
 
+  const loadData = () => {
+    loadArticles();
+    loadProducts();
+  };
+
   const loadArticles = async () => {
     setLoadingArticles(true);
     try {
@@ -68,9 +88,20 @@ export const AdminPanelPage: React.FC = () => {
       setArticles(data);
     } catch (err) {
       console.error("Error loading articles in admin:", err);
-      setErrorMsg("Error al cargar artículos de Firestore.");
     } finally {
       setLoadingArticles(false);
+    }
+  };
+
+  const loadProducts = async () => {
+    setLoadingProducts(true);
+    try {
+      const data = await productosService.getAllProducts(true);
+      setProducts(data);
+    } catch (err) {
+      console.error("Error loading products in admin:", err);
+    } finally {
+      setLoadingProducts(false);
     }
   };
 
@@ -79,14 +110,12 @@ export const AdminPanelPage: React.FC = () => {
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      const email = result.user.email;
-      if (email !== ADMIN_EMAIL) {
+      if (result.user.email !== ADMIN_EMAIL) {
         setUnauthorized(true);
         await signOut(auth);
         setUser(null);
       }
     } catch (err: any) {
-      console.error("Login error:", err);
       setErrorMsg("Error al iniciar sesión con Google: " + (err.message || ''));
     }
   };
@@ -97,20 +126,21 @@ export const AdminPanelPage: React.FC = () => {
   };
 
   const handleRunSeed = async () => {
-    if (!window.confirm("¿Deseas poblar Firestore con los artículos locales de respaldo?")) return;
+    if (!window.confirm("¿Deseas poblar Firestore con los artículos y productos locales de respaldo?")) return;
     try {
-      setSeedStatus("Sembrando artículos en Firestore...");
-      const count = await knowledgeService.seedArticles();
-      setSeedStatus(`¡Se sembraron ${count} artículos nuevos exitosamente!`);
-      loadArticles();
+      setSeedStatus("Sembrando datos en Firestore...");
+      const artCount = await knowledgeService.seedArticles();
+      const prodCount = await productosService.seedProducts();
+      setSeedStatus(`¡Se sembraron ${artCount} artículos y ${prodCount} productos nuevos con éxito!`);
+      loadData();
       setTimeout(() => setSeedStatus(null), 4000);
     } catch (err: any) {
-      console.error("Seed error:", err);
       setSeedStatus("Error en el sembrado: " + err.message);
     }
   };
 
-  const handleDelete = async (id: string, title: string) => {
+  // Article handlers
+  const handleDeleteArticle = async (id: string, title: string) => {
     if (!window.confirm(`¿Estás seguro de eliminar el artículo "${title}"?`)) return;
     try {
       await knowledgeService.deleteArticle(id);
@@ -126,7 +156,6 @@ export const AdminPanelPage: React.FC = () => {
       alert("Por favor completa al menos el título y la categoría.");
       return;
     }
-
     try {
       const slug = editingArticle.slug || editingArticle.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
       const payload = {
@@ -144,29 +173,109 @@ export const AdminPanelPage: React.FC = () => {
         videoUrl: editingArticle.videoUrl || '',
       };
 
-      if (isCreating) {
-        const customId = `art-${Date.now()}`;
-        await knowledgeService.createArticle({ id: customId, ...payload });
+      if (isCreatingArticle) {
+        await knowledgeService.createArticle({ id: `art-${Date.now()}`, ...payload });
       } else if (editingArticle.id) {
         await knowledgeService.updateArticle(editingArticle.id, payload);
       }
-
       setEditingArticle(null);
-      setIsCreating(false);
-      setPreviewMode(false);
+      setIsCreatingArticle(false);
+      setArticlePreview(false);
       loadArticles();
     } catch (err: any) {
       alert("Error al guardar artículo: " + err.message);
     }
   };
 
-  const categories = ['Todas', ...Array.from(new Set(articles.map(a => a.category)))];
+  // Product handlers
+  const handleDeleteProduct = async (id: string, name: string) => {
+    if (!window.confirm(`¿Estás seguro de eliminar el producto "${name}"?`)) return;
+    try {
+      await productosService.deleteProduct(id);
+      loadProducts();
+    } catch (err: any) {
+      alert("Error al eliminar producto: " + err.message);
+    }
+  };
 
+  const handleDuplicateProduct = (prod: FirestoreProduct) => {
+    setEditingProduct({
+      ...prod,
+      id: `prod-${Date.now()}`,
+      slug: `${prod.slug}-copia`,
+      nombre: `${prod.nombre} (Copia)`,
+    });
+    setIsCreatingProduct(true);
+    setProductPreview(false);
+  };
+
+  const handleSaveProduct = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingProduct || !editingProduct.nombre || editingProduct.precio === undefined) {
+      alert("Por favor completa al menos el nombre y el precio.");
+      return;
+    }
+
+    if (Number(editingProduct.precio) < 0) {
+      alert("El precio no puede ser menor a 0.");
+      return;
+    }
+
+    try {
+      const slug = editingProduct.slug || editingProduct.nombre.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+      const images = Array.isArray(editingProduct.imagenes)
+        ? editingProduct.imagenes.map(sanitizeImageUrl).filter(Boolean)
+        : ['https://media.academiahgw.online/wp-content/uploads/2026/11/productos-hgw-1024x683.webp'];
+
+      const payload = {
+        code: editingProduct.code || '',
+        slug,
+        nombre: editingProduct.nombre,
+        descripcion: editingProduct.descripcion || '',
+        categoria: editingProduct.categoria || 'cafes-bebidas',
+        categoryLabel: editingProduct.categoryLabel || 'Cafés y Bebidas',
+        tags: Array.isArray(editingProduct.tags) ? editingProduct.tags : [],
+        precio: Number(editingProduct.precio),
+        moneda: editingProduct.moneda || 'USD',
+        imagenes: images,
+        enlaceCompra: editingProduct.enlaceCompra || 'https://www.healthgreenworld.com/?userName=Yamilka507',
+        ficha: editingProduct.ficha || {},
+        relacionados: editingProduct.relacionados || {},
+        destacado: Boolean(editingProduct.destacado),
+        estado: (editingProduct.estado as any) || 'publicado',
+        orden: Number(editingProduct.orden) || 99,
+        bv: Number(editingProduct.bv) || 0,
+        fechaActualizacion: new Date().toISOString().split('T')[0],
+      };
+
+      if (isCreatingProduct) {
+        await productosService.createProduct({ id: editingProduct.id || `prod-${Date.now()}`, ...payload });
+      } else if (editingProduct.id) {
+        await productosService.updateProduct(editingProduct.id, payload);
+      }
+
+      setEditingProduct(null);
+      setIsCreatingProduct(false);
+      setProductPreview(false);
+      loadProducts();
+    } catch (err: any) {
+      alert("Error al guardar producto: " + err.message);
+    }
+  };
+
+  const articleCategories = ['Todas', ...Array.from(new Set(articles.map(a => a.category)))];
   const filteredArticles = articles.filter(art => {
-    const matchesCat = selectedCategory === 'Todas' || art.category === selectedCategory;
-    const term = searchTerm.toLowerCase();
+    const matchesCat = selectedArticleCategory === 'Todas' || art.category === selectedArticleCategory;
+    const term = articleSearch.toLowerCase();
     const matchesSearch = !term || art.title.toLowerCase().includes(term) || art.summary.toLowerCase().includes(term);
     return matchesCat && matchesSearch;
+  });
+
+  const filteredProducts = products.filter(prod => {
+    const matchesStatus = selectedProductStatus === 'todos' || prod.estado === selectedProductStatus;
+    const term = productSearch.toLowerCase();
+    const matchesSearch = !term || prod.nombre.toLowerCase().includes(term) || prod.descripcion.toLowerCase().includes(term);
+    return matchesStatus && matchesSearch;
   });
 
   if (authLoading) {
@@ -177,7 +286,6 @@ export const AdminPanelPage: React.FC = () => {
     );
   }
 
-  // Not logged in -> Show Google Sign in
   if (!user) {
     return (
       <div className="min-h-screen bg-stone-100 flex items-center justify-center py-12 px-4">
@@ -188,13 +296,13 @@ export const AdminPanelPage: React.FC = () => {
 
           <div>
             <h1 className="text-2xl font-black text-slate-900 tracking-tight">Panel de Administración</h1>
-            <p className="text-xs text-slate-500 mt-1">Acceso restringido para la administración de la Base de Conocimiento</p>
+            <p className="text-xs text-slate-500 mt-1">Acceso restringido para hgwpanama507g@gmail.com</p>
           </div>
 
           {unauthorized && (
             <div className="p-4 bg-rose-50 border border-rose-200 rounded-2xl text-rose-800 text-xs font-bold flex items-center gap-2">
               <AlertTriangle className="w-4 h-4 shrink-0" />
-              <span>Acceso no autorizado. La cuenta ingresada no corresponde al correo de la administradora.</span>
+              <span>Acceso no autorizado. Cuenta incorrecta.</span>
             </div>
           )}
 
@@ -229,7 +337,6 @@ export const AdminPanelPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-100 pb-16 text-slate-900">
-      {/* Top Navbar */}
       <header className="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -238,7 +345,7 @@ export const AdminPanelPage: React.FC = () => {
             </div>
             <div>
               <h1 className="font-black text-sm text-slate-950">Panel de Administración</h1>
-              <p className="text-[10px] text-slate-500">Base de Conocimiento HGW Panamá</p>
+              <p className="text-[10px] text-slate-500">Gestión de Artículos y Productos HGW</p>
             </div>
           </div>
 
@@ -249,7 +356,7 @@ export const AdminPanelPage: React.FC = () => {
             <button
               onClick={handleRunSeed}
               className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-bold border border-emerald-200 transition-colors cursor-pointer"
-              title="Sembrar artículos locales a Firestore"
+              title="Sembrar datos iniciales en Firestore"
             >
               <Database className="w-3.5 h-3.5" />
               <span>Ejecutar Seed</span>
@@ -257,7 +364,6 @@ export const AdminPanelPage: React.FC = () => {
             <button
               onClick={handleLogout}
               className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold border border-rose-200 transition-colors cursor-pointer"
-              title="Cerrar sesión"
             >
               <LogOut className="w-3.5 h-3.5" />
               <span>Salir</span>
@@ -275,178 +381,280 @@ export const AdminPanelPage: React.FC = () => {
           </div>
         )}
 
-        {/* Action Header */}
-        <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
-            <div className="relative flex-1 sm:w-80">
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Buscar artículos..."
-                className="w-full pl-9 pr-4 py-2 text-xs bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:border-[#4472C4]"
-              />
-              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
-            </div>
-
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="py-2 px-3 text-xs bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:border-[#4472C4]"
-            >
-              {categories.map(c => (
-                <option key={c} value={c}>{c}</option>
-              ))}
-            </select>
-          </div>
-
+        {/* Tab Navigation */}
+        <div className="flex items-center gap-2 border-b border-slate-200 pb-3">
           <button
-            onClick={() => {
-              setEditingArticle({
-                title: '',
-                summary: '',
-                content: '',
-                category: categories[1] || 'Afiliación y Tutoriales',
-                tags: [],
-                source: 'Catálogo HGW 2026',
-                destacado: false,
-                publicado: true,
-                readTime: '3 min'
-              });
-              setIsCreating(true);
-              setPreviewMode(false);
-            }}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-[#4472C4] hover:bg-[#33599E] text-white font-black text-xs rounded-xl shadow-xs transition-colors cursor-pointer"
+            onClick={() => setActiveTab('articulos')}
+            className={`px-5 py-2.5 rounded-2xl font-black text-xs sm:text-sm flex items-center gap-2 transition-colors cursor-pointer ${
+              activeTab === 'articulos' ? 'bg-[#4472C4] text-white shadow-md' : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200'
+            }`}
           >
-            <Plus className="w-4 h-4" />
-            <span>Nuevo Artículo</span>
+            <FileText className="w-4 h-4" />
+            <span>Artículos ({articles.length})</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('productos')}
+            className={`px-5 py-2.5 rounded-2xl font-black text-xs sm:text-sm flex items-center gap-2 transition-colors cursor-pointer ${
+              activeTab === 'productos' ? 'bg-[#4472C4] text-white shadow-md' : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200'
+            }`}
+          >
+            <Package className="w-4 h-4" />
+            <span>Productos ({products.length})</span>
           </button>
         </div>
 
-        {/* Articles List Table / Grid */}
-        <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
-          <div className="p-5 border-b border-slate-100 flex items-center justify-between">
-            <h2 className="font-black text-sm text-slate-900">
-              Artículos en Firestore ({filteredArticles.length})
-            </h2>
-            <span className="text-xs text-slate-500">Gestión de contenido en tiempo real</span>
-          </div>
-
-          {loadingArticles ? (
-            <div className="p-12 text-center">
-              <div className="w-6 h-6 border-3 border-[#4472C4] border-t-transparent rounded-full animate-spin mx-auto"></div>
-            </div>
-          ) : filteredArticles.length === 0 ? (
-            <div className="p-12 text-center text-slate-500 text-xs">
-              No se encontraron artículos. Puedes ejecutar el Seed inicial o crear uno nuevo.
-            </div>
-          ) : (
-            <div className="divide-y divide-slate-100">
-              {filteredArticles.map(art => (
-                <div key={art.id} className="p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 hover:bg-slate-50/80 transition-colors">
-                  <div className="space-y-1 max-w-2xl">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="px-2.5 py-0.5 rounded-md bg-blue-50 text-[#4472C4] text-[10px] font-bold">
-                        {art.category}
-                      </span>
-                      {art.publicado !== false ? (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[10px] font-bold">
-                          <CheckCircle2 className="w-3 h-3" /> Publicado
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-50 text-amber-700 text-[10px] font-bold">
-                          <XCircle className="w-3 h-3" /> Borrador
-                        </span>
-                      )}
-                      {art.destacado && (
-                        <span className="px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 text-[10px] font-black">
-                          ★ Destacado
-                        </span>
-                      )}
-                    </div>
-                    <h3 className="font-extrabold text-sm text-slate-900">{art.title}</h3>
-                    <p className="text-xs text-slate-500 line-clamp-1">{art.summary}</p>
-                  </div>
-
-                  <div className="flex items-center gap-2 shrink-0">
-                    <button
-                      onClick={() => {
-                        setEditingArticle(art);
-                        setIsCreating(false);
-                        setPreviewMode(false);
-                      }}
-                      className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors flex items-center gap-1 cursor-pointer"
-                    >
-                      <Edit className="w-3.5 h-3.5" />
-                      <span>Editar</span>
-                    </button>
-                    <button
-                      onClick={() => handleDelete(art.id, art.title)}
-                      className="px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold transition-colors flex items-center gap-1 cursor-pointer"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                      <span>Eliminar</span>
-                    </button>
-                  </div>
+        {/* =========================================
+            ARTICLES TAB SECTION
+            ========================================= */}
+        {activeTab === 'articulos' && (
+          <div className="space-y-6">
+            <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+                <div className="relative flex-1 sm:w-80">
+                  <input
+                    type="text"
+                    value={articleSearch}
+                    onChange={(e) => setArticleSearch(e.target.value)}
+                    placeholder="Buscar artículos..."
+                    className="w-full pl-9 pr-4 py-2 text-xs bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:border-[#4472C4]"
+                  />
+                  <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
                 </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </main>
 
-      {/* Editor Modal */}
-      {editingArticle && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-white rounded-3xl max-w-3xl w-full p-6 sm:p-8 shadow-2xl my-8 space-y-6 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-              <h2 className="font-black text-base text-slate-900">
-                {isCreating ? 'Crear Nuevo Artículo' : 'Editar Artículo'}
-              </h2>
+                <select
+                  value={selectedArticleCategory}
+                  onChange={(e) => setSelectedArticleCategory(e.target.value)}
+                  className="py-2 px-3 text-xs bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:border-[#4472C4]"
+                >
+                  {articleCategories.map(c => (
+                    <option key={c} value={c}>{c}</option>
+                  ))}
+                </select>
+              </div>
+
               <button
-                onClick={() => setEditingArticle(null)}
-                className="p-1 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100"
+                onClick={() => {
+                  setEditingArticle({
+                    title: '',
+                    summary: '',
+                    content: '',
+                    category: articleCategories[1] || 'Afiliación y Tutoriales',
+                    tags: [],
+                    source: 'Catálogo HGW 2026',
+                    destacado: false,
+                    publicado: true,
+                    readTime: '3 min'
+                  });
+                  setIsCreatingArticle(true);
+                  setArticlePreview(false);
+                }}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-[#4472C4] hover:bg-[#33599E] text-white font-black text-xs rounded-xl shadow-xs transition-colors cursor-pointer"
               >
-                <X className="w-5 h-5" />
+                <Plus className="w-4 h-4" />
+                <span>Nuevo Artículo</span>
               </button>
             </div>
 
-            {previewMode ? (
-              <div className="space-y-6">
-                <div className="p-4 bg-blue-50 border border-blue-200 rounded-2xl flex items-center justify-between">
-                  <span className="text-xs font-bold text-[#4472C4]">Vista Previa del Artículo</span>
-                  <button
-                    onClick={() => setPreviewMode(false)}
-                    className="text-xs font-bold text-slate-700 hover:underline"
-                  >
-                    ← Volver a editar
-                  </button>
+            <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+              <div className="p-5 border-b border-slate-100 flex items-center justify-between">
+                <h2 className="font-black text-sm text-slate-900">Artículos ({filteredArticles.length})</h2>
+              </div>
+              {loadingArticles ? (
+                <div className="p-12 text-center"><div className="w-6 h-6 border-3 border-[#4472C4] border-t-transparent rounded-full animate-spin mx-auto"></div></div>
+              ) : filteredArticles.length === 0 ? (
+                <div className="p-12 text-center text-slate-500 text-xs">No se encontraron artículos.</div>
+              ) : (
+                <div className="divide-y divide-slate-100">
+                  {filteredArticles.map(art => (
+                    <div key={art.id} className="p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 hover:bg-slate-50/80 transition-colors">
+                      <div className="space-y-1 max-w-2xl">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="px-2.5 py-0.5 rounded-md bg-blue-50 text-[#4472C4] text-[10px] font-bold">{art.category}</span>
+                          {art.publicado !== false ? (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[10px] font-bold">
+                              <CheckCircle2 className="w-3 h-3" /> Publicado
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-50 text-amber-700 text-[10px] font-bold">
+                              <XCircle className="w-3 h-3" /> Borrador
+                            </span>
+                          )}
+                        </div>
+                        <h3 className="font-extrabold text-sm text-slate-900">{art.title}</h3>
+                        <p className="text-xs text-slate-500 line-clamp-1">{art.summary}</p>
+                      </div>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <button
+                          onClick={() => { setEditingArticle(art); setIsCreatingArticle(false); setArticlePreview(false); }}
+                          className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors flex items-center gap-1 cursor-pointer"
+                        >
+                          <Edit className="w-3.5 h-3.5" /> <span>Editar</span>
+                        </button>
+                        <button
+                          onClick={() => handleDeleteArticle(art.id, art.title)}
+                          className="px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold transition-colors flex items-center gap-1 cursor-pointer"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" /> <span>Eliminar</span>
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* =========================================
+            PRODUCTS TAB SECTION
+            ========================================= */}
+        {activeTab === 'productos' && (
+          <div className="space-y-6">
+            <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+                <div className="relative flex-1 sm:w-80">
+                  <input
+                    type="text"
+                    value={productSearch}
+                    onChange={(e) => setProductSearch(e.target.value)}
+                    placeholder="Buscar productos por nombre..."
+                    className="w-full pl-9 pr-4 py-2 text-xs bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:border-[#4472C4]"
+                  />
+                  <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
                 </div>
 
-                <div className="bg-white p-6 rounded-2xl border border-slate-200 space-y-4">
-                  <div className="flex items-center gap-2 text-xs font-bold text-slate-500">
-                    <span className="px-2.5 py-1 bg-slate-100 rounded-full">{editingArticle.category}</span>
-                    <span>Actualizado: {editingArticle.updatedAt || 'Hoy'}</span>
-                  </div>
-                  <h1 className="text-2xl font-black text-slate-900">{editingArticle.title}</h1>
-                  <p className="p-4 bg-slate-50 rounded-xl font-semibold text-slate-800 text-sm">{editingArticle.summary}</p>
-                  <div className="prose prose-slate text-sm whitespace-pre-line text-slate-800">{editingArticle.content}</div>
+                <select
+                  value={selectedProductStatus}
+                  onChange={(e) => setSelectedProductStatus(e.target.value)}
+                  className="py-2 px-3 text-xs bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:border-[#4472C4]"
+                >
+                  <option value="todos">Todos los estados</option>
+                  <option value="publicado">Publicado</option>
+                  <option value="agotado">Agotado</option>
+                  <option value="oculto">Oculto</option>
+                </select>
+              </div>
+
+              <button
+                onClick={() => {
+                  setEditingProduct({
+                    nombre: '',
+                    precio: 23.00,
+                    categoria: 'cafes-bebidas',
+                    categoryLabel: 'Cafés y Bebidas',
+                    descripcion: '',
+                    imagenes: ['https://media.academiahgw.online/wp-content/uploads/2026/11/productos-hgw-1024x683.webp'],
+                    estado: 'publicado',
+                    orden: 10,
+                    bv: 10,
+                    ficha: { descripcionDetallada: '', modoDeUso: '', ingredientes: [], presentacion: '', advertencias: [], preguntasFrecuentes: [] }
+                  });
+                  setIsCreatingProduct(true);
+                  setProductPreview(false);
+                }}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-[#4472C4] hover:bg-[#33599E] text-white font-black text-xs rounded-xl shadow-xs transition-colors cursor-pointer"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Nuevo Producto</span>
+              </button>
+            </div>
+
+            <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+              <div className="p-5 border-b border-slate-100 flex items-center justify-between">
+                <h2 className="font-black text-sm text-slate-900">Productos en Firestore ({filteredProducts.length})</h2>
+              </div>
+              {loadingProducts ? (
+                <div className="p-12 text-center"><div className="w-6 h-6 border-3 border-[#4472C4] border-t-transparent rounded-full animate-spin mx-auto"></div></div>
+              ) : filteredProducts.length === 0 ? (
+                <div className="p-12 text-center text-slate-500 text-xs">No se encontraron productos. Ejecuta el Seed inicial.</div>
+              ) : (
+                <div className="divide-y divide-slate-100">
+                  {filteredProducts.map(prod => (
+                    <div key={prod.id} className="p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 hover:bg-slate-50/80 transition-colors">
+                      <div className="flex items-center gap-4">
+                        <img src={prod.imagenes[0]} alt={prod.nombre} className="w-16 h-16 object-contain rounded-2xl bg-slate-50 p-1 shrink-0 border border-slate-200" referrerPolicy="no-referrer" />
+                        <div className="space-y-1">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span className="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 text-[10px] font-bold">{prod.categoryLabel}</span>
+                            <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${
+                              prod.estado === 'publicado' ? 'bg-blue-50 text-blue-700' : prod.estado === 'agotado' ? 'bg-amber-50 text-amber-700' : 'bg-slate-200 text-slate-700'
+                            }`}>
+                              {prod.estado.toUpperCase()}
+                            </span>
+                            <span className="text-xs font-black text-[#4472C4]">${prod.precio.toFixed(2)} USD</span>
+                          </div>
+                          <h3 className="font-extrabold text-sm text-slate-900">{prod.nombre}</h3>
+                          <p className="text-xs text-slate-500 line-clamp-1">{prod.descripcion}</p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2 shrink-0">
+                        <button
+                          onClick={() => handleDuplicateProduct(prod)}
+                          className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors flex items-center gap-1 cursor-pointer"
+                          title="Duplicar producto"
+                        >
+                          <Copy className="w-3.5 h-3.5" /> <span>Duplicar</span>
+                        </button>
+                        <button
+                          onClick={() => { setEditingProduct(prod); setIsCreatingProduct(false); setProductPreview(false); }}
+                          className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors flex items-center gap-1 cursor-pointer"
+                        >
+                          <Edit className="w-3.5 h-3.5" /> <span>Editar</span>
+                        </button>
+                        <button
+                          onClick={() => handleDeleteProduct(prod.id, prod.nombre)}
+                          className="px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold transition-colors flex items-center gap-1 cursor-pointer"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" /> <span>Eliminar</span>
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </main>
+
+      {/* =========================================
+          ARTICLE EDIT MODAL
+          ========================================= */}
+      {editingArticle && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-white rounded-3xl max-w-3xl w-full p-6 sm:p-8 shadow-2xl my-8 space-y-6 max-h-[90vh] overflow-y-auto text-slate-900">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+              <h2 className="font-black text-base text-slate-900">
+                {isCreatingArticle ? 'Crear Nuevo Artículo' : 'Editar Artículo'}
+              </h2>
+              <button onClick={() => setEditingArticle(null)} className="p-1 rounded-xl text-slate-400 hover:text-slate-700"><X className="w-5 h-5" /></button>
+            </div>
+
+            {articlePreview ? (
+              <div className="space-y-4">
+                <div className="p-4 bg-blue-50 border border-blue-200 rounded-2xl flex items-center justify-between">
+                  <span className="text-xs font-bold text-[#4472C4]">Vista Previa</span>
+                  <button onClick={() => setArticlePreview(false)} className="text-xs font-bold text-slate-700 hover:underline">← Volver</button>
+                </div>
+                <div className="bg-white p-6 rounded-2xl border border-slate-200 space-y-3">
+                  <h1 className="text-2xl font-black">{editingArticle.title}</h1>
+                  <p className="p-3 bg-slate-50 rounded-xl text-xs font-bold">{editingArticle.summary}</p>
+                  <div className="text-xs whitespace-pre-line">{editingArticle.content}</div>
                 </div>
               </div>
             ) : (
               <form onSubmit={handleSaveArticle} className="space-y-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Título del Artículo *</label>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Título *</label>
                   <input
                     type="text"
                     required
                     value={editingArticle.title || ''}
                     onChange={(e) => setEditingArticle({ ...editingArticle, title: e.target.value })}
-                    className="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:border-[#4472C4]"
-                    placeholder="Ej. Guía de Afiliación Paso a Paso"
+                    className="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-300 rounded-xl"
                   />
                 </div>
-
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">Categoría *</label>
@@ -455,8 +663,7 @@ export const AdminPanelPage: React.FC = () => {
                       required
                       value={editingArticle.category || ''}
                       onChange={(e) => setEditingArticle({ ...editingArticle, category: e.target.value })}
-                      className="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:border-[#4472C4]"
-                      placeholder="Ej. Afiliación y Tutoriales"
+                      className="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-300 rounded-xl"
                     />
                   </div>
                   <div>
@@ -465,120 +672,225 @@ export const AdminPanelPage: React.FC = () => {
                       type="text"
                       value={editingArticle.slug || ''}
                       onChange={(e) => setEditingArticle({ ...editingArticle, slug: e.target.value })}
-                      className="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:border-[#4472C4]"
-                      placeholder="guia-afiliacion"
+                      className="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-300 rounded-xl"
                     />
                   </div>
                 </div>
-
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Resumen (1-2 líneas)</label>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Resumen</label>
                   <textarea
                     rows={2}
                     value={editingArticle.summary || ''}
                     onChange={(e) => setEditingArticle({ ...editingArticle, summary: e.target.value })}
-                    className="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:border-[#4472C4]"
-                    placeholder="Breve resumen del artículo..."
+                    className="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-300 rounded-xl"
                   />
                 </div>
-
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Contenido Completo *</label>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Contenido *</label>
                   <textarea
-                    rows={8}
+                    rows={6}
                     required
                     value={editingArticle.content || ''}
                     onChange={(e) => setEditingArticle({ ...editingArticle, content: e.target.value })}
-                    className="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:border-[#4472C4] font-mono"
-                    placeholder="Desarrollo del artículo..."
+                    className="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-300 rounded-xl font-mono"
                   />
                 </div>
-
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">Etiquetas (separadas por comas)</label>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">Etiquetas (comas)</label>
                     <input
                       type="text"
                       value={Array.isArray(editingArticle.tags) ? editingArticle.tags.join(', ') : (editingArticle.tags || '')}
                       onChange={(e) => setEditingArticle({ ...editingArticle, tags: e.target.value as any })}
-                      className="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:border-[#4472C4]"
-                      placeholder="Afiliación, Tutorial, Guía"
+                      className="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-300 rounded-xl"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">Fuente</label>
-                    <input
-                      type="text"
-                      value={editingArticle.source || ''}
-                      onChange={(e) => setEditingArticle({ ...editingArticle, source: e.target.value })}
-                      className="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:border-[#4472C4]"
-                      placeholder="Catálogo Oficial HGW 2026"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">URL de Video Embed (YouTube Opcional)</label>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">Video YouTube URL</label>
                     <input
                       type="text"
                       value={editingArticle.videoUrl || ''}
                       onChange={(e) => setEditingArticle({ ...editingArticle, videoUrl: e.target.value })}
-                      className="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:border-[#4472C4]"
-                      placeholder="https://www.youtube.com/embed/..."
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">Tiempo de Lectura</label>
-                    <input
-                      type="text"
-                      value={editingArticle.readTime || ''}
-                      onChange={(e) => setEditingArticle({ ...editingArticle, readTime: e.target.value })}
-                      className="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:border-[#4472C4]"
-                      placeholder="3 min"
+                      className="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-300 rounded-xl"
                     />
                   </div>
                 </div>
-
                 <div className="flex items-center gap-6 pt-2">
-                  <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-slate-700">
+                  <label className="flex items-center gap-2 cursor-pointer text-xs font-bold">
                     <input
                       type="checkbox"
                       checked={editingArticle.publicado !== false}
                       onChange={(e) => setEditingArticle({ ...editingArticle, publicado: e.target.checked })}
-                      className="w-4 h-4 text-[#4472C4] rounded-md border-slate-300 focus:ring-0"
+                      className="w-4 h-4 text-[#4472C4] rounded-md"
                     />
-                    <span>Publicado (Visible para visitantes)</span>
+                    <span>Publicado</span>
                   </label>
+                </div>
+                <div className="flex items-center justify-end gap-3 pt-6 border-t border-slate-100">
+                  <button type="button" onClick={() => setArticlePreview(true)} className="px-4 py-2 bg-slate-100 text-xs font-bold rounded-xl">Vista Previa</button>
+                  <button type="submit" className="px-5 py-2 bg-[#4472C4] text-white text-xs font-black rounded-xl">Guardar</button>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
 
-                  <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-slate-700">
+      {/* =========================================
+          PRODUCT EDIT MODAL
+          ========================================= */}
+      {editingProduct && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-white rounded-3xl max-w-3xl w-full p-6 sm:p-8 shadow-2xl my-8 space-y-6 max-h-[90vh] overflow-y-auto text-slate-900">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+              <h2 className="font-black text-base text-slate-900">
+                {isCreatingProduct ? 'Crear Nuevo Producto' : 'Editar Producto'}
+              </h2>
+              <button onClick={() => setEditingProduct(null)} className="p-1 rounded-xl text-slate-400 hover:text-slate-700"><X className="w-5 h-5" /></button>
+            </div>
+
+            {productPreview ? (
+              <div className="space-y-4">
+                <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl flex items-center justify-between">
+                  <span className="text-xs font-bold text-emerald-800">Vista Previa del Producto</span>
+                  <button onClick={() => setProductPreview(false)} className="text-xs font-bold text-slate-700 hover:underline">← Volver</button>
+                </div>
+                <div className="bg-white p-6 rounded-2xl border border-slate-200 space-y-3">
+                  <img src={editingProduct.imagenes?.[0]} alt="" className="w-32 h-32 object-contain bg-slate-50 p-2 rounded-xl mx-auto" />
+                  <h1 className="text-2xl font-black text-center">{editingProduct.nombre}</h1>
+                  <p className="text-center font-black text-[#4472C4] text-lg">${Number(editingProduct.precio || 0).toFixed(2)} USD</p>
+                  <p className="text-xs font-medium text-center">{editingProduct.descripcion}</p>
+                </div>
+              </div>
+            ) : (
+              <form onSubmit={handleSaveProduct} className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">Nombre del Producto *</label>
                     <input
-                      type="checkbox"
-                      checked={Boolean(editingArticle.destacado)}
-                      onChange={(e) => setEditingArticle({ ...editingArticle, destacado: e.target.checked })}
-                      className="w-4 h-4 text-[#4472C4] rounded-md border-slate-300 focus:ring-0"
+                      type="text"
+                      required
+                      value={editingProduct.nombre || ''}
+                      onChange={(e) => setEditingProduct({ ...editingProduct, nombre: e.target.value })}
+                      className="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-300 rounded-xl"
                     />
-                    <span>Destacado</span>
-                  </label>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">Precio (USD) *</label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      required
+                      value={editingProduct.precio ?? ''}
+                      onChange={(e) => setEditingProduct({ ...editingProduct, precio: parseFloat(e.target.value) || 0 })}
+                      className="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-300 rounded-xl"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">Categoría ID</label>
+                    <input
+                      type="text"
+                      value={editingProduct.categoria || ''}
+                      onChange={(e) => setEditingProduct({ ...editingProduct, categoria: e.target.value })}
+                      className="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-300 rounded-xl"
+                      placeholder="cafes-bebidas"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">Nombre Categoría</label>
+                    <input
+                      type="text"
+                      value={editingProduct.categoryLabel || ''}
+                      onChange={(e) => setEditingProduct({ ...editingProduct, categoryLabel: e.target.value })}
+                      className="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-300 rounded-xl"
+                      placeholder="Cafés y Bebidas"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">Estado</label>
+                    <select
+                      value={editingProduct.estado || 'publicado'}
+                      onChange={(e) => setEditingProduct({ ...editingProduct, estado: e.target.value as any })}
+                      className="w-full px-3 py-2.5 text-xs bg-slate-50 border border-slate-300 rounded-xl"
+                    >
+                      <option value="publicado">Publicado</option>
+                      <option value="agotado">Agotado</option>
+                      <option value="oculto">Oculto</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Descripción Corta / Resumen</label>
+                  <textarea
+                    rows={2}
+                    value={editingProduct.descripcion || ''}
+                    onChange={(e) => setEditingProduct({ ...editingProduct, descripcion: e.target.value })}
+                    className="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-300 rounded-xl"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Imágenes (Una URL por línea / Enlaces https o Google Drive)</label>
+                  <textarea
+                    rows={3}
+                    value={Array.isArray(editingProduct.imagenes) ? editingProduct.imagenes.join('\n') : (editingProduct.imagenes || '')}
+                    onChange={(e) => setEditingProduct({ ...editingProduct, imagenes: e.target.value.split('\n').map(s => s.trim()).filter(Boolean) })}
+                    className="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-300 rounded-xl font-mono"
+                    placeholder="https://... o https://drive.google.com/file/d/.../view"
+                  />
+                  <p className="text-[10px] text-slate-500 mt-1">La primera imagen será la principal. Los enlaces de Google Drive se convierten automáticamente.</p>
+                </div>
+
+                {/* Ficha de conocimiento fields */}
+                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+                  <h3 className="font-black text-xs text-slate-800 uppercase">Ficha de Conocimiento (Opcional)</h3>
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-700 mb-1">Descripción Detallada</label>
+                    <textarea
+                      rows={3}
+                      value={editingProduct.ficha?.descripcionDetallada || ''}
+                      onChange={(e) => setEditingProduct({
+                        ...editingProduct,
+                        ficha: { ...editingProduct.ficha, descripcionDetallada: e.target.value }
+                      })}
+                      className="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-xl"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-700 mb-1">Modo de Uso</label>
+                    <input
+                      type="text"
+                      value={editingProduct.ficha?.modoDeUso || ''}
+                      onChange={(e) => setEditingProduct({
+                        ...editingProduct,
+                        ficha: { ...editingProduct.ficha, modoDeUso: e.target.value }
+                      })}
+                      className="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-xl"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-700 mb-1">Ingredientes (separados por comas)</label>
+                    <input
+                      type="text"
+                      value={editingProduct.ficha?.ingredientes ? editingProduct.ficha.ingredientes.join(', ') : ''}
+                      onChange={(e) => setEditingProduct({
+                        ...editingProduct,
+                        ficha: { ...editingProduct.ficha, ingredientes: e.target.value.split(',').map(s => s.trim()).filter(Boolean) }
+                      })}
+                      className="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-xl"
+                      placeholder="Café arábica, Ganoderma lucidum..."
+                    />
+                  </div>
                 </div>
 
                 <div className="flex items-center justify-end gap-3 pt-6 border-t border-slate-100">
-                  <button
-                    type="button"
-                    onClick={() => setPreviewMode(true)}
-                    className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition-colors flex items-center gap-1.5 cursor-pointer"
-                  >
-                    <Eye className="w-4 h-4" />
-                    <span>Vista Previa</span>
-                  </button>
-
-                  <button
-                    type="submit"
-                    className="px-5 py-2.5 bg-[#4472C4] hover:bg-[#33599E] text-white font-black text-xs rounded-xl shadow-sm transition-colors flex items-center gap-1.5 cursor-pointer"
-                  >
-                    <Save className="w-4 h-4" />
-                    <span>Guardar Artículo</span>
-                  </button>
+                  <button type="button" onClick={() => setProductPreview(true)} className="px-4 py-2.5 bg-slate-100 text-xs font-bold rounded-xl">Vista Previa</button>
+                  <button type="submit" className="px-5 py-2.5 bg-[#4472C4] text-white text-xs font-black rounded-xl">Guardar Producto</button>
                 </div>
               </form>
             )}

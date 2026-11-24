@@ -70,16 +70,38 @@
         "fechaActualizacion": { "type": "string" }
       },
       "required": ["id", "slug", "titulo", "contenido", "categoria", "publicado"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Productos y fichas de conocimiento de HGW Panamá",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "slug": { "type": "string" },
+        "nombre": { "type": "string", "maxLength": 200 },
+        "descripcion": { "type": "string" },
+        "categoria": { "type": "string" },
+        "precio": { "type": "number" },
+        "imagenes": { "type": "array" },
+        "estado": { "type": "string", "enum": ["publicado", "oculto", "agotado"] },
+        "destacado": { "type": "boolean" },
+        "orden": { "type": "number" }
+      },
+      "required": ["id", "slug", "nombre", "precio", "estado"]
     }
   },
   "firestore": {
     "/contacts/{contactId}": {
       "schema": "ContactMessage",
-      "description": "Colección de prospectos y mensajes capturados por el asistente virtual"
+      "description": "Colección de prospectos y mensajes capturados"
     },
     "/articulos/{articleId}": {
       "schema": "Article",
-      "description": "Colección de artículos de la Base de Conocimiento HGW Panamá"
+      "description": "Colección de artículos de la Base de Conocimiento"
+    },
+    "/productos/{productId}": {
+      "schema": "Product",
+      "description": "Colección de productos y fichas de conocimiento HGW"
     }
   }
 }
