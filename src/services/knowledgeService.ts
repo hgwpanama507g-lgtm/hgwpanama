@@ -13,13 +13,27 @@ export interface KnowledgeArticle {
   content: string;
 }
 
+const cleanMarkdown = (text: string): string => {
+  if (!text) return '';
+  return text.replace(/#+\s*/g, '').replace(/\*+/g, '');
+};
+
+const sanitizeArticle = (art: KnowledgeArticle): KnowledgeArticle => ({
+  ...art,
+  title: cleanMarkdown(art.title),
+  summary: cleanMarkdown(art.summary),
+  content: cleanMarkdown(art.content),
+  tags: art.tags.map(cleanMarkdown),
+});
+
 export const knowledgeService = {
   getAllArticles: (): KnowledgeArticle[] => {
-    return knowledgeBaseData as KnowledgeArticle[];
+    return (knowledgeBaseData as KnowledgeArticle[]).map(sanitizeArticle);
   },
 
   getArticleById: (id: string): KnowledgeArticle | undefined => {
-    return (knowledgeBaseData as KnowledgeArticle[]).find(art => art.id === id);
+    const found = (knowledgeBaseData as KnowledgeArticle[]).find(art => art.id === id);
+    return found ? sanitizeArticle(found) : undefined;
   },
 
   getCategories: (): string[] => {
@@ -29,7 +43,7 @@ export const knowledgeService = {
   },
 
   getRelatedArticles: (currentId: string, category: string, limit = 3): KnowledgeArticle[] => {
-    const all = knowledgeBaseData as KnowledgeArticle[];
+    const all = (knowledgeBaseData as KnowledgeArticle[]).map(sanitizeArticle);
     return all
       .filter(art => art.id !== currentId && art.category === category)
       .slice(0, limit);
