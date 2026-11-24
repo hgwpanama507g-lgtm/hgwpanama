@@ -124,13 +124,9 @@ export const AboutHGW: React.FC = () => {
           {/* 1. Photograph at the top */}
           <div className="w-36 h-36 sm:w-44 sm:h-44 rounded-full overflow-hidden border-4 border-white shadow-xl bg-white mb-5 mx-auto shrink-0">
             <img
-              src="https://media.academiahgw.online/wp-content/uploads/2026/11/Foto-de-Perfil-Yamilka-Batista-Emprendedora-HGW-2-1024x1024.jpeg"
+              src="/assets/aistudio/Retrato_corporativo_de_mujer_latina_b3872491.png"
               alt="Yamilka Batista - Distribuidora Independiente Autorizada HGW Panamá"
-              referrerPolicy="no-referrer"
-              className="w-full h-full object-cover object-center"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = "https://media.academiahgw.online/wp-content/uploads/2026/11/Foto-de-Perfil-Yamilka-Batista-Emprendedora-HGW-1-1024x1024.jpeg";
-              }}
+              className="w-full h-full object-cover object-top"
             />
           </div>
 

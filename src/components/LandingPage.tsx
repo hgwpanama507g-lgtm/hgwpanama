@@ -1117,14 +1117,9 @@ export const LandingPage: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center mb-12">
               <div className="aspect-[3/2] w-full rounded-3xl overflow-hidden bg-white border border-slate-200 shadow-xl">
                 <img
-                  src="https://media.academiahgw.online/wp-content/uploads/2026/11/Foto-de-Perfil-Yamilka-Batista-Emprendedora-HGW-2-1024x1024.jpeg"
+                  src="/assets/aistudio/Retrato_corporativo_de_mujer_latina_b3872491.png"
                   alt="Yamilka Batista - Distribuidora Independiente HGW Panamá"
                   className="w-full h-full object-cover object-top"
-                  referrerPolicy="no-referrer"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src =
-                      'https://media.academiahgw.online/wp-content/uploads/2026/11/Foto-de-Perfil-Yamilka-Batista-Emprendedora-HGW-1-1024x1024.jpeg';
-                  }}
                 />
               </div>
 
