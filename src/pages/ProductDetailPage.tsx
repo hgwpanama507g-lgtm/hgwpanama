@@ -64,18 +64,20 @@ function getIngredientEmoji(ingredient: string): string {
   if (/(probiótico|probiotico|lactobacil|lactiberry|bacteri|ferment)/.test(lower)) return '🦠';
   if (/(té negro|te negro|té verde|te verde|té rojo|matcha|oolong)/.test(lower)) return '🍵';
   if (/(menta|mentol|hierbabuena|eucalipto|xilitol|xylitol)/.test(lower)) return '🍃';
+  if (/(alga roja)/.test(lower)) return '🌊';
   if (/(espirulina|spirulina|alga|clorofila|moringa|espinaca|brócoli|verde)/.test(lower)) return '🥬';
   if (/(oliva|aceite de oliva|aceite|almendra|coco|karité|jojoba)/.test(lower)) return '🫒';
-  if (/(soya|soja|leche|proteína|aminoácido|péptido|peptido)/.test(lower)) return '🥛';
+  if (/(soya|soja|leche|proteína|aminoácido|péptido|peptido|polipéptido)/.test(lower)) return '🥛';
   if (/(colágeno|colageno|hialurónico|elastina|vitamina e|seda)/.test(lower)) return '✨';
   if (/(miel|propóleo|jalea|polen)/.test(lower)) return '🍯';
   if (/(cacao|chocolate)/.test(lower)) return '🍫';
   if (/(limón|limon|naranja|cítrico|citrico|vitamina c|uva|fresa|fruta|manzana)/.test(lower)) return '🍋';
+  if (/(diente de león|diente de leon)/.test(lower)) return '🌼';
   if (/(rosa|flor|lavanda|caléndula|calendula|manzanilla|madreselva|jazmín|loto)/.test(lower)) return '🌸';
   if (/(fibra|avena|trigo|maíz|cereal|semilla|germen)/.test(lower)) return '🌾';
   if (/(zinc|calcio|magnesio|hierro|selenio|potasio|sodio|ion)/.test(lower)) return '⚡';
   if (/(agua|h2o|hidrógeno|hidrogeno|alcalin)/.test(lower)) return '💧';
-  if (/(aloe|sábila|ginseng|jengibre|cúrcuma|raíz|extracto|herbal|botánic)/.test(lower)) return '🌿';
+  if (/(aloe|sábila|ginseng|jengibre|cúrcuma|raíz|regaliz|bletilla|extracto|herbal|botánic)/.test(lower)) return '🌿';
   return '🌱';
 }
 

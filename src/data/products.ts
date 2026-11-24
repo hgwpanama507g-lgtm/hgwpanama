@@ -1983,14 +1983,12 @@ Pasta de dientes con turmalina HGW: ¡Hace que el aliento sea más fresco! (Vers
       "Turmalina: Libera iones negativos. Ayuda a reducir la adhesión de la placa."
     ],
     ingredients: [
-      "Péptidos de soja",
-      "Xilitol",
-      "Extracto de menta (mentol)",
-      "Extracto de raíz de regaliz (ácido glicirrícico)",
-      "Extracto de diente de león",
-      "Micropartículas de turmalina",
-      "Sin Flúor",
-      "Sin Triclosán"
+      "Extracto de raíz de regaliz chino",
+      "Extracto de turmalina (mineral)",
+      "Extracto de alga roja",
+      "Extracto de menta piperita",
+      "Extracto de diente de león mongólico",
+      "Polipéptido de soja"
     ],
     usage: "Cepille sus dientes diariamente con TOURMALINE TOOTHPASTE después de cada comida, al menos tres veces al día o como recomiende su odontólogo. Aplique el producto en su cepillo de dientes, realice una limpieza profunda y enjuague con abundante agua.",
     precautions: "Conservar a temperatura ambiente en lugar fresco y seco.",
@@ -2033,14 +2031,11 @@ Pasta dental de turmalina HGW: ¡Un cuidado bucal más eficaz! (Versión negra).
       "Hemostasia de la raíz de Bletilla striata."
     ],
     ingredients: [
-      "Nanoturmalina antibacteriana",
-      "Carbón activo botánico",
-      "Extracto de madreselva",
-      "Xilitol",
-      "Extracto de raíz de Bletilla striata",
-      "Extracto de menta",
-      "Sin Flúor",
-      "Sin Triclosán"
+      "Polvo de turmalina",
+      "Extracto de madreselva japonesa",
+      "Extracto de alga roja",
+      "Extracto de menta piperita",
+      "Extracto de raíz de Bletilla striata"
     ],
     usage: "Cepille sus dientes diariamente con TOURMALINE TOOTHPASTE después de cada comida, al menos tres veces al día o como recomiende su odontólogo. Aplique el producto en su cepillo de dientes, realice una limpieza profunda y enjuague con abundante agua.",
     precautions: "Evitar tragar. Enjuagar bien después del cepillado.",
