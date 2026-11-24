@@ -108,7 +108,7 @@ ${knowledgeBase}`;
 
     return res.status(200).json({ reply });
   } catch (error: any) {
-    console.error(`Gemini API Error (modelo: ${modelName}, intento: ${attempts}):`, error);
+    console.error("Vercel Serverless Function Gemini API Error:", lastError || error);
     return res.status(500).json({
       error: error.message || "Error al procesar la respuesta con el asistente virtual.",
     });
