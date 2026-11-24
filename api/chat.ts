@@ -16,6 +16,9 @@ export default async function handler(req: any, res: any) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
+  let lastError: any = null;
+  let lastModel = "";
+
   try {
     const { messages } = req.body;
     if (!Array.isArray(messages) || messages.length === 0) {
@@ -44,7 +47,7 @@ REGLAS ESTRICTAS DE RESPUESTA:
    - Si ya es socio: indícale amablemente que se comunique con su patrocinador o al teléfono de oficinas principales (+507 392-8415). No resuelvas trámites internos ni pidas que se registre otra vez.
    - Si quiere ser socio o emprender: explica los paquetes (Prejunior, Junior, Senior, Master con 30% descuento en inicial, recompra master 52% descuento, requerimiento de 10 puntos mensuales / ~$25) y envíalo al link de referido: https://www.healthgreenworld.com/?userName=Yamilka507 y WhatsApp +507 6778-8375.
    - Si es cliente interesado en productos: orienta según el catálogo, indica precios públicos y cómo comprar (vía WhatsApp o link de afiliado).
-   - Si solo busca información: da información general y ofrece ayuda.
+   - Si solo busca información: da información general y ofrecer más ayuda.
 4. NUNCA prometas ingresos financieros garantizados ni curas o resultados médicosmilagrosos. Ante temas de salud, recomienda consultar a un profesional.
 5. Mantén un tono cálido, humano, profesional y en español. Respuestas concisas, claras y estructuradas con viñetas cuando sea útil.
 
@@ -57,11 +60,11 @@ ${knowledgeBase}`;
     }));
 
     let response: any = null;
-    let lastError: any = null;
-    const modelsToTry = ["gemini-2.5-flash", "gemini-2.5-flash-lite", "gemini-3.1-flash-lite"];
+    const modelsToTry = ["gemini-2.5-flash", "gemini-3.1-flash-lite"];
     const delays = [1000, 2000];
 
     for (const modelName of modelsToTry) {
+      lastModel = modelName;
       let attempts = 0;
       const maxRetries = 1;
 
@@ -101,16 +104,19 @@ ${knowledgeBase}`;
     }
 
     if (!response || !response.text) {
-      throw lastError || new Error("Failed to generate content after retries and fallback models.");
+      console.error(`Gemini API failed across all models. Last model: ${lastModel}, Last error:`, lastError);
+      return res.status(503).json({
+        reply: "Ahora mismo hay mucha demanda. Déjame tu nombre y teléfono y un asesor te contactará por WhatsApp para darte toda la información personalizada.",
+      });
     }
 
     const reply = response.text;
-
     return res.status(200).json({ reply });
+
   } catch (error: any) {
-    console.error("Vercel Serverless Function Gemini API Error");
-    return res.status(500).json({
-      error: error.message || "Error al procesar la respuesta con el asistente virtual.",
+    console.error(`Vercel Serverless Function Chat Error (model: ${lastModel}):`, error);
+    return res.status(503).json({
+      reply: "Ahora mismo hay mucha demanda. Déjame tu nombre y teléfono y un asesor te contactará por WhatsApp para darte toda la información personalizada.",
     });
   }
 }
