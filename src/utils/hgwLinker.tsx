@@ -24,7 +24,7 @@ export const renderWithHGWLinks = (text: string): React.ReactNode => {
           href={HGW_AFFILIATE_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-inherit no-underline hover:underline"
+          className="text-[#1D4ED8] font-bold underline decoration-[#1D4ED8]/60 underline-offset-2 hover:text-[#1E3A8A] hover:decoration-[#1E3A8A] transition-colors"
           title="Sitio Oficial HGW - Yamilka507"
         >
           HGW

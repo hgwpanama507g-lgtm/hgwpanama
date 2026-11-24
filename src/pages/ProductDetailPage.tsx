@@ -19,6 +19,8 @@ import {
   Package,
   Hash,
   HeartHandshake,
+  Users,
+  ThumbsUp,
 } from 'lucide-react';
 import { PRODUCTS, CERTIFICATIONS, MEMBERSHIP_PLANS, Product } from '../data/products';
 import { findProductBySlug } from '../data/seoMetadata';
@@ -53,6 +55,91 @@ function getHeroVideoForProduct(product: Product): { id: string; title: string }
   return { id: 'r-BFxBuhhbc', title: `${product.name} - Línea Oficial HGW` };
 }
 
+function getIngredientEmoji(ingredient: string): string {
+  const lower = ingredient.toLowerCase();
+  if (/(arándano|arandano|blueberry|vaccinium|baya)/.test(lower)) return '🫐';
+  if (/(café|cafe|coffee|moca|mocha|arabica|arábica)/.test(lower)) return '☕';
+  if (/(ganoderma|reishi|cordyceps|hongo|melena|shiitake)/.test(lower)) return '🍄';
+  if (/(turmalina|tourmaline|cuarzo|mineral|piedra|imán|magnét|infrarrojo|anión|anion)/.test(lower)) return '💎';
+  if (/(probiótico|probiotico|lactobacil|lactiberry|bacteri|ferment)/.test(lower)) return '🦠';
+  if (/(té negro|te negro|té verde|te verde|té rojo|matcha|oolong)/.test(lower)) return '🍵';
+  if (/(menta|mentol|hierbabuena|eucalipto|xilitol|xylitol)/.test(lower)) return '🍃';
+  if (/(espirulina|spirulina|alga|clorofila|moringa|espinaca|brócoli|verde)/.test(lower)) return '🥬';
+  if (/(oliva|aceite de oliva|aceite|almendra|coco|karité|jojoba)/.test(lower)) return '🫒';
+  if (/(soya|soja|leche|proteína|aminoácido|péptido|peptido)/.test(lower)) return '🥛';
+  if (/(colágeno|colageno|hialurónico|elastina|vitamina e|seda)/.test(lower)) return '✨';
+  if (/(miel|propóleo|jalea|polen)/.test(lower)) return '🍯';
+  if (/(cacao|chocolate)/.test(lower)) return '🍫';
+  if (/(limón|limon|naranja|cítrico|citrico|vitamina c|uva|fresa|fruta|manzana)/.test(lower)) return '🍋';
+  if (/(rosa|flor|lavanda|caléndula|calendula|manzanilla|madreselva|jazmín|loto)/.test(lower)) return '🌸';
+  if (/(fibra|avena|trigo|maíz|cereal|semilla|germen)/.test(lower)) return '🌾';
+  if (/(zinc|calcio|magnesio|hierro|selenio|potasio|sodio|ion)/.test(lower)) return '⚡';
+  if (/(agua|h2o|hidrógeno|hidrogeno|alcalin)/.test(lower)) return '💧';
+  if (/(aloe|sábila|ginseng|jengibre|cúrcuma|raíz|extracto|herbal|botánic)/.test(lower)) return '🌿';
+  return '🌱';
+}
+
+function getAudienceAndReasons(product: Product, isMembership: boolean) {
+  const isIngestible = ['cafes-bebidas', 'candies-snacks', 'nutricion'].includes(product.category);
+  const actionVerb = isIngestible ? 'tomarlo' : 'usarlo';
+
+  let audienceTitle = `¿Para quién está dirigido ${product.name}?`;
+  let audiencePoints: string[] = [];
+
+  if (isMembership) {
+    audiencePoints = [
+      'Personas en Panamá interesadas en consumir productos naturales HGW con descuento permanente del 30% al 52%.',
+      'Emprendedores que buscan iniciar su propio negocio independiente con horarios flexibles y respaldo internacional.',
+      'Familias que desean ahorrar en compras recurrentes de bienestar, bebidas funcionales y cuidado personal.',
+    ];
+  } else if (product.category === 'cuidado-bucal') {
+    audiencePoints = [
+      'Familias, adultos y niños que buscan una higiene bucal diaria 100% libre de flúor y triclosán.',
+      'Personas con encías sensibles o que prefieren fórmulas botánicas con nanoturmalina, probióticos y xilitol.',
+      'Quienes desean aliento fresco prolongado y limpieza suave sin abrasivos químicos agresivos.',
+    ];
+  } else if (product.category === 'cafes-bebidas') {
+    audiencePoints = [
+      'Amantes del café y bebidas funcionales que buscan disfrutar un sabor delicioso con antioxidantes naturales.',
+      'Estudiantes, profesionales y personas activas que desean acompañar su jornada con vitalidad equilibrada.',
+      'Quienes prefieren alternativas enriquecidas con extracto de arándano, ganoderma lucidum o cordyceps.',
+    ];
+  } else if (product.category === 'turmalina' || product.category === 'hogar-accesorios') {
+    audiencePoints = [
+      'Personas que pasan largas horas de pie, frente al computador o realizando actividad física diaria.',
+      'Quienes buscan accesorios bioenergéticos, confort térmico natural e hidratación de calidad en su rutina.',
+      'Adultos y adultos mayores interesados en complementar su bienestar diario con tecnología de turmalina.',
+    ];
+  } else if (product.category === 'cuidado-personal') {
+    audiencePoints = [
+      'Personas que cuidan su piel e higiene íntima con ingredientes suaves, extractos herbales y minerales.',
+      'Quienes desean reemplazar productos convencionales con jabones botánicos o líneas con aniones y turmalina.',
+      'Toda la familia en búsqueda de frescura, suavidad y limpieza respetuosa para uso diario.',
+    ];
+  } else {
+    audiencePoints = [
+      'Personas comprometidas con mejorar su bienestar diario mediante nutrición celular y extractos naturales.',
+      'Adultos activos que desean complementar su alimentación con antioxidantes, vitaminas y fitonutrientes.',
+      'Familias en Ciudad de Panamá y provincias que buscan productos certificados con respaldo internacional.',
+    ];
+  }
+
+  const reasonsTitle = isMembership
+    ? `¿Por qué deberías activarte hoy con ${product.name}?`
+    : `¿Por qué deberías empezar a ${actionVerb}?`;
+
+  const benefitReasons =
+    product.benefits && product.benefits.length > 0
+      ? product.benefits.slice(0, 3)
+      : [
+          product.shortDescription,
+          'Elaborado con ingredientes naturales seleccionados bajo estándares FDA, ISO 9001 y GMP.',
+          'Fácil de incorporar en tu rutina diaria con entrega rápida en Ciudad de Panamá y provincias.',
+        ];
+
+  return { audienceTitle, audiencePoints, reasonsTitle, reasonsPoints: benefitReasons, isIngestible };
+}
+
 const EDUCATIONAL_GUIDES = [
   {
     title: 'Arándanos Azules y Antioxidantes',
@@ -85,27 +172,6 @@ const EDUCATIONAL_GUIDES = [
     image:
       'https://media.academiahgw.online/wp-content/uploads/2026/11/12._CORDYCEPS-1024x576.png',
     to: '/documentos',
-  },
-];
-
-const PRODUCT_TESTIMONIAL_VIDEOS = [
-  {
-    id: 'nL5KdNarl6Y',
-    title: 'Testimonio HGW · Lactiberry',
-    description:
-      'Experiencia real de consumo con nuestras bebidas funcionales elaboradas con arándanos azules y té negro.',
-  },
-  {
-    id: 'Izx1mXkDYTI',
-    title: 'Testimonio HGW · Blueberry Candy',
-    description:
-      'Testimonio sobre la experiencia diaria incorporando fitonutrientes y antioxidantes naturales de HGW.',
-  },
-  {
-    id: 'MrD1MIwrIdM',
-    title: 'Testimonios · Tecnología de Turmalina HGW',
-    description:
-      'Experiencias compartidas sobre el confort, frescura y respaldo de los productos bioenergéticos HGW.',
   },
 ];
 
@@ -156,6 +222,33 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
 
   const heroVideo = getHeroVideoForProduct(product);
 
+  const ingredientPillars =
+    product.ingredients && product.ingredients.length > 0
+      ? product.ingredients.map((ing) => ({
+          emoji: getIngredientEmoji(ing),
+          title: ing,
+          description: `Componente seleccionado en la fórmula original de ${product.name} para potenciar sus beneficios diarios.`,
+        }))
+      : [
+          {
+            emoji: getIngredientEmoji(product.name),
+            title: product.presentation || product.categoryLabel,
+            description: product.shortDescription,
+          },
+          {
+            emoji: '🛡️',
+            title: 'Calidad Certificada Internacionalmente',
+            description:
+              'Fabricación respaldada por estándares internacionales FDA, ISO 9001, GMP y Halal.',
+          },
+          {
+            emoji: '✨',
+            title: 'Respaldo Oficial HGW Panamá',
+            description:
+              'Asesoría directa y entregas seguras en Ciudad de Panamá y todas las provincias.',
+          },
+        ];
+
   const productServices = [
     {
       id: 1,
@@ -172,11 +265,8 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
     },
     {
       id: 2,
-      title: 'Ingredientes, Presentación y Ficha Técnica',
-      detail:
-        product.ingredients && product.ingredients.length > 0
-          ? `Componentes destacados: ${product.ingredients.join(', ')}.`
-          : `Presentación oficial de ${product.categoryLabel} con estándares internacionales de calidad e inocuidad.`,
+      title: 'Presentación, Contenido y Ficha Técnica',
+      detail: `Presentación oficial de ${product.categoryLabel} con estándares internacionales de calidad e inocuidad.`,
       bullets: [
         product.netContent ? `Contenido neto: ${product.netContent}` : `Categoría: ${product.categoryLabel}`,
         product.presentation ? `Presentación: ${product.presentation}` : 'Producto original sellado de fábrica HGW',
@@ -226,24 +316,6 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
     { name: 'Pago por Yappy', Icon: CreditCard },
   ];
 
-  const pillarCards = (
-    product.benefits && product.benefits.length >= 3
-      ? product.benefits.slice(0, 3)
-      : [
-          product.shortDescription,
-          'Fórmula original elaborada bajo estándares internacionales FDA, ISO 9001 y GMP.',
-          'Entregas confiables en Ciudad de Panamá y provincias con asesoría directa.',
-        ]
-  ).map((text, idx) => ({
-    title:
-      idx === 0
-        ? 'Fórmula y Beneficio Clave'
-        : idx === 1
-        ? 'Calidad Certificada'
-        : 'Bienestar Integral',
-    description: text,
-  }));
-
   const productFaqs = [
     {
       question: `¿Cuál es el precio y cómo puedo comprar ${product.name} en Panamá?`,
@@ -265,6 +337,11 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
         'Al registrarte bajo nuestro patrocinio autorizado (código Yamilka507) y activar tu membresía (Pre-Junior 50 BV, Junior 100 BV, Senior 300 BV o Master 600 BV), accedes a precios preferenciales desde el 30% hasta el 52% en todo el catálogo.',
     },
   ];
+
+  const { audienceTitle, audiencePoints, reasonsTitle, reasonsPoints } = getAudienceAndReasons(
+    product,
+    isMembership
+  );
 
   const juniorPlan = MEMBERSHIP_PLANS.find((m) => m.id === 'junior') || MEMBERSHIP_PLANS[1];
   const seniorPlan = MEMBERSHIP_PLANS.find((m) => m.id === 'senior') || MEMBERSHIP_PLANS[2];
@@ -309,7 +386,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
       </section>
 
       {/* =================================================================
-          (3) HERO EN 2 COLUMNAS CON FONDO DEL PRODUCTO Y TARJETA + BOTÓN COMPRAR AFILIADO
+          (3) HERO EN 2 COLUMNAS + BOTONES CTA DEBAJO (AFILIADO Y CONTACTO)
           ================================================================= */}
       <section className="relative overflow-hidden py-14 sm:py-20 bg-white border-b border-slate-100">
         <img
@@ -327,11 +404,11 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <nav className="flex items-center justify-center lg:justify-start gap-2 text-xs font-bold text-slate-600 mb-8 overflow-x-auto whitespace-nowrap">
-              <Link to="/" className="hover:text-[#4472C4] transition-colors">
+              <Link to="/" className="text-[#1D4ED8] hover:text-[#1E3A8A] underline underline-offset-2 transition-colors">
                 Inicio
               </Link>
               <span className="text-slate-300">/</span>
-              <Link to="/productos" className="hover:text-[#4472C4] transition-colors">
+              <Link to="/productos" className="text-[#1D4ED8] hover:text-[#1E3A8A] underline underline-offset-2 transition-colors">
                 {product.categoryLabel}
               </Link>
               <span className="text-slate-300">/</span>
@@ -396,7 +473,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                     href={productWhatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 bg-white hover:bg-[#EEF3FB] text-[#4472C4] border border-[#4472C4]/35 font-extrabold text-sm sm:text-base rounded-2xl shadow-sm transition-all"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 bg-white hover:bg-[#EEF3FB] text-[#1D4ED8] border border-[#1D4ED8]/35 font-extrabold text-sm sm:text-base rounded-2xl shadow-sm transition-all"
                   >
                     <MessageCircle className="w-5 h-5" />
                     <span>Pedir por WhatsApp</span>
@@ -434,26 +511,28 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                   </div>
 
                   {/* Mini ficha rápida */}
-                  <div className="mt-4 grid grid-cols-2 gap-2.5 text-xs">
-                    {product.netContent && (
-                      <div className="p-2.5 rounded-xl bg-[#F8FAFC] border border-slate-100">
-                        <span className="block text-[10px] font-bold uppercase text-slate-500">
-                          Contenido
-                        </span>
-                        <strong className="text-black font-extrabold">{product.netContent}</strong>
-                      </div>
-                    )}
-                    {product.presentation && (
-                      <div className="p-2.5 rounded-xl bg-[#F8FAFC] border border-slate-100">
-                        <span className="block text-[10px] font-bold uppercase text-slate-500">
-                          Presentación
-                        </span>
-                        <strong className="text-black font-extrabold line-clamp-1">
-                          {product.presentation}
-                        </strong>
-                      </div>
-                    )}
-                  </div>
+                  {(product.netContent || product.presentation) && (
+                    <div className="mt-4 grid grid-cols-2 gap-2.5 text-xs">
+                      {product.netContent && (
+                        <div className="p-2.5 rounded-xl bg-[#F8FAFC] border border-slate-100">
+                          <span className="block text-[10px] font-bold uppercase text-slate-500">
+                            Contenido
+                          </span>
+                          <strong className="text-black font-extrabold">{product.netContent}</strong>
+                        </div>
+                      )}
+                      {product.presentation && (
+                        <div className="p-2.5 rounded-xl bg-[#F8FAFC] border border-slate-100">
+                          <span className="block text-[10px] font-bold uppercase text-slate-500">
+                            Presentación
+                          </span>
+                          <strong className="text-black font-extrabold line-clamp-1">
+                            {product.presentation}
+                          </strong>
+                        </div>
+                      )}
+                    </div>
+                  )}
 
                   <div className="mt-4">
                     <a
@@ -470,12 +549,46 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                 </div>
               </div>
             </div>
+
+            {/* Llamado a la Acción debajo del Hero: Link de Afiliado + Contacto */}
+            <div className="mt-10 sm:mt-12 pt-8 border-t border-slate-200/80">
+              <div className="bg-white/95 rounded-3xl p-5 sm:p-7 border border-[#4472C4]/25 shadow-lg flex flex-col md:flex-row items-center justify-between gap-5">
+                <div className="text-center md:text-left">
+                  <p className="text-xs font-extrabold uppercase tracking-wider text-[#4472C4] mb-1">
+                    Compra Directa o Asesoría Personalizada
+                  </p>
+                  <h2 className="text-lg sm:text-xl font-black text-black">
+                    ¿Listo para adquirir {product.name} o resolver tus dudas?
+                  </h2>
+                </div>
+                <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto shrink-0">
+                  <a
+                    href={registrationUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-[#4472C4] hover:bg-[#33599E] text-white font-extrabold text-sm sm:text-base rounded-2xl shadow-md shadow-[#4472C4]/25 hover:-translate-y-0.5 active:scale-95 transition-all"
+                  >
+                    <ShoppingBag className="w-4 h-4" />
+                    <span>Ir al Link Oficial de Compra</span>
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                  <a
+                    href="#contacto"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-slate-900 hover:bg-black text-white font-extrabold text-sm sm:text-base rounded-2xl shadow-md hover:-translate-y-0.5 active:scale-95 transition-all"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    <span>Ir a Contacto</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+            </div>
           </ScrollReveal>
         </div>
       </section>
 
       {/* =================================================================
-          (4) SERVICIOS, ESPECIFICACIONES + 8 CARACTERÍSTICAS EN GRID
+          (4) SERVICIOS, ESPECIFICACIONES + 8 CARACTERÍSTICAS (Acordeón animado hacia abajo)
           ================================================================= */}
       <section className="py-14 sm:py-20 bg-[#F8FAFC] border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -485,17 +598,13 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                 Información Clave y Formas de Compra
               </h2>
               <p className="text-sm sm:text-base text-black mt-2.5 font-normal">
-                Todo sobre {product.name}: ingredientes, modo de uso, pagos por Yappy y envíos en Panamá.
+                Todo sobre {product.name}: ficha técnica, modo de uso, pagos por Yappy y envíos en Panamá.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-start">
               <div className="aspect-[3/2] w-full rounded-3xl overflow-hidden bg-slate-900 shadow-xl border border-slate-200">
-                <LazyYouTubeEmbed
-                  videoId={heroVideo.id}
-                  title={heroVideo.title}
-                  useNoCookie
-                />
+                <LazyYouTubeEmbed videoId={heroVideo.id} title={heroVideo.title} useNoCookie />
               </div>
 
               <div className="space-y-4">
@@ -504,7 +613,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                   return (
                     <div
                       key={srv.id}
-                      className={`rounded-2xl transition-all duration-200 overflow-hidden shadow-sm border ${
+                      className={`rounded-2xl transition-all duration-300 overflow-hidden shadow-sm border ${
                         isSelected
                           ? 'bg-white border-[#4472C4] shadow-md ring-2 ring-[#4472C4]/25'
                           : 'bg-[#4472C4] border-[#4472C4]'
@@ -524,58 +633,66 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                           {srv.title}
                         </span>
                         <ChevronDown
-                          className={`w-5 h-5 shrink-0 transition-transform duration-200 ${
+                          className={`w-5 h-5 shrink-0 transition-transform duration-300 ease-out ${
                             isSelected ? 'rotate-180' : ''
                           }`}
                         />
                       </button>
 
-                      {isSelected && (
-                        <div className="px-4 sm:px-6 py-4 sm:py-5 bg-white text-black border-t border-slate-200 space-y-3">
-                          <p className="text-[17px] leading-relaxed text-black break-words">
-                            {srv.detail}
-                          </p>
-                          {srv.bullets.length > 0 && (
-                            <ul className="space-y-2 text-[17px] leading-relaxed text-black">
-                              {srv.bullets.map((bullet, bIdx) => (
-                                <li key={bIdx} className="flex items-start gap-2.5 break-words">
-                                  <span className="text-[#4472C4] font-black leading-relaxed shrink-0">
-                                    •
-                                  </span>
-                                  <span>{bullet}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          )}
-                          {srv.external ? (
-                            <a
-                              href={srv.ctaHref}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1.5 text-sm font-bold text-[#4472C4] underline underline-offset-4 hover:text-[#33599E] pt-1"
-                            >
-                              <span>{srv.ctaLabel}</span>
-                              <ExternalLink className="w-4 h-4" />
-                            </a>
-                          ) : srv.ctaHref?.startsWith('#') ? (
-                            <a
-                              href={srv.ctaHref}
-                              className="inline-flex items-center gap-1.5 text-sm font-bold text-[#4472C4] underline underline-offset-4 hover:text-[#33599E] pt-1"
-                            >
-                              <span>{srv.ctaLabel}</span>
-                              <ArrowRight className="w-4 h-4" />
-                            </a>
-                          ) : (
-                            <Link
-                              to={srv.ctaTo || '/productos'}
-                              className="inline-flex items-center gap-1.5 text-sm font-bold text-[#4472C4] underline underline-offset-4 hover:text-[#33599E] pt-1"
-                            >
-                              <span>{srv.ctaLabel}</span>
-                              <ArrowRight className="w-4 h-4" />
-                            </Link>
-                          )}
+                      {/* Despliegue suave hacia abajo con CSS grid-rows */}
+                      <div
+                        className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${
+                          isSelected ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                        }`}
+                        aria-hidden={!isSelected}
+                      >
+                        <div className="overflow-hidden">
+                          <div className="px-4 sm:px-6 py-4 sm:py-5 bg-white text-black border-t border-slate-200 space-y-3">
+                            <p className="text-[17px] leading-relaxed text-black break-words">
+                              {renderWithHGWLinks(srv.detail)}
+                            </p>
+                            {srv.bullets.length > 0 && (
+                              <ul className="space-y-2 text-[17px] leading-relaxed text-black">
+                                {srv.bullets.map((bullet, bIdx) => (
+                                  <li key={bIdx} className="flex items-start gap-2.5 break-words">
+                                    <span className="text-[#4472C4] font-black leading-relaxed shrink-0">
+                                      •
+                                    </span>
+                                    <span>{renderWithHGWLinks(bullet)}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                            {srv.external ? (
+                              <a
+                                href={srv.ctaHref}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 text-sm font-bold text-[#1D4ED8] underline underline-offset-4 hover:text-[#1E3A8A] pt-1"
+                              >
+                                <span>{srv.ctaLabel}</span>
+                                <ExternalLink className="w-4 h-4" />
+                              </a>
+                            ) : srv.ctaHref?.startsWith('#') ? (
+                              <a
+                                href={srv.ctaHref}
+                                className="inline-flex items-center gap-1.5 text-sm font-bold text-[#1D4ED8] underline underline-offset-4 hover:text-[#1E3A8A] pt-1"
+                              >
+                                <span>{srv.ctaLabel}</span>
+                                <ArrowRight className="w-4 h-4" />
+                              </a>
+                            ) : (
+                              <Link
+                                to={srv.ctaTo || '/productos'}
+                                className="inline-flex items-center gap-1.5 text-sm font-bold text-[#1D4ED8] underline underline-offset-4 hover:text-[#1E3A8A] pt-1"
+                              >
+                                <span>{srv.ctaLabel}</span>
+                                <ArrowRight className="w-4 h-4" />
+                              </Link>
+                            )}
+                          </div>
                         </div>
-                      )}
+                      </div>
                     </div>
                   );
                 })}
@@ -603,7 +720,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                     <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#EEF3FB] text-[#4472C4] group-hover:bg-[#4472C4] group-hover:text-white flex items-center justify-center mb-3 transition-colors duration-300 shadow-2xs">
                       <Icon className="w-6 h-6 sm:w-7 sm:h-7" />
                     </div>
-                    <span className="text-sm sm:text-base font-extrabold text-black group-hover:text-[#4472C4] transition-colors leading-snug line-clamp-2">
+                    <span className="text-sm sm:text-base font-extrabold text-black group-hover:text-[#1D4ED8] transition-colors leading-snug line-clamp-2">
                       {name}
                     </span>
                   </a>
@@ -615,36 +732,37 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
       </section>
 
       {/* =================================================================
-          (5) 3 PILARES / BENEFICIOS DESTACADOS DEL PRODUCTO
+          (5) PILARES DEL PRODUCTO: INGREDIENTES CLAVE ILUSTRADOS CON EMOJIS
           ================================================================= */}
       <section className="py-14 sm:py-20 bg-white border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <div className="text-center max-w-3xl mx-auto mb-12">
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight">
-                Pilares de {product.name}
+                Pilares e Ingredientes de {product.name}
               </h2>
               <p className="text-sm sm:text-base text-black mt-2.5 font-normal">
-                Beneficios diseñados para acompañar el bienestar diario de tu familia.
+                Conoce los ingredientes y componentes principales que hacen única esta fórmula de HGW.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-              {pillarCards.map((pillar, idx) => (
-                <div key={idx} className="flex flex-col items-center text-center group">
-                  <div className="w-[180px] h-[180px] sm:w-[210px] sm:h-[210px] rounded-full overflow-hidden border-4 border-[#EEF3FB] shadow-lg bg-[#F8FAFC] p-5 flex items-center justify-center mb-6 group-hover:border-[#4472C4] group-hover:shadow-xl transition-all duration-300">
-                    <img
-                      src={product.image}
-                      alt={pillar.title}
-                      loading="lazy"
-                      decoding="async"
-                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
-                      referrerPolicy="no-referrer"
-                    />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {ingredientPillars.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="bg-[#F8FAFC] rounded-3xl p-6 border border-slate-200/80 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center group"
+                >
+                  <div
+                    className="w-24 h-24 rounded-full bg-[#EEF3FB] border-4 border-white shadow-md flex items-center justify-center text-5xl mb-5 group-hover:scale-105 group-hover:border-[#4472C4]/40 transition-all duration-300 select-none"
+                    aria-hidden="true"
+                  >
+                    {item.emoji}
                   </div>
-                  <h3 className="text-xl font-extrabold text-black mb-2.5">{pillar.title}</h3>
-                  <p className="text-sm sm:text-base text-black leading-relaxed max-w-xs font-normal">
-                    {renderWithHGWLinks(pillar.description)}
+                  <h3 className="text-lg sm:text-xl font-extrabold text-black mb-2 leading-snug">
+                    {renderWithHGWLinks(item.title)}
+                  </h3>
+                  <p className="text-sm text-black leading-relaxed max-w-xs font-normal">
+                    {renderWithHGWLinks(item.description)}
                   </p>
                 </div>
               ))}
@@ -744,48 +862,11 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
       </section>
 
       {/* =================================================================
-          (7) TESTIMONIOS EN VIDEO (Carga diferida)
-          ================================================================= */}
-      <section className="py-14 sm:py-20 bg-white border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <ScrollReveal>
-            <div className="text-center max-w-3xl mx-auto mb-12">
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight">
-                Testimonios y Experiencias HGW
-              </h2>
-              <p className="text-sm sm:text-base text-black mt-2.5 font-normal">
-                Experiencias reales compartidas por clientes y consumidores de nuestros productos naturales.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {PRODUCT_TESTIMONIAL_VIDEOS.map((video) => (
-                <div
-                  key={video.id}
-                  className="bg-[#F8FAFC] rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center"
-                >
-                  <div className="aspect-[3/2] w-full rounded-2xl overflow-hidden bg-slate-900 shadow-inner mb-5 border border-slate-200">
-                    <LazyYouTubeEmbed videoId={video.id} title={video.title} useNoCookie />
-                  </div>
-                  <h3 className="text-lg font-extrabold text-black mb-2 leading-snug">
-                    {video.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-black leading-relaxed font-normal">
-                    {video.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </ScrollReveal>
-        </div>
-      </section>
-
-      {/* =================================================================
-          (8) FICHA COMPLETA DEL PRODUCTO + PRODUCTOS RELACIONADOS
+          (8) FICHA COMPLETA DEL PRODUCTO (SIN INGREDIENTES REPETIDOS) + RELACIONADOS
           ================================================================= */}
       <section
         id="ficha-producto"
-        className="scroll-mt-24 py-14 sm:py-20 bg-[#F8FAFC] border-b border-slate-100"
+        className="scroll-mt-24 py-14 sm:py-20 bg-white border-b border-slate-100"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
@@ -799,10 +880,10 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
             </div>
 
             {/* Tarjeta completa del producto */}
-            <div className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-lg mb-14">
+            <div className="bg-[#F8FAFC] rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-lg mb-14">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 <div className="lg:col-span-5 space-y-4">
-                  <div className="aspect-square w-full rounded-2xl bg-[#F8FAFC] border border-slate-100 p-6 flex items-center justify-center overflow-hidden">
+                  <div className="aspect-square w-full rounded-2xl bg-white border border-slate-100 p-6 flex items-center justify-center overflow-hidden">
                     <img
                       src={product.image}
                       alt={product.name}
@@ -854,7 +935,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                       href={partnerWhatsappUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full py-3 px-5 bg-white hover:bg-[#EEF3FB] text-[#4472C4] border border-[#4472C4]/35 text-sm font-black rounded-xl flex items-center justify-center gap-2 transition-all"
+                      className="w-full py-3 px-5 bg-white hover:bg-[#EEF3FB] text-[#1D4ED8] border border-[#1D4ED8]/35 text-sm font-black rounded-xl flex items-center justify-center gap-2 transition-all"
                     >
                       <Zap className="w-4 h-4" />
                       <span>Comprar como Socio (30% a 52% Descuento)</span>
@@ -904,27 +985,8 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                     </div>
                   )}
 
-                  {product.ingredients && product.ingredients.length > 0 && (
-                    <div>
-                      <h3 className="text-xl font-black text-black mb-3">
-                        Ingredientes y Componentes
-                      </h3>
-                      <div className="flex flex-wrap gap-2">
-                        {product.ingredients.map((ing, idx) => (
-                          <span
-                            key={idx}
-                            className="px-4 py-2 rounded-xl bg-[#EEF3FB] text-black font-bold text-sm border border-[#4472C4]/20 inline-flex items-center gap-2"
-                          >
-                            <Sparkles className="w-3.5 h-3.5 text-[#4472C4] shrink-0" />
-                            <span>{renderWithHGWLinks(ing)}</span>
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
                   {product.usage && (
-                    <div className="p-5 rounded-2xl bg-[#F8FAFC] border border-slate-200">
+                    <div className="p-5 rounded-2xl bg-white border border-slate-200">
                       <h3 className="text-lg font-black text-black mb-2">Modo de Uso</h3>
                       <p className="text-[17px] text-black leading-relaxed whitespace-pre-line font-normal">
                         {renderWithHGWLinks(product.usage)}
@@ -958,12 +1020,12 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                   {relatedProducts.map((rel) => (
                     <div
                       key={rel.id}
-                      className="bg-white rounded-2xl sm:rounded-3xl p-3 sm:p-5 border border-slate-200/80 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between text-center"
+                      className="bg-[#F8FAFC] rounded-2xl sm:rounded-3xl p-3 sm:p-5 border border-slate-200/80 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between text-center"
                     >
                       <div>
                         <Link
                           to={`/producto/${rel.slug}`}
-                          className="aspect-square w-full rounded-xl sm:rounded-2xl bg-[#F8FAFC] border border-slate-100 p-3 sm:p-5 flex items-center justify-center overflow-hidden mb-3 sm:mb-4 group"
+                          className="aspect-square w-full rounded-xl sm:rounded-2xl bg-white border border-slate-100 p-3 sm:p-5 flex items-center justify-center overflow-hidden mb-3 sm:mb-4 group"
                         >
                           <img
                             src={rel.image}
@@ -1011,7 +1073,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
       {/* =================================================================
           (9) ACERCA DE LA EMPRESA (Con Logo Oficial de HGW)
           ================================================================= */}
-      <section className="py-14 sm:py-20 bg-white border-b border-slate-100">
+      <section className="py-14 sm:py-20 bg-[#F8FAFC] border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <div className="text-center max-w-3xl mx-auto mb-12 flex flex-col items-center">
@@ -1053,7 +1115,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                   </Link>
                   <Link
                     to="/oficinas"
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#EEF3FB] hover:bg-[#dbe6f8] text-[#4472C4] font-bold text-sm rounded-2xl transition-all"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-white hover:bg-[#EEF3FB] text-[#1D4ED8] border border-[#1D4ED8]/30 font-bold text-sm rounded-2xl transition-all"
                   >
                     <span>Oficinas Panamá y LATAM</span>
                   </Link>
@@ -1075,7 +1137,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
       {/* =================================================================
           (10) OPORTUNIDAD
           ================================================================= */}
-      <section className="py-14 sm:py-20 bg-[#F8FAFC] border-b border-slate-100">
+      <section className="py-14 sm:py-20 bg-white border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <div className="text-center max-w-3xl mx-auto mb-12">
@@ -1115,7 +1177,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                     href={registrationUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-white hover:bg-[#EEF3FB] text-[#4472C4] border border-[#4472C4]/30 font-bold text-sm rounded-2xl transition-all"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#EEF3FB] hover:bg-[#dbe6f8] text-[#1D4ED8] border border-[#1D4ED8]/30 font-bold text-sm rounded-2xl transition-all"
                   >
                     <span>Registro Oficial (Yamilka507)</span>
                     <ExternalLink className="w-4 h-4" />
@@ -1130,7 +1192,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
       {/* =================================================================
           (11) GUÍAS EDUCATIVAS (4 COLUMNAS)
           ================================================================= */}
-      <section className="py-14 sm:py-20 bg-white border-b border-slate-100">
+      <section className="py-14 sm:py-20 bg-[#F8FAFC] border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <div className="text-center max-w-3xl mx-auto mb-12">
@@ -1147,9 +1209,9 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                 <Link
                   key={idx}
                   to={guide.to}
-                  className="bg-[#F8FAFC] rounded-3xl p-5 border border-slate-200/80 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center group"
+                  className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center group"
                 >
-                  <div className="aspect-[3/2] w-full rounded-2xl overflow-hidden bg-white border border-slate-100 mb-4">
+                  <div className="aspect-[3/2] w-full rounded-2xl overflow-hidden bg-[#F8FAFC] border border-slate-100 mb-4">
                     <img
                       src={guide.image}
                       alt={guide.title}
@@ -1163,11 +1225,11 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                       }}
                     />
                   </div>
-                  <h3 className="text-base sm:text-lg font-extrabold text-black group-hover:text-[#4472C4] transition-colors mb-2 leading-snug">
+                  <h3 className="text-base sm:text-lg font-extrabold text-black group-hover:text-[#1D4ED8] transition-colors mb-2 leading-snug">
                     {guide.title}
                   </h3>
                   <p className="text-sm text-black leading-relaxed font-normal">{guide.excerpt}</p>
-                  <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-[#4472C4]">
+                  <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-[#1D4ED8] underline underline-offset-2">
                     <BookOpen className="w-3.5 h-3.5" />
                     <span>Leer guía completa</span>
                   </span>
@@ -1179,9 +1241,9 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
       </section>
 
       {/* =================================================================
-          (12) PREGUNTAS FRECUENTES (Todos cerrados al cargar, texto 17px negro)
+          (12) PREGUNTAS FRECUENTES (Acordeón animado hacia abajo, texto 17px negro)
           ================================================================= */}
-      <section className="py-14 sm:py-20 bg-[#F8FAFC] border-b border-slate-100">
+      <section className="py-14 sm:py-20 bg-white border-b border-slate-100">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <div className="text-center max-w-3xl mx-auto mb-10">
@@ -1199,7 +1261,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                 return (
                   <div
                     key={idx}
-                    className="rounded-2xl overflow-hidden shadow-sm border border-[#4472C4]/25 bg-white transition-all"
+                    className="rounded-2xl overflow-hidden shadow-sm border border-[#4472C4]/25 bg-white transition-all duration-300"
                   >
                     <button
                       type="button"
@@ -1209,19 +1271,97 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                     >
                       <span>{faq.question}</span>
                       <ChevronDown
-                        className={`w-5 h-5 shrink-0 transition-transform duration-200 ${
+                        className={`w-5 h-5 shrink-0 transition-transform duration-300 ease-out ${
                           isOpen ? 'rotate-180' : ''
                         }`}
                       />
                     </button>
-                    {isOpen && (
-                      <div className="px-4 sm:px-6 py-4 sm:py-5 text-[17px] text-black leading-relaxed bg-white border-t border-slate-100 font-normal break-words">
-                        {renderWithHGWLinks(faq.answer)}
+                    <div
+                      className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${
+                        isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                      }`}
+                      aria-hidden={!isOpen}
+                    >
+                      <div className="overflow-hidden">
+                        <div className="px-4 sm:px-6 py-4 sm:py-5 text-[17px] text-black leading-relaxed bg-white border-t border-slate-100 font-normal break-words">
+                          {renderWithHGWLinks(faq.answer)}
+                        </div>
                       </div>
-                    )}
+                    </div>
                   </div>
                 );
               })}
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* =================================================================
+          (12.5) ¿PARA QUIÉN ESTÁ DIRIGIDO? Y ¿POR QUÉ EMPEZAR A TOMARLO/USARLO?
+          ================================================================= */}
+      <section className="py-14 sm:py-20 bg-[#F8FAFC] border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ScrollReveal>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-stretch">
+              {/* Columna 1: Para quién está dirigido */}
+              <div className="bg-white rounded-3xl p-6 sm:p-9 border border-slate-200 shadow-md flex flex-col justify-between">
+                <div>
+                  <div className="w-12 h-12 rounded-2xl bg-[#EEF3FB] text-[#4472C4] flex items-center justify-center mb-5">
+                    <Users className="w-6 h-6" />
+                  </div>
+                  <h2 className="text-2xl sm:text-3xl font-black text-black mb-4 leading-tight">
+                    {audienceTitle}
+                  </h2>
+                  <ul className="space-y-3.5 text-[17px] text-black leading-relaxed">
+                    {audiencePoints.map((point, idx) => (
+                      <li key={idx} className="flex items-start gap-3">
+                        <Check className="w-5 h-5 text-[#4472C4] shrink-0 mt-1" />
+                        <span>{renderWithHGWLinks(point)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              {/* Columna 2: Por qué deberías empezar a tomarlo / usarlo */}
+              <div className="bg-gradient-to-br from-[#EEF3FB] via-white to-white rounded-3xl p-6 sm:p-9 border-2 border-[#4472C4]/30 shadow-md flex flex-col justify-between">
+                <div>
+                  <div className="w-12 h-12 rounded-2xl bg-[#4472C4] text-white flex items-center justify-center mb-5 shadow-sm">
+                    <ThumbsUp className="w-6 h-6" />
+                  </div>
+                  <h2 className="text-2xl sm:text-3xl font-black text-black mb-4 leading-tight">
+                    {reasonsTitle}
+                  </h2>
+                  <ul className="space-y-3.5 text-[17px] text-black leading-relaxed mb-6">
+                    {reasonsPoints.map((reason, idx) => (
+                      <li key={idx} className="flex items-start gap-3">
+                        <Sparkles className="w-5 h-5 text-[#4472C4] shrink-0 mt-1" />
+                        <span>{renderWithHGWLinks(reason)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="pt-2 flex flex-col sm:flex-row gap-3">
+                  <a
+                    href={registrationUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 py-3.5 px-6 bg-[#4472C4] hover:bg-[#33599E] text-white font-extrabold text-sm sm:text-base rounded-2xl shadow-md shadow-[#4472C4]/25 inline-flex items-center justify-center gap-2 transition-all active:scale-95"
+                  >
+                    <ShoppingBag className="w-4 h-4" />
+                    <span>Empezar Ahora</span>
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                  <a
+                    href="#contacto"
+                    className="py-3.5 px-6 bg-white hover:bg-[#EEF3FB] text-[#1D4ED8] border border-[#1D4ED8]/35 font-extrabold text-sm sm:text-base rounded-2xl inline-flex items-center justify-center gap-2 transition-all"
+                  >
+                    <span>Consultar</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
             </div>
           </ScrollReveal>
         </div>
@@ -1346,7 +1486,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
             <div className="mt-12 text-center">
               <Link
                 to="/membresias"
-                className="inline-flex items-center gap-2 text-sm font-bold text-[#4472C4] hover:underline"
+                className="inline-flex items-center gap-2 text-sm font-bold text-[#1D4ED8] underline underline-offset-4 hover:text-[#1E3A8A]"
               >
                 <span>Ver las 4 membresías oficiales (incluyendo Pre-Junior 50 BV)</span>
                 <ArrowRight className="w-4 h-4" />
