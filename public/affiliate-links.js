@@ -70,30 +70,12 @@ const affiliateRules = [
       "  color: #0088CC;",
       "  text-decoration-color: currentColor;",
       "}",
-      ".auto-affiliate-link[data-dark-bg='true'],",
-      "header .auto-affiliate-link,",
-      "footer .auto-affiliate-link,",
-      "[class*='bg-[#4472C4]'] .auto-affiliate-link,",
-      "[class*='bg-[#004d3c]'] .auto-affiliate-link,",
-      "[class*='bg-[#00795F]'] .auto-affiliate-link,",
-      "[class*='bg-[#23437D]'] .auto-affiliate-link,",
-      "[class*='bg-slate-9'] .auto-affiliate-link,",
-      "[class*='bg-stone-9'] .auto-affiliate-link,",
-      "[class*='bg-black'] .auto-affiliate-link {",
+      ".auto-affiliate-link[data-dark-bg='true'] {",
       "  color: #FDE047;",
-      "  text-decoration-color: rgba(253, 224, 71, 0.8);",
+      "  text-decoration-color: rgba(253, 224, 71, 0.85);",
       "}",
       ".auto-affiliate-link[data-dark-bg='true']:hover,",
-      ".auto-affiliate-link[data-dark-bg='true']:focus-visible,",
-      "header .auto-affiliate-link:hover,",
-      "footer .auto-affiliate-link:hover,",
-      "[class*='bg-[#4472C4]'] .auto-affiliate-link:hover,",
-      "[class*='bg-[#004d3c]'] .auto-affiliate-link:hover,",
-      "[class*='bg-[#00795F]'] .auto-affiliate-link:hover,",
-      "[class*='bg-[#23437D]'] .auto-affiliate-link:hover,",
-      "[class*='bg-slate-9'] .auto-affiliate-link:hover,",
-      "[class*='bg-stone-9'] .auto-affiliate-link:hover,",
-      "[class*='bg-black'] .auto-affiliate-link:hover {",
+      ".auto-affiliate-link[data-dark-bg='true']:focus-visible {",
       "  color: #FEF08A;",
       "  text-decoration-color: currentColor;",
       "}",
@@ -134,29 +116,38 @@ const affiliateRules = [
     return Boolean(parent.closest(EXCLUDED_SELECTOR));
   }
 
+  function parseColorLuminance(colorString) {
+    if (!colorString) return null;
+    const match = colorString.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+    if (!match) return null;
+    const alpha = match[4] !== undefined ? parseFloat(match[4]) : 1;
+    if (alpha < 0.35) return null;
+    const r = Number(match[1]);
+    const g = Number(match[2]);
+    const b = Number(match[3]);
+    return (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  }
+
   function isDarkBackgroundElement(element) {
     let cur = element;
     while (cur && cur.nodeType === Node.ELEMENT_NODE) {
       const style = window.getComputedStyle(cur);
+
+      if (style.backgroundImage && style.backgroundImage !== "none") {
+        const gradLum = parseColorLuminance(style.backgroundImage);
+        if (gradLum !== null) {
+          return gradLum < 0.58;
+        }
+      }
+
       const bg = style.backgroundColor;
       if (bg && bg !== "transparent" && bg !== "rgba(0, 0, 0, 0)") {
-        const match = bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
-        if (match) {
-          const alpha = match[4] !== undefined ? parseFloat(match[4]) : 1;
-          if (alpha >= 0.35) {
-            const r = Number(match[1]);
-            const g = Number(match[2]);
-            const b = Number(match[3]);
-            const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-            return luminance < 0.58;
-          }
+        const bgLum = parseColorLuminance(bg);
+        if (bgLum !== null) {
+          return bgLum < 0.58;
         }
       }
-      if (style.backgroundImage && style.backgroundImage !== "none") {
-        if (/(23437D|4472C4|004d3c|00795F|0f172a|1c1917)/i.test(cur.className || "")) {
-          return true;
-        }
-      }
+
       cur = cur.parentElement;
     }
     return false;

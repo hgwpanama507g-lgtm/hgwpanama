@@ -79,6 +79,22 @@ function getIngredientEmoji(ingredient: string): string {
   return '🌱';
 }
 
+function filterNaturalIngredients(ingredients?: string[]): string[] {
+  if (!ingredients || ingredients.length === 0) return [];
+  const excludedPattern =
+    /(artificial|semiartificial|saborizante|aromatizante|acesulfamo|sucralosa|sorbitol|manitol|eritritol|maltodextrina|dextrina|estearato|dióxido de silicio|dioxido de silicio|citrato|ácido málico|acido malico|ácido cítrico|acido citrico|celulosa|hidroxipropil|caseinato|hidrogenado|fosfato|ésteres|esteres|otros componentes|codex alimentarius|sulfitos|edulcorantes de perfil|crema no láctea|crema anhidra|azúcar blanca|azúcar blanco|azúcar granulada|jarabe de malta|lactosa|leche descremada|leche desnatada|suero de leche|base de caramelo|base edulcorada|base funcional|base adaptable|agentes limpiadores|sin flúor|sin triclosán|sin pigmentos|acrílico|adhesivo|broche|velcro|acero inoxidable|componentes eléctricos|estructura|neopreno|polipropileno|auto-apagado|soporte anatómico|tapa hermética|tejido|glicerina|agua destilada|sal,|sal\b)/i;
+
+  return ingredients
+    .map((item) => item.replace(/^Tela no tejida\s*\/\s*/i, '').trim())
+    .filter((item) => {
+      if (!item) return false;
+      if (/crema no láctea de origen vegetal/i.test(item)) return true;
+      if (/\bE\s*-?\s*\d{3,4}/i.test(item)) return false;
+      if (/^tela no tejida$/i.test(item)) return false;
+      return !excludedPattern.test(item);
+    });
+}
+
 function getAudienceAndReasons(product: Product, isMembership: boolean) {
   const isIngestible = ['cafes-bebidas', 'candies-snacks', 'nutricion'].includes(product.category);
   const actionVerb = isIngestible ? 'tomarlo' : 'usarlo';
@@ -222,24 +238,27 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
 
   const heroVideo = getHeroVideoForProduct(product);
 
+  const naturalIngredients = filterNaturalIngredients(product.ingredients);
+
   const ingredientPillars =
-    product.ingredients && product.ingredients.length > 0
-      ? product.ingredients.map((ing) => ({
+    naturalIngredients.length > 0
+      ? naturalIngredients.map((ing) => ({
           emoji: getIngredientEmoji(ing),
           title: ing,
-          description: `Componente seleccionado en la fórmula original de ${product.name} para potenciar sus beneficios diarios.`,
+          description: `Ingrediente de origen natural seleccionado en ${product.name} para acompañar tu bienestar diario.`,
         }))
       : [
           {
             emoji: getIngredientEmoji(product.name),
-            title: product.presentation || product.categoryLabel,
-            description: product.shortDescription,
+            title: 'Componentes Naturales y Bioenergéticos',
+            description:
+              'Formulación enfocada en bienestar integral con materiales y extractos naturales seleccionados.',
           },
           {
-            emoji: '🛡️',
-            title: 'Calidad Certificada Internacionalmente',
+            emoji: '🌿',
+            title: 'Origen Natural y Calidad Certificada',
             description:
-              'Fabricación respaldada por estándares internacionales FDA, ISO 9001, GMP y Halal.',
+              'Respaldado por certificaciones internacionales FDA, ISO 9001, GMP y Halal.',
           },
           {
             emoji: '✨',
