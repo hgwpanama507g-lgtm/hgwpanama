@@ -479,17 +479,6 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                   {renderWithHGWLinks(product.shortDescription)}
                 </p>
 
-                {(product.category === 'turmalina' || product.slug.includes('turmalina')) && (
-                  <div className="p-4 bg-amber-50 border-2 border-amber-400 rounded-2xl text-black text-xs sm:text-sm font-bold leading-relaxed space-y-1 shadow-sm w-full">
-                    <span className="text-amber-900 font-black uppercase flex items-center gap-1.5">
-                      ⚠️ ADVERTENCIA DE SEGURIDAD CRÍTICA:
-                    </span>
-                    <p className="font-medium text-black">
-                      Quedan estrictamente prohibidos para las personas que llevan marcapasos en el cuerpo. Tampoco se recomienda su uso en personas con fiebre alta, tendencia al sangrado, alteraciones sensoriales de temperatura, daños en la piel, mujeres embarazadas y niños. Las personas con alergias individuales pueden acortar el tiempo de uso según sus circunstancias personales.
-                    </p>
-                  </div>
-                )}
-
                 <div className="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 w-full sm:w-auto">
                   <a
                     href={registrationUrl}
@@ -913,7 +902,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
             </div>
 
             {/* Tarjeta completa del producto */}
-            <div className="bg-[#F8FAFC] rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-lg mb-14">
+            <div className="bg-[#F8FAFC] rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-lg mb-10">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 <div className="lg:col-span-5 space-y-4">
                   <div className="aspect-square w-full rounded-2xl bg-white border border-slate-100 p-6 flex items-center justify-center overflow-hidden">
@@ -1039,6 +1028,17 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                 </div>
               </div>
             </div>
+
+            {(product.category === 'turmalina' || product.slug.includes('turmalina')) && (
+              <div className="mb-14 p-5 sm:p-6 bg-amber-50 border-2 border-amber-400 rounded-2xl text-black text-sm sm:text-base font-bold leading-relaxed space-y-1.5 shadow-sm w-full">
+                <span className="text-amber-900 font-black uppercase flex items-center gap-1.5">
+                  ⚠️ ADVERTENCIA DE SEGURIDAD CRÍTICA:
+                </span>
+                <p className="font-medium text-black">
+                  Quedan estrictamente prohibidos para las personas que llevan marcapasos en el cuerpo.
+                </p>
+              </div>
+            )}
 
             {/* Productos Relacionados */}
             {relatedProducts.length > 0 && (
