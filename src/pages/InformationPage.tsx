@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from '../router';
 import { Sparkles, ShieldCheck, Check, ArrowRight, BookOpen, AlertCircle } from 'lucide-react';
 import { PRODUCTS } from '../data/products';
+import { AdsterraResponsiveBanner, AdsterraSmartlinkCard } from '../components/AdsterraAds';
 
 export const InformationPage: React.FC = () => {
   // Find related products for each section
@@ -54,8 +55,10 @@ export const InformationPage: React.FC = () => {
           </a>
         </div>
 
+        <AdsterraResponsiveBanner variant="leaderboard" className="mb-10" />
+
         {/* Subsections Content */}
-        <div className="space-y-24">
+        <div className="space-y-20">
 
           {/* 1. ARÁNDANOS AZULES */}
           <section id="arandanos" className="scroll-mt-24 bg-stone-50 rounded-[3rem] p-8 sm:p-12 border border-stone-200 shadow-xs">
@@ -110,6 +113,11 @@ export const InformationPage: React.FC = () => {
               </div>
             </div>
           </section>
+
+          <AdsterraResponsiveBanner
+            variant="in-content"
+            className="bg-stone-50/70 rounded-3xl border border-stone-200/80"
+          />
 
           {/* 2. TURMALINA */}
           <section id="turmalina" className="scroll-mt-24 bg-stone-50 rounded-[3rem] p-8 sm:p-12 border border-stone-200 shadow-xs">
@@ -214,6 +222,11 @@ export const InformationPage: React.FC = () => {
             </div>
           </section>
 
+          <AdsterraResponsiveBanner
+            variant="in-content"
+            className="bg-stone-50/70 rounded-3xl border border-stone-200/80"
+          />
+
           {/* 4. REISHI */}
           <section id="reishi" className="scroll-mt-24 bg-stone-50 rounded-[3rem] p-8 sm:p-12 border border-stone-200 shadow-xs">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -277,6 +290,8 @@ export const InformationPage: React.FC = () => {
             </div>
           </div>
         </div>
+
+        <AdsterraSmartlinkCard className="mt-10 px-0 sm:px-0 lg:px-0" />
 
       </div>
     </div>

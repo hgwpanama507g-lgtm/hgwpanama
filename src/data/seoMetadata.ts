@@ -1,6 +1,5 @@
 import { PRODUCTS } from './products';
 import { HGW_DOCUMENTS } from './documents';
-import { knowledgeService } from '../services/knowledgeService';
 
 export interface SeoMetadata {
   title: string;
@@ -240,36 +239,6 @@ export function getSeoMetadata(pathname: string): SeoMetadata {
       type: 'website',
       siteName: 'HGW Panamá'
     };
-  }
-
-  // 9.5. Knowledge Base (/base-de-conocimiento)
-  if (cleanPath === '/base-de-conocimiento' || cleanPath === '/base-conocimiento' || cleanPath === '/conocimiento') {
-    return {
-      title: 'Base de Conocimiento y Guías Oficiales – HGW Panamá',
-      description: 'Consulta artículos, manuales, fichas técnicas de productos, ingredientes naturales y plan de compensación de HGW Panamá.',
-      image: DEFAULT_IMAGE,
-      url: `${BASE_URL}/base-de-conocimiento`,
-      type: 'website',
-      siteName: 'HGW Panamá',
-      keywords: 'base de conocimiento hgw, manuales hgw, guias de productos hgw, plan de compensacion hgw'
-    };
-  }
-
-  // 9.6. Individual Knowledge Base Article (/base-de-conocimiento/:slug or /base-conocimiento/:slug)
-  if (cleanPath.startsWith('/base-de-conocimiento/') || cleanPath.startsWith('/base-conocimiento/')) {
-    const articleSlug = cleanPath.replace(/^\/base-(?:de-)?conocimiento\//, '').split('?')[0].split('#')[0];
-    const art = knowledgeService.getArticleBySlugOrIdSync(articleSlug);
-    if (art) {
-      return {
-        title: `${art.title} – HGW Panamá`,
-        description: art.summary,
-        image: DEFAULT_IMAGE,
-        url: `${BASE_URL}/base-de-conocimiento/${art.slug}`,
-        type: 'article',
-        siteName: 'HGW Panamá',
-        keywords: art.tags.join(', ')
-      };
-    }
   }
 
   // 9. Raw Materials / Functional Ingredients Info

@@ -63,11 +63,6 @@ export const Footer: React.FC<FooterProps> = ({ isHomePage = false }) => {
                 </Link>
               </li>
               <li>
-                <Link to="/base-de-conocimiento" className="hover:text-amber-300 text-amber-300 font-bold transition-colors flex items-center gap-1.5">
-                  <span>Base de Conocimiento y Guías</span>
-                </Link>
-              </li>
-              <li>
                 <Link to="/pastas-dentales" className="hover:text-blue-300 transition-colors">
                   Pastas Dentales (Sin Flúor)
                 </Link>

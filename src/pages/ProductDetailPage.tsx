@@ -32,6 +32,7 @@ import { LazyYouTubeEmbed } from '../components/LazyYouTubeEmbed';
 import { Link, Navigate } from '../router';
 import { DISTRIBUTOR_WHATSAPP_NUMBER, getAffiliationWhatsAppUrl } from '../utils/whatsapp';
 import { renderWithHGWLinks } from '../utils/hgwLinker';
+import { AdsterraResponsiveBanner, AdsterraSmartlinkCard } from '../components/AdsterraAds';
 
 interface ProductDetailPageProps {
   slug: string;
@@ -406,6 +407,8 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
           </div>
         </div>
       </section>
+
+      <AdsterraResponsiveBanner variant="leaderboard" className="bg-white border-b border-slate-100" />
 
       {/* =================================================================
           (3) HERO EN 2 COLUMNAS + BOTONES CTA DEBAJO (AFILIADO Y CONTACTO)
@@ -793,6 +796,8 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
         </div>
       </section>
 
+      <AdsterraResponsiveBanner variant="in-content" className="bg-white border-b border-slate-100" />
+
       {/* =================================================================
           (6) CERTIFICACIONES Y RECONOCIMIENTOS (Grid 4 escritorio, 2 tablet, 2 móviles)
           ================================================================= */}
@@ -1103,6 +1108,8 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
         </div>
       </section>
 
+      <AdsterraResponsiveBanner variant="in-content" className="bg-white border-b border-slate-100" />
+
       {/* =================================================================
           (9) ACERCA DE LA EMPRESA (Con Logo Oficial de HGW)
           ================================================================= */}
@@ -1207,7 +1214,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
                   </Link>
 
                   <Link
-                    to="/base-de-conocimiento/como-me-afilio-a-hgw"
+                    to="/preregistro"
                     className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#EEF3FB] hover:bg-[#dbe6f8] text-[#4472C4] border border-[#4472C4]/30 font-bold text-sm rounded-2xl transition-all"
                   >
                     <span>¿Cómo me afilio a HGW?</span>
@@ -1270,6 +1277,8 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ slug }) =>
           </ScrollReveal>
         </div>
       </section>
+
+      <AdsterraSmartlinkCard className="bg-[#F8FAFC] border-b border-slate-100" />
 
       {/* =================================================================
           (12) PREGUNTAS FRECUENTES (Acordeón animado hacia abajo, texto 17px negro)

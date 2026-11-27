@@ -104,6 +104,7 @@ const SENSITIVE_ROUTE_PREFIXES = [
   '/envios-y-devoluciones',
   '/envios',
   '/herramientas',
+  '/admin',
 ];
 
 export function isSensitiveAdRoute(pathname: string): boolean {
@@ -128,13 +129,41 @@ interface AdsterraBannerProps {
 }
 
 export const AdsterraBanner: React.FC<AdsterraBannerProps> = ({ format, className = '' }) => {
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const config = ADSTERRA_BANNERS[format];
+  const [shouldLoad, setShouldLoad] = useState(
+    () => typeof window !== 'undefined' && typeof IntersectionObserver === 'undefined'
+  );
 
   useEffect(() => {
+    if (shouldLoad) return;
+    const target = wrapperRef.current;
+    if (!target || typeof IntersectionObserver === 'undefined') {
+      setShouldLoad(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setShouldLoad(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '400px 0px' }
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [shouldLoad]);
+
+  useEffect(() => {
+    if (!shouldLoad) return;
     const el = containerRef.current;
     if (!el) return;
 
+    const currentConfig = ADSTERRA_BANNERS[format];
     let cancelled = false;
     el.innerHTML = '';
 
@@ -158,15 +187,15 @@ export const AdsterraBanner: React.FC<AdsterraBannerProps> = ({ format, classNam
 
           try {
             window.atOptions = {
-              key: config.key,
-              format: config.format,
-              height: config.height,
-              width: config.width,
-              params: { ...config.params },
+              key: currentConfig.key,
+              format: currentConfig.format,
+              height: currentConfig.height,
+              width: currentConfig.width,
+              params: { ...currentConfig.params },
             };
 
             const script = document.createElement('script');
-            script.src = config.src;
+            script.src = currentConfig.src;
             script.async = true;
             script.setAttribute('data-adsterra-banner', format);
             script.onload = () => {
@@ -192,10 +221,11 @@ export const AdsterraBanner: React.FC<AdsterraBannerProps> = ({ format, classNam
         el.innerHTML = '';
       }
     };
-  }, [config.format, config.height, config.key, config.params, config.src, config.width, format]);
+  }, [format, shouldLoad]);
 
   return (
     <div
+      ref={wrapperRef}
       className={`flex flex-col items-center justify-center max-w-full overflow-hidden ${className}`}
       aria-label="Espacio publicitario"
     >
@@ -213,16 +243,22 @@ export const AdsterraBanner: React.FC<AdsterraBannerProps> = ({ format, classNam
 
 interface AdsterraResponsiveBannerProps {
   className?: string;
+  variant?: 'leaderboard' | 'in-content';
 }
 
 export const AdsterraResponsiveBanner: React.FC<AdsterraResponsiveBannerProps> = ({
   className = '',
+  variant = 'leaderboard',
 }) => {
   const [format, setFormat] = useState<AdsterraBannerFormat | null>(null);
 
   useEffect(() => {
     const pickFormat = () => {
       const width = window.innerWidth;
+      if (variant === 'in-content') {
+        setFormat(width >= 780 ? '728x90' : '300x250');
+        return;
+      }
       if (width >= 780) {
         setFormat('728x90');
       } else if (width >= 500) {
@@ -235,18 +271,25 @@ export const AdsterraResponsiveBanner: React.FC<AdsterraResponsiveBannerProps> =
     pickFormat();
     window.addEventListener('resize', pickFormat);
     return () => window.removeEventListener('resize', pickFormat);
-  }, []);
+  }, [variant]);
 
   if (!format) {
     return (
       <div className={`w-full flex justify-center py-4 ${className}`}>
-        <div className="min-h-[50px] md:min-h-[90px]" aria-hidden="true" />
+        <div
+          className={
+            variant === 'in-content'
+              ? 'min-h-[250px] md:min-h-[90px]'
+              : 'min-h-[50px] md:min-h-[90px]'
+          }
+          aria-hidden="true"
+        />
       </div>
     );
   }
 
   return (
-    <div className={`w-full flex justify-center px-0 sm:px-4 py-4 ${className}`}>
+    <div className={`w-full flex justify-center px-2 sm:px-4 py-4 ${className}`}>
       <AdsterraBanner format={format} />
     </div>
   );
@@ -264,7 +307,7 @@ export const AdsterraDesktopSidebarBanner: React.FC<AdsterraDesktopSidebarBanner
   const [isWideDesktop, setIsWideDesktop] = useState(false);
 
   useEffect(() => {
-    const mq = window.matchMedia('(min-width: 1536px)');
+    const mq = window.matchMedia('(min-width: 1280px)');
     const update = () => setIsWideDesktop(mq.matches);
     update();
     mq.addEventListener('change', update);
@@ -275,7 +318,7 @@ export const AdsterraDesktopSidebarBanner: React.FC<AdsterraDesktopSidebarBanner
 
   return (
     <aside
-      className={`hidden 2xl:block w-[160px] shrink-0 sticky top-28 self-start ${className}`}
+      className={`hidden xl:block w-[160px] shrink-0 sticky top-28 self-start ${className}`}
       aria-label="Anuncio lateral"
     >
       <AdsterraBanner format={format} />
@@ -288,9 +331,36 @@ interface AdsterraNativeBannerProps {
 }
 
 export const AdsterraNativeBanner: React.FC<AdsterraNativeBannerProps> = ({ className = '' }) => {
+  const sectionRef = useRef<HTMLElement>(null);
   const scriptAnchorRef = useRef<HTMLDivElement>(null);
+  const [shouldLoad, setShouldLoad] = useState(
+    () => typeof window !== 'undefined' && typeof IntersectionObserver === 'undefined'
+  );
 
   useEffect(() => {
+    if (shouldLoad) return;
+    const target = sectionRef.current;
+    if (!target || typeof IntersectionObserver === 'undefined') {
+      setShouldLoad(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setShouldLoad(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '450px 0px' }
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [shouldLoad]);
+
+  useEffect(() => {
+    if (!shouldLoad) return;
     const anchor = scriptAnchorRef.current;
     if (!anchor) return;
 
@@ -311,7 +381,7 @@ export const AdsterraNativeBanner: React.FC<AdsterraNativeBannerProps> = ({ clas
       anchor.appendChild(script);
     };
 
-    const timer = window.setTimeout(loadNative, 1200);
+    const timer = window.setTimeout(loadNative, 300);
 
     return () => {
       window.clearTimeout(timer);
@@ -323,10 +393,11 @@ export const AdsterraNativeBanner: React.FC<AdsterraNativeBannerProps> = ({ clas
         container.innerHTML = '';
       }
     };
-  }, []);
+  }, [shouldLoad]);
 
   return (
     <section
+      ref={sectionRef}
       className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 ${className}`}
       aria-label="Contenido recomendado"
     >
@@ -382,7 +453,12 @@ export const AdsterraGlobalScripts: React.FC<AdsterraGlobalScriptsProps> = ({ cu
   const isSensitive = isSensitiveAdRoute(currentPath);
 
   useEffect(() => {
-    if (isSensitive) return;
+    if (isSensitive) {
+      document
+        .querySelectorAll('script[data-adsterra-id="social-bar"]')
+        .forEach((existing) => existing.remove());
+      return;
+    }
 
     // Defer Social Bar slightly after initial paint; omit Popunder so mobile buttons & keyboard are never hijacked
     const timer = window.setTimeout(() => {

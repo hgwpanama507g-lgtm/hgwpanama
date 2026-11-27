@@ -13,7 +13,6 @@ export interface ProductFiche {
 }
 
 export interface ProductRelated {
-  articulosRelacionados?: string[];
   productosRelacionados?: string[];
 }
 
@@ -84,7 +83,6 @@ export const sanitizeProduct = (p: any): FirestoreProduct => {
       fuente: p.ficha?.fuente || 'Catálogo Oficial HGW 2026',
     },
     relacionados: {
-      articulosRelacionados: p.relacionados?.articulosRelacionados || [],
       productosRelacionados: p.relacionados?.productosRelacionados || [],
     },
     destacado: Boolean(p.destacado || p.featured),

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FileText, Download, Eye, ShieldCheck, ArrowLeft, ArrowRight, Share2, Sparkles, Check } from 'lucide-react';
 import { HGW_DOCUMENTS } from '../data/documents';
 import { Link } from '../router';
+import { AdsterraResponsiveBanner, AdsterraSmartlinkCard } from '../components/AdsterraAds';
 
 interface DocumentDetailPageProps {
   id: string;
@@ -165,6 +166,8 @@ export const DocumentDetailPage: React.FC<DocumentDetailPageProps> = ({ id }) =>
           </div>
         </div>
 
+        <AdsterraResponsiveBanner variant="in-content" className="mb-12" />
+
         {/* In-Page Interactive PDF Viewer Section */}
         <div ref={viewerRef} className="mb-14 scroll-mt-24">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
@@ -183,6 +186,8 @@ export const DocumentDetailPage: React.FC<DocumentDetailPageProps> = ({ id }) =>
             />
           </div>
         </div>
+
+        <AdsterraSmartlinkCard className="mb-10 px-0 sm:px-0 lg:px-0" />
 
         {/* Related Documents Section */}
         {relatedDocs.length > 0 && (

@@ -29,6 +29,7 @@ import { LazyYouTubeEmbed } from '../components/LazyYouTubeEmbed';
 import { Link } from '../router';
 import { DISTRIBUTOR_WHATSAPP_NUMBER, getAffiliationWhatsAppUrl } from '../utils/whatsapp';
 import { renderWithHGWLinks } from '../utils/hgwLinker';
+import { AdsterraResponsiveBanner, AdsterraSmartlinkCard } from '../components/AdsterraAds';
 
 const DENTAL_SERVICES = [
   {
@@ -267,6 +268,8 @@ export const ToothpastesLandingPage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      <AdsterraResponsiveBanner variant="leaderboard" className="bg-white border-b border-slate-100" />
 
       {/* =================================================================
           (3) HERO EN 2 COLUMNAS CON FONDO DE PASTA DENTAL Y CARRUSEL + BOTÓN COMPRAR AFILIADO
@@ -601,6 +604,8 @@ export const ToothpastesLandingPage: React.FC = () => {
         </div>
       </section>
 
+      <AdsterraResponsiveBanner variant="in-content" className="bg-white border-b border-slate-100" />
+
       {/* =================================================================
           (6) CERTIFICACIONES Y RECONOCIMIENTOS (Grid 4 escritorio, 2 tablet, 2 móviles)
           ================================================================= */}
@@ -871,6 +876,8 @@ export const ToothpastesLandingPage: React.FC = () => {
         </div>
       </section>
 
+      <AdsterraResponsiveBanner variant="in-content" className="bg-[#F8FAFC] border-b border-slate-100" />
+
       {/* =================================================================
           (9) ACERCA DE LA EMPRESA (Con Logo Oficial de HGW)
           ================================================================= */}
@@ -1038,6 +1045,8 @@ export const ToothpastesLandingPage: React.FC = () => {
           </ScrollReveal>
         </div>
       </section>
+
+      <AdsterraSmartlinkCard className="bg-white border-b border-slate-100" />
 
       {/* =================================================================
           (12) PREGUNTAS FRECUENTES (Todos cerrados al cargar, texto 17px negro)

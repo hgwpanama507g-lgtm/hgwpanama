@@ -21,7 +21,6 @@ import { InformationPage } from './pages/InformationPage';
 import { ToothpastesLandingPage } from './pages/ToothpastesLandingPage';
 import { ToolsPage } from './pages/ToolsPage';
 import { AdminPanelPage } from './pages/AdminPanelPage';
-import { KnowledgeBasePage } from './pages/KnowledgeBasePage';
 import { PRODUCTS } from './data/products';
 import { HGW_DOCUMENTS } from './data/documents';
 import { findProductBySlug } from './data/seoMetadata';
@@ -98,7 +97,17 @@ function AppContent() {
     // 1. Dedicated Product Detail Page (/producto/:slug or /productos/:slug)
     if (cleanPath.startsWith('/producto/') || cleanPath.startsWith('/productos/')) {
       const slug = cleanPath.replace(/^\/productos?\//, '');
-      return <ProductDetailPage slug={slug} />;
+      return (
+        <div className="bg-white">
+          <div className="xl:flex xl:items-start xl:justify-center xl:gap-6 xl:px-6">
+            <div className="flex-1 min-w-0">
+              <ProductDetailPage slug={slug} />
+            </div>
+            <AdsterraDesktopSidebarBanner format="160x600" className="pt-12 pr-2" />
+          </div>
+          <AdsterraNativeBanner key={`native-prod-${slug}`} />
+        </div>
+      );
     }
 
     // 2. Full Catalog Page (/productos)
@@ -106,13 +115,14 @@ function AppContent() {
       return (
         <div>
           <AdsterraResponsiveBanner key="catalog-top-banner" className="bg-white border-b border-stone-100" />
-          <div className="2xl:flex 2xl:items-start 2xl:justify-center 2xl:gap-6 2xl:px-6 bg-white">
+          <div className="xl:flex xl:items-start xl:justify-center xl:gap-6 xl:px-6 bg-white">
             <div className="flex-1 min-w-0">
               <Catalog isHomeView={false} />
             </div>
             <AdsterraDesktopSidebarBanner format="160x600" className="pt-12 pr-2" />
           </div>
           <AdsterraSmartlinkCard className="bg-white" />
+          <AdsterraNativeBanner key="catalog-native" />
         </div>
       );
     }
@@ -120,12 +130,14 @@ function AppContent() {
     // 3. Memberships Page (/membresias or /membresías)
     if (cleanPath === '/membresias' || cleanPath === '/membresías') {
       return (
-        <div>
+        <div className="bg-white">
+          <AdsterraResponsiveBanner key="memberships-top-banner" className="bg-white border-b border-stone-100" />
           <Memberships />
           <div className="bg-white py-6 border-b border-stone-100 px-2 sm:px-6">
             <AdsterraBanner format="300x250" />
           </div>
           <AboutHGW />
+          <AdsterraNativeBanner key="memberships-native" />
         </div>
       );
     }
@@ -143,18 +155,30 @@ function AppContent() {
     // 6. PDF Documents Library or Individual Document Detail Page
     if (cleanPath === '/documentos' || cleanPath === '/documentos-pdf') {
       return (
-        <div>
+        <div className="bg-white">
           <AdsterraResponsiveBanner key="docs-top-banner" className="bg-white border-b border-stone-100" />
-          <DocumentsPage />
+          <div className="xl:flex xl:items-start xl:justify-center xl:gap-6 xl:px-6">
+            <div className="flex-1 min-w-0">
+              <DocumentsPage />
+            </div>
+            <AdsterraDesktopSidebarBanner format="160x600" className="pt-12 pr-2" />
+          </div>
           <AdsterraSmartlinkCard className="bg-white" />
+          <AdsterraNativeBanner key="docs-native" />
         </div>
       );
     }
     if (cleanPath.startsWith('/documentos/')) {
       const docId = cleanPath.replace('/documentos/', '');
       return (
-        <div>
-          <DocumentDetailPage id={docId} />
+        <div className="bg-white">
+          <AdsterraResponsiveBanner key={`docs-top-${cleanPath}`} className="bg-white border-b border-stone-100" />
+          <div className="xl:flex xl:items-start xl:justify-center xl:gap-6 xl:px-6">
+            <div className="flex-1 min-w-0">
+              <DocumentDetailPage id={docId} />
+            </div>
+            <AdsterraDesktopSidebarBanner format="160x300" className="pt-12 pr-2" />
+          </div>
           <AdsterraNativeBanner key={`native-${cleanPath}`} />
         </div>
       );
@@ -163,11 +187,13 @@ function AppContent() {
     // 7. Offices Directory Page (/oficinas or /directorio-oficinas)
     if (cleanPath === '/oficinas' || cleanPath === '/directorio-oficinas') {
       return (
-        <div>
+        <div className="bg-stone-50">
+          <AdsterraResponsiveBanner key="offices-top-banner" className="bg-white border-b border-stone-100" />
           <OfficesDirectoryPage />
-          <div className="bg-stone-50 pb-10 px-2 sm:px-6">
+          <div className="bg-stone-50 pb-6 px-2 sm:px-6">
             <AdsterraBanner format="300x250" />
           </div>
+          <AdsterraNativeBanner key="offices-native" />
         </div>
       );
     }
@@ -176,11 +202,11 @@ function AppContent() {
     if (['/informacion', '/propiedades', '/beneficios', '/ingredientes'].includes(cleanPath)) {
       return (
         <div className="bg-white">
-          <div className="2xl:flex 2xl:items-start 2xl:justify-center 2xl:gap-6 2xl:px-6">
+          <div className="xl:flex xl:items-start xl:justify-center xl:gap-6 xl:px-6">
             <div className="flex-1 min-w-0">
               <InformationPage />
             </div>
-            <AdsterraDesktopSidebarBanner format="160x300" className="pt-16 pr-2" />
+            <AdsterraDesktopSidebarBanner format="160x600" className="pt-16 pr-2" />
           </div>
           <AdsterraNativeBanner key={`native-${cleanPath}`} />
         </div>
@@ -190,8 +216,13 @@ function AppContent() {
     // 8.1. Toothpastes Landing Page (/pastas-dentales or /pastas)
     if (['/pastas-dentales', '/pastas'].includes(cleanPath)) {
       return (
-        <div>
-          <ToothpastesLandingPage />
+        <div className="bg-white">
+          <div className="xl:flex xl:items-start xl:justify-center xl:gap-6 xl:px-6">
+            <div className="flex-1 min-w-0">
+              <ToothpastesLandingPage />
+            </div>
+            <AdsterraDesktopSidebarBanner format="160x600" className="pt-12 pr-2" />
+          </div>
           <AdsterraNativeBanner key={`native-${cleanPath}`} />
         </div>
       );
@@ -228,32 +259,34 @@ function AppContent() {
       return <AdminPanelPage />;
     }
 
-    // 9.4. Knowledge Base (/base-de-conocimiento)
-    if (cleanPath === '/base-de-conocimiento' || cleanPath === '/base-conocimiento' || cleanPath === '/conocimiento') {
-      return <KnowledgeBasePage />;
-    }
-    if (cleanPath.startsWith('/base-de-conocimiento/producto/') || cleanPath.startsWith('/base-de-conocimiento/productos/') || cleanPath.startsWith('/base-conocimiento/producto/') || cleanPath.startsWith('/base-conocimiento/productos/')) {
-      const prodId = cleanPath.replace(/^\/base-(?:de-)?conocimiento\/productos?\//, '').split('?')[0].split('#')[0];
-      return <KnowledgeBasePage productIdentifier={prodId} />;
-    }
-    if (cleanPath.startsWith('/base-de-conocimiento/') || cleanPath.startsWith('/base-conocimiento/')) {
-      const articleSlug = cleanPath.replace(/^\/base-(?:de-)?conocimiento\//, '').split('?')[0].split('#')[0];
-      return <KnowledgeBasePage articleIdentifier={articleSlug} />;
-    }
-
     // 10. Direct product fallback if route matches a product slug directly (e.g. /blueberry-coffee-hgw)
     const directSlug = cleanPath.replace(/^\//, '');
     if (findProductBySlug(directSlug)) {
-      return <ProductDetailPage slug={directSlug} />;
+      return (
+        <div className="bg-white">
+          <div className="xl:flex xl:items-start xl:justify-center xl:gap-6 xl:px-6">
+            <div className="flex-1 min-w-0">
+              <ProductDetailPage slug={directSlug} />
+            </div>
+            <AdsterraDesktopSidebarBanner format="160x600" className="pt-12 pr-2" />
+          </div>
+          <AdsterraNativeBanner key={`native-prod-${directSlug}`} />
+        </div>
+      );
     }
 
     // 11. Handle common WordPress legacy paths (redirect to Home)
     const legacyPaths = ['/wp-content', '/wp-admin', '/category/', '/tag/', '/author/', '/?p=', '/feed/'];
     if (legacyPaths.some(p => currentPath.toLowerCase().includes(p))) {
       return (
-        <div>
-          <LandingPage />
-          <ContactSection />
+        <div className="bg-white">
+          <div className="xl:flex xl:items-start xl:justify-center xl:gap-6 xl:px-6">
+            <div className="flex-1 min-w-0">
+              <LandingPage />
+              <ContactSection />
+            </div>
+            <AdsterraDesktopSidebarBanner format="160x600" className="pt-12 pr-2" />
+          </div>
           <AdsterraNativeBanner key="legacy-home-native" />
         </div>
       );
@@ -262,9 +295,14 @@ function AppContent() {
     // Default / Home View (/ or /inicio)
     if (cleanPath === '/' || cleanPath === '/inicio') {
       return (
-        <div>
-          <LandingPage />
-          <ContactSection />
+        <div className="bg-white">
+          <div className="xl:flex xl:items-start xl:justify-center xl:gap-6 xl:px-6">
+            <div className="flex-1 min-w-0">
+              <LandingPage />
+              <ContactSection />
+            </div>
+            <AdsterraDesktopSidebarBanner format="160x600" className="pt-12 pr-2" />
+          </div>
           <AdsterraNativeBanner key="home-native" />
         </div>
       );

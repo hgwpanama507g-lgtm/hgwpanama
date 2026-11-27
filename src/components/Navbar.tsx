@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef, useDeferredValue } from 'react';
-import { Menu, X, Search, ArrowRight, FileText, Package, ExternalLink, BookOpen, Sparkles } from 'lucide-react';
+import { Menu, X, Search, ArrowRight, FileText, Package, ExternalLink } from 'lucide-react';
 import { Link, useRouter } from '../router';
 import { PRODUCTS } from '../data/products';
 import { HGW_DOCUMENTS } from '../data/documents';
@@ -13,7 +13,6 @@ const NAV_ITEMS = [
 ];
 
 const QUICK_ROUTES = [
-  { label: 'Base de Conocimiento y Guías', href: '/base-de-conocimiento' },
   { label: 'Catálogo Completo de Productos', href: '/productos' },
   { label: 'Pastas Dentales Sin Flúor', href: '/pastas-dentales' },
   { label: 'Membresías Oficiales HGW', href: '/membresias' },
@@ -173,18 +172,8 @@ export const Navbar: React.FC = () => {
               })}
             </nav>
 
-            {/* Right: Base de Conocimiento Button + Search Icon Button + Mobile Hamburger */}
+            {/* Right: Search Icon Button + Mobile Hamburger */}
             <div className="flex items-center gap-2 shrink-0">
-              <Link
-                to="/base-de-conocimiento"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/20 hover:bg-white/30 text-white text-xs font-bold transition-all shadow-2xs hover:scale-102"
-                title="Centro de Conocimiento y Guías Oficiales HGW"
-              >
-                <BookOpen className="w-4 h-4 text-amber-300" />
-                <span className="hidden sm:inline">Base de Conocimiento</span>
-                <span className="sm:hidden">Guías</span>
-              </Link>
-
               <button
                 type="button"
                 onClick={() => setSearchOpen(true)}
@@ -213,23 +202,6 @@ export const Navbar: React.FC = () => {
         {mobileMenuOpen && (
           <div className="lg:hidden bg-white text-slate-900 border-t border-slate-200 shadow-2xl animate-fade-in max-h-[82vh] overflow-y-auto">
             <div className="px-4 py-4 space-y-1.5">
-              {/* Highlighted Mobile Banner for Knowledge Base */}
-              <Link
-                to="/base-de-conocimiento"
-                onClick={() => setMobileMenuOpen(false)}
-                className="p-3 bg-gradient-to-r from-blue-50 to-[#EEF3FB] border border-[#4472C4]/20 rounded-2xl flex items-center justify-between gap-3 text-slate-900 hover:border-[#4472C4] transition-all mb-2"
-              >
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-xl bg-[#4472C4] text-white flex items-center justify-center shrink-0">
-                    <BookOpen className="w-4 h-4 text-amber-300" />
-                  </div>
-                  <div>
-                    <strong className="block text-xs font-black text-slate-900">Base de Conocimiento</strong>
-                    <span className="text-[11px] text-slate-500 font-medium">Guías oficiales, productos y compensación</span>
-                  </div>
-                </div>
-                <ArrowRight className="w-4 h-4 text-[#4472C4] shrink-0" />
-              </Link>
               {NAV_ITEMS.map((item) => {
                 const isActive = isHomePage && activeHash === item.hash;
                 return (
@@ -301,7 +273,7 @@ export const Navbar: React.FC = () => {
                 autoCorrect="off"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Buscar productos, membresías o guías..."
+                placeholder="Buscar productos, membresías o documentos..."
                 className="flex-1 min-w-0 bg-transparent text-white placeholder:text-white/75 text-base font-medium focus:outline-none"
               />
               {searchQuery && (

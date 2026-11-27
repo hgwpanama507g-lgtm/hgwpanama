@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { FileText, Search, Download, Eye, ExternalLink, Filter, ShieldCheck, Sparkles, X, Phone } from 'lucide-react';
 import { HGW_DOCUMENTS, DocumentItem } from '../data/documents';
 import { Link } from '../router';
+import { AdsterraResponsiveBanner } from '../components/AdsterraAds';
 
 export const DocumentsPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -207,6 +208,8 @@ export const DocumentsPage: React.FC = () => {
             })}
           </div>
         )}
+
+        <AdsterraResponsiveBanner variant="in-content" className="mt-10" />
 
       </div>
 

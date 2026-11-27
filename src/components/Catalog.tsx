@@ -2,6 +2,7 @@ import React, { useState, useMemo, useRef, useDeferredValue } from 'react';
 import { Search, Eye, Sparkles, Filter, ArrowRight } from 'lucide-react';
 import { Product, PRODUCTS } from '../data/products';
 import { Link } from '../router';
+import { AdsterraResponsiveBanner } from './AdsterraAds';
 
 interface CatalogProps {
   isHomeView?: boolean;
@@ -69,6 +70,109 @@ export const Catalog: React.FC<CatalogProps> = ({ isHomeView = false }) => {
   }, [deferredSearchQuery, selectedCategory, availabilityFilter, sortBy]);
 
   const displayedProducts = isHomeView ? filteredProducts.slice(0, 8) : filteredProducts;
+
+  const renderProductCard = (product: Product) => {
+    const productUrl = `/producto/${product.slug}`;
+
+    return (
+      <div
+        key={product.id}
+        className="group bg-white rounded-2xl sm:rounded-3xl border border-stone-200 hover:border-[#00795F] hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden relative isolate"
+      >
+        {/* Top image container linking directly to product page with subtle zoom on hover */}
+        <Link
+          to={productUrl}
+          className="relative aspect-square w-full bg-stone-50 p-3 sm:p-6 flex items-center justify-center overflow-hidden border-b border-stone-100 block isolate"
+        >
+          <img
+            src={product.image}
+            alt={product.name}
+            loading="lazy"
+            decoding="async"
+            referrerPolicy="no-referrer"
+            className="max-h-full max-w-full object-contain transform group-hover:scale-108 transition-transform duration-300 ease-out drop-shadow-xs"
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = "https://media.academiahgw.online/wp-content/uploads/2026/11/productos-hgw-1024x683.webp";
+            }}
+          />
+
+          {/* Status Badge in corner */}
+          {product.isComingSoon ? (
+            <span className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-amber-500 text-white text-[9px] sm:text-[11px] font-black px-1.5 py-0.5 sm:px-2.5 sm:py-0.5 rounded-md sm:rounded-lg shadow-xs">
+              Próximamente
+            </span>
+          ) : product.featured ? (
+            <span className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-[#00795F] text-white text-[9px] sm:text-[11px] font-black px-1.5 py-0.5 sm:px-2.5 sm:py-0.5 rounded-md sm:rounded-lg flex items-center gap-1 shadow-xs">
+              <Sparkles className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#00A550]" />
+              <span className="hidden xs:inline">Destacado</span>
+            </span>
+          ) : null}
+
+          {/* Quick view icon badge */}
+          <div className="absolute top-2 right-2 sm:top-3 sm:right-3 p-1.5 sm:p-2 bg-white/95 text-stone-800 group-hover:text-[#00795F] rounded-lg sm:rounded-xl shadow-xs opacity-0 group-hover:opacity-100 transition-opacity">
+            <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          </div>
+        </Link>
+
+        {/* Body Content */}
+        <div className="p-3 sm:p-5 flex-1 flex flex-col justify-between">
+          <div>
+            {/* Category label & formula badge */}
+            <div className="flex items-center justify-between gap-1 mb-1">
+              <span className="text-[10px] sm:text-xs font-bold text-[#00795F] uppercase tracking-wider line-clamp-1">
+                {product.categoryLabel}
+              </span>
+              {product.category === 'cuidado-bucal' && (
+                <span className="text-[9px] sm:text-[10px] font-black text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200 shrink-0">
+                  Sin Flúor ni Triclosán
+                </span>
+              )}
+            </div>
+
+            {/* Product Title linking to /producto/:slug */}
+            <h3 className="text-xs sm:text-base font-extrabold text-black group-hover:text-[#00795F] transition-colors leading-snug line-clamp-2 sm:line-clamp-1">
+              <Link to={productUrl} title={product.name}>
+                {product.name}
+              </Link>
+            </h3>
+
+            {/* Short Description */}
+            <p className="text-[17px] text-stone-700 mt-1 sm:mt-2 line-clamp-2 leading-relaxed">
+              {product.shortDescription}
+            </p>
+
+            {product.presentation && (
+              <div className="text-[10px] sm:text-xs text-stone-500 mt-1.5 font-medium truncate">
+                {product.presentation}
+              </div>
+            )}
+          </div>
+
+          {/* Price and Action Bar */}
+          <div className="mt-3 sm:mt-5 pt-2.5 sm:pt-3.5 border-t border-stone-100">
+            <div className="flex items-baseline justify-between mb-2 sm:mb-3">
+              <span className="text-[10px] sm:text-xs text-stone-500 font-semibold">Precio</span>
+              <span className="text-sm sm:text-xl font-black text-black tabular-nums">
+                {product.priceFormatted}
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 gap-1.5 sm:gap-2">
+              {/* Ver Ficha (Navigates to friendly URL page) */}
+              <Link
+                to={productUrl}
+                className="w-full py-1.5 sm:py-2.5 px-2 sm:px-3 text-[11px] sm:text-xs font-bold text-white bg-[#00795F] hover:bg-[#004d3c] rounded-lg sm:rounded-xl transition-all hover:shadow-xs active:scale-95 flex items-center justify-center gap-1"
+              >
+                <Eye className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                <span>Ver Ficha y Consultar</span>
+              </Link>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    );
+  };
 
   return (
     <section id="catalogo" className="py-12 sm:py-16 bg-white border-b border-stone-200">
@@ -223,115 +327,22 @@ export const Catalog: React.FC<CatalogProps> = ({ isHomeView = false }) => {
               Restablecer filtros
             </button>
           </div>
+        ) : !isHomeView && displayedProducts.length > 8 ? (
+          <>
+            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
+              {displayedProducts.slice(0, 8).map(renderProductCard)}
+            </div>
+            <AdsterraResponsiveBanner
+              variant="in-content"
+              className="my-8 py-3 bg-stone-50/70 rounded-2xl border border-stone-200/80"
+            />
+            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
+              {displayedProducts.slice(8).map(renderProductCard)}
+            </div>
+          </>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
-            {displayedProducts.map((product) => {
-              const productUrl = `/producto/${product.slug}`;
-              const currentUrl = typeof window !== 'undefined' ? window.location.href : 'https://hgwpanama.com/productos';
-              const whatsappOrderText = encodeURIComponent(
-                `¡Hola! Estaba visitando tu tienda online (${currentUrl}) y quería consultar o adquirir el producto "${product.name}" (${product.priceFormatted}). Mi nombre es:`
-              );
-              const whatsappLink = `https://wa.me/50767788375?text=${whatsappOrderText}`;
-
-              return (
-                <div
-                  key={product.id}
-                  className="group bg-white rounded-2xl sm:rounded-3xl border border-stone-200 hover:border-[#00795F] hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden relative isolate"
-                >
-                  {/* Top image container linking directly to product page with subtle zoom on hover */}
-                  <Link
-                    to={productUrl}
-                    className="relative aspect-square w-full bg-stone-50 p-3 sm:p-6 flex items-center justify-center overflow-hidden border-b border-stone-100 block isolate"
-                  >
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      loading="lazy"
-                      decoding="async"
-                      referrerPolicy="no-referrer"
-                      className="max-h-full max-w-full object-contain transform group-hover:scale-108 transition-transform duration-300 ease-out drop-shadow-xs"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = "https://media.academiahgw.online/wp-content/uploads/2026/11/productos-hgw-1024x683.webp";
-                      }}
-                    />
-
-                    {/* Status Badge in corner */}
-                    {product.isComingSoon ? (
-                      <span className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-amber-500 text-white text-[9px] sm:text-[11px] font-black px-1.5 py-0.5 sm:px-2.5 sm:py-0.5 rounded-md sm:rounded-lg shadow-xs">
-                        Próximamente
-                      </span>
-                    ) : product.featured ? (
-                      <span className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-[#00795F] text-white text-[9px] sm:text-[11px] font-black px-1.5 py-0.5 sm:px-2.5 sm:py-0.5 rounded-md sm:rounded-lg flex items-center gap-1 shadow-xs">
-                        <Sparkles className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#00A550]" />
-                        <span className="hidden xs:inline">Destacado</span>
-                      </span>
-                    ) : null}
-
-                    {/* Quick view icon badge */}
-                    <div className="absolute top-2 right-2 sm:top-3 sm:right-3 p-1.5 sm:p-2 bg-white/95 text-stone-800 group-hover:text-[#00795F] rounded-lg sm:rounded-xl shadow-xs opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                    </div>
-                  </Link>
-
-                  {/* Body Content */}
-                  <div className="p-3 sm:p-5 flex-1 flex flex-col justify-between">
-                    <div>
-                      {/* Category label & formula badge */}
-                      <div className="flex items-center justify-between gap-1 mb-1">
-                        <span className="text-[10px] sm:text-xs font-bold text-[#00795F] uppercase tracking-wider line-clamp-1">
-                          {product.categoryLabel}
-                        </span>
-                        {product.category === 'cuidado-bucal' && (
-                          <span className="text-[9px] sm:text-[10px] font-black text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200 shrink-0">
-                            Sin Flúor ni Triclosán
-                          </span>
-                        )}
-                      </div>
-
-                      {/* Product Title linking to /producto/:slug */}
-                      <h3 className="text-xs sm:text-base font-extrabold text-black group-hover:text-[#00795F] transition-colors leading-snug line-clamp-2 sm:line-clamp-1">
-                        <Link to={productUrl} title={product.name}>
-                          {product.name}
-                        </Link>
-                      </h3>
-
-                      {/* Short Description */}
-                      <p className="text-[17px] text-stone-700 mt-1 sm:mt-2 line-clamp-2 leading-relaxed">
-                        {product.shortDescription}
-                      </p>
-
-                      {product.presentation && (
-                        <div className="text-[10px] sm:text-xs text-stone-500 mt-1.5 font-medium truncate">
-                          {product.presentation}
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Price and Action Bar */}
-                    <div className="mt-3 sm:mt-5 pt-2.5 sm:pt-3.5 border-t border-stone-100">
-                      <div className="flex items-baseline justify-between mb-2 sm:mb-3">
-                        <span className="text-[10px] sm:text-xs text-stone-500 font-semibold">Precio</span>
-                        <span className="text-sm sm:text-xl font-black text-black tabular-nums">
-                          {product.priceFormatted}
-                        </span>
-                      </div>
-
-                      <div className="grid grid-cols-1 gap-1.5 sm:gap-2">
-                        {/* Ver Ficha (Navigates to friendly URL page) */}
-                        <Link
-                          to={productUrl}
-                          className="w-full py-1.5 sm:py-2.5 px-2 sm:px-3 text-[11px] sm:text-xs font-bold text-white bg-[#00795F] hover:bg-[#004d3c] rounded-lg sm:rounded-xl transition-all hover:shadow-xs active:scale-95 flex items-center justify-center gap-1"
-                        >
-                          <Eye className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                          <span>Ver Ficha y Consultar</span>
-                        </Link>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-              );
-            })}
+            {displayedProducts.map(renderProductCard)}
           </div>
         )}
 

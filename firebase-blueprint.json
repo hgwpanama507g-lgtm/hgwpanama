@@ -52,28 +52,9 @@
       },
       "required": ["fullName", "phone", "visitorType", "status", "createdAt"]
     },
-    "Article": {
-      "title": "Article",
-      "description": "Artículos de la Base de Conocimiento",
-      "type": "object",
-      "properties": {
-        "id": { "type": "string" },
-        "slug": { "type": "string" },
-        "titulo": { "type": "string", "maxLength": 200 },
-        "resumen": { "type": "string", "maxLength": 500 },
-        "contenido": { "type": "string" },
-        "categoria": { "type": "string" },
-        "tags": { "type": "array" },
-        "source": { "type": "string" },
-        "destacado": { "type": "boolean" },
-        "publicado": { "type": "boolean" },
-        "fechaActualizacion": { "type": "string" }
-      },
-      "required": ["id", "slug", "titulo", "contenido", "categoria", "publicado"]
-    },
     "Product": {
       "title": "Product",
-      "description": "Productos y fichas de conocimiento de HGW Panamá",
+      "description": "Productos de HGW Panamá",
       "type": "object",
       "properties": {
         "id": { "type": "string" },
@@ -95,13 +76,9 @@
       "schema": "ContactMessage",
       "description": "Colección de prospectos y mensajes capturados"
     },
-    "/articulos/{articleId}": {
-      "schema": "Article",
-      "description": "Colección de artículos de la Base de Conocimiento"
-    },
     "/productos/{productId}": {
       "schema": "Product",
-      "description": "Colección de productos y fichas de conocimiento HGW"
+      "description": "Colección de productos HGW"
     }
   }
 }

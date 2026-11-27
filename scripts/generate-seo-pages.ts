@@ -3,7 +3,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { PRODUCTS } from '../src/data/products';
 import { HGW_DOCUMENTS } from '../src/data/documents';
-import { knowledgeService } from '../src/services/knowledgeService';
 import { getSeoMetadata, PRODUCT_SLUG_ALIASES, buildProductJsonLd } from '../src/data/seoMetadata';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -33,7 +32,6 @@ function generateSitemap() {
     `${BASE_URL}/pastas-dentales`,
     `${BASE_URL}/contacto`,
     `${BASE_URL}/envios-y-devoluciones`,
-    `${BASE_URL}/base-de-conocimiento`,
   ];
 
   // Products
@@ -47,14 +45,6 @@ function generateSitemap() {
   for (const d of HGW_DOCUMENTS) {
     if (d.slug) {
       urls.push(`${BASE_URL}/documentos/${d.slug}`);
-    }
-  }
-
-  // Knowledge Base Articles
-  const knowledgeArticles = knowledgeService.getLocalArticles();
-  for (const a of knowledgeArticles) {
-    if (a.slug) {
-      urls.push(`${BASE_URL}/base-de-conocimiento/${a.slug}`);
     }
   }
 
@@ -109,8 +99,6 @@ function generatePages() {
     '/contacto',
     '/envios-y-devoluciones',
     '/herramientas',
-    '/base-de-conocimiento',
-    '/base-conocimiento',
   ];
 
   for (const r of standardRoutes) {
@@ -137,19 +125,6 @@ function generatePages() {
   for (const d of HGW_DOCUMENTS) {
     if (d.slug) {
       routes.add(`/documentos/${d.slug}`);
-    }
-  }
-
-  // Knowledge Base articles routes (both slug and id for full backward-compatibility)
-  const knowledgeArticles = knowledgeService.getLocalArticles();
-  for (const art of knowledgeArticles) {
-    if (art.slug) {
-      routes.add(`/base-de-conocimiento/${art.slug}`);
-      routes.add(`/base-conocimiento/${art.slug}`);
-    }
-    if (art.id) {
-      routes.add(`/base-de-conocimiento/${art.id}`);
-      routes.add(`/base-conocimiento/${art.id}`);
     }
   }
 
