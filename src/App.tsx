@@ -27,7 +27,6 @@ import { findProductBySlug } from './data/seoMetadata';
 import {
   AdsterraBanner,
   AdsterraResponsiveBanner,
-  AdsterraDesktopSidebarBanner,
   AdsterraNativeBanner,
   AdsterraSmartlinkCard,
   AdsterraGlobalScripts
@@ -99,12 +98,7 @@ function AppContent() {
       const slug = cleanPath.replace(/^\/productos?\//, '');
       return (
         <div className="bg-white">
-          <div className="xl:flex xl:items-start xl:justify-center xl:gap-6 xl:px-6">
-            <div className="flex-1 min-w-0">
-              <ProductDetailPage slug={slug} />
-            </div>
-            <AdsterraDesktopSidebarBanner format="160x600" className="pt-12 pr-2" />
-          </div>
+          <ProductDetailPage slug={slug} />
           <AdsterraNativeBanner key={`native-prod-${slug}`} />
         </div>
       );
@@ -113,14 +107,9 @@ function AppContent() {
     // 2. Full Catalog Page (/productos)
     if (cleanPath === '/productos' || cleanPath === '/catalogo') {
       return (
-        <div>
+        <div className="bg-white">
           <AdsterraResponsiveBanner key="catalog-top-banner" className="bg-white border-b border-stone-100" />
-          <div className="xl:flex xl:items-start xl:justify-center xl:gap-6 xl:px-6 bg-white">
-            <div className="flex-1 min-w-0">
-              <Catalog isHomeView={false} />
-            </div>
-            <AdsterraDesktopSidebarBanner format="160x600" className="pt-12 pr-2" />
-          </div>
+          <Catalog isHomeView={false} />
           <AdsterraSmartlinkCard className="bg-white" />
           <AdsterraNativeBanner key="catalog-native" />
         </div>
@@ -157,12 +146,7 @@ function AppContent() {
       return (
         <div className="bg-white">
           <AdsterraResponsiveBanner key="docs-top-banner" className="bg-white border-b border-stone-100" />
-          <div className="xl:flex xl:items-start xl:justify-center xl:gap-6 xl:px-6">
-            <div className="flex-1 min-w-0">
-              <DocumentsPage />
-            </div>
-            <AdsterraDesktopSidebarBanner format="160x600" className="pt-12 pr-2" />
-          </div>
+          <DocumentsPage />
           <AdsterraSmartlinkCard className="bg-white" />
           <AdsterraNativeBanner key="docs-native" />
         </div>
@@ -173,12 +157,7 @@ function AppContent() {
       return (
         <div className="bg-white">
           <AdsterraResponsiveBanner key={`docs-top-${cleanPath}`} className="bg-white border-b border-stone-100" />
-          <div className="xl:flex xl:items-start xl:justify-center xl:gap-6 xl:px-6">
-            <div className="flex-1 min-w-0">
-              <DocumentDetailPage id={docId} />
-            </div>
-            <AdsterraDesktopSidebarBanner format="160x300" className="pt-12 pr-2" />
-          </div>
+          <DocumentDetailPage id={docId} />
           <AdsterraNativeBanner key={`native-${cleanPath}`} />
         </div>
       );
@@ -202,12 +181,7 @@ function AppContent() {
     if (['/informacion', '/propiedades', '/beneficios', '/ingredientes'].includes(cleanPath)) {
       return (
         <div className="bg-white">
-          <div className="xl:flex xl:items-start xl:justify-center xl:gap-6 xl:px-6">
-            <div className="flex-1 min-w-0">
-              <InformationPage />
-            </div>
-            <AdsterraDesktopSidebarBanner format="160x600" className="pt-16 pr-2" />
-          </div>
+          <InformationPage />
           <AdsterraNativeBanner key={`native-${cleanPath}`} />
         </div>
       );
@@ -217,12 +191,7 @@ function AppContent() {
     if (['/pastas-dentales', '/pastas'].includes(cleanPath)) {
       return (
         <div className="bg-white">
-          <div className="xl:flex xl:items-start xl:justify-center xl:gap-6 xl:px-6">
-            <div className="flex-1 min-w-0">
-              <ToothpastesLandingPage />
-            </div>
-            <AdsterraDesktopSidebarBanner format="160x600" className="pt-12 pr-2" />
-          </div>
+          <ToothpastesLandingPage />
           <AdsterraNativeBanner key={`native-${cleanPath}`} />
         </div>
       );
@@ -264,12 +233,7 @@ function AppContent() {
     if (findProductBySlug(directSlug)) {
       return (
         <div className="bg-white">
-          <div className="xl:flex xl:items-start xl:justify-center xl:gap-6 xl:px-6">
-            <div className="flex-1 min-w-0">
-              <ProductDetailPage slug={directSlug} />
-            </div>
-            <AdsterraDesktopSidebarBanner format="160x600" className="pt-12 pr-2" />
-          </div>
+          <ProductDetailPage slug={directSlug} />
           <AdsterraNativeBanner key={`native-prod-${directSlug}`} />
         </div>
       );
@@ -280,13 +244,8 @@ function AppContent() {
     if (legacyPaths.some(p => currentPath.toLowerCase().includes(p))) {
       return (
         <div className="bg-white">
-          <div className="xl:flex xl:items-start xl:justify-center xl:gap-6 xl:px-6">
-            <div className="flex-1 min-w-0">
-              <LandingPage />
-              <ContactSection />
-            </div>
-            <AdsterraDesktopSidebarBanner format="160x600" className="pt-12 pr-2" />
-          </div>
+          <LandingPage />
+          <ContactSection />
           <AdsterraNativeBanner key="legacy-home-native" />
         </div>
       );
@@ -296,13 +255,8 @@ function AppContent() {
     if (cleanPath === '/' || cleanPath === '/inicio') {
       return (
         <div className="bg-white">
-          <div className="xl:flex xl:items-start xl:justify-center xl:gap-6 xl:px-6">
-            <div className="flex-1 min-w-0">
-              <LandingPage />
-              <ContactSection />
-            </div>
-            <AdsterraDesktopSidebarBanner format="160x600" className="pt-12 pr-2" />
-          </div>
+          <LandingPage />
+          <ContactSection />
           <AdsterraNativeBanner key="home-native" />
         </div>
       );
